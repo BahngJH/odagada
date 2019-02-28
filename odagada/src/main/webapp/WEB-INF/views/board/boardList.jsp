@@ -16,6 +16,13 @@
 	        <th>작성일</th>
 	        <th>첨부파일</th>
 	    </tr>
+	    <c:forEach var="b" items="${list}">
+	    <tr>
+			<td>${b.BOARDNO }</td>
+			<td><a href="${path}/board/boardView.do?boardNo=${b.BOARDNO}">${b.BTITLE }</a></td>
+			<td>${b.BDATE }</td>
+        </tr>   
+	    </c:forEach>
 	</table>    
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
