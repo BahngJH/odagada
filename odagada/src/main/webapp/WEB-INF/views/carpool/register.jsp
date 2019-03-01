@@ -7,12 +7,34 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+
+<style>
+	a.btn_mylct{
+		color: #00AF4C;
+	}
+	a.btn_mylct > i{
+		font-size: 30px;
+		padding-right: 5px;
+		padding-top: 5px;
+	}
+	button.btn_clear{
+		margin: 5px 0px;
+	}
+</style>
+
 <section class="container">
 	<div class="row">
 		<div class="col-12 col-md-6">
 			<form action="">
 				<div class="row">
 					<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
+					<!-- <img src="${path}/resources/images/icons/arrow-thick-bottom-6x.png" class="img-fluid mx-auto"></img> -->
+					<div class="col-1 offset-5">
+						<span class="fas fa-arrow-down fa-3x"></span>
+					</div>
+					<div class="col-3 ml-auto">
+						<button type="button" class="btn btn-outline-info btn_clear" onclick="clearLoc();">초기화</button>
+					</div>
 					<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
 				</div>
 				<div class="row">
@@ -58,6 +80,7 @@ var mapOptions = {
 };
 
 var map = new naver.maps.Map('map', mapOptions);
+var markers = [];
 
 var count = 0;
 
@@ -93,11 +116,12 @@ naver.maps.Event.addListener(map, 'click', function(e){
 		path.push(point);
 		searchCoordinateToAddress(point);
 		
-		new naver.maps.Marker({
+		markers.push(new naver.maps.Marker({
 			map: map,
 			position: point,
-		}); 
-		
+		})); 
+		//polyline 초기화 후 다시 보이도록 설정
+		polyline.setVisible(true);
 	}else{
 		alert("출발지와 목적지가 이미 설정되었습니다.");
 	}
@@ -132,6 +156,37 @@ function searchCoordinateToAddress(latlng){
 		}
 				
 	});
+};
+
+// 지도 위에 현재 위치 버튼 생성
+var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marker-alt"></i></a>';
+
+var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+	position: naver.maps.Position.TOP_RIGHT
+});
+
+customControl.setMap(map);
+
+var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function(){
+	getLocation();
+});
+
+// 위치 설정 초기화
+function clearLoc(){
+	$("#startLocation").val("");
+	$("#destLocation").val("");
+	
+	count = 0;
+	
+	markers.forEach(function(item){
+		item.setMap(null);
+	});
+	
+	polyline.setPath([]);
+	// path는 초기화 됐지만 다음 마커를 꼽기 전까지 선이 그어져 있기 때문에 안보이게 처리함
+	polyline.setVisible(false);
+	
+	
 };
 </script>
 
