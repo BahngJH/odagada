@@ -36,6 +36,7 @@
 		ws = new SockJS(url);
 		
 		ws.onmessage = function(event){
+			
 			writeResponse(event.data);
 		};
 		ws.onopen = function(event){
@@ -49,9 +50,16 @@
 	
 	function send()
 	{
-		var text = $('#messageinput').val();
-		ws.send(text);
-		text.val(" ");
+		var jsonData ={};
+		jsonData.text = $('#messageinput').val();
+		jsonData.member ="wpxm2003";
+		ws.send(JSON.stringify(jsonData));
+		console.log(typeof JSON.stringify(jsonData));
+		$('#messageinput').val("");
+		//var text = $('#messageinput').val();
+		//ws.send(text);
+		//text.val(" ");
+		
 	}
 	
 	function closeSocket()
