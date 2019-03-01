@@ -39,7 +39,7 @@
 			writeResponse(event.data);
 		};
 		ws.onopen = function(event){
-			if(data===undefined) return;
+			if(event.data===undefined) return;
 			writeResponse(event.data);
 		};
 		ws.onclose = function(){
@@ -51,7 +51,7 @@
 	{
 		var text = $('#messageinput').val();
 		ws.send(text);
-		text.val("");
+		text.val(" ");
 	}
 	
 	function closeSocket()
