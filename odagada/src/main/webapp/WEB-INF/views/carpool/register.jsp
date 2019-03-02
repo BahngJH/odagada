@@ -20,6 +20,9 @@
 	button.btn_clear{
 		margin: 5px 0px;
 	}
+	div.div_date{
+		margin-top:10px;
+	}
 </style>
 
 <section class="container">
@@ -27,7 +30,9 @@
 		<div class="col-12 col-md-6">
 			<form action="">
 				<div class="row">
-					<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
+					<div class="col-12">
+						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
+					</div>
 					<!-- <img src="${path}/resources/images/icons/arrow-thick-bottom-6x.png" class="img-fluid mx-auto"></img> -->
 					<div class="col-1 offset-5">
 						<span class="fas fa-arrow-down fa-3x"></span>
@@ -35,16 +40,18 @@
 					<div class="col-3 ml-auto">
 						<button type="button" class="btn btn-outline-info btn_clear" onclick="clearLoc();">초기화</button>
 					</div>
-					<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
-				</div>
-				<div class="row">
 					<div class="col-12">
-						<label>출발 일시<input type="datetime-local" class="form-control" name="startDate"  /></label>
+						<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row div_date">
 					<div class="col-12">
-						<label>도착 일시<input type="datetime-local" class="form-control" name="endDate" /></label>
+						<label for="startDate">출발 일시</label>
+						<input type="datetime-local" class="form-control" name="startDate" id="startDate" />
+					</div>
+					<div class="col-12">
+						<label for="endDate">도착 일시</label>
+						<input type="datetime-local" class="form-control" name="endDate" id="endDate"/>
 					</div>
 				</div>
 				<div class="row">
@@ -89,7 +96,9 @@ getLocation();
 
 function getLocation(){
 	if(navigator.geolocation){
-		navigator.geolocation.getCurrentPosition(setPosition);
+		navigator.geolocation.getCurrentPosition(setPosition, function(){
+			alert("현재 위치를 불러올 수 없습니다.");
+		});
 	}
 }
 
