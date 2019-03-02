@@ -23,6 +23,10 @@
 	div.div_date{
 		margin-top:10px;
 	}
+	
+	span.pin{
+		color: #00AF4C;
+	}
 </style>
 
 <section class="container">
@@ -133,9 +137,23 @@ naver.maps.Event.addListener(map, 'click', function(e){
 		path.push(point);
 		searchCoordinateToAddress(point);
 		
+		//커스텀 마커
 		markers.push(new naver.maps.Marker({
 			map: map,
 			position: point,
+			icon:{
+				content: [
+							'<div class="cs_mapbridge">',
+								'<div class="map_group _map_group">',
+									'<div class="map_marker _marker">',
+										'<span class="fas fa-map-marker-alt fa-3x pin"></span>',
+									'</div>',
+								'</div>',
+							'</div>'
+				].join(''),
+				size: new naver.maps.Size(38, 58),
+				anchor: new naver.maps.Point(18, 48),
+			}
 		})); 
 		//polyline 초기화 후 다시 보이도록 설정
 		polyline.setVisible(true);
@@ -176,7 +194,7 @@ function searchCoordinateToAddress(latlng){
 };
 
 // 지도 위에 현재 위치 버튼 생성
-var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marker-alt"></i></a>';
+var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marked"></i></a>';
 
 var customLocationControl = new naver.maps.CustomControl(locationBtnHtml, {
 	position: naver.maps.Position.TOP_RIGHT
