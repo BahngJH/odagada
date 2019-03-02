@@ -23,16 +23,19 @@
 	div.div_date{
 		margin-top:10px;
 	}
-	
 	span.pin{
 		color: #00AF4C;
+	}
+	div.btn_submit{
+		margin-top: 10px;
+		margin-left: 0px;
 	}
 </style>
 
 <section class="container">
 	<div class="row">
 		<div class="col-12 col-md-6">
-			<form action="">
+			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row">
 					<div class="col-12">
 						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
@@ -58,8 +61,8 @@
 						<input type="datetime-local" class="form-control" name="endDate" id="endDate"/>
 					</div>
 				</div>
-				<div class="row">
-				
+				<div class="row btn_submit">
+					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
 				</div>
 				
 			</form>
@@ -80,6 +83,29 @@
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xh3uwmsrwb"></script>
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xh3uwmsrwb&submodules=geocoder"></script>
 <script>
+
+function carpoolValidate(){
+	if($("#startLocation").val() === ""){
+		alert("시작 위치를 지정해주세요.");
+		return false;
+	}
+	if($("#destLocation").val() === ""){
+		alert("도착 위치를 지정해주세요.");
+		return false;
+	}
+	
+	console.log($("#startDate").val());
+	if($("#startDate").val() === ""){
+		alert("시작 날짜를 지정해주세요.");
+		return false;
+	}
+	
+	if($("#endDate").val() === ""){
+		alert("도착 날짜를 지정해주세요.");
+		return false;
+	}
+	return true;
+};
 
 var mapOptions = {
 		zoomControl: true,
