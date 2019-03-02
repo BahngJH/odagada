@@ -57,9 +57,17 @@
 				<div class="row">
 				
 				</div>
+				
 			</form>
 		</div>
+		
 		<div class="col-12 col-md-6">
+			<div class="input-group">
+				<input type="text" class="form-control" id="addrSearch" placeholder="주소 검색"/>
+				<span class="input-group-btn">
+					<button class="btn btn-secondary" id="btn_addr" type="button" onclick="addrSearch();">검색</button>
+				</span>
+			</div>
 			<div id="map" style="width:100%;height:400px;"></div>
 		</div>
 	</div>
@@ -81,7 +89,7 @@ var mapOptions = {
         },
         logoControl: true,
         logoControlOptions: {
-        	position: naver.maps.Position.LEFT_TOP
+        	position: naver.maps.Position.BOTTOM_RIGHT
         },
        	mapDataControl: false
 };
@@ -170,13 +178,13 @@ function searchCoordinateToAddress(latlng){
 // 지도 위에 현재 위치 버튼 생성
 var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marker-alt"></i></a>';
 
-var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+var customLocationControl = new naver.maps.CustomControl(locationBtnHtml, {
 	position: naver.maps.Position.TOP_RIGHT
 });
 
-customControl.setMap(map);
+customLocationControl.setMap(map);
 
-var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function(){
+var domEventListener = naver.maps.Event.addDOMListener(customLocationControl.getElement(), 'click', function(){
 	getLocation();
 });
 
@@ -197,6 +205,36 @@ function clearLoc(){
 	
 	
 };
+
+// 주소 검색창
+$("#addrSearch").on("keydown", function(e){
+	var keyCode = e.which;
+	
+	if(keyCode === 13){
+		searchAddressToCoordinate($("#addrSearch").val());
+	}
+});
+
+function addrSearch(){
+	searchAddressToCoordinate($("#addrSearch").val());
+};
+
+// 주소 검색 내용으로 지도 이동
+function searchAddressToCoordinate(address){
+	naver.maps.Service.geocode({
+		address: address
+	}, function(status, response){
+		if(status === naver.maps.Service.Status.ERROR){
+			return alert("주소 검색 실패, 주소를 확인해주세요.");
+		}
+		
+		var item = response.result.items[0];
+		var point = new naver.maps.Point(item.point.x, item.point.y);
+		map.setCenter(point);
+		map.setZoom(10);
+	});
+};
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
