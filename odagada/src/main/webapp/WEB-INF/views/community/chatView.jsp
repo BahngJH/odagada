@@ -16,7 +16,7 @@
 
 <div>
 	<button onclick="openSocket();">채팅연결하기</button>
-	<button onclick="send();">전송</button>
+	<button onclick="MessageSend();">전송</button>
 	<button onclick="closeSocket();">채팅 끊기</button>
 </div>
 
@@ -27,43 +27,47 @@
 	
 	function openSocket()
 	{
-		if(ws!==undefined && ws.readyState!==WeSocket.CLOSED)
+		 if(ws!==undefined && ws.readyState!==WeSocket.CLOSED)
 		{
 			writeResponse("WebSocket is already opend");
 			return;
-		};
+		}; 
 		
 		ws = new SockJS(url);
 		
 		ws.onmessage = function(event){
-			
 			writeResponse(event.data);
 		};
+		
 		ws.onopen = function(event){
+			var myid = {"myId" : "아이이잉"};
+			ws.send(JSON.stringify(myid));
 			if(event.data===undefined) return;
 			writeResponse(event.data);
 		};
+		
+		//소켓이 닫히고 실행되는 함수, 즉 이 메소드가 실행될 땐 이미 소켓이 닫힌 상태
 		ws.onclose = function(){
 			writeResponse("Connection Closed");
 		};
+		
 	}
 	
-	function send()
+	function MessageSend()
 	{
 		var jsonData ={};
 		jsonData.text = $('#messageinput').val();
-		jsonData.member ="wpxm2003";
+		jsonData.member ="회원아이디";
 		ws.send(JSON.stringify(jsonData));
+		//ws.send(jsonData);
 		console.log(typeof JSON.stringify(jsonData));
 		$('#messageinput').val("");
-		//var text = $('#messageinput').val();
-		//ws.send(text);
-		//text.val(" ");
-		
 	}
 	
 	function closeSocket()
 	{
+		var deleteId = {"deleteId" : "아이이잉"};
+		ws.send(JSON.stringify(deleteId));
 		ws.close();
 	}
 	

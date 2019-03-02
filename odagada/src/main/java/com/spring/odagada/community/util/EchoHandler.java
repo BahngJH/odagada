@@ -1,9 +1,12 @@
 package com.spring.odagada.community.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -11,13 +14,11 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-
 public class EchoHandler extends TextWebSocketHandler {
 	
 	 private Logger logger = LoggerFactory.getLogger(EchoHandler.class);
 	 private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+	 private Map<Object, Object> userList = new HashMap();
      
      // 클라이언트와 연결 이후에 실행되는 메서드
      @Override
@@ -31,12 +32,31 @@ public class EchoHandler extends TextWebSocketHandler {
      @Override
      protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
        logger.debug(session.getId()+"님 으로부터 메시지를 받음, 내용 : "+message.getPayload());
-       JSONObject json = new JSONObject();
-       JsonParser jsonParser = new JsonParser();
        
+       //JSON.stringify로 넘어온 데이터 JSON형태로 다시 복원
+       JSONParser parser = new JSONParser();
+       Object obj = parser.parse(message.getPayload());
+       JSONObject json = (JSONObject)obj;
        
+       logger.debug(json+"");
+       logger.debug("get으로 꺼냄 : "+json.get("member"));
+       
+       //유저가 접속했을 때 자동으로 userList에 추가
+       if(json.get("myId")!=null) {
+       userList.put(json.get("myId"), session.getId());
+       logger.debug(userList+"");
+       }
+       
+       //연결이 끊어졌을 때 userList에서 제거
+       if(json.get("deleteId")!=null) {
+       userList.remove(json.get("deleteId"));
+       }
+       
+       //연결하거나 끊을 땐 text가 null이라 조건을 줌
+       if(json.get("myId")==null && json.get("deleteId")==null) {
        for (WebSocketSession sess : sessionList) {
-         sess.sendMessage(new TextMessage(session.getId() + " : " + message.getPayload()));
+         sess.sendMessage(new TextMessage(session.getId() + " : " + json.get("text") /*message.getPayload()*/));
+       	}
        }
      }
     
@@ -45,6 +65,8 @@ public class EchoHandler extends TextWebSocketHandler {
      public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
        sessionList.remove(session);
        logger.debug(session.getId()+"님의 연결이 끊어졌습니다.");
+       logger.debug("남은 세션들 : "+userList );
+
      }
 	
 }
