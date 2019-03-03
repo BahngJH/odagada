@@ -24,9 +24,7 @@
     div#board-continer{width:400px;margin:0 auto; text-align:center}
     div#board-continer input{margin-bottom:15px;}
     
-  .select-C{
-    
-    
+  .select-C{     
     display: block;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -36,9 +34,21 @@
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;   
+    }
     
-    
+    .tel{
+    display: block;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
+    width: 100%; 
     }
    
    .div-email{
@@ -53,7 +63,6 @@
    .addon-email{
    	margin-bottom: 10px;
    }
-   
     </style>
     
      
@@ -171,7 +180,7 @@
             
             <div class="row">
             	<div class="col-4">      	
-					<select class="select-C" name="phone" placeholder="전화번호 (예:01012345678)"  maxlength="" required>											  		  
+					<select class="tel" name="phone" placeholder="전화번호 (예:01012345678)"  maxlength="" required>											  		  				   	         	
 						<option value="" disabled selected>전화번호</option>
 						<option  value="010">010</option>
 						<option  value="011">011</option>
@@ -180,18 +189,16 @@
 						<option  value="018">018</option>
 						<option  value="019">019</option>			
 						<option  id="self" value="">직접입력</option> 
-					</select>   	         	
+					</select>
             	</div>
             	<div class="col-4">
-    				 <input type="number" class="select-C" name="tel1" id="tel1">      	
+    				 <input type="number" class="tel" name="tel1" id="tel1">      	
             	</div>
            		<div class="col-4">
-					 <input type="number" class="select-C" name="tel2" id="tel2">	
+					 <input type="number" class="tel" name="tel2" id="tel2">	
             	</div>
             </div>
-            			
-            <input type="tel" class="form-control" placeholder="전화번호 (예:01012345678)" name="phone" id="phone" maxlength="11" required> 
-            
+           
 	   		 <div class="input-group mb-3" style="padding:0px;">
 	               <div class="input-group-prepend" style="padding:0px;">
 	                   <span class="input-group-text">프로필사진 등록</span>
