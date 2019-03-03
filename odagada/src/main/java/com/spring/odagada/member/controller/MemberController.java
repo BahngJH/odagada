@@ -29,6 +29,11 @@ public class MemberController {
 		return "member/signUpForm";
 	}
 	
+	@RequestMapping("/member/loginForm.do")
+	public String loginForm() {
+		return "member/loginForm";
+	}
+	
    @RequestMapping("/member/login.do")
    public ModelAndView login(String memberId, String memberPw, Model model) {
 	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);

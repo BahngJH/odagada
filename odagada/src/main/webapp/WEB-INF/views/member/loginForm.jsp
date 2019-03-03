@@ -133,23 +133,23 @@ margin-left: 4px;
 				</div>
 			</div>
 			<div class="card-body">
-				<form>
+				<form action="${path }/member/login.do" method="post">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" class="form-control" placeholder="아이디">
+						<input type="text" class="form-control" name="memberId" placeholder="아이디">
 						
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
-						<input type="password" class="form-control" placeholder="비밀번호">
+						<input type="password" class="form-control" name="memberPw" placeholder="비밀번호">
 					</div>
-					<div class="row align-items-center remember">
+					<!-- <div class="row align-items-center remember">
 						<input type="checkbox">내 정보 기억하기
-					</div>
+					</div> -->
 					<div class="form-group">
 						<input type="submit" value="Login" class="btn float-right login_btn">
 					</div>

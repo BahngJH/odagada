@@ -18,5 +18,5 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne("member.login", login);
 	}
 
-	//@SqlSessionTemplate session
+	
 }
