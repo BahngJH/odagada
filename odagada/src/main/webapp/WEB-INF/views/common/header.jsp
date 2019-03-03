@@ -3,11 +3,11 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<!-- font awesome 아이콘 -->
@@ -50,7 +50,7 @@
                     <a class="dropdown-item" href="#">공지사항</a>
                     <a class="dropdown-item" href="#">회원 관리</a>
                     <a class="dropdown-item" href="#">드라이버 관리</a>
-                    <a class="dropdown-item" href="#">Q&A</a>
+                    <a class="dropdown-item" href="#">질의응답</a>
                   </div>
                 </li>
               </ul>
