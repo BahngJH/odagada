@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.member.model.service.MemberService;
@@ -63,5 +64,15 @@ public class MemberController {
 	   }	  
 	   return mv;
    }
+   
+   @RequestMapping("/member/logout.do")
+   public String logout(SessionStatus status) {
+	   	if(!status.isComplete()) {
+	   		status.setComplete();
+	   	}
+	   	return "redirect:/index.jsp";
+   }
+   
+   
 
 }
