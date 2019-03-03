@@ -39,7 +39,7 @@ public class MemberController {
 	}
 	
    @RequestMapping("/member/login.do")
-   public ModelAndView login(HttpServletRequest request, String memberId, String memberPw, Model model) {
+   public ModelAndView login(String memberId, String memberPw, Model model) {
 	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);
 	   
 	   Map<String, String>login=new HashMap();
@@ -53,6 +53,7 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
+	
 	   String msg="";
 	   String loc="/";
 	   
