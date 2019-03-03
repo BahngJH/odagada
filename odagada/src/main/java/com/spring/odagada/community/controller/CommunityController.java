@@ -17,7 +17,6 @@ public class CommunityController {
 	@RequestMapping("/moveChat")
 	public String moveChat() 
 	{
-		logger.info("들어오니?");
 		return "community/chatView";
 	}
 	
