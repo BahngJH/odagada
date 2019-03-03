@@ -4,9 +4,6 @@
 	
 	<typeAliases>
 		<typeAlias type="com.spring.odagada.member.model.vo.Member" alias="member"/>
-	</typeAliases>
-	
-	<typeAliases>
 		<typeAlias type="com.spring.odagada.community.model.vo.MessageVo" alias="msgVo"/>
 	</typeAliases>
 	
