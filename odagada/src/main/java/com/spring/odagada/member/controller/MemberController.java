@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
-@SessionAttributes("memberId")
+@SessionAttributes("logined")
 @Controller
 public class MemberController {
 	
