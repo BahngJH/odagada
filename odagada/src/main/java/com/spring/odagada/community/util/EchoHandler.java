@@ -9,12 +9,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.spring.odagada.community.model.service.CommunityService;
+
+import odagada.community.model.vo.MessageVo;
+
 public class EchoHandler extends TextWebSocketHandler {
+	
+	@Autowired
+	CommunityService service;
 
 	private Logger logger = LoggerFactory.getLogger(EchoHandler.class);
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
@@ -54,6 +62,11 @@ public class EchoHandler extends TextWebSocketHandler {
 
 		// 연결하거나 끊을 땐 text가 null이라 조건을 줌
 		if (json.get("myId") == null && json.get("deleteId") == null) {
+			
+			//vo객체에 데이터 담고 DB에 채팅 내용 저장 
+			MessageVo msg = new MessageVo((String)json.get("roomId"),(String)json.get("reciver"),(String)json.get("sender"),(String)json.get("text"));
+			logger.debug(msg+"");
+			int rs = service.saveMessage(msg);
 			
 			//메세지는 자기자신과 상대방에게 모두 보내야함, 먼저 나부터 보냄
 			WebSocketSession sender = (WebSocketSession)userList.get(json.get("sender"));

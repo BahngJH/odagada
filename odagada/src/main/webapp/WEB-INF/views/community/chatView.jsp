@@ -40,7 +40,7 @@
 		};
 		
 		ws.onopen = function(event){
-			var myid = {"myId" : "wpxm2003"};
+			var myid = {"myId" : "test1"};
 			ws.send(JSON.stringify(myid));
 			if(event.data===undefined) return;
 			writeResponse(event.data);
@@ -57,8 +57,9 @@
 	{
 		var jsonData ={};
 		jsonData.text = $('#messageinput').val();
-		jsonData.sender ="wpxm2003";
-		jsonData.reciver = "wpxm2003";
+		jsonData.sender ="test1";
+		jsonData.reciver = "test2";
+		jsonData.roomId = "test1,test2";
 		ws.send(JSON.stringify(jsonData));
 		//ws.send(jsonData);
 		console.log(typeof JSON.stringify(jsonData));
@@ -69,7 +70,7 @@
 	{
 		//세션 닫기전에 삭제할 id를 보내어 userList지우고 세션 닫기
 		//로그아웃전에 삭제할 id를 보내어 userList지우고 세션 닫기로 바꿀 예정
-		var deleteId = {"deleteId" : "wpxm2003"};
+		var deleteId = {"deleteId" : "test1"};
 		ws.send(JSON.stringify(deleteId));
 		ws.close();
 	}
