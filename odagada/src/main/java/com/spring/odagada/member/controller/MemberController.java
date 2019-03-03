@@ -59,7 +59,7 @@ public class MemberController {
 	   if(result!=null) {
 		   if(memberPw.equals(result.get("MEMBERPW"))){
 			   msg="로그인 성공";			   
-			   mv.addObject("memberId", result.get("MEMBERID"));			   
+			   mv.addObject("logined", m);			   
 		   }else {
 			  msg="패스워드가 일치하지 않습니다.";
 		   }	   
@@ -67,7 +67,6 @@ public class MemberController {
 		   mv.addObject("loc", loc);
 		   mv.setViewName("common/msg");
 	   }	  
-	   request.setAttribute("member", m);
 	   logger.debug("로그인 멤버 정보"+m);
 	   return mv;
    }
