@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.odagada.member.model.vo.Member;
+
 @Repository
 public class MemberDaoImpl implements MemberDao {
 	
@@ -16,6 +18,12 @@ public class MemberDaoImpl implements MemberDao {
 	public Map<String, String> login(Map<String, String> login) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.login", login);
+	}
+
+	@Override
+	public Member selectMember(String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMember", memberId);
 	}
 
 	

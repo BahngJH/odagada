@@ -4,6 +4,8 @@ package com.spring.odagada.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.member.model.service.MemberService;
+import com.spring.odagada.member.model.vo.Member;
 
 @SessionAttributes("memberId")
 @Controller
@@ -36,7 +39,7 @@ public class MemberController {
 	}
 	
    @RequestMapping("/member/login.do")
-   public ModelAndView login(String memberId, String memberPw, Model model) {
+   public ModelAndView login(HttpServletRequest request, String memberId, String memberPw, Model model) {
 	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);
 	   
 	   Map<String, String>login=new HashMap();
@@ -48,6 +51,8 @@ public class MemberController {
 	   logger.debug("로그인 결과:"+result);
 	   
 	   ModelAndView mv=new ModelAndView();
+	   
+	   Member m=service.selectMember(memberId);   
 	   String msg="";
 	   String loc="/";
 	   
@@ -62,6 +67,8 @@ public class MemberController {
 		   mv.addObject("loc", loc);
 		   mv.setViewName("common/msg");
 	   }	  
+	   request.setAttribute("member", m);
+	   logger.debug("로그인 멤버 정보"+m);
 	   return mv;
    }
    
