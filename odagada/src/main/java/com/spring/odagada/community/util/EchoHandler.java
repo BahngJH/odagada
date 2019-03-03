@@ -50,6 +50,7 @@ public class EchoHandler extends TextWebSocketHandler {
 		if (json.get("deleteId") != null) {
 			userList.remove(json.get("deleteId"));
 		}
+		
 
 		// 연결하거나 끊을 땐 text가 null이라 조건을 줌
 		if (json.get("myId") == null && json.get("deleteId") == null) {
