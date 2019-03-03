@@ -10,5 +10,5 @@
 		<typeAlias type="com.spring.odagada.community.model.vo.MessageVo" alias="msgVo"/>
 	</typeAliases>
 	
-	
 </configuration>
+
