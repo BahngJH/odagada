@@ -1,6 +1,6 @@
 package com.spring.odagada.community.model.service;
 
-import odagada.community.model.vo.MessageVo;
+import com.spring.odagada.community.model.vo.MessageVo;
 
 public interface CommunityService {
 	

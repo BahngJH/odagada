@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.odagada.community.model.dao.CommunityDao;
-
-import odagada.community.model.vo.MessageVo;
+import com.spring.odagada.community.model.vo.MessageVo;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {

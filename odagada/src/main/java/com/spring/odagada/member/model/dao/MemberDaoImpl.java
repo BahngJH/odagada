@@ -1,23 +1,22 @@
-package com.spring.odagada.community.model.dao;
+package com.spring.odagada.member.model.dao;
+
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.odagada.community.model.vo.MessageVo;
-
 @Repository
-public class CommunityDaoImpl implements CommunityDao {
-
+public class MemberDaoImpl implements MemberDao {
+	
 	@Autowired
 	SqlSessionTemplate session;
 
 	@Override
-	public int saveMessage(MessageVo msg) {
+	public Map<String, String> login(Map<String, String> login) {
 		// TODO Auto-generated method stub
-		return session.insert("community.saveMessage", msg);
+		return session.selectOne("member.login", login);
 	}
-	
-	
+
 	
 }

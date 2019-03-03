@@ -1,4 +1,4 @@
-package odagada.community.model.vo;
+package com.spring.odagada.community.model.vo;
 
 import java.sql.Date;
 

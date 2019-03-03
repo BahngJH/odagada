@@ -16,8 +16,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.spring.odagada.community.model.service.CommunityService;
-
-import odagada.community.model.vo.MessageVo;
+import com.spring.odagada.community.model.vo.MessageVo;
 
 public class EchoHandler extends TextWebSocketHandler {
 	
