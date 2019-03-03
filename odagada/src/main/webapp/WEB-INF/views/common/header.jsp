@@ -38,11 +38,14 @@
                   <a class="nav-link" href="#">검색</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="#">로그인</a>
-                </li> -->
+                 <li class="nav-item">
+                  <a class="nav-link" href="${path }/member/login.do">로그인</a>
+                </li> 
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    관리자메뉴
