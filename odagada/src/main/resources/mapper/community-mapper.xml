@@ -4,4 +4,9 @@
   <insert id="saveMessage" parameterType="msgVo">
   		insert into chattingview values(#{receiver},#{sender},sysdate,#{cContent},#{roomId})
   </insert>
+  
+  <select id="bringMsg" parameterType="string" resultType="map">
+  	select * from chattingView join member on (receiver=memberid) where roomId=#{roomId}
+  </select>
+  
 </mapper>

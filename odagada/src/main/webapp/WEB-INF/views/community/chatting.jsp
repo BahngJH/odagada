@@ -70,15 +70,13 @@
         }
     </style>
 <div id="container" class="container-fluid">
-            <div class="row">
-
-           
+      <div class="row">
         <div id="chattingRoom" class="col col-xs-12 " >
             <div id="roomTitle">
                 <h3>채팅방 목록</h3>
             </div>
             <div id="chatRooms">
-                <div id="chatRoom" onclick="hi('하잉');">
+                <div id="chatRoom" onclick="bringMessage('test1,test2');">
                     <div id="userInfoTop">
                         <span id="userName"><b>홍길동</b></span>
                         <span id="time">19.3.2 14:20</span>
@@ -218,7 +216,7 @@
 
         <div id="chattingView" class="col-6 col-xs-12 " >
             <div id="selectUserInfo">
-                <span id="image"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
+                <span id="selectImage"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
                 <span id="selectName">나연</span>
             </div>
             <div id="chatContent">
@@ -238,8 +236,27 @@
     </div>
     
     <script>
-    function hi(msg){
-    	alert(msg);
+    function bringMessage(roomId){
+    	$.ajax({
+    		url:"${path}/chat/bringMessage.do",
+    		data:{"roomId":roomId},
+    		success:function(data){
+    			console.log(data);
+    			for(var i=0;i<data.chatList.length;i++){
+    				console.log(data.chatList[i]);
+    				console.log(data.chatList[i].SENDER);
+    				if(data.chatList[i].SENDER=='test1')
+        			{
+    					//스타일 주고 오른쪽으로 붙임
+        				$('#chatContent').append(data.CCONTENT);	
+        			}
+        			else{
+        				//스타일 주고 왼쪽에 이미지와 함께 붙임
+        				$('#sendForm').html(data.CCONTENT);	
+        			}
+    			}
+    		}
+    	});
     }
     
     </script>
