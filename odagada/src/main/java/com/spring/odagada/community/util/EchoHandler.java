@@ -32,25 +32,25 @@ public class EchoHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		// 접속된 session들을 List에 저장. 현재 어떤 유저가 접속해 있는지 확인 가능
 		sessionList.add(session);
-		logger.debug(session.getId() + "님이 연결 되었습니다.");
+		logger.info(session.getId() + "님이 연결 되었습니다.");
 	}
 
 	// 클라이언트가 서버로 메시지를 전송했을 때 실행되는 메서드
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		logger.debug(session.getId() + "님 으로부터 메시지를 받음, 내용 : " + message.getPayload());
+		logger.info(session.getId() + "님 으로부터 메시지를 받음, 내용 : " + message.getPayload());
 
 		// JSON.stringify로 넘어온 데이터 JSON형태로 다시 복원
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(message.getPayload());
 		JSONObject json = (JSONObject) obj;
 
-		logger.debug("넘어온 JSON 확인 : "+json);
+		logger.info("넘어온 JSON 확인 : "+json);
 
 		// 유저가 접속했을 때 자동으로 userList에 추가
 		if (json.get("myId") != null) {
 			userList.put(json.get("myId"), session);
-			logger.debug(userList + "");
+			logger.info(userList + "");
 		}
 
 		// 연결이 끊어졌을 때 userList에서 제거
@@ -64,7 +64,7 @@ public class EchoHandler extends TextWebSocketHandler {
 			
 			//vo객체에 데이터 담고 DB에 채팅 내용 저장 
 			MessageVo msg = new MessageVo((String)json.get("roomId"),(String)json.get("reciver"),(String)json.get("sender"),(String)json.get("text"));
-			logger.debug(msg+"");
+			logger.info(msg+"");
 			int rs = service.saveMessage(msg);
 			
 			//메세지는 자기자신과 상대방에게 모두 보내야함, 먼저 나부터 보냄
@@ -83,7 +83,7 @@ public class EchoHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		sessionList.remove(session);
-		logger.debug(session.getId() + "님의 연결이 끊어졌습니다.");
+		logger.info(session.getId() + "님의 연결이 끊어졌습니다.");
 	}
 
 }

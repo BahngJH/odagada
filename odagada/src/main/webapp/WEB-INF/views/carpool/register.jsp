@@ -94,7 +94,7 @@ function carpoolValidate(){
 		alert("시작 날짜를 지정해주세요.");
 		return false;
 	}
-	return false;
+	return true;
 };
 
 var mapOptions = {

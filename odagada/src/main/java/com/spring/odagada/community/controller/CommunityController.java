@@ -14,10 +14,14 @@ public class CommunityController {
 	CommunityService service;
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
-	@RequestMapping("/moveChat")
+	@RequestMapping("/moveChat.do")
 	public String moveChat() 
 	{
 		return "community/chatView";
 	}
-	
+	@RequestMapping("/chatting.do")
+	public String chatting() 
+	{
+		return "community/chatting";
+	}
 }
