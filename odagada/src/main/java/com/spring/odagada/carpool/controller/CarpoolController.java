@@ -42,7 +42,7 @@ public class CarpoolController {
 	@RequestMapping("/carpool/searchEnd.do")
 	public ModelAndView carpoolSearchEnd(String startSearch, String endSearch, String startDate){
 		ModelAndView mav = new ModelAndView();
-		
+		l.debug(startSearch+" "+endSearch+" "+startDate);
 		mav.setViewName("carpool/searchEnd");
 		return mav;
 		
