@@ -48,7 +48,7 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
-    width: 150%; 
+    width: 100%; 
     }
    
    .div-email{
@@ -63,6 +63,11 @@
    .addon-email{
    	margin-bottom: 10px;
    }
+   
+   .profile{
+   margin-left:13px;
+   margin-right:13px;
+   "}
     </style>
     
      
@@ -83,10 +88,11 @@
         }
         return true;
     }
-/*   
+  
+  /* 
    $('#selectEmail').change(function(){
 	$('#selectEmail option:selected').each(function(){
-		if($(this).val()=='#selfEmail'){
+		if($(this).val()=='selfEmail'){
 			$('#email2').val('');
 			$('#email2').prop('readonly', false);
 		}else{
@@ -94,11 +100,9 @@
 			$('#email2').prop('readonly', true);
 		}
 	});
-	});  */ 
-	
-	
-	
-
+	});  
+		
+ 
 	function selectMail(email2) {
 		console.log(email2);
 		if (email2.val() == 'self') {
@@ -106,11 +110,12 @@
 		} else {
 			document.getElementById('#email2').innerHTML = '';
 		}
-	}
+	} 
+	*/	
 </script>      
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="#" method="post" onsubmit="return validate();" >
-            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="userId" id="userId_" required>
+            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="member" id="userId_" required>
             <span class="guide ok">이 아이디는 사용할 수 있음 </span>
             <span class="guide error">이 아이디는 사용할 수 없음 </span>
             <input type="hidden" name="checkId" value="0"/>
@@ -190,7 +195,8 @@
 					</div>
 				</div>
 				<div class="col-6 div-email">
-					<input type="text" class="select-C form-control" name="email2" id="email2" readonly>	
+					<input type="text" class="select-C form-control" name="email2" id="email2">		
+				<!-- 	<input type="text" class="select-C form-control" name="email2" id="email2" readonly>	
 					<select class="select-C form-control" name="selectEmail" id="selectEmail" onchange="selectMail(this.options[this.selectedIndex].value)">
 						<option selected>선택</option>
 						<option value="hanmail.net">hanmail.net</option>
@@ -201,20 +207,13 @@
 						<option value="gmail.com">gmail.com</option>
 						<option value="nate.com">nate.com</option>
 						<option value="self">직접입력</option>
-					</select>
-					
-					
-					
-	
-					
-					
-				
+					</select> -->
 				</div>
 			</div>
             <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>
             
             <div class="row">
-            	<div class="col-3">      	
+            	<div class="col-6">      	
 					<select class="tel" name="phone" id="selectPhone" placeholder="전화번호 (예:01012345678)"  maxlength="" required>											  		  				   	         	
 						<option value="" disabled selected>전화번호</option>
 						<option  value="010">010</option>
@@ -225,26 +224,17 @@
 						<option  value="019">019</option>			
 						<option  value="070">070</option> 
 					</select>
-            	</div>
-            	<div class="col-2">-</div>
-            	<div class="col-2">
+            	</div>       	
+            	<div class="col-6">
     				 <input type="text" class="tel" name="tel1" id="tel1">      	
             	</div>
-            	<div class="col-2">-</div>
-           		<div class="col-2">
-					 <input type="text" class="tel" name="tel2" id="tel2">	
-            	</div>
             </div>
-           
-	   		 <div class="input-group mb-3" style="padding:0px;">
-	               <div class="input-group-prepend" style="padding:0px;">
-	                   <span class="input-group-text">프로필사진 등록</span>
-	               </div>
-	               <div class="custom-file">
-	                   <input type="file" class="custom-file-input" name="upFile" id="upFile1">
-	                   <label class="custom-file-label" for="upFile">파일을 선택하세요</label>
-	               </div>    
-	   	      </div>
+            <div class="row">   		            
+               <div class="custom-file col-12">
+                   <input type="file" class="custom-file-input" name="upFile">
+                   <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
+               </div>    		   	      
+   	      	</div>
 	                
             
 		 <div class="form-check-inline form-check">성별 : &nbsp; 
