@@ -42,12 +42,12 @@
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
                 </li>
-            	<c:if test="${sessionScope.memberId==null }">   
+            	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
 	                </li> 
                 </c:if>
-               	<c:if test="${sessionScope.memberId!=null }">   
+               	<c:if test="${sessionScope.logined!=null }">   
 	                 <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
 	                </li> 
