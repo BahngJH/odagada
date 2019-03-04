@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="HelloSpring" name="pageTitle"/>
 </jsp:include>
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
    <style>
@@ -112,15 +112,33 @@
 		}
 	} 
 	*/	
-</script>      
+	$(function(){
+	 	/* 숫자만 입력받게 하는 함수 */	
+		$('#phone2').on('keyup', function() {
+			if (/\D/.test(this.value)) {
+				this.value = this.value.replace(/\D/g, '')
+				alert('숫자만 입력가능합니다.');
+			}
+		});
+		
+		//이메일 알파벳만 입력 받게 하기    
+		$(".select-C").keyup(function(event) {
+			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+			}
+		});
+	});
+</script>
+      
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
             <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="memberId" required>
             <span class="guide ok">이 아이디는 사용할 수 있음 </span>
             <span class="guide error">이 아이디는 사용할 수 없음 </span>
             <input type="hidden" name="checkId" value="0"/>
-            <script>
-            /* 	$(function(){ 
+<!--             <script>
+             	$(function(){ 
             		$("#memberId").keyup(function(){
             			var userId=$("#memberId").val().trim();
             			if(userId.length<4)
@@ -151,8 +169,8 @@
             			}); 
             		});
             	});
-                 */      
-            </script>
+            </script> -->
+                      
             <div class="row">
             	<div class="col-6">
             		<div>
@@ -224,18 +242,17 @@
 	                   <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
 	               </div>    		   	      
 	   	      	</div>
-	               
-            
-		 <div class="form-check-inline form-check">성별 : &nbsp; 
-               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
-               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
-            </div>
-            <br/>
-            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
-            <input type="reset" class="btn btn-outline-success" value="취소">
-         </form>
-      </div>
-      
+	        
+				 <div class="form-check-inline form-check">성별 : &nbsp; 
+		               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
+		               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
+		            </div>
+		            <br/>
+		            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
+		            <input type="reset" class="btn btn-outline-success" value="취소">
+		         </form>
+		      </div>
+	      
       
 
       
