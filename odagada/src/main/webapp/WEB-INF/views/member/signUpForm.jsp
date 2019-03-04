@@ -48,7 +48,7 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
-    width: 100%; 
+    width: 150%; 
     }
    
    .div-email{
@@ -83,7 +83,31 @@
         }
         return true;
     }
- </script>      
+/*   
+   $('#selectEmail').change(function(){
+	$('#selectEmail option:selected').each(function(){
+		if($(this).val()=='#selfEmail'){
+			$('#email2').val('');
+			$('#email2').prop('readonly', false);
+		}else{
+			$('#email2').val($(this).text());
+			$('#email2').prop('readonly', true);
+		}
+	});
+	});  */ 
+	
+	
+	
+
+	function selectMail(email2) {
+		console.log(email2);
+		if (email2.val() == 'self') {
+			document.getElementById('#email2').innerHTML = '<input type="text" name="self" />';
+		} else {
+			document.getElementById('#email2').innerHTML = '';
+		}
+	}
+</script>      
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="#" method="post" onsubmit="return validate();" >
             <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="userId" id="userId_" required>
@@ -154,17 +178,21 @@
             </div>
             
             
-            
+
+     	
+
+
 			<div class="row row-email">
 				<div class="col-6 div-email">
 					<div class="input-group div-email">
-						<input type="email" class="select-C form-control" placeholder="이메일" name="email" id="email" required>
+						<input type="text" class="select-C form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
 						<span class="input-group-addon addon-email" id="basic-addon1">@</span>
 					</div>
 				</div>
 				<div class="col-6 div-email">
-					<select class="select-C form-control" name="email" placeholder="E-mail" maxlength="" required>
-						<option value="" disabled selected>선택</option>
+					<input type="text" class="select-C form-control" name="email2" id="email2" readonly>	
+					<select class="select-C form-control" name="selectEmail" id="selectEmail" onchange="selectMail(this.options[this.selectedIndex].value)">
+						<option selected>선택</option>
 						<option value="hanmail.net">hanmail.net</option>
 						<option value="hotmail.com">hotmail.com</option>
 						<option value="naver.com">naver.com</option>
@@ -172,15 +200,22 @@
 						<option value="paran.com">paran.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="nate.com">nate.com</option>
-						<option id="self" value="">직접입력</option>
+						<option value="self">직접입력</option>
 					</select>
+					
+					
+					
+	
+					
+					
+				
 				</div>
 			</div>
             <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>
             
             <div class="row">
-            	<div class="col-4">      	
-					<select class="tel" name="phone" placeholder="전화번호 (예:01012345678)"  maxlength="" required>											  		  				   	         	
+            	<div class="col-3">      	
+					<select class="tel" name="phone" id="selectPhone" placeholder="전화번호 (예:01012345678)"  maxlength="" required>											  		  				   	         	
 						<option value="" disabled selected>전화번호</option>
 						<option  value="010">010</option>
 						<option  value="011">011</option>
@@ -188,14 +223,16 @@
 						<option  value="017">017</option>
 						<option  value="018">018</option>
 						<option  value="019">019</option>			
-						<option  id="self" value="">직접입력</option> 
+						<option  value="070">070</option> 
 					</select>
             	</div>
-            	<div class="col-4">
-    				 <input type="number" class="tel" name="tel1" id="tel1">      	
+            	<div class="col-2">-</div>
+            	<div class="col-2">
+    				 <input type="text" class="tel" name="tel1" id="tel1">      	
             	</div>
-           		<div class="col-4">
-					 <input type="number" class="tel" name="tel2" id="tel2">	
+            	<div class="col-2">-</div>
+           		<div class="col-2">
+					 <input type="text" class="tel" name="tel2" id="tel2">	
             	</div>
             </div>
            
@@ -221,5 +258,6 @@
       </div>
       
       
+
       
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
