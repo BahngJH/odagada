@@ -56,10 +56,6 @@
 						<label for="startDate">출발 일시</label>
 						<input type="datetime-local" class="form-control" name="startDate" id="startDate" />
 					</div>
-					<div class="col-12">
-						<label for="endDate">도착 일시</label>
-						<input type="datetime-local" class="form-control" name="endDate" id="endDate"/>
-					</div>
 				</div>
 				<div class="row btn_submit">
 					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
@@ -93,18 +89,12 @@ function carpoolValidate(){
 		alert("도착 위치를 지정해주세요.");
 		return false;
 	}
-	
-	console.log($("#startDate").val());
+	 
 	if($("#startDate").val() === ""){
 		alert("시작 날짜를 지정해주세요.");
 		return false;
 	}
-	
-	if($("#endDate").val() === ""){
-		alert("도착 날짜를 지정해주세요.");
-		return false;
-	}
-	return true;
+	return false;
 };
 
 var mapOptions = {
@@ -157,37 +147,17 @@ var polyline = new naver.maps.Polyline({
 
 naver.maps.Event.addListener(map, 'click', function(e){
 	if(count < 2){
-		count++;
 		var point = e.coord;
-		var path = polyline.getPath();
-		path.push(point);
+		
+		//주소 검색 호출
 		searchCoordinateToAddress(point);
 		
-		//커스텀 마커
-		markers.push(new naver.maps.Marker({
-			map: map,
-			position: point,
-			icon:{
-				content: [
-							'<div class="cs_mapbridge">',
-								'<div class="map_group _map_group">',
-									'<div class="map_marker _marker">',
-										'<span class="fas fa-map-marker-alt fa-3x pin"></span>',
-									'</div>',
-								'</div>',
-							'</div>'
-				].join(''),
-				size: new naver.maps.Size(38, 58),
-				anchor: new naver.maps.Point(18, 48),
-			}
-		})); 
-		//polyline 초기화 후 다시 보이도록 설정
-		polyline.setVisible(true);
 	}else{
 		alert("출발지와 목적지가 이미 설정되었습니다.");
 	}
 });
 
+//좌표로 주소 검색
 function searchCoordinateToAddress(latlng){
 	var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
 	
@@ -209,15 +179,47 @@ function searchCoordinateToAddress(latlng){
 		}
 		
 		//출발지
-		if(count==1){
+		if(count==0){
 			$("#startLocation").val(addr);
 		}else{
 			//도착지
 			$("#destLocation").val(addr);
 		}
-				
+		
+		//해당 좌표에 핀 설정
+		setPin(latlng);
 	});
 };
+
+//지도에 핀 설정
+function setPin(point){
+	count++;
+	var path = polyline.getPath();
+	path.push(point);
+
+	//커스텀 마커
+	markers.push(new naver.maps.Marker({
+		map: map,
+		position: point,
+		icon:{
+			content: [
+						'<div class="cs_mapbridge">',
+							'<div class="map_group _map_group">',
+								'<div class="map_marker _marker">',
+									'<span class="fas fa-map-marker-alt fa-3x pin"></span>',
+								'</div>',
+							'</div>',
+						'</div>'
+			].join(''),
+			size: new naver.maps.Size(38, 58),
+			anchor: new naver.maps.Point(18, 48),
+		}
+	})); 
+	//polyline 초기화 후 다시 보이도록 설정
+	polyline.setVisible(true);
+}
+
+
 
 // 지도 위에 현재 위치 버튼 생성
 var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marked"></i></a>';
