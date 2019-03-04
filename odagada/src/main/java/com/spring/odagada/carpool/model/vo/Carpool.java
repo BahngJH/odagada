@@ -17,6 +17,39 @@ public class Carpool {
 	public Carpool() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public Carpool(int startLong, int startlat, int destLong, int destLat, Date startDate, String startCity,
+			String endCity) {
+		super();
+		this.startLong = startLong;
+		this.startlat = startlat;
+		this.destLong = destLong;
+		this.destLat = destLat;
+		this.startDate = startDate;
+		this.startCity = startCity;
+		this.endCity = endCity;
+	}
+
+
+
+	public Carpool(int memberNum, int carpoolNum, int startLong, int startlat, int destLong, int destLat, int pay,
+			Date startDate, String startCity, String endCity) {
+		super();
+		this.memberNum = memberNum;
+		this.carpoolNum = carpoolNum;
+		this.startLong = startLong;
+		this.startlat = startlat;
+		this.destLong = destLong;
+		this.destLat = destLat;
+		this.pay = pay;
+		this.startDate = startDate;
+		this.startCity = startCity;
+		this.endCity = endCity;
+	}
+
+
 
 	public int getMemberNum() {
 		return memberNum;

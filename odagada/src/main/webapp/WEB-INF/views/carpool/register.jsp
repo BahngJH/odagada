@@ -45,7 +45,6 @@
 <section class="container">
 	<div class="row schedule">
 		<div class="col-12 col-md-6">
-			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row">
 					<div class="col-12">
 						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
@@ -60,6 +59,7 @@
 						<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
 					</div>
 				</div>
+			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row div_date">
 					<div class="col-12">
 						<label for="startDate">출발 일시</label>
@@ -98,6 +98,12 @@
 				<div class="row btn_submit">
 					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
 				</div>
+				<input type="text" class="form-control" name="startLong" id="startLong" readonly hidden/>
+				<input type="text" class="form-control" name="startLat" id="startLat" readonly hidden/>
+				<input type="text" class="form-control" name="destLong" id="destLong" readonly hidden/>
+				<input type="text" class="form-control" name="destLat" id="destLat" readonly hidden/>
+				<input type="text" class="form-control" name="startCity" id="startCity" readonly hidden/>
+				<input type="text" class="form-control" name="endCity" id="endCity" readonly hidden/>
 			</form>
 		</div>
 		
@@ -196,7 +202,6 @@ naver.maps.Event.addListener(map, 'click', function(e){
 
 //좌표로 주소 검색
 function searchCoordinateToAddress(latlng){
-	var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
 	
 	naver.maps.Service.reverseGeocode({
 		location: latlng,
@@ -205,28 +210,42 @@ function searchCoordinateToAddress(latlng){
 			return alert("네이버 주소 검색 에러");
 		}
 		
-		var items = response.result.items;
-		var addr;
-		
-		//도로명 주소가 있을 경우는 도로명 주소 사용
-		if(items.length >= 2){
-			addr = items[1].address;
-		}else if(items.length === 1){
-			addr = items[0].address;
-		}
-		
-		//출발지
-		if(count==0){
-			$("#startLocation").val(addr);
-		}else{
-			//도착지
-			$("#destLocation").val(addr);
-		}
+		setInput(response, latlng);
 		
 		//해당 좌표에 핀 설정
 		setPin(latlng);
 	});
 };
+
+function setInput(response, latlng){
+	var items = response.result.items;
+	var addr;
+	var addrDetail; 
+	
+	
+	//도로명 주소가 있을 경우는 도로명 주소 사용
+	if(items.length >= 2){
+		addr = items[1].address;
+		addrDetail = items[1].addrdetail.sidogun;
+	}else if(items.length === 1){
+		addr = items[0].address;
+		addrDetail = items[0].addrdetail.sidogun;
+	}
+	
+	//출발지
+	if(count==0){
+		$("#startCity").val(addrDetail);
+		$("#startLocation").val(addr);
+		$("#startLong").val(latlng._lat);
+		$("#startLat").val(latlng._lng);
+	}else{
+		//도착지
+		$("#endCity").val(addrDetail);
+		$("#destLocation").val(addr);
+		$("#destLong").val(latlng._lat);
+		$("#destLat").val(latlng._lng);
+	}
+}
 
 //지도에 핀 설정
 function setPin(point){
