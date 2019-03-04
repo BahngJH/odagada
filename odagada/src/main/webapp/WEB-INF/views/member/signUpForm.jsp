@@ -24,7 +24,7 @@
     div#board-continer{width:400px;margin:0 auto; text-align:center}
     div#board-continer input{margin-bottom:15px;}
     
-  .select-C{     
+  .emailC{     
     display: block;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -80,17 +80,18 @@
       $(this).next('.custom-file-label').html(filename);
    });
  });
-  function validate(){
-        var content = $("[name=boardContent]").val();
-        if(content.trim().length==0){
-            alert("내용을 입력하세요");
-            return false;
-        }
-        return true;
-    }
-  
-  /* 
-   $('#selectEmail').change(function(){
+
+	function validate() {
+		var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+		if (!idReg.test($("input[name=memberId]").val())) {
+			alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
+			return false;
+		}
+		return true;
+	}
+
+	/* 
+	 $('#selectEmail').change(function(){
 	$('#selectEmail option:selected').each(function(){
 		if($(this).val()=='selfEmail'){
 			$('#email2').val('');
@@ -102,7 +103,7 @@
 	});
 	});  
 		
- 
+	
 	function selectMail(email2) {
 		console.log(email2);
 		if (email2.val() == 'self') {
@@ -111,66 +112,73 @@
 			document.getElementById('#email2').innerHTML = '';
 		}
 	} 
-	*/	
-	$(function(){
-	 	/* 숫자만 입력받게 하는 함수 */	
+	 */
+	$(function() {
+		//아이디 4글자 이상 숫자, 영문만 입력 가능하게 하는 함수
+
+		//ID 중복 체크
+		$("#memberId_").keyup(function() {
+			var memberId = $("#memberId_").val().trim();
+
+			if (memberId.length < 6) {
+				$(".guide").hide();
+				return;
+
+			}
+
+			$.ajax({
+				url : "${path}/member/checkId.do",
+				data : {
+					"memberId" : memberId
+				},
+				success : function(data) {
+					if (data.isId == true) {
+						$(".guide.ok").hide();
+						$(".guide.error").show();
+					} else {
+						$(".guide.ok").show();
+						$(".guide.error").hide();
+					}
+				}
+			});
+		});
+
+		//핸드폰 숫자만 입력받게 하는 함수 	
 		$('#phone2').on('keyup', function() {
 			if (/\D/.test(this.value)) {
 				this.value = this.value.replace(/\D/g, '')
 				alert('숫자만 입력가능합니다.');
 			}
 		});
-		
-		//이메일 알파벳만 입력 받게 하기    
-		$(".select-C").keyup(function(event) {
+
+		//이메일 알파벳, 숫자만 입력 받게 하기    
+		$("#email1").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 				var inputVal = $(this).val();
 				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
 			}
 		});
+		
+		//이메일 도메인 알파벳, '.'만 입력 받게 하기    
+		$("#email2").keyup(function(event) {
+			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/([a-z0-9-]+\.)+[a-z0-9]{2,4}$/, ''));
+			}
+		});
+	
+
+	
+
 	});
 </script>
       
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
-            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="memberId" required>
-            <span class="guide ok">이 아이디는 사용할 수 있음 </span>
-            <span class="guide error">이 아이디는 사용할 수 없음 </span>
-            <input type="hidden" name="checkId" value="0"/>
-<!--             <script>
-             	$(function(){ 
-            		$("#memberId").keyup(function(){
-            			var userId=$("#memberId").val().trim();
-            			if(userId.length<4)
-            			{
-            				$(".guide").hide();
-            				return;
-            			} */
-            			/* $.ajax({
-            				url:"${path}/member/checkId.do",
-            				data:{"memberId":memberId},
-            				success:function(data){
-  
-        					
-            					for(var i=0;i<data.list.length;i++)
-            					{
-            						console.log("for : "+data.list[i]);	
-            					}          					         					
-            					if(data.isId==true)
-            					{
-            						$(".guide.ok").hide();
-            						$(".guide.error").show();            					
-            					}
-            					else{
-            						$(".guide.ok").show();
-            						$(".guide.error").hide();
-            					}	
-            				}
-            			}); 
-            		});
-            	});
-            </script> -->
-                      
+            <input type="text" class="form-control" placeholder="아이디 (6~20자 영문자 또는 숫자)" name="memberId" id="memberId_" required>
+            <span class="guide ok">ID 사용 가능 </span>
+            <span class="guide error">ID 중복,사용 불가 </span>
+            <input type="hidden" name="checkId" value="0"/>    
             <div class="row">
             	<div class="col-6">
             		<div>
@@ -198,12 +206,12 @@
 			<div class="row row-email">
 					<div class="col-6 div-email">
 						<div class="input-group div-email">
-							<input type="text" class="select-C form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
+							<input type="text" class="emailC form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
 							<span class="input-group-addon addon-email" id="basic-addon1">@</span>
 						</div>
 					</div>
 					<div class="col-6 div-email">
-						<input type="text" class="select-C form-control" name="email2" id="email2">		
+						<input type="text" class="emailC form-control" name="email2" id="email2">		
 					<!-- 	<input type="text" class="select-C form-control" name="email2" id="email2" readonly>	
 						<select class="select-C form-control" name="selectEmail" id="selectEmail" onchange="selectMail(this.options[this.selectedIndex].value)">
 							<option selected>선택</option>
@@ -233,7 +241,7 @@
 						</select>
 	            	</div>       	
 	            	<div class="col-6">
-	    				 <input type="text" class="tel" name="phone2" id="phone2" maxlength="11" required>      	
+	    				 <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" required>      	
 	            	</div>
 	            </div>
 	            <div class="row">   		            
