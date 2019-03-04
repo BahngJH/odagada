@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+	 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<!-- font awesome 아이콘 -->
