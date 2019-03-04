@@ -30,17 +30,25 @@
 		margin-top: 10px;
 		margin-left: 0px;
 	}
+	form div.row > div{
+		padding: 0px;
+	}
+	div.row.gender{
+		margin: 0px;
+	}
+	div.options > label{
+		padding-right: 3px;
+		border-right: #d0cdcd solid 1px ;
+	}
 </style>
 
 <section class="container">
-	<div class="row">
+	<div class="row schedule">
 		<div class="col-12 col-md-6">
-			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row">
 					<div class="col-12">
 						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
 					</div>
-					<!-- <img src="${path}/resources/images/icons/arrow-thick-bottom-6x.png" class="img-fluid mx-auto"></img> -->
 					<div class="col-1 offset-5">
 						<span class="fas fa-arrow-down fa-3x"></span>
 					</div>
@@ -51,20 +59,51 @@
 						<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
 					</div>
 				</div>
+			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row div_date">
 					<div class="col-12">
 						<label for="startDate">출발 일시</label>
 						<input type="datetime-local" class="form-control" name="startDate" id="startDate" />
 					</div>
+				</div>
+				<div class="row div_option">
 					<div class="col-12">
-						<label for="endDate">도착 일시</label>
-						<input type="datetime-local" class="form-control" name="endDate" id="endDate"/>
+						<h4>탑승객 옵션 (체크시 허락)</h4>
+					</div>
+					<div class="col-12">
+						<div class="col-12 options ml-auto">
+							<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
+							<label>흡연 <input type="checkbox" name="smoking" id="smoking" value="Y"/></label>
+							<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="Y" /></label>
+							<label>대화 <input type="checkbox" name="talking" id="talking" value="Y" /></label>
+							<label>노래 <input type="checkbox" name="music" id="music" value="Y" /></label>
+							<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
+							<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
+						</div>
+						<div class="row gender">
+							<div class="col-6 col-sm-3">
+								성별<select name="gender" id="gender" class="form-control">
+										<option value="A">무관</option>
+										<option value="F">여</option>
+										<option value="M">남</option>
+									</select>
+							</div>
+						<div class="col-6 col-sm-3">
+							좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11"/>
+						</div>
+						</div>
+								
 					</div>
 				</div>
 				<div class="row btn_submit">
 					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
 				</div>
-				
+				<input type="text" class="form-control" name="startLong" id="startLong" readonly hidden/>
+				<input type="text" class="form-control" name="startLat" id="startLat" readonly hidden/>
+				<input type="text" class="form-control" name="destLong" id="destLong" readonly hidden/>
+				<input type="text" class="form-control" name="destLat" id="destLat" readonly hidden/>
+				<input type="text" class="form-control" name="startCity" id="startCity" readonly hidden/>
+				<input type="text" class="form-control" name="endCity" id="endCity" readonly hidden/>
 			</form>
 		</div>
 		
@@ -93,15 +132,9 @@ function carpoolValidate(){
 		alert("도착 위치를 지정해주세요.");
 		return false;
 	}
-	
-	console.log($("#startDate").val());
+	 
 	if($("#startDate").val() === ""){
 		alert("시작 날짜를 지정해주세요.");
-		return false;
-	}
-	
-	if($("#endDate").val() === ""){
-		alert("도착 날짜를 지정해주세요.");
 		return false;
 	}
 	return true;
@@ -157,39 +190,18 @@ var polyline = new naver.maps.Polyline({
 
 naver.maps.Event.addListener(map, 'click', function(e){
 	if(count < 2){
-		count++;
 		var point = e.coord;
-		var path = polyline.getPath();
-		path.push(point);
+		
+		//주소 검색 호출
 		searchCoordinateToAddress(point);
 		
-		//커스텀 마커
-		markers.push(new naver.maps.Marker({
-			map: map,
-			position: point,
-			icon:{
-				content: [
-							'<div class="cs_mapbridge">',
-								'<div class="map_group _map_group">',
-									'<div class="map_marker _marker">',
-										'<span class="fas fa-map-marker-alt fa-3x pin"></span>',
-									'</div>',
-								'</div>',
-							'</div>'
-				].join(''),
-				size: new naver.maps.Size(38, 58),
-				anchor: new naver.maps.Point(18, 48),
-			}
-		})); 
-		//polyline 초기화 후 다시 보이도록 설정
-		polyline.setVisible(true);
 	}else{
 		alert("출발지와 목적지가 이미 설정되었습니다.");
 	}
 });
 
+//좌표로 주소 검색
 function searchCoordinateToAddress(latlng){
-	var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
 	
 	naver.maps.Service.reverseGeocode({
 		location: latlng,
@@ -198,26 +210,72 @@ function searchCoordinateToAddress(latlng){
 			return alert("네이버 주소 검색 에러");
 		}
 		
-		var items = response.result.items;
-		var addr;
+		setInput(response, latlng);
 		
-		//도로명 주소가 있을 경우는 도로명 주소 사용
-		if(items.length >= 2){
-			addr = items[1].address;
-		}else if(items.length === 1){
-			addr = items[0].address;
-		}
-		
-		//출발지
-		if(count==1){
-			$("#startLocation").val(addr);
-		}else{
-			//도착지
-			$("#destLocation").val(addr);
-		}
-				
+		//해당 좌표에 핀 설정
+		setPin(latlng);
 	});
 };
+
+function setInput(response, latlng){
+	var items = response.result.items;
+	var addr;
+	var addrDetail; 
+	
+	
+	//도로명 주소가 있을 경우는 도로명 주소 사용
+	if(items.length >= 2){
+		addr = items[1].address;
+		addrDetail = items[1].addrdetail.sidogun;
+	}else if(items.length === 1){
+		addr = items[0].address;
+		addrDetail = items[0].addrdetail.sidogun;
+	}
+	
+	//출발지
+	if(count==0){
+		$("#startCity").val(addrDetail);
+		$("#startLocation").val(addr);
+		$("#startLong").val(latlng._lat);
+		$("#startLat").val(latlng._lng);
+	}else{
+		//도착지
+		$("#endCity").val(addrDetail);
+		$("#destLocation").val(addr);
+		$("#destLong").val(latlng._lat);
+		$("#destLat").val(latlng._lng);
+	}
+}
+
+//지도에 핀 설정
+function setPin(point){
+	count++;
+	var path = polyline.getPath();
+	path.push(point);
+
+	//커스텀 마커
+	markers.push(new naver.maps.Marker({
+		map: map,
+		position: point,
+		icon:{
+			content: [
+						'<div class="cs_mapbridge">',
+							'<div class="map_group _map_group">',
+								'<div class="map_marker _marker">',
+									'<span class="fas fa-map-marker-alt fa-3x pin"></span>',
+								'</div>',
+							'</div>',
+						'</div>'
+			].join(''),
+			size: new naver.maps.Size(38, 58),
+			anchor: new naver.maps.Point(18, 48),
+		}
+	})); 
+	//polyline 초기화 후 다시 보이도록 설정
+	polyline.setVisible(true);
+}
+
+
 
 // 지도 위에 현재 위치 버튼 생성
 var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marked"></i></a>';

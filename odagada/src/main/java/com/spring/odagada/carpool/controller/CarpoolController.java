@@ -1,16 +1,23 @@
 package com.spring.odagada.carpool.controller;
 
-import java.sql.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.carpool.model.vo.Carpool;
+import com.spring.odagada.carpool.model.vo.Option;
+
 @Controller
 public class CarpoolController {
 
+	@Autowired
+	CarpoolService service;
+	
+	
 	private Logger l = LoggerFactory.getLogger(CarpoolController.class);
 			
 	@RequestMapping("/carpool/register")
@@ -19,18 +26,15 @@ public class CarpoolController {
 		
 		return mav;
 	}
+
 	
 	@RequestMapping("/carpool/registerEnd")
-	public ModelAndView carpoolRegisterEnd(String startLocation, String destLocation, String startDate, String endDate) {
-		ModelAndView mav = new ModelAndView();
+	public String carpoolRegisterEnd(Carpool carpool, Option option) {
 		
-		l.debug("시작위치: " + startLocation);
-		l.debug("도착위치: " + destLocation);
-		l.debug("시작날짜: " + startDate);
-		l.debug("도착날짜: " + endDate);
-		
-	
-		return mav;
+		l.debug(carpool.toString());
+		l.debug(option.toString());
+				
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/carpool/search.do")
