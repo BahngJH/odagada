@@ -1,5 +1,10 @@
 package com.spring.odagada.community.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +24,27 @@ public class CommunityController {
 	{
 		return "community/chatView";
 	}
+	
+	/*@RequestMapping("/community/review.do")
+	public String reviewForm()
+	{
+		return "community/reviewForm";
+	}*/
+	
+	@RequestMapping("/community/notifyForm.do")
+	public String notifyForm()
+	{
+		return "community/notifyForm";
+	}
+	
+	@RequestMapping("/commnity/notifyFormEnd.do")
+	public String notifyFormEnd(String notify)
+	{
+		Map<String,String> map=new HashMap();
+		map.put("notify",notify);
+		return "home";
+	}
+		
+	
 	
 }

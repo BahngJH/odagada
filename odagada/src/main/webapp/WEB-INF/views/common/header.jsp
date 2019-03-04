@@ -42,6 +42,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
                 </li>
+                 <li class="nav-item">
+                  <a class="nav-link" href="${path }/community/notify.do">신고</a>
+                </li>
             	<c:if test="${sessionScope.memberId==null }">   
 	                 <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
