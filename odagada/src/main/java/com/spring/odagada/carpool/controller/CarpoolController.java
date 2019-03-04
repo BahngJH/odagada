@@ -21,15 +21,13 @@ public class CarpoolController {
 	}
 	
 	@RequestMapping("/carpool/registerEnd")
-	public ModelAndView carpoolRegisterEnd(String startLocation, String destLocation, String startDate, String endDate) {
+	public ModelAndView carpoolRegisterEnd(String startLocation, String destLocation, String startDate) {
 		ModelAndView mav = new ModelAndView();
 		
 		l.debug("시작위치: " + startLocation);
 		l.debug("도착위치: " + destLocation);
 		l.debug("시작날짜: " + startDate);
-		l.debug("도착날짜: " + endDate);
-		
-		
+				
 		return mav;
 	}
 	
