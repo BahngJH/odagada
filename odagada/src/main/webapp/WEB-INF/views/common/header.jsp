@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">검색</a>
+                  <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>

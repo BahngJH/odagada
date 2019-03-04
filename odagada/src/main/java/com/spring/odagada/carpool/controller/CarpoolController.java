@@ -32,4 +32,19 @@ public class CarpoolController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("/carpool/search.do")
+	public ModelAndView carpoolSearch() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("carpool/search");
+		return mav;
+	}
+	@RequestMapping("/carpool/searchEnd.do")
+	public ModelAndView carpoolSearchEnd(String startSearch, String endSearch, String startDate){
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("carpool/searchEnd");
+		return mav;
+		
+	}
 }
