@@ -179,7 +179,7 @@ function searchCoordinateToAddress(latlng){
 		}
 		
 		//출발지
-		if(count==1){
+		if(count==0){
 			$("#startLocation").val(addr);
 		}else{
 			//도착지
