@@ -30,17 +30,26 @@
 		margin-top: 10px;
 		margin-left: 0px;
 	}
+	form div.row > div{
+		padding: 0px;
+	}
+	div.row.gender{
+		margin: 0px;
+	}
+	div.options > label{
+		padding-right: 3px;
+		border-right: #d0cdcd solid 1px ;
+	}
 </style>
 
 <section class="container">
-	<div class="row">
+	<div class="row schedule">
 		<div class="col-12 col-md-6">
 			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row">
 					<div class="col-12">
 						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
 					</div>
-					<!-- <img src="${path}/resources/images/icons/arrow-thick-bottom-6x.png" class="img-fluid mx-auto"></img> -->
 					<div class="col-1 offset-5">
 						<span class="fas fa-arrow-down fa-3x"></span>
 					</div>
@@ -57,10 +66,38 @@
 						<input type="datetime-local" class="form-control" name="startDate" id="startDate" />
 					</div>
 				</div>
+				<div class="row div_option">
+					<div class="col-12">
+						<h4>탑승객 옵션 (체크시 허락)</h4>
+					</div>
+					<div class="col-12">
+						<div class="col-12 options ml-auto">
+							<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
+							<label>흡연 <input type="checkbox" name="smoking" id="smoking" value="Y"/></label>
+							<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="Y" /></label>
+							<label>대화 <input type="checkbox" name="talking" id="talking" value="Y" /></label>
+							<label>노래 <input type="checkbox" name="music" id="music" value="Y" /></label>
+							<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
+							<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
+						</div>
+						<div class="row gender">
+							<div class="col-6 col-sm-3">
+								성별<select name="gender" id="gender" class="form-control">
+										<option value="A">무관</option>
+										<option value="F">여</option>
+										<option value="M">남</option>
+									</select>
+							</div>
+						<div class="col-6 col-sm-3">
+							좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11"/>
+						</div>
+						</div>
+								
+					</div>
+				</div>
 				<div class="row btn_submit">
 					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
 				</div>
-				
 			</form>
 		</div>
 		
@@ -94,7 +131,7 @@ function carpoolValidate(){
 		alert("시작 날짜를 지정해주세요.");
 		return false;
 	}
-	return false;
+	return true;
 };
 
 var mapOptions = {
