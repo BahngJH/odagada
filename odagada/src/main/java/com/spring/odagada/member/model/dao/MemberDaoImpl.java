@@ -26,5 +26,11 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne("member.selectMember", memberId);
 	}
 
+	@Override
+	public int insertMember(Member m) {
+		// TODO Auto-generated method stub
+		return session.insert("member.insertMember", m);
+	}
+
 	
 }

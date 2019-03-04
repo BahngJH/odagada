@@ -11,4 +11,9 @@
 	<select id="selectMember" parameterType="string" resultType="member">
 		SELECT*FROM MEMBER WHERE MEMBERID=#{memberId}
 	</select>
+	
+	<!--회원 등록 -->
+	<insert id="insertMember" parameterType="member">
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId},#{memberPw}, #{memberName}, #{birth}, #{phone}, #{email}, sysdate, #{gender}, default,#{profileImageOri}, #{profileImageOri}, #{profileImageRe}, default, default)
+	</insert>
 </mapper>
