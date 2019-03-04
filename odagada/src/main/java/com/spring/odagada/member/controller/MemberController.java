@@ -3,8 +3,12 @@ package com.spring.odagada.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +41,27 @@ public class MemberController {
 	//비밀번호 암호화 처리
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+	
+	@RequestMapping("/member/checkId.do")
+	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
+	{
+		Map map=new HashMap();
+		boolean isId=service.checkId(memberId)==0?false:true;
+		map.put("isId", isId);
+		List<String> list=new ArrayList();
+		
+		list.add("Yoo");
+		list.add("Lee");
+		list.add("Kim");
+		list.add("Joo");
+		
+		mv.addAllObjects(map);
+		mv.addObject("char",URLEncoder.encode("문자열","UTF-8"));
+		mv.addObject("num",1);
+		mv.addObject("list",list);
+		mv.setViewName("jsonView");
+		return mv;	
+	}
 	
 	@RequestMapping("/member/signUp.do")
 	public String signUp() {
@@ -128,7 +153,7 @@ public class MemberController {
 	   String loc="/";
 	   
 	   if(result!=null) {
-		   if(memberPw.equals(result.get("MEMBERPW"))){
+		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
 			   msg="로그인 성공";			   
 			   mv.addObject("logined", m);			   
 		   }else {

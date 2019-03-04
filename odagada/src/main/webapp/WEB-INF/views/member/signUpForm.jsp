@@ -114,30 +114,26 @@
 	*/	
 </script>      
       <div id="enroll-container">
-         <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" >
-            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="userId_" required>
+         <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="memberId" required>
             <span class="guide ok">이 아이디는 사용할 수 있음 </span>
             <span class="guide error">이 아이디는 사용할 수 없음 </span>
             <input type="hidden" name="checkId" value="0"/>
             <script>
-            	$(function(){ 
-            		$("#userId_").keyup(function(){
-            			var userId=$("#userId_").val().trim();
+            /* 	$(function(){ 
+            		$("#memberId").keyup(function(){
+            			var userId=$("#memberId").val().trim();
             			if(userId.length<4)
             			{
             				$(".guide").hide();
             				return;
-            			}
-            			$.ajax({
+            			} */
+            			/* $.ajax({
             				url:"${path}/member/checkId.do",
-            				data:{"userId":userId},
+            				data:{"memberId":memberId},
             				success:function(data){
-            					console.log(data);
-            					console.log(data.num+" : "+typeof data.num);
-            					console.log(decodeURI(data['char'])+" : "+typeof data['char']);
-            					console.log(data.isId+" : "+typeof data.isId);
-            					console.log(data.list+" : "+typeof data.list);
-            					
+  
+        					
             					for(var i=0;i<data.list.length;i++)
             					{
             						console.log("for : "+data.list[i]);	
@@ -152,10 +148,10 @@
             						$(".guide.error").hide();
             					}	
             				}
-            			});
+            			}); 
             		});
             	});
-                       
+                 */      
             </script>
             <div class="row">
             	<div class="col-6">
@@ -231,8 +227,8 @@
 	               
             
 		 <div class="form-check-inline form-check">성별 : &nbsp; 
-               <input type="radio" class="form-check-input" name="gender" id="gender0" value="여자"><label for="gender0" class="form-check-label">여자</label>&nbsp;
-               <input type="radio" class="form-check-input" name="gender" id="gender1" value="남자"><label for="gender1" class="form-check-label">남자</label>&nbsp;
+               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
+               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
             </div>
             <br/>
             <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
