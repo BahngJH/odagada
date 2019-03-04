@@ -27,7 +27,7 @@ public class BoardController {
 	{
 		ModelAndView mv = new ModelAndView();
 		int contentCount = service.selectBoardCount();
-		int numPerPage = 5;
+		int numPerPage = 5;	
 		
 		List<Map<String,String>> list = service.selectBoardList(cPage,numPerPage);
 		mv.addObject("pageBar",PageFactory.getpageBar(contentCount, cPage, numPerPage,"/odagada/board/boardList"));
@@ -37,5 +37,22 @@ public class BoardController {
 		
 		return mv;
 	}
+	
+	@RequestMapping("/board/boardView.do")
+	public ModelAndView boardView(int boardNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		int bCount = service.updateBoardCount(boardNo);
+		System.out.println(bCount);
+		Map<String,String> map = service.selectBoard(boardNo);
+		
+		mv.addObject("board",map);
+		mv.addObject("bCount",bCount);
+		mv.setViewName("board/boardView");
+		
+		return mv;		
+	}
+	
+	
 
 }

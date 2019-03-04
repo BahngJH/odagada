@@ -25,6 +25,21 @@ public class BoardDaoImpl implements BoardDao {
 		
 		return sqlSession.selectList("board.selectBoardList",null,rb);
 	}
+
+	@Override
+	public Map<String, String> selectBoard(int boardNo) {
+		return sqlSession.selectOne("board.selectBoard",boardNo);
+	}
+
+	@Override
+	public int updateBoardCount(int boardNo) {
+		return sqlSession.update("board.updateBoardCount",boardNo);
+	}
+	
+	
+	
+	
+	
 	
 	
 	

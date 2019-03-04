@@ -12,5 +12,7 @@ public interface BoardDao {
 	
 	int selectBoardCount();
 	List<Map<String,String>> selectBoardList(int cPage,int numPerPage);
+	Map<String,String> selectBoard(int boardNo);
+	int updateBoardCount(int boardNo);
 
 }

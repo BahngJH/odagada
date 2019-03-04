@@ -23,6 +23,19 @@ public class BoardServiceImpl implements BoardService {
 	public List<Map<String, String>> selectBoardList(int cPage, int numPerPage) {
 		return dao.selectBoardList(cPage,numPerPage);
 	}
+
+	@Override
+	public Map<String, String> selectBoard(int boardNo) {
+		return dao.selectBoard(boardNo);
+	}
+
+	@Override
+	public int updateBoardCount(int boardNo) {
+		return dao.updateBoardCount(boardNo);
+	}
+	
+	
+	
 	
 	
 	
