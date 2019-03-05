@@ -30,7 +30,6 @@ public class CarpoolController {
 	
 	@RequestMapping("/carpool/registerEnd")
 	public String carpoolRegisterEnd(Carpool carpool, Option option) {
-		
 		l.debug(carpool.toString());
 		l.debug(option.toString());
 				
