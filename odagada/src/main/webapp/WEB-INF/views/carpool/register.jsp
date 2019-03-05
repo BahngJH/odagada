@@ -8,6 +8,11 @@
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 
+<!-- 제이쿼리 --> 	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+ 
 <style>
 	a.btn_mylct{
 		color: #00AF4C;
@@ -48,6 +53,12 @@
 	    right: 5%;
 	    color: rgb(0,175,76);
 	}
+	button.btn_clear{
+		float:right;
+	}
+	input.btn_submit{
+		float:right;
+	}
 </style>
 
 <section class="container">
@@ -61,7 +72,7 @@
 						<span class="fas fa-arrow-down fa-3x"></span>
 					</div>
 					<div class="col-3 ml-auto">
-						<button type="button" class="btn btn-outline-info btn_clear" onclick="clearLoc();">초기화</button>
+						<button type="button" class="btn btn-outline-info btn_clear " onclick="clearLoc();">초기화</button>
 					</div>
 					<div class="col-12">
 						<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
@@ -70,8 +81,14 @@
 			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
 				<div class="row div_date">
 					<div class="col-12">
-						<label for="startDate">출발 일시</label>
-						<input type="datetime-local" class="form-control" name="startDate" id="startDate" />
+						<div class="form-group">
+			                <div class="input-group date div-search" id="datetimepicker1" data-target-input="nearest">
+			                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="startDate" id="startDate"/>
+			                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+			                        <div class="input-group-text div-icon"><i class="fa fa-calendar"></i></div>
+			                    </div>
+			                </div>
+			            </div>
 					</div>
 				</div>
 				<div class="row div_option">
@@ -97,7 +114,7 @@
 									</select>
 							</div>
 						<div class="col-6 col-sm-3">
-							좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11"/>
+							좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeHolder="최소 1개"/>
 						</div>
 						</div>
 								
@@ -112,7 +129,9 @@
 					</div>
 				</div>
 				<div class="row btn_submit">
-					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
+					<div class="col-12">
+						<input type="submit" value="일정 등록" class="btn btn-outline-success btn_submit"/>
+					</div>
 				</div>
 				<input type="text" class="form-control" name="startLong" id="startLong" readonly hidden/>
 				<input type="text" class="form-control" name="startLat" id="startLat" readonly hidden/>
@@ -138,6 +157,24 @@
 
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
 <script>
+
+/* 날짜/시간 입력 달력 */
+$(function () {
+	$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+		icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar',
+            up: 'fas fa-angle-up',
+            down: 'fas fa-angle-down',
+            previous: 'fas fa-angle-left',
+            next: 'fas fa-angle-right',
+            today: 'far fa-calendar-check-o',
+            clear: 'far fa-trash',
+            close: 'far fa-times'
+        } });
+    $('#datetimepicker1').datetimepicker(); 
+});
+
 // 클릭 이벤트 > 주소 가져오기 > 마커 생성 > 경로 생성
 
 $().ready(function(){
