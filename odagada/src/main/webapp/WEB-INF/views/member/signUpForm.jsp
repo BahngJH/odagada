@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="HelloSpring" name="pageTitle"/>
 </jsp:include>
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
    <style>
@@ -112,32 +112,46 @@
 		}
 	} 
 	*/	
-</script>      
+	$(function(){
+	 	/* 숫자만 입력받게 하는 함수 */	
+		$('#phone2').on('keyup', function() {
+			if (/\D/.test(this.value)) {
+				this.value = this.value.replace(/\D/g, '')
+				alert('숫자만 입력가능합니다.');
+			}
+		});
+		
+		//이메일 알파벳만 입력 받게 하기    
+		$(".select-C").keyup(function(event) {
+			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+			}
+		});
+	});
+</script>
+      
       <div id="enroll-container">
-         <form name="memberEnrollFrm" action="#" method="post" onsubmit="return validate();" >
-            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="member" id="userId_" required>
+         <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="memberId" required>
             <span class="guide ok">이 아이디는 사용할 수 있음 </span>
             <span class="guide error">이 아이디는 사용할 수 없음 </span>
             <input type="hidden" name="checkId" value="0"/>
-            <script>
-            	$(function(){ 
-            		$("#userId_").keyup(function(){
-            			var userId=$("#userId_").val().trim();
+<!--             <script>
+             	$(function(){ 
+            		$("#memberId").keyup(function(){
+            			var userId=$("#memberId").val().trim();
             			if(userId.length<4)
             			{
             				$(".guide").hide();
             				return;
-            			}
-            			$.ajax({
+            			} */
+            			/* $.ajax({
             				url:"${path}/member/checkId.do",
-            				data:{"userId":userId},
+            				data:{"memberId":memberId},
             				success:function(data){
-            					console.log(data);
-            					console.log(data.num+" : "+typeof data.num);
-            					console.log(decodeURI(data['char'])+" : "+typeof data['char']);
-            					console.log(data.isId+" : "+typeof data.isId);
-            					console.log(data.list+" : "+typeof data.list);
-            					
+  
+        					
             					for(var i=0;i<data.list.length;i++)
             					{
             						console.log("for : "+data.list[i]);	
@@ -152,15 +166,15 @@
             						$(".guide.error").hide();
             					}	
             				}
-            			});
+            			}); 
             		});
             	});
-                       
-            </script>
+            </script> -->
+                      
             <div class="row">
             	<div class="col-6">
             		<div>
-			            <input type="password" class="form-control" placeholder="비밀번호" name="password" id="password_" required>          		
+			            <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" required>          		
             		</div>          	       	
             	</div>
             	<div class="col-6">
@@ -172,81 +186,73 @@
             <div class="row">
             	<div class="col-6">
             		<div>
-			            <input type="text" class="form-control" placeholder="이름" name="userName" id="userName" required>
+			            <input type="text" class="form-control" placeholder="이름" name="memberName" id="userName" required>
             		</div>          	       	
             	</div>
             	<div class="col-6">
             		<div>
-			            <input type="number" class="form-control" placeholder="생년월일" name="age" id="birth">
+			            <input type="number" class="form-control" placeholder="생년월일" name="birth" id="birth">
             		</div>          	       	
             	</div>           
-            </div>
-            
-            
-
-     	
-
-
+            </div>    
 			<div class="row row-email">
-				<div class="col-6 div-email">
-					<div class="input-group div-email">
-						<input type="text" class="select-C form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
-						<span class="input-group-addon addon-email" id="basic-addon1">@</span>
+					<div class="col-6 div-email">
+						<div class="input-group div-email">
+							<input type="text" class="select-C form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
+							<span class="input-group-addon addon-email" id="basic-addon1">@</span>
+						</div>
+					</div>
+					<div class="col-6 div-email">
+						<input type="text" class="select-C form-control" name="email2" id="email2">		
+					<!-- 	<input type="text" class="select-C form-control" name="email2" id="email2" readonly>	
+						<select class="select-C form-control" name="selectEmail" id="selectEmail" onchange="selectMail(this.options[this.selectedIndex].value)">
+							<option selected>선택</option>
+							<option value="hanmail.net">hanmail.net</option>
+							<option value="hotmail.com">hotmail.com</option>
+							<option value="naver.com">naver.com</option>
+							<option value="yahoo.co.kr">yahoo.co.kr</option>
+							<option value="paran.com">paran.com</option>
+							<option value="gmail.com">gmail.com</option>
+							<option value="nate.com">nate.com</option>
+							<option value="self">직접입력</option>
+						</select> -->
 					</div>
 				</div>
-				<div class="col-6 div-email">
-					<input type="text" class="select-C form-control" name="email2" id="email2">		
-				<!-- 	<input type="text" class="select-C form-control" name="email2" id="email2" readonly>	
-					<select class="select-C form-control" name="selectEmail" id="selectEmail" onchange="selectMail(this.options[this.selectedIndex].value)">
-						<option selected>선택</option>
-						<option value="hanmail.net">hanmail.net</option>
-						<option value="hotmail.com">hotmail.com</option>
-						<option value="naver.com">naver.com</option>
-						<option value="yahoo.co.kr">yahoo.co.kr</option>
-						<option value="paran.com">paran.com</option>
-						<option value="gmail.com">gmail.com</option>
-						<option value="nate.com">nate.com</option>
-						<option value="self">직접입력</option>
-					</select> -->
-				</div>
-			</div>
-            <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>
-            
-            <div class="row">
-            	<div class="col-6">      	
-					<select class="tel" name="phone" id="selectPhone" placeholder="전화번호 (예:01012345678)"  maxlength="" required>											  		  				   	         	
-						<option value="" disabled selected>전화번호</option>
-						<option  value="010">010</option>
-						<option  value="011">011</option>
-						<option  value="016">016</option>
-						<option  value="017">017</option>
-						<option  value="018">018</option>
-						<option  value="019">019</option>			
-						<option  value="070">070</option> 
-					</select>
-            	</div>       	
-            	<div class="col-6">
-    				 <input type="text" class="tel" name="tel1" id="tel1">      	
-            	</div>
-            </div>
-            <div class="row">   		            
-               <div class="custom-file col-12">
-                   <input type="file" class="custom-file-input" name="upFile">
-                   <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
-               </div>    		   	      
-   	      	</div>
-	                
-            
-		 <div class="form-check-inline form-check">성별 : &nbsp; 
-               <input type="radio" class="form-check-input" name="gender" id="gender0" value="여자"><label for="gender0" class="form-check-label">여자</label>&nbsp;
-               <input type="radio" class="form-check-input" name="gender" id="gender1" value="남자"><label for="gender1" class="form-check-label">남자</label>&nbsp;
-            </div>
-            <br/>
-            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
-            <input type="reset" class="btn btn-outline-success" value="취소">
-         </form>
-      </div>
-      
+	            <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
+	            <div class="row">
+	            	<div class="col-6">      	
+						<select class="tel" name="phone1" id="selectPhone" placeholder="전화번호 (예:01012345678)">											  		  				   	         	
+							<option value="" disabled selected>전화번호</option>
+							<option  value="010">010</option>
+							<option  value="011">011</option>
+							<option  value="016">016</option>
+							<option  value="017">017</option>
+							<option  value="018">018</option>
+							<option  value="019">019</option>			
+							<option  value="070">070</option> 
+						</select>
+	            	</div>       	
+	            	<div class="col-6">
+	    				 <input type="text" class="tel" name="phone2" id="phone2" maxlength="11" required>      	
+	            	</div>
+	            </div>
+	            <div class="row">   		            
+	               <div class="custom-file col-12">
+	                   <input type="file" class="custom-file-input" name="upFile">
+	                   <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
+	               </div>    		   	      
+	   	      	</div>
+	        
+				 <div class="form-check-inline form-check">성별 : &nbsp; 
+		               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
+		               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
+		            </div>
+		            <br/>
+		            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
+		            <input type="reset" class="btn btn-outline-success" value="취소">
+		         </form>
+		      </div>
+	      
       
 
       
