@@ -30,7 +30,7 @@
 		margin-top: 10px;
 		margin-left: 0px;
 	}
-	form div.row > div{
+	form div.row > div, div.loc>div{
 		padding: 0px;
 	}
 	div.row.gender{
@@ -40,12 +40,20 @@
 		padding-right: 3px;
 		border-right: #d0cdcd solid 1px ;
 	}
+	span#loc{
+	    position: absolute;
+	    z-index: 1000;
+	    top: 40px;
+	    text-align: right;
+	    right: 5%;
+	    color: rgb(0,175,76);
+	}
 </style>
 
 <section class="container">
 	<div class="row schedule">
 		<div class="col-12 col-md-6">
-				<div class="row">
+				<div class="row loc">
 					<div class="col-12">
 						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
 					</div>
@@ -95,6 +103,14 @@
 								
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-12">
+						<p id="distance" class="routeInfo"></p>
+						<p id="time" class="routeInfo"></p>
+						<p id="fare" class="routeInfo"></p>
+						<p id="taxi" class="routeInfo"></p>
+					</div>
+				</div>
 				<div class="row btn_submit">
 					<input type="submit" value="일정 등록" class="btn btn-outline-success"/>
 				</div>
@@ -115,13 +131,18 @@
 				</span>
 			</div>
 			<div id="map" style="width:100%;height:400px;"></div>
+			<span id="loc" class="fas fa-map-marker-alt fa-2x"></span>
 		</div>
 	</div>
 </section>
 
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xh3uwmsrwb"></script>
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xh3uwmsrwb&submodules=geocoder"></script>
+<script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
 <script>
+// 클릭 이벤트 > 주소 가져오기 > 마커 생성 > 경로 생성
+
+$().ready(function(){
+	initTmap();
+});
 
 function carpoolValidate(){
 	if($("#startLocation").val() === ""){
@@ -140,30 +161,34 @@ function carpoolValidate(){
 	return true;
 };
 
-var mapOptions = {
-		zoomControl: true,
-		zoomControlOptions:{
-			style: naver.maps.ZoomControlStyle.SMALL,
-			position: naver.maps.Position.RIGHT_BOTTOM
-		},
-		scaleControl: true,
-        scaleControlOptions: {
-            position: naver.maps.Position.BOTTOM_LEFT
-        },
-        logoControl: true,
-        logoControlOptions: {
-        	position: naver.maps.Position.BOTTOM_RIGHT
-        },
-       	mapDataControl: false
-};
-
-var map = new naver.maps.Map('map', mapOptions);
+var map;
 var markers = [];
+var markerLayer;
+var points = [];
+var routeLayer;
 
-var count = 0;
+function initTmap(){	
+	map = new Tmap.Map({
+		div:'map',
+	});
+	
+	getLocation();
+	
+	//클릭으로 마커 생성
+	map.events.register('click', map, onClick);
+	markerLayer = new Tmap.Layer.Markers();
+	map.addLayer(markerLayer);
+}
+
+//지도 클릭시 이벤트 함수
+function onClick(e){
+	var lonlat = map.getLonLatFromViewPortPx(e.xy).transform("EPSG:3857", "EPSG:4326");
+		
+	//주소 가져오기
+	reverseGeo(lonlat);
+}
 
 //현재 위치 가져오기
-getLocation();
 
 function getLocation(){
 	if(navigator.geolocation){
@@ -173,142 +198,161 @@ function getLocation(){
 	}
 }
 
-//가져온 현재 위치로 네이버 지도에 위치 설정
+//가져온 현재 위치로 지도에 위치 설정
 function setPosition(position){	
-	var cPosition = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	map.setCenter(cPosition);
-	map.setZoom(10);
+	var cPosition = new Tmap.LonLat(position.coords.longitude, position.coords.latitude).transform("EPSG:4326", "EPSG:3857");
+	map.setCenter(cPosition, 15);
 }
 
-// 네이버 지도 폴리라인 설정
-var polyline = new naver.maps.Polyline({
-	map: map,
-	path: [],
-	strokeColor: '#00AF4C',
-	strokeWeight: 4
-});
-
-naver.maps.Event.addListener(map, 'click', function(e){
-	if(count < 2){
-		var point = e.coord;
+//경로 탐색 API 요청
+function apiRequest(){
+	var prtcl;
+	var headers = {};
+	headers["appKey"] = "8ea84df6-f96e-4f9a-9429-44cee22ab70f";
 		
-		//주소 검색 호출
-		searchCoordinateToAddress(point);
+	$.ajax({
+		method: "POST",
+		headers : headers,
+		url : "https://api2.sktelecom.com/tmap/routes?version=1&format=xml",
+		async: false,
+		data:{
+			startX: points[0].lon,
+			startY: points[0].lat,
+			endX: points[1].lon,
+			endY: points[1].lat,
+			reqCoordType : "WGS84GEO",
+			resCoordType : "EPSG3857",
+			angle: "172",
+			searchOption: "0",
+			trafficInfo : "N"
+		}, success:function(response){
+			prtcl = response;
+			
+			var xmlDoc = $.parseXML(new XMLSerializer().serializeToString(prtcl));
+			$xml = $(xmlDoc);
+			$xmlData = $xml.find("Document");
+						
+			var tDistance = "총 거리 : " + ($xmlData[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue/1000).toFixed(1)+"km";
+			var tTime = " 총 시간 : "+($xmlData[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue/60).toFixed(0)+"분";	
+			var tFare = " 총 요금 : "+$xmlData[0].getElementsByTagName("tmap:totalFare")[0].childNodes[0].nodeValue+"원";	
+			var taxiFare = " 예상 택시 요금 : "+$xmlData[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue+"원";	
+			
+			$("#distance").text(tDistance);
+			$("#time").text(tTime);
+			$("#fare").text(tFare);
+			$("#taxi").text(taxiFare);
+			
+			routeLayer = new Tmap.Layer.Vector("route");
+			
+			var prtclLine = new Tmap.Format.KML({extractStyles:true, extractAttributes:true}).read(prtcl);
 		
-	}else{
-		alert("출발지와 목적지가 이미 설정되었습니다.");
-	}
-});
-
-//좌표로 주소 검색
-function searchCoordinateToAddress(latlng){
-	
-	naver.maps.Service.reverseGeocode({
-		location: latlng,
-	}, function(status, response) {
-		if(status === naver.maps.Service.Status.ERROR){
-			return alert("네이버 주소 검색 에러");
+			routeLayer.events.register("beforefeatureadded", routeLayer, onBeforeFeatureAdded);
+			function onBeforeFeatureAdded(e){
+				var style={};
+				
+				switch (e.feature.attributes.styleUrl) {
+	        	case "#pointStyle":
+		        	style.externalGraphic = "http://topopen.tmap.co.kr/imgs/point.png"; //렌더링 포인트에 사용될 외부 이미지 파일의 url입니다.
+					style.graphicHeight = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 높이입니다.
+					style.graphicOpacity = 1; //외부 이미지 파일의 투명도 (0-1)입니다.
+					style.graphicWidth = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 폭입니다.
+	        	break;
+	        	default:
+					style.strokeColor = "#ff0000";//stroke에 적용될 16진수 color
+					style.strokeOpacity = "1";//stroke의 투명도(0~1)
+					style.strokeWidth = "5";//stroke의 넓이(pixel 단위)
+	        	};
+			
+				e.feature.style = style;
+			};
+			
+			routeLayer.addFeatures(prtclLine);			
+			
+			map.addLayer(routeLayer);
+			
+			map.zoomToExtent(routeLayer.getDataExtent());
+			
+		}, error:function(request, status, error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
-		
-		setInput(response, latlng);
-		
-		//해당 좌표에 핀 설정
-		setPin(latlng);
 	});
-};
-
-function setInput(response, latlng){
-	var items = response.result.items;
-	var addr;
-	var addrDetail; 
-	
-	
-	//도로명 주소가 있을 경우는 도로명 주소 사용
-	if(items.length >= 2){
-		addr = items[1].address;
-		addrDetail = items[1].addrdetail.sidogun;
-	}else if(items.length === 1){
-		addr = items[0].address;
-		addrDetail = items[0].addrdetail.sidogun;
-	}
-	
-	//출발지
-	if(count==0){
-		$("#startCity").val(addrDetail);
-		$("#startLocation").val(addr);
-		$("#startLong").val(latlng._lat);
-		$("#startLat").val(latlng._lng);
-	}else{
-		//도착지
-		$("#endCity").val(addrDetail);
-		$("#destLocation").val(addr);
-		$("#destLong").val(latlng._lat);
-		$("#destLat").val(latlng._lng);
-	}
 }
 
-//지도에 핀 설정
-function setPin(point){
-	count++;
-	var path = polyline.getPath();
-	path.push(point);
-
-	//커스텀 마커
-	markers.push(new naver.maps.Marker({
-		map: map,
-		position: point,
-		icon:{
-			content: [
-						'<div class="cs_mapbridge">',
-							'<div class="map_group _map_group">',
-								'<div class="map_marker _marker">',
-									'<span class="fas fa-map-marker-alt fa-3x pin"></span>',
-								'</div>',
-							'</div>',
-						'</div>'
-			].join(''),
-			size: new naver.maps.Size(38, 58),
-			anchor: new naver.maps.Point(18, 48),
+//좌표로 주소 가져오기
+function reverseGeo(lonlat){
+	$.ajax({
+		methos: "GET",
+		url: "https://api2.sktelecom.com/tmap/geo/reversegeocoding?version=1&format=json&callback=result",
+		async:false,
+		data:{
+			"coordType": "WGS84GEO",
+			"addressType": "A04",
+			"lon": lonlat.lon,
+			"lat": lonlat.lat,
+			"appKey" : "8ea84df6-f96e-4f9a-9429-44cee22ab70f",
+		},success:function(response){
+			var arrResult = response.addressInfo;
+			
+			if(markers.length === 0){
+				$("#startLocation").val(arrResult.fullAddress);
+				$("#startCity").val(arrResult.city_do + " " + arrResult.gu_gun);
+				$("#startLong").val(lonlat.lon);
+				$("#startLat").val(lonlat.lat);
+			}else if(markers.length === 1){
+				$("#destLocation").val(arrResult.fullAddress);
+				$("#endCity").val(arrResult.city_do + " " + arrResult.gu_gun);
+				$("#destLong").val(lonlat.lon);
+				$("#destLat").val(lonlat.lat);
+			}
+			
+			setMarker(lonlat);
+		}, error:function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			return alert("제공되지 않는 범위입니다.");
 		}
-	})); 
-	//polyline 초기화 후 다시 보이도록 설정
-	polyline.setVisible(true);
+	});
 }
 
+//마커 생성
+function setMarker(lonlat){
+	var size = new Tmap.Size(24,38);
+	var offset = new Tmap.Pixel(-(size.w/2), -(size.h));
+	
+	//출발지와 목적지 마커 분류
+	if(markers.length === 0){
+		var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',size, offset);		
+	}else if(markers.length === 1){
+		var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',size, offset);
+	}else{
+		return alert("출발지와 목적지가 이미 설정되었습니다.");
+	}
+	
+	points.push({lon: lonlat.lon, lat: lonlat.lat});
+	
+	var m = new Tmap.Marker(lonlat.transform("EPSG:4326", "EPSG:3857"), icon);
+	
+	markers.push(m);
+	markerLayer.addMarker(m);
+	
+	
+	if(markers.length === 2){
+		apiRequest();
+	}
+}
 
-
-// 지도 위에 현재 위치 버튼 생성
-var locationBtnHtml = '<a href="#" class="btn_mylct"><i class="fas fa-map-marked"></i></a>';
-
-var customLocationControl = new naver.maps.CustomControl(locationBtnHtml, {
-	position: naver.maps.Position.TOP_RIGHT
-});
-
-customLocationControl.setMap(map);
-
-var domEventListener = naver.maps.Event.addDOMListener(customLocationControl.getElement(), 'click', function(){
-	getLocation();
-});
-
-// 위치 설정 초기화
+// 마커, 경로 초기화
 function clearLoc(){
 	$("#startLocation").val("");
 	$("#destLocation").val("");
-	
-	count = 0;
-	
-	markers.forEach(function(item){
-		item.setMap(null);
-	});
-	
-	polyline.setPath([]);
-	// path는 초기화 됐지만 다음 마커를 꼽기 전까지 선이 그어져 있기 때문에 안보이게 처리함
-	polyline.setVisible(false);
-	
-	
+		
+	markerLayer.clearMarkers();
+	markers = [];
+	routeLayer.removeAllFeatures();
+	points = [];
+	$(".routeInfo").text("");
 };
 
-// 주소 검색창
+//주소 검색창
 $("#addrSearch").on("keydown", function(e){
 	var keyCode = e.which;
 	
@@ -323,19 +367,46 @@ function addrSearch(){
 
 // 주소 검색 내용으로 지도 이동
 function searchAddressToCoordinate(address){
-	naver.maps.Service.geocode({
-		address: address
-	}, function(status, response){
-		if(status === naver.maps.Service.Status.ERROR){
-			return alert("주소 검색 실패, 주소를 확인해주세요.");
+	$.ajax({
+		method:"GET",
+		url:"https://api2.sktelecom.com/tmap/geo/fullAddrGeo?version=1&format=xml&callback=result",
+		async:false,
+		data:{
+			"coordType" : "WGS84GEO",
+			"fullAddr" : address,
+			"page" : "1",
+			"count" : "20",
+			"appKey" : "8ea84df6-f96e-4f9a-9429-44cee22ab70f",
+		}, success:function(response){
+			
+			var xmlData = $.parseXML(new XMLSerializer().serializeToString(response));
+			var $coordinate = $(xmlData).find("coordinate");
+			
+			if($coordinate.length === 0){
+				return alert("검색 결과가 없습니다.");
+			}
+			
+			var lon, lat;
+			
+			if($coordinate[0].getElementsByTagName("lon").length>0){//구주소
+				lon = $coordinate[0].getElementsByTagName("lon")[0].childNodes[0].nodeValue;
+			   	lat = $coordinate[0].getElementsByTagName("lat")[0].childNodes[0].nodeValue;
+			}else{//신주소
+				lon = $coordinate[0].getElementsByTagName("newLon")[0].childNodes[0].nodeValue;
+				lat = $coordinate[0].getElementsByTagName("newLat")[0].childNodes[0].nodeValue;
+			}
+			
+			var position = new Tmap.LonLat(lon, lat).transform("EPSG:4326", "EPSG:3857");
+			map.setCenter(position, 15);
+		}, error:function(request, status, error){
+			alert("검색이 실패했습니다.");
 		}
-		
-		var item = response.result.items[0];
-		var point = new naver.maps.Point(item.point.x, item.point.y);
-		map.setCenter(point);
-		map.setZoom(10);
 	});
 };
+
+$("#loc").click(function(){
+	getLocation();
+});
 
 </script>
 
