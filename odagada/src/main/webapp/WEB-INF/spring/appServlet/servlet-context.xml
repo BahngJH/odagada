@@ -38,6 +38,23 @@
         </websocket:handlers>
         <beans:bean id="echoHandler" class="com.spring.odagada.community.util.EchoHandler" />
 	
-	
+		<!-- 파일업로드 객체 설정 -->
+		<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<beans:property name="maxUploadSize" value="10485760"/><!-- 10mb -->
+		</beans:bean>
+		
+		<!-- JSON처리를 위한 jsonview를 등록 -->
+		<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+			<beans:property name="order" value="1"/>
+		</beans:bean>
+		<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
+		
+		<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+			<beans:property name="messageConverters"><!--자료를 여러개 넣을 수 있다.  -->
+				<beans:list>
+					<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+				</beans:list>
+			</beans:property>
+		</beans:bean>
 	
 </beans:beans>
