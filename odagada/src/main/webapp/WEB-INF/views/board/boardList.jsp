@@ -8,7 +8,7 @@
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <section id="notice-container" class="container">
-	<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;">글쓰기</button>
+	<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/boardForm';" >글쓰기</button>
 	<table id="tbl-board" class="table table-hover">
 	    <tr>
 	        <th>번호</th>
@@ -21,7 +21,8 @@
 	    <tr>
 			<td>${b.BOARDNO }</td>
 			<td><a href="${path}/board/boardView.do?boardNo=${b.BOARDNO}">${b.BTITLE }</a></td>
-			<td>${b.BDATE }</td>
+			<td>${b.BDATE}</td>
+			<td>첨부파일 자리~!</td>
 			<td>${b.BCOUNT}</td>
         </tr>   
 	    </c:forEach>
