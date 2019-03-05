@@ -87,7 +87,10 @@
 		//핸드폰 유효성 검사 
 		var regExp = /([0-9]{7,8})$/;
 		//이름 유효성 검사
-		var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+		//var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+		
+		//이메일 도메인 정규식 받기    
+		var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
 		
 		if (!idReg.test($("input[name=memberId]").val())) {
 			alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
@@ -100,7 +103,11 @@
 	 	if(($("input[name=memberName]").val().length>7)){
 			 alert("정확한 이름을 입력해주세요.");
 			 return false;
-		}	
+		}
+	  	if(!mC.test($("input[name=email2]").val())){
+	 		alert("정확한 이메일 형식을 입력해주세요.");
+	 		return false;
+	 	} 
 		return true;
 	}
 
@@ -131,10 +138,8 @@
 	*/	
 	
 	
-
-	
 	$(function(){
-		//아이디  숫자, 영문 소문자만 입력 가능하게 하는 함수		
+		//아이디  숫자,영소문자만 입력 가능하게 하는 함수		
 		$("#memberId_").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 				var inputVal = $(this).val();
@@ -142,14 +147,6 @@
 			}
 		});
 			
-	 	//핸드폰 숫자만 입력받게 하는 함수 	
-		$('#phone2').on('keyup', function() {
-			if (/\D/.test(this.value)) {
-				this.value = this.value.replace(/\D/g, '')
-				alert('숫자만 입력가능합니다.');
-			}
-		});
-	 		 	
 		//이름 영문,한글만 입력받게 하는 함수 		
 		$("#memberName").keyup(function(event) {
 				if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
@@ -157,7 +154,7 @@
 					$(this).val(inputVal.replace(/\d/, ''));
 			}
 		});
-		
+			
 		//이메일(아이디부분) 알파벳만 입력 받게 하기    
 		$("#email1").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
@@ -166,16 +163,38 @@
 			}
 		});
 		
-		//이메일(도메인부분) 알파벳만 입력 받게 하기    
-		$("#email2").keyup(function(event) {
-			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-				var inputVal = $(this).val();
-				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+		
+
+		
+		//핸드폰 숫자만 입력받게 하는 함수 	
+		$('#phone2').on('keyup', function() {
+			if (/\D/.test(this.value)) {
+				this.value = this.value.replace(/\D/g, '')
+				alert('숫자만 입력가능합니다.');
 			}
 		});
 		
-		
 	});
+	
+	//프로필 사진을 이미지 타입 파일로만 받기
+	function fileCheck(obj){
+		var fileKind=obj.value.lastIndexOf('.');
+		var fileName=obj.value.substring(fileKind+1, obj.length);
+		var fileType=fileName.toLowerCase();
+		
+		var ckFileType=new Array();
+		ckFileType=['jpg','gif','png','jpeg','jpeg','bmp'];
+		
+		if(ckFileType.indexOf(fileType)==-1){
+			alert("이미지 파일만 선택할 수 있습니다.");
+			var parentObj=obj.parentNode;
+			var node=parentObj.replaceChild(obj.cloneNode(true), obj);
+			return false;		
+			}	
+		}
+	
+
+	
 </script>
       
       <div id="enroll-container">
@@ -280,20 +299,19 @@
 	            </div>
 	            <div class="row">   		            
 	               <div class="custom-file col-12">
-	                   <input type="file" class="custom-file-input" name="upFile">
+	                   <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
 	                   <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
 	               </div>    		   	      
-	   	      	</div>
-	        
+	   	      	</div>        
 				 <div class="form-check-inline form-check">성별 : &nbsp; 
 		               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
 		               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
-		            </div>
-		            <br/>
-		            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
-		            <input type="reset" class="btn btn-outline-success" value="취소">
-		         </form>
-		      </div>
+	             </div>
+	             <br/>
+	            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
+	            <input type="reset" class="btn btn-outline-success" value="취소">
+	         </form>
+	      </div>
 	      
       
 
