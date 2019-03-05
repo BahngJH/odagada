@@ -131,8 +131,117 @@
       //var filename=$(this).prop('files')[0].name;
       $(this).next('.custom-file-label').html(filename);
    });
- });
+   
+ 	//ID 중복확인
+	$("#memberId_").keyup(function(){
+		var memberId=$("#memberId_").val().trim();
+		if(memberId.length<4)
+		{
+			$(".guide").hide();
+			return;
+		} 
+		 $.ajax({
+			url:"${path}/member/checkId.do",
+			data:{"memberId":memberId},
+			success:function(data){			
+	        					         					
+				if(data.isId==true)
+				{
+					$(".guide.ok").hide();
+					$(".guide.error").show();            					
+				}
+				else{
+					$(".guide.ok").show();
+					$(".guide.error").hide();
+				}	
+			}
+		}); 
+	});
+ }); 
  
+ 	//비밀번호 유효성 검사
+	function passwordCheck(password){
+ 		var pw=$(password).val();		
+		var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
+ 	    if(!ckPw.test(pw)){     	
+	        alert('숫자,영문자,특수문자 조합으로 6~15자');
+	        $('#password_').val('').focus();
+	        return false;
+	    }     	        	  
+	    return true;
+	}
+
+ 	 /* 
+
+
+ 		if(!passwordCheck( $.trim($('#password_').val()))){ 
+
+ 		 alert('비밀번호를 확인하세요.₩n(영문,숫자를 혼합하여 6~15자 이내)');    
+
+ 		 $('#password_').val('');
+
+ 		 $('#password_').focus(); return false;
+
+ 		 } */
+
+
+ 	
+
+$(function(){
+ 	//비밀번호 일치 확인
+      	$('#password2').keyup(function(){
+      		var password2=$("#password2").val().trim();
+      		if(password2.length<6){
+      			$(".ck").hide();
+      			return;
+      		}
+      		var pw1=$("#password_").val().trim();
+      		var pw2=$("#password2").val().trim();
+      		if(pw1==pw2){
+      			$(".ck.ckOk").show();
+      			$(".ck.ckNo").hide();
+      		}else{
+      			$(".ck.ckOk").hide();
+      			$(".ck.ckNo").show();    			
+      		}
+      	});
+ 	
+
+	//아이디  숫자,영소문자만 입력 가능하게 하는 함수		
+	$("#memberId_").keyup(function(event) {
+		if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+			var inputVal = $(this).val();
+			$(this).val(inputVal.replace(/[^a-z0-9]/gis, ''));
+		}
+	});
+		
+	//이름 영문,한글만 입력받게 하는 함수 		
+	$("#memberName").keyup(function(event) {
+			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/\d/, ''));
+		}
+	});
+		
+	//이메일(아이디부분) 알파벳만 입력 받게 하기    
+	$("#email1").keyup(function(event) {
+		if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+			var inputVal = $(this).val();
+			$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+		}
+	});
+	
+
+	//핸드폰 숫자만 입력받게 하는 함수 	
+	$('#phone2').on('keyup', function() {
+		if (/\D/.test(this.value)) {
+			this.value = this.value.replace(/\D/g, '')
+			alert('숫자만 입력가능합니다.');
+		}
+	});
+	
+ });
+
  function validate() {
 		//ID 4자리~12자리 소문자, 숫자 가능 확인하기 
 		var idReg =/^[A-Za-z0-9]{4,12}$/;
@@ -162,69 +271,6 @@
 	 	} 
 		return true;
 	}
-
- 
- 
-  /* 
-   $('#selectEmail').change(function(){
-	$('#selectEmail option:selected').each(function(){
-		if($(this).val()=='selfEmail'){
-			$('#email2').val('');
-			$('#email2').prop('readonly', false);
-		}else{
-			$('#email2').val($(this).text());
-			$('#email2').prop('readonly', true);
-		}
-	});
-	});  
-		
- 
-	function selectMail(email2) {
-		console.log(email2);
-		if (email2.val() == 'self') {
-			document.getElementById('#email2').innerHTML = '<input type="text" name="self" />';
-		} else {
-			document.getElementById('#email2').innerHTML = '';
-		}
-	} 
-	*/	
-	
-	
-	$(function(){
-		//아이디  숫자,영소문자만 입력 가능하게 하는 함수		
-		$("#memberId_").keyup(function(event) {
-			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-				var inputVal = $(this).val();
-				$(this).val(inputVal.replace(/[^a-z0-9]/gis, ''));
-			}
-		});
-			
-		//이름 영문,한글만 입력받게 하는 함수 		
-		$("#memberName").keyup(function(event) {
-				if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-					var inputVal = $(this).val();
-					$(this).val(inputVal.replace(/\d/, ''));
-			}
-		});
-			
-		//이메일(아이디부분) 알파벳만 입력 받게 하기    
-		$("#email1").keyup(function(event) {
-			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-				var inputVal = $(this).val();
-				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
-			}
-		});
-		
-	
-		//핸드폰 숫자만 입력받게 하는 함수 	
-		$('#phone2').on('keyup', function() {
-			if (/\D/.test(this.value)) {
-				this.value = this.value.replace(/\D/g, '')
-				alert('숫자만 입력가능합니다.');
-			}
-		});
-		
-	});
 	
 	//프로필 사진을 이미지 타입 파일로만 받기
 	function fileCheck(obj){
@@ -249,75 +295,22 @@
       
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
-            <input type="text" class="form-control" placeholder="아이디 (4~12자리 소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
+            <input type="text" class="form-control" placeholder="아이디 (4~12자리 영소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
             <span class="guide ok">ID 사용 가능 </span>
-            <span class="guide error">ID 중복,사용 불가 </span>
+            <span class="guide error">ID 중복 사용 불가 </span>
             <input type="hidden" name="checkId" value="0"/>
-	       <script>
-             	$(function(){ 
-            		$("#memberId_").keyup(function(){
-            			var memberId=$("#memberId_").val().trim();
-            			if(memberId.length<4)
-            			{
-            				$(".guide").hide();
-            				return;
-            			} 
-            			 $.ajax({
-            				url:"${path}/member/checkId.do",
-            				data:{"memberId":memberId},
-            				success:function(data){			
-            		        					         					
-            					if(data.isId==true)
-            					{
-            						$(".guide.ok").hide();
-            						$(".guide.error").show();            					
-            					}
-            					else{
-            						$(".guide.ok").show();
-            						$(".guide.error").hide();
-            					}	
-            				}
-            			}); 
-            		});
-            	});
-            </script>              
+              
             <div class="row">
             	<div class="col-6 dL">
             		<div>
-			            <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" required>          		
+			            <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>          		
             		</div>          	       	
             	</div>
             	<div class="col-6 dR">
             		<div>
-			            <input type="password" class="form-control" placeholder="비밀번호확인" id="password2" required>
-			            <span class="ck ckOk">올바른 비밀번호</span>
-			            <span class="ck ckNo">비밀번호 재입력</span>			          
-		            <script>
-		            $(function(){
-		            	$('#password2').keyup(function(){
-		            		var password2=$("#password2").val().trim();
-		            		if(password2.length<8){
-		            			$(".ck").hide();
-		            			return;
-		            		}
-		            		var pw1=$("#password_").val().trim();
-		            		var pw2=$("#password2").val().trim();
-		            		if(pw1==pw2){
-		            			$(".ck.ckOk").show();
-		            			$(".ck.ckNo").hide();
-		            		}else{
-		            			$(".ck.ckOk").hide();
-		            			$(".ck.ckNo").show();
-		            		}
-		            	})
-		            })
-		            
-		            
-		            
-		            
-		            
-		            
-		            </script>
+			            <input type="password" class="form-control" placeholder="비밀번호확인" id="password2" maxlength="15" required>
+			            <span class="ck ckOk">비밀번호 일치</span>
+			            <span class="ck ckNo">비밀번호 불일치</span>			          	
             		</div>          	       	
             	</div>           
             </div>
