@@ -47,6 +47,10 @@ public class CarpoolController {
 	public ModelAndView carpoolSearchEnd(String startSearch, String endSearch, String startDate){
 		ModelAndView mav = new ModelAndView();
 		
+		l.debug("확인: "+startDate);
+		mav.addObject("startSearch",startSearch);
+		mav.addObject("endSearch",endSearch);
+		mav.addObject("startDate",startDate);
 		mav.setViewName("carpool/searchEnd");
 		return mav;
 		

@@ -4,15 +4,19 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bke78s7eut"></script>
- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bke78s7eut&submodules=geocoder"></script>
- <!-- 제이쿼리 -->
- <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
- <!-- 다음 주소 검색 -->
- <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+
+<!-- 제이쿼리 --> 	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+<!-- 다음 주소 검색 -->
+<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+
 <style>
 	.div-search{
 		margin:20px;
@@ -33,6 +37,13 @@
 	div.empty-div{
 		height:300px;
 	}
+	div.div-cal{
+		margin-top:20px;
+		margin-left:20px;
+	}
+	div.div-icon{
+		margin-right:20px;
+	}
 </style>
 <section class="container">
 	<div class="row">
@@ -41,19 +52,34 @@
 			<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
 				<div class="row">
 					<div class="col-12">
-						<!-- 검색 기능을 표시할 <div>를 생성한다 -->
-						<!-- <div class="input-group" id="postcodify_1"></div> -->
 						<div class="input-group">
 							<input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="출발지" readonly/>
 							<input type="button" class="btn btn-outline-success road-btn" onclick="sample6_execDaumPostcode1()" value="출발지 검색"><br>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
 						<div class="input-group">
 							<input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="도착지" readonly/>
 							<input type="button" class="btn btn-outline-success road-btn" onclick="sample6_execDaumPostcode2()" value="도착지 검색"><br>
 						</div>
-						<div class="input-group">
-							<input type="datetime-local" class="form-control div-search" name="startDate" id="startDate"/>
-						</div>
+					</div>
+				</div>
+				<div class="row">
+			        <div class="col-sm-12">
+			            <div class="form-group">
+			                <div class="input-group date div-search" id="datetimepicker1" data-target-input="nearest">
+			                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="startDate" id="startDate"/>
+			                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+			                        <div class="input-group-text div-icon"><i class="fa fa-calendar"></i></div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+				<div class="row">
+				 	<div class="col-sm-12">
 						<div class="input-group-btn">
 							<button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">검색</button>
 						</div>
@@ -67,11 +93,30 @@
 	</div>
 </section>
 
-<script>
+<script type="text/javascript">
+
+/* 날짜/시간 입력 달력 */
+$(function () {
+	$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+		icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar',
+            up: 'fas fa-angle-up',
+            down: 'fas fa-angle-down',
+            previous: 'fas fa-angle-left',
+            next: 'fas fa-angle-right',
+            today: 'far fa-calendar-check-o',
+            clear: 'far fa-trash',
+            close: 'far fa-times'
+        } });
+    $('#datetimepicker1').datetimepicker(); 
+});
+
 function validate(){
 	return true;
 }
 function search(){
+	console.log($("#startDate").val());
 	if($("#startSearch").val()===""){
 		alert("출발지를 설정해주세요.");
 		return false;
@@ -84,7 +129,7 @@ function search(){
 		alert("날짜를 설정해주세요.");
 		return false;
 	}
-	$('#search-form').submit();
+	$('#search-form').submit(); 
 }
 //출발지 검색
 function sample6_execDaumPostcode1() {
