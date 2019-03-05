@@ -119,9 +119,12 @@
 	</div>
 </section>
 
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xh3uwmsrwb"></script>
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xh3uwmsrwb&submodules=geocoder"></script>
+<script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
 <script>
+
+$().ready(function(){
+	initTmap();
+});
 
 function carpoolValidate(){
 	if($("#startLocation").val() === ""){
@@ -140,7 +143,143 @@ function carpoolValidate(){
 	return true;
 };
 
-var mapOptions = {
+var map;
+var markers = [];
+var markerLayer;
+var points = [];
+var routeLayer;
+
+function initTmap(){	
+	map = new Tmap.Map({
+		div:'map',
+	});
+	
+	getLocation();
+	
+	//클릭으로 마커 생성
+	map.events.register('click', map, onClick);
+	markerLayer = new Tmap.Layer.Markers();
+	map.addLayer(markerLayer);
+}
+
+//지도 클릭시 이벤트 함수
+function onClick(e){
+	var lonlat = map.getLonLatFromViewPortPx(e.xy).transform("EPSG:3857", "EPSG:4326");
+	
+	
+	var size = new Tmap.Size(24,38);
+	var offset = new Tmap.Pixel(-(size.w/2), -(size.h));
+	
+	//출발지와 목적지 마커 분류
+	if(markers.length === 0){
+		var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',size, offset);		
+	}else if(markers.length === 1){
+		var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',size, offset);
+	}else{
+		return alert("출발지와 목적지가 이미 설정되었습니다.");
+	}
+	
+	points.push({lon: lonlat.lon, lat: lonlat.lat});
+	
+	var m = new Tmap.Marker(lonlat.transform("EPSG:4326", "EPSG:3857"), icon);
+	
+	markers.push(m);
+	markerLayer.addMarker(m);
+	
+	if(markers.length === 2){
+		apiRequest();
+	}
+}
+
+//현재 위치 가져오기
+
+function getLocation(){
+	if(navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(setPosition, function(){
+			alert("현재 위치를 불러올 수 없습니다.");
+		});
+	}
+}
+
+//가져온 현재 위치로 지도에 위치 설정
+function setPosition(position){	
+	var cPosition = new Tmap.LonLat(position.coords.longitude, position.coords.latitude).transform("EPSG:4326", "EPSG:3857");
+	map.setCenter(cPosition, 15);
+}
+
+//경로 탐색 API 요청
+function apiRequest(){
+	var prtcl;
+	var headers = {};
+	headers["appKey"] = "8ea84df6-f96e-4f9a-9429-44cee22ab70f";
+		
+	$.ajax({
+		method: "POST",
+		headers : headers,
+		url : "https://api2.sktelecom.com/tmap/routes?version=1&format=xml",
+		async: false,
+		data:{
+			startX: points[0].lon,
+			startY: points[0].lat,
+			endX: points[1].lon,
+			endY: points[1].lat,
+			reqCoordType : "WGS84GEO",
+			resCoordType : "EPSG3857",
+			angle: "172",
+			searchOption: "0",
+			trafficInfo : "N"
+		}, success:function(response){
+			prtcl = response;
+			console.log(prtcl);
+			routeLayer = new Tmap.Layer.Vector("route");
+			
+			var prtclLine = new Tmap.Format.KML({extractStyles:true, extractAttributes:true}).read(prtcl);
+		
+			routeLayer.events.register("beforefeatureadded", routeLayer, onBeforeFeatureAdded);
+			function onBeforeFeatureAdded(e){
+				var style={};
+				
+				switch (e.feature.attributes.styleUrl) {
+	        	case "#pointStyle":
+		        	style.externalGraphic = "http://topopen.tmap.co.kr/imgs/point.png"; //렌더링 포인트에 사용될 외부 이미지 파일의 url입니다.
+					style.graphicHeight = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 높이입니다.
+					style.graphicOpacity = 1; //외부 이미지 파일의 투명도 (0-1)입니다.
+					style.graphicWidth = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 폭입니다.
+	        	break;
+	        	default:
+					style.strokeColor = "#ff0000";//stroke에 적용될 16진수 color
+					style.strokeOpacity = "1";//stroke의 투명도(0~1)
+					style.strokeWidth = "5";//stroke의 넓이(pixel 단위)
+	        	};
+			
+				e.feature.style = style;
+			};
+			
+			routeLayer.addFeatures(prtclLine);			
+			
+			map.addLayer(routeLayer);
+			
+			map.zoomToExtent(routeLayer.getDataExtent());
+			
+		}, error:function(request, status, error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+
+
+function clearLoc(){
+	$("#startLocation").val("");
+	$("#destLocation").val("");
+		
+	markerLayer.clearMarkers();
+	markers = [];
+	routeLayer.removeAllFeatures();
+	points = [];
+	
+};
+
+/* var mapOptions = {
 		zoomControl: true,
 		zoomControlOptions:{
 			style: naver.maps.ZoomControlStyle.SMALL,
@@ -335,7 +474,7 @@ function searchAddressToCoordinate(address){
 		map.setCenter(point);
 		map.setZoom(10);
 	});
-};
+}; */
 
 </script>
 
