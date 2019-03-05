@@ -67,7 +67,30 @@
    .profile{
    margin-left:13px;
    margin-right:13px;
-   "}
+   }
+   
+   .gender{
+   padding-left:28%;
+   }
+   
+   .genderRow{
+   margin-top: 10px;
+   }
+   
+   .submitB{
+   margin-top:5%;
+   margin-left:30%;
+   margin-bottom: 10%;
+   }
+   
+   #enrollBtn{
+   margin-right:15%; 
+   }
+   
+   #memberId_{
+   margin-top:20%;
+   }
+  
     </style>
     
      
@@ -281,10 +304,9 @@
 				</div>
 	            <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
 	            <div class="row">
-	            	<div class="col-6">      	
-						<select class="tel" name="phone1" id="selectPhone" placeholder="전화번호 (예:01012345678)" required>											  		  				   	         	
-							<option value="" disabled selected>전화번호</option>
-							<option  value="010">010</option>
+	            	<div class="col-4">      	
+						<select class="tel" name="phone1" id="selectPhone" required>											  		  				   	         							
+							<option  value="010" selected>010</option>
 							<option  value="011">011</option>
 							<option  value="016">016</option>
 							<option  value="017">017</option>
@@ -293,8 +315,8 @@
 							<option  value="070">070</option> 
 						</select>
 	            	</div>       	
-	            	<div class="col-6">
-	    				 <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" required>      	
+	            	<div class="col-8">
+	    				 <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>      	
 	            	</div>
 	            </div>
 	            <div class="row">   		            
@@ -302,14 +324,18 @@
 	                   <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
 	                   <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
 	               </div>    		   	      
-	   	      	</div>        
-				 <div class="form-check-inline form-check">성별 : &nbsp; 
-		               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
-		               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
+	   	      	</div>
+	   	      	<div class="row genderRow">         
+					 <div class="gender form-check-inline from-control">성별 : &nbsp; 
+			               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
+			               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
+		             </div>
 	             </div>
 	             <br/>
-	            <input type="submit" class="btn btn-outline-success" value="가입" >&nbsp;
-	            <input type="reset" class="btn btn-outline-success" value="취소">
+	             <div class="row submitB">  
+		            <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
+		            <input type="reset" class="btn btn-outline-success" value="취소">
+            	</div>
 	         </form>
 	      </div>
 	      
