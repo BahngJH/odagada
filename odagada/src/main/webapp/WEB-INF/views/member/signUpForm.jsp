@@ -22,7 +22,19 @@
     div#enroll-container span.error{color:red;}
     
     div#board-continer{width:400px;margin:0 auto; text-align:center}
-    div#board-continer input{margin-bottom:15px;}
+    div#board-continer input{margin-bottom:15px;} 
+    
+    
+    /*비밀번호 체크 */
+    div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
+    div#enroll-container span.ckOk{color:green;}
+    div#enroll-container span.ckNo{color:red;}
+    
+    .ckOk, .ckNo{
+    padding-right:13px;
+    }
+    
+    
     
   .emailC{     
     display: block;
@@ -89,6 +101,23 @@
    
    #memberId_{
    margin-top:20%;
+   }
+   
+   .genderC{
+   padding-left:0;
+   }
+   
+   #gender1{
+   margin-left:20px;
+   } 
+   .dR{
+   padding-left:2%;
+   }
+   .dL{
+   padding-right:2%;
+   }
+   .phone2C{
+   padding-left:0px;
    }
   
     </style>
@@ -186,9 +215,7 @@
 			}
 		});
 		
-		
-
-		
+	
 		//핸드폰 숫자만 입력받게 하는 함수 	
 		$('#phone2').on('keyup', function() {
 			if (/\D/.test(this.value)) {
@@ -253,27 +280,54 @@
             			}); 
             		});
             	});
-            </script> 
-                      
+            </script>              
             <div class="row">
-            	<div class="col-6">
+            	<div class="col-6 dL">
             		<div>
 			            <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" required>          		
             		</div>          	       	
             	</div>
-            	<div class="col-6">
+            	<div class="col-6 dR">
             		<div>
 			            <input type="password" class="form-control" placeholder="비밀번호확인" id="password2" required>
+			            <span class="ck ckOk">올바른 비밀번호</span>
+			            <span class="ck ckNo">비밀번호 재입력</span>			          
+		            <script>
+		            $(function(){
+		            	$('#password2').keyup(function(){
+		            		var password2=$("#password2").val().trim();
+		            		if(password2.length<8){
+		            			$(".ck").hide();
+		            			return;
+		            		}
+		            		var pw1=$("#password_").val().trim();
+		            		var pw2=$("#password2").val().trim();
+		            		if(pw1==pw2){
+		            			$(".ck.ckOk").show();
+		            			$(".ck.ckNo").hide();
+		            		}else{
+		            			$(".ck.ckOk").hide();
+		            			$(".ck.ckNo").show();
+		            		}
+		            	})
+		            })
+		            
+		            
+		            
+		            
+		            
+		            
+		            </script>
             		</div>          	       	
             	</div>           
             </div>
             <div class="row">
-            	<div class="col-6">
+            	<div class="col-6 dL">
             		<div>
 			            <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" required>
             		</div>          	       	
             	</div>
-            	<div class="col-6">
+            	<div class="col-6 dR">
             		<div>
 			            <input type="number" class="form-control" placeholder="생년월일" name="birth" id="birth">
             		</div>          	       	
@@ -315,7 +369,7 @@
 							<option  value="070">070</option> 
 						</select>
 	            	</div>       	
-	            	<div class="col-8">
+	            	<div class="col-8 phone2C">
 	    				 <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>      	
 	            	</div>
 	            </div>
@@ -327,8 +381,8 @@
 	   	      	</div>
 	   	      	<div class="row genderRow">         
 					 <div class="gender form-check-inline from-control">성별 : &nbsp; 
-			               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F"><label for="gender0" class="form-check-label">여자</label>&nbsp;
-			               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label">남자</label>&nbsp;
+			               <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
+			               <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
 		             </div>
 	             </div>
 	             <br/>
