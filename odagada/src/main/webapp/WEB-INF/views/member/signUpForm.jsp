@@ -87,6 +87,7 @@
 		//핸드폰 유효성 검사 
 		var regExp = /([0-9]{7,8})$/;
 		//이름 유효성 검사
+		var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
 		
 		if (!idReg.test($("input[name=memberId]").val())) {
 			alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
@@ -96,9 +97,10 @@
 		      alert("정확한 휴대폰 번호를 입력해주세요.");
 		      return false;
 			}
-		if()
-		 
-		
+	 	if(($("input[name=memberName]").val().length>7)){
+			 alert("정확한 이름을 입력해주세요.");
+			 return false;
+		}	
 		return true;
 	}
 
@@ -132,15 +134,14 @@
 
 	
 	$(function(){
-		//아이디  숫자,영문 소문자만 입력 가능하게 하는 함수		
+		//아이디  숫자, 영문 소문자만 입력 가능하게 하는 함수		
 		$("#memberId_").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 				var inputVal = $(this).val();
 				$(this).val(inputVal.replace(/[^a-z0-9]/gis, ''));
 			}
 		});
-		
-		
+			
 	 	//핸드폰 숫자만 입력받게 하는 함수 	
 		$('#phone2').on('keyup', function() {
 			if (/\D/.test(this.value)) {
@@ -148,9 +149,25 @@
 				alert('숫자만 입력가능합니다.');
 			}
 		});
+	 		 	
+		//이름 영문,한글만 입력받게 하는 함수 		
+		$("#memberName").keyup(function(event) {
+				if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+					var inputVal = $(this).val();
+					$(this).val(inputVal.replace(/\d/, ''));
+			}
+		});
 		
-		//이메일 알파벳만 입력 받게 하기    
-		$(".emailC").keyup(function(event) {
+		//이메일(아이디부분) 알파벳만 입력 받게 하기    
+		$("#email1").keyup(function(event) {
+			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+			}
+		});
+		
+		//이메일(도메인부분) 알파벳만 입력 받게 하기    
+		$("#email2").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 				var inputVal = $(this).val();
 				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
@@ -211,7 +228,7 @@
             <div class="row">
             	<div class="col-6">
             		<div>
-			            <input type="text" class="form-control" placeholder="이름" name="memberName" id="userName" required>
+			            <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" required>
             		</div>          	       	
             	</div>
             	<div class="col-6">
