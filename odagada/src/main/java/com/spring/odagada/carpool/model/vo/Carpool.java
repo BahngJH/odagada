@@ -6,7 +6,7 @@ public class Carpool {
 	private int memberNum;
 	private int carpoolNum;
 	private int startLong;
-	private int startlat;
+	private int startLat;
 	private int destLong;
 	private int destLat;
 	private int pay;
@@ -24,7 +24,7 @@ public class Carpool {
 			String endCity) {
 		super();
 		this.startLong = startLong;
-		this.startlat = startlat;
+		this.startLat = startlat;
 		this.destLong = destLong;
 		this.destLat = destLat;
 		this.startDate = startDate;
@@ -40,7 +40,7 @@ public class Carpool {
 		this.memberNum = memberNum;
 		this.carpoolNum = carpoolNum;
 		this.startLong = startLong;
-		this.startlat = startlat;
+		this.startLat = startlat;
 		this.destLong = destLong;
 		this.destLat = destLat;
 		this.pay = pay;
@@ -76,11 +76,11 @@ public class Carpool {
 	}
 
 	public int getStartlat() {
-		return startlat;
+		return startLat;
 	}
 
 	public void setStartlat(int startlat) {
-		this.startlat = startlat;
+		this.startLat = startlat;
 	}
 
 	public int getDestLong() {
@@ -134,7 +134,7 @@ public class Carpool {
 	@Override
 	public String toString() {
 		return "Carpool [memberNum=" + memberNum + ", carpoolNum=" + carpoolNum + ", startLong=" + startLong
-				+ ", startlat=" + startlat + ", destLong=" + destLong + ", destLat=" + destLat + ", pay=" + pay
+				+ ", startlat=" + startLat + ", destLong=" + destLong + ", destLat=" + destLat + ", pay=" + pay
 				+ ", startDate=" + startDate + ", startCity=" + startCity + ", endCity=" + endCity + "]";
 	}
 	
