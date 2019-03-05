@@ -36,14 +36,14 @@
 		ws = new SockJS(url);
 		
 		ws.onmessage = function(event){
-			writeResponse(event.data);
+			//writeResponse(event.data);
+			jsonTextParse(event.data);
 		};
 		
 		ws.onopen = function(event){
 			var myid = {"myId" : "${logined.memberId}"};
 			ws.send(JSON.stringify(myid));
-			if(event.data===undefined) return;
-			writeResponse(event.data);
+			
 		};
 		
 		//소켓이 닫히고 실행되는 함수, 즉 이 메소드가 실행될 땐 이미 소켓이 닫힌 상태
@@ -52,6 +52,12 @@
 		};
 		
 	}
+	function jsonTextParse(jsonText){
+    	var json = JSON.parse(jsonText);
+    	writeResponse(json.sender+" : "+json.text);
+    	
+    	console.log("파이널에 합치는중 : "+json.text);
+    }
 	
 	function MessageSend()
 	{

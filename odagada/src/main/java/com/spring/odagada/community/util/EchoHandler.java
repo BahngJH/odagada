@@ -69,12 +69,12 @@ public class EchoHandler extends TextWebSocketHandler {
 			
 			//메세지는 자기자신과 상대방에게 모두 보내야함, 먼저 나부터 보냄
 			WebSocketSession sender = (WebSocketSession)userList.get(json.get("sender"));
-			sender.sendMessage(new TextMessage(session.getId() + " : " + json.get("text")));
+			sender.sendMessage(new TextMessage(message.getPayload()));
 			
 			//userList에 json.get("reciver")로 일치하는 항목이 있다면 해당 유저 접속중, 그러면 메시지를 보낸다.
 			if(userList.get(json.get("reciver"))!=null) {
 				WebSocketSession reciver = (WebSocketSession) userList.get(json.get("reciver"));
-				reciver.sendMessage(new TextMessage(session.getId() + " : " + json.get("text")));
+				reciver.sendMessage(new TextMessage(message.getPayload()));
 			}
 		}
 	}

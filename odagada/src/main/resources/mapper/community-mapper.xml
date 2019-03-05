@@ -6,7 +6,7 @@
   </insert>
   
   <select id="bringMsg" parameterType="string" resultType="map">
-  	select * from chattingView join member on (receiver=memberid) where roomId=#{roomId}
+  	select * from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate
   </select>
   
 </mapper>
