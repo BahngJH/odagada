@@ -110,8 +110,7 @@ public class MemberController {
 				upFile.transferTo(new File(sd+"/"+reName));
 			}catch(IllegalStateException | IOException e){
 				e.printStackTrace();
-			}
-			
+			}		
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);					
 		}int result=service.insertMember(m);
@@ -173,6 +172,11 @@ public class MemberController {
 	   		status.setComplete();
 	   	}
 	   	return "redirect:/index.jsp";
+   }
+   
+   @RequestMapping("/member/myInfo.do")
+   public String myInfo() {
+	   return "member/myInfo";
    }
    
    

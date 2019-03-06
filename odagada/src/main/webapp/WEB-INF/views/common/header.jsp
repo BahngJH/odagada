@@ -36,24 +36,27 @@
               <ul class="navbar-nav">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
-                </li>
+                </li>          
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
                 </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
-	                  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
-	                </li> 
+	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
+	                </li>
+	                  <li class="nav-item">
+	                 	 <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
+	               	</li> 
                 </c:if>
                	<c:if test="${sessionScope.logined!=null }">   
 	                 <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
 	                </li> 
-                </c:if>
-              
+	                <li class="nav-item">
+	                  <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
+	                </li>
+                </c:if>            
+
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  		  관리자메뉴
