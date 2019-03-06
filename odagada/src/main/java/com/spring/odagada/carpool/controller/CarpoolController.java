@@ -21,6 +21,7 @@ public class CarpoolController {
 
 	@Autowired
 	CarpoolService service;
+	@Autowired
 	DriverService dService;
 	
 	
@@ -29,15 +30,33 @@ public class CarpoolController {
 	@RequestMapping("/carpool/register")
 	public ModelAndView carpoolRegister(HttpSession session) {
 		Member m = (Member) session.getAttribute("logined");
+		ModelAndView mav = new ModelAndView();	
+
+		l.debug("로그인 정보 : " + m);
 		
 		if(m != null) {
-			Driver d = dService.selectOne(m.getMemberNum);
+			Driver d = dService.selectOne(m.getMemberNum());
+			l.debug("드라이버 정보: " + d);
+			
+			if(d == null) {
+				l.debug("드라이버 등록 필요");
+				mav.setViewName("/");
+				return mav;
+			}else {
+				mav.setViewName("/carpool/register");
+				return mav;
+			}
+			
+		}else {
+			l.debug("로그인 필요");
+			mav.setViewName("/common/msg");
+			mav.addObject("msg", "로그인 해주세요.");
+			mav.addObject("loc", "/member/loginForm.do");
+			return mav;
 		}
-		l.debug(m+"");
 		
-		ModelAndView mav = new ModelAndView("/carpool/register");	
 		
-		return mav;
+		
 	}
 
 	
