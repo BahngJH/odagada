@@ -182,8 +182,12 @@ public class BoardController {
 		int result = service.insertBoard(board);
 		
 		return "redirect:/board/boardList";
-
 	}
 	
+	@RequestMapping("/board/boardModify")
+	public String boardModify() {
+
+		return "board/boardModify";
+	}
 
 }
