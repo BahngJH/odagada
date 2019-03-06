@@ -19,6 +19,8 @@
   div#enroll-container{width:400px; margin:0 auto;}
   div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
   .menu{text-align:center; font-weight:bold;}
+  .info{margin-top:50px; margin-bottom: 50px;
+}
 </style>
 
 
@@ -52,37 +54,23 @@
 				     <tr>
 				       <th scope="row">E-mail</th>
 				       <td><c:out value="${logined.email }"></c:out></td>
-				       <td><c:out value="${logined.isEmailAuth }"></c:out></td>	
-				    <%--    <td>
+				      <td>
 				      	<c:choose>
-				      		<c:when test="${logined.isEmailAuth eq 'N'}">인증안됨</c:when>
-				      		<c:when test="${logined.isEmailAuth eq 'Y'}">인증완료</c:when>
-				      		<c:otherwise>인증완료</c:otherwise>  	
+				      		<c:when test="${sessionscope.logined.isEmailAuth eq N}">인증안됨</c:when>
+				      		<c:when test="${sessionscope.logined.isEmailAuth eq Y}">인증완료</c:when>
+				      		<c:otherwise>넌 나오지말아야해</c:otherwise>  	
 				      	</c:choose> 
-				      </td> --%>
-				       
+				      </td>				       
 				    </tr>
 				     <tr>				       
 				      <th scope="row">Phone</th>
 				      <td><c:out value="${logined.phone }"></c:out></td> 
-				      <td><c:out value="${logined.isPhoneAuth }"></c:out></td>
-				      <td>
-				      		<c:set var="phoneCk" value="${logined.isPhoneAuth }"/>
-				      		<%-- <%System.out.println(); %> --%>
-				       		<c:choose>
-					      		<c:when test="${logined.isPhoneAuth eq 0N">인증안됨</c:when>
-					      	 	<c:when test="${logined.isPhoneAuth eq 1q">인증완료</c:when> 
-					      		<c:otherwise>썅</c:otherwise>  	
-				      		</c:choose>
-				      
-				      
-				      
-				      	<%--<c:set var="phoneCk" value="${logined.isPhoneAuth }"/>
-				       		<c:choose>
-					      		<c:when test="${logined.isPhoneAuth eq 'N'}">인증안됨</c:when>
-					      		<c:when test="${logined.isPhoneAuth eq 'Y'}">인증완료</c:when>
-					      		<c:otherwise>인증완료</c:otherwise>  	
-				      		</c:choose>  --%>
+				      <td>				      		
+			       		<c:choose>
+				      		<c:when test="${sessionscope.logined.isPhoneAuth eq N}">인증안됨</c:when>
+				      		<c:when test="${sessionscope.logined.isPhoneAuth eq Y}">인증완료</c:when>
+				      		<c:otherwise>슈벌</c:otherwise>  	
+			      		</c:choose>  
 				      </td>
 				    </tr>		 
 				</table>		
@@ -95,7 +83,17 @@
 	</div>
 </div>
 
+<script>
+$.ajax({
+	url:"${path}/member/checkPassword.do",
+	data:{"memberPw":memberPw},
+	success:function{
+		
+	}
+})
 
+
+</script>
 
 
 
