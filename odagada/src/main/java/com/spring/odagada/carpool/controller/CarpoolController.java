@@ -68,7 +68,9 @@ public class CarpoolController {
 	public String carpoolRegisterEnd(Carpool carpool, Option option) {
 		l.debug(carpool.toString());
 		l.debug(option.toString());
-				
+		
+		int result = service.insertCarpool(carpool, option);
+		
 		return "redirect:/";
 	}
 	
