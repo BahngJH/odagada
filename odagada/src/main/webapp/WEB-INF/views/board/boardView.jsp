@@ -62,7 +62,7 @@ hr {
 	    <tr>
 	    	<td colspan="4" style="text-align: center;">
 	    	<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardList';">목록</button>
-	    	<button class="btn btn-outline-success">수정</button>
+	    	<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardModify';">수정</button>
 	    	<button class="btn btn-outline-success">삭제</button>
 	    	</td>
 	    </tr>    

@@ -54,21 +54,23 @@
 	                </li> 
 	                <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
+	                </li>          
+                </c:if> 
+               <c:set var="isAdmin" value="${logined.isAdmin}"/>
+               <c:if test="${isAdmin eq '1'}">
+                	<li class="nav-item dropdown">
+	                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                 		  관리자메뉴
+	                  </a>
+	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
+	                    <a class="dropdown-item" href="#">회원 관리</a>
+	                    <a class="dropdown-item" href="#">드라이버 관리</a>
+	                    <a class="dropdown-item" href="#">질의응답</a>
+	                  </div>
 	                </li>
-                </c:if>            
-
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 		  관리자메뉴
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
-                    <a class="dropdown-item" href="#">회원 관리</a>
-                    <a class="dropdown-item" href="#">드라이버 관리</a>
-                    <a class="dropdown-item" href="#">질의응답</a>
-                  </div>
-                </li>
-              
+               </c:if>      
+   
               </ul>
             </div>
           </nav>
