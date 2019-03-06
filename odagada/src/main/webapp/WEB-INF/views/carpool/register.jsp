@@ -38,7 +38,7 @@
 	form div.row > div, div.loc>div{
 		padding: 0px;
 	}
-	div.row.gender{
+	div.row.inputOpt{
 		margin: 0px;
 	}
 	div.options > label{
@@ -105,17 +105,20 @@
 							<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
 							<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
 						</div>
-						<div class="row gender">
-							<div class="col-6 col-sm-3">
+						<div class="row inputOpt">
+							<div class="col-6 col-sm-3 ml-auto">
 								성별<select name="gender" id="gender" class="form-control">
 										<option value="A">무관</option>
 										<option value="F">여</option>
 										<option value="M">남</option>
 									</select>
 							</div>
-						<div class="col-6 col-sm-3">
-							좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeHolder="최소 1개"/>
-						</div>
+							<div class="col-6 col-sm-3 ml-auto">
+								좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeHolder="최소 1개" required/>
+							</div>
+							<div class="col-6 col-sm-3 ml-auto">
+								가격 <input type="number" placeholder="최소 단위 1000원" class="form-control" name="pay" id="pay" min="0" step="1000" required/>
+							</div>
 						</div>
 								
 					</div>
@@ -133,10 +136,10 @@
 						<input type="submit" value="일정 등록" class="btn btn-outline-success btn_submit"/>
 					</div>
 				</div>
-				<input type="text" class="form-control" name="startLong" id="startLong" readonly hidden/>
-				<input type="text" class="form-control" name="startLat" id="startLat" readonly hidden/>
-				<input type="text" class="form-control" name="destLong" id="destLong" readonly hidden/>
-				<input type="text" class="form-control" name="destLat" id="destLat" readonly hidden/>
+				<input type="number" class="form-control" name="startLong" id="startLong" readonly hidden/>
+				<input type="number" class="form-control" name="startLat" id="startLat" readonly hidden/>
+				<input type="number" class="form-control" name="destLong" id="destLong" readonly hidden/>
+				<input type="number" class="form-control" name="destLat" id="destLat" readonly hidden/>
 				<input type="text" class="form-control" name="startCity" id="startCity" readonly hidden/>
 				<input type="text" class="form-control" name="endCity" id="endCity" readonly hidden/>
 			</form>

@@ -1,46 +1,28 @@
 package com.spring.odagada.carpool.model.vo;
 
-import java.sql.Date;
-
 public class Carpool {
 	private int memberNum;
 	private int carpoolNum;
-	private int startLong;
-	private int startlat;
-	private int destLong;
-	private int destLat;
+	private double startLong;
+	private double startLat;
+	private double destLong;
+	private double destLat;
 	private int pay;
-	private Date startDate;
+	private String startDate;
 	private String startCity;
 	private String endCity;
 	
 	public Carpool() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
-	public Carpool(int startLong, int startlat, int destLong, int destLat, Date startDate, String startCity,
-			String endCity) {
-		super();
-		this.startLong = startLong;
-		this.startlat = startlat;
-		this.destLong = destLong;
-		this.destLat = destLat;
-		this.startDate = startDate;
-		this.startCity = startCity;
-		this.endCity = endCity;
-	}
-
-
-
-	public Carpool(int memberNum, int carpoolNum, int startLong, int startlat, int destLong, int destLat, int pay,
-			Date startDate, String startCity, String endCity) {
+	public Carpool(int memberNum, int carpoolNum, double startLong, double startLat, double destLong, double destLat,
+			int pay, String startDate, String startCity, String endCity) {
 		super();
 		this.memberNum = memberNum;
 		this.carpoolNum = carpoolNum;
 		this.startLong = startLong;
-		this.startlat = startlat;
+		this.startLat = startLat;
 		this.destLong = destLong;
 		this.destLat = destLat;
 		this.pay = pay;
@@ -48,8 +30,6 @@ public class Carpool {
 		this.startCity = startCity;
 		this.endCity = endCity;
 	}
-
-
 
 	public int getMemberNum() {
 		return memberNum;
@@ -67,35 +47,35 @@ public class Carpool {
 		this.carpoolNum = carpoolNum;
 	}
 
-	public int getStartLong() {
+	public double getStartLong() {
 		return startLong;
 	}
 
-	public void setStartLong(int startLong) {
+	public void setStartLong(double startLong) {
 		this.startLong = startLong;
 	}
 
-	public int getStartlat() {
-		return startlat;
+	public double getStartLat() {
+		return startLat;
 	}
 
-	public void setStartlat(int startlat) {
-		this.startlat = startlat;
+	public void setStartLat(double startLat) {
+		this.startLat = startLat;
 	}
 
-	public int getDestLong() {
+	public double getDestLong() {
 		return destLong;
 	}
 
-	public void setDestLong(int destLong) {
+	public void setDestLong(double destLong) {
 		this.destLong = destLong;
 	}
 
-	public int getDestLat() {
+	public double getDestLat() {
 		return destLat;
 	}
 
-	public void setDestLat(int destLat) {
+	public void setDestLat(double destLat) {
 		this.destLat = destLat;
 	}
 
@@ -107,11 +87,11 @@ public class Carpool {
 		this.pay = pay;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
@@ -134,9 +114,9 @@ public class Carpool {
 	@Override
 	public String toString() {
 		return "Carpool [memberNum=" + memberNum + ", carpoolNum=" + carpoolNum + ", startLong=" + startLong
-				+ ", startlat=" + startlat + ", destLong=" + destLong + ", destLat=" + destLat + ", pay=" + pay
+				+ ", startLat=" + startLat + ", destLong=" + destLong + ", destLat=" + destLat + ", pay=" + pay
 				+ ", startDate=" + startDate + ", startCity=" + startCity + ", endCity=" + endCity + "]";
 	}
-	
-	
+
+		
 }
