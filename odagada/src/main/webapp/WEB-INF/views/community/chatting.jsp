@@ -18,11 +18,10 @@
         #container{
             margin-top: 30px;
         }
-        #chatRooms, #chatContent,#myInfo{
+        #chatRooms, #chatContent, #myInfo{
             overflow: auto;
             height: 600px;
         }
-
         #chattingView{
             display: inline-block;
             width: 50%;
@@ -60,7 +59,7 @@
             margin-top: 20px;
         }
         #message{
-            width: 99%;
+            width: 95%;
         }
         #myName{
             font-size: 200%;
@@ -74,10 +73,12 @@
         .left{
         	float:left;
         	word-break: break-all;
+        	margin-left: 10px;
         }
         .right{
         	float:right;
         	word-break: break-all;
+        	margin-right: 10px;
         }
         .msgDiv{
         	width:400px;
@@ -86,37 +87,24 @@
 <div id="container" class="container-fluid">
       <div class="row">
         <div id="chattingRoom" class="col col-xs-12 " >
+        
             <div id="roomTitle">
                 <h3>채팅방 목록</h3>
             </div>
             <div id="chatRooms">
-                <div id="chatRoom" >
-                    <div id="userInfoTop">
-                        <span id="userName"><b>홍길동</b></span>
-                        <span id="time">19.3.2 14:20</span>
-                    </div>
-                    <div id="userInfoBottom">
-                        <span id="recentMsg">안녕하세요</span>
-                    </div>
-                </div>
-                <div id="chatRoom">
-                    <div id="userInfoTop">
-                        <span id="userName"><b>정조</b></span>
-                        <span id="time">19.3.2 14:20</span>
-                    </div>
-                    <div id="userInfoBottom">
-                        <span id="recentMsg">하이</span>
-                    </div>
-                </div>
-                <div id="chatRoom">
-                    <div id="userInfoTop">
-                        <span id="userName"><b>이순신</b></span>
-                        <span id="time">19.3.2 14:20</span>
-                    </div>
-                    <div id="userInfoBottom">
-                        <span id="recentMsg">안녕?</span>
-                    </div>
-                </div>
+            
+              <c:forEach items="${chatRooms }"  var="rooms">
+            		<div id="chatRoom" onclick="bringMessage('${rooms.ROOMID}')">
+            			<div id="userInfoTop">
+            				<span id=userName><b>${ rooms.MEMBERNAME}</b></span>
+            				<span id="time">${rooms.CDATE }</span>
+            			</div>
+            			<div id="userInfoBottom">
+            				<span id="recentMsg">${ rooms.CCONTENT}</span>
+            			</div>
+            	</div>
+            </c:forEach>
+             
              <div id="chatRoom" onclick="bringMessage('test1,test2');">
                     <div id="userInfoTop">
                         <span id="userName"><b>나연</b></span>
@@ -126,106 +114,8 @@
                         <span id="recentMsg">아령하세요</span>
                     </div>
                 </div>
-                <!-- <div id="chatRoom">
-                        <div id="userInfoTop">
-                            <span id="userName"><b>이순신</b></span>
-                            <span id="time">19.3.2 14:20</span>
-                        </div>
-                        <div id="userInfoBottom">
-                            <span id="recentMsg">안녕?</span>
-                        </div>
-                    </div>
-                    <div id="chatRoom">
-                            <div id="userInfoTop">
-                                <span id="userName"><b>이순신</b></span>
-                                <span id="time">19.3.2 14:20</span>
-                            </div>
-                            <div id="userInfoBottom">
-                                <span id="recentMsg">안녕?</span>
-                            </div>
-                        </div>
-                        <div id="chatRoom">
-                                <div id="userInfoTop">
-                                    <span id="userName"><b>이순신</b></span>
-                                    <span id="time">19.3.2 14:20</span>
-                                </div>
-                                <div id="userInfoBottom">
-                                    <span id="recentMsg">안녕?</span>
-                                </div>
-                            </div>
-                            <div id="chatRoom">
-                                    <div id="userInfoTop">
-                                        <span id="userName"><b>이순신</b></span>
-                                        <span id="time">19.3.2 14:20</span>
-                                    </div>
-                                    <div id="userInfoBottom">
-                                        <span id="recentMsg">안녕?</span>
-                                    </div>
-                                </div>
-                                <div id="chatRoom">
-                                        <div id="userInfoTop">
-                                            <span id="userName"><b>이순신</b></span>
-                                            <span id="time">19.3.2 14:20</span>
-                                        </div>
-                                        <div id="userInfoBottom">
-                                            <span id="recentMsg">안녕?</span>
-                                        </div>
-                                    </div>
-                                    <div id="chatRoom">
-                                            <div id="userInfoTop">
-                                                <span id="userName"><b>이순신</b></span>
-                                                <span id="time">19.3.2 14:20</span>
-                                            </div>
-                                            <div id="userInfoBottom">
-                                                <span id="recentMsg">안녕?</span>
-                                            </div>
-                                        </div>
-                                        <div id="chatRoom">
-                                                <div id="userInfoTop">
-                                                    <span id="userName"><b>이순신</b></span>
-                                                    <span id="time">19.3.2 14:20</span>
-                                                </div>
-                                                <div id="userInfoBottom">
-                                                    <span id="recentMsg">안녕?</span>
-                                                </div>
-                                            </div>
-                                            <div id="chatRoom">
-                                                    <div id="userInfoTop">
-                                                        <span id="userName"><b>이순신</b></span>
-                                                        <span id="time">19.3.2 14:20</span>
-                                                    </div>
-                                                    <div id="userInfoBottom">
-                                                        <span id="recentMsg">안녕?</span>
-                                                    </div>
-                                                </div>
-                                                <div id="chatRoom">
-                                                        <div id="userInfoTop">
-                                                            <span id="userName"><b>이순신</b></span>
-                                                            <span id="time">19.3.2 14:20</span>
-                                                        </div>
-                                                        <div id="userInfoBottom">
-                                                            <span id="recentMsg">안녕?</span>
-                                                        </div>
-                                                    </div>
-                                                    <div id="chatRoom">
-                                                            <div id="userInfoTop">
-                                                                <span id="userName"><b>이순신</b></span>
-                                                                <span id="time">19.3.2 14:20</span>
-                                                            </div>
-                                                            <div id="userInfoBottom">
-                                                                <span id="recentMsg">안녕?</span>
-                                                            </div>
-                                                        </div>
-                                                        <div id="chatRoom">
-                                                                <div id="userInfoTop">
-                                                                    <span id="userName"><b>이순신</b></span>
-                                                                    <span id="time">19.3.2 14:20</span>
-                                                                </div>
-                                                                <div id="userInfoBottom">
-                                                                    <span id="recentMsg">안녕?</span>
-                                                                </div>
-                                                            </div>  -->
-            </div>                                                
+            </div>    
+                                                        
         </div>
 
         <div id="chattingView" class="col-6 col-xs-12 " >
@@ -236,6 +126,7 @@
             <div id="chatContent">
                 
             </div>
+            
             <div id="sendForm">
                 <input type="text" id="messageInput" placeholder="메시지를 입력해주세요.">
                 <input type="button" value="전송" onclick="MessageSend();"/>
@@ -265,6 +156,9 @@
 		ws.onmessage = function(event){
 			//writeResponse(event.data);
 			jsonTextParse(event.data);
+			
+	    	//채팅방순서 최신화, 안읽은 메시지 띄워주기
+
 		};
 		
 		ws.onopen = function(event){
@@ -276,6 +170,7 @@
 		ws.onclose = function(){
 			console.log("Connection Closed");
 		};
+
 		
     });
     
@@ -307,6 +202,7 @@
     			for(var i=0;i<data.chatList.length;i++){
     				console.log(data.chatList[i]);
     				var allMsg="";
+    				                                                      
     				if(data.chatList[i].SENDER=='test1')
         			{
 						var right = "<div >";
@@ -330,11 +226,17 @@
     		}
     		
     	});
+    	
+    	//스크롤 최신화, 채팅방순서 최신화, 안읽은 메시지 띄워주기
+    	$("#chatContent").scrollTop($("#chatContent")[0].scrollHeight);
+    	
+    	
     }
     
     function jsonTextParse(jsonText){
     	var json = JSON.parse(jsonText);
     	console.log("파이널에 합치는중 : "+json.sender);
+    	
     	if(json.sender=='test1')
 		{
 			var right = "<div >";

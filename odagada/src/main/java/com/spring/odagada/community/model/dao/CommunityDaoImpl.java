@@ -20,11 +20,19 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		return session.insert("community.saveMessage", msg);
 	}
-
+	
+	//채팅 내용들 가져옴
 	@Override
 	public List<Map<String, String>> bringMsg(String roomId) {
 		// TODO Auto-generated method stub
 		return session.selectList("community.bringMsg", roomId);
+	}
+	
+	//채팅방들 가져옴
+	@Override
+	public List<Map<String, String>> bringChatRooms(String loginId) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.bringChatRooms",loginId);
 	}
 	
 	

@@ -23,11 +23,17 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.saveMessage(msg);
 	}
-
+	//채팅 내용들 가져오는거
 	@Override
 	public List<Map<String, String>> bringMsg(String roomId) {
 		// TODO Auto-generated method stub
 		return dao.bringMsg(roomId);
+	}
+	//채팅방 리스트 가져오는거
+	@Override
+	public List<Map<String, String>> bringChatRooms(String loginId) {
+		// TODO Auto-generated method stub
+		return dao.bringChatRooms(loginId);
 	}
 	
 	

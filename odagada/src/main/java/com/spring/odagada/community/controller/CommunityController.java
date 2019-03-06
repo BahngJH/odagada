@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.community.model.service.CommunityService;
-import com.sun.org.apache.xerces.internal.util.URI;
+import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class CommunityController {
 	@Autowired
 	CommunityService service;
+	
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
 	@RequestMapping("/moveChat.do")
@@ -26,11 +29,21 @@ public class CommunityController {
 	{
 		return "community/chatView";
 	}
+	
+	//채팅방 입장
 	@RequestMapping("/chatting.do")
-	public String chatting() 
+	public ModelAndView chatting(HttpServletRequest request) 
 	{
-		
-		return "community/chatting";
+		ModelAndView mv = new ModelAndView();
+		Member m = (Member)request.getSession().getAttribute("logined");
+		logger.debug(m+"");
+		List<Map<String,String>> chatRooms = service.bringChatRooms(m.getMemberId());
+		for(Map i:chatRooms) {
+			logger.debug("채팅방 정보들"+i);
+		}
+		mv.addObject("chatRooms", chatRooms);
+		mv.setViewName("community/chatting");
+		return mv;
 	}
 	@RequestMapping("/chat/bringMessage.do")
 	public ModelAndView bringMsg(String roomId) throws UnsupportedEncodingException
@@ -39,7 +52,7 @@ public class CommunityController {
 		List<Map<String,String>> chatContent = service.bringMsg(roomId);
 		
 		for(Map<String,String> i:chatContent) {
-			logger.info("MAP데이터 : "+i);
+			logger.debug("MAP데이터 : "+i);
 			i.put("CCONTENT", URLEncoder.encode((String)i.get("CCONTENT"),"UTF-8"));
 		}
 		mv.addObject("chatList",chatContent);
