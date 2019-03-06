@@ -163,6 +163,7 @@ public class MemberController {
 		   mv.setViewName("common/msg");
 	   }	  
 	   logger.debug("로그인 멤버 정보"+m);
+	   logger.debug("관리자 테스트"+m.getIsAdmin());
 	   return mv;
    }
    
