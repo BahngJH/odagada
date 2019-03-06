@@ -35,6 +35,12 @@ public class BoardDaoImpl implements BoardDao {
 	public int updateBoardCount(int boardNo) {
 		return sqlSession.update("board.updateBoardCount",boardNo);
 	}
+
+	@Override
+	public int insertBoard(Map<String, String> board) {
+		return sqlSession.insert("board.insertBoard",board);
+	}
+	
 	
 	
 	

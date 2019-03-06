@@ -49,7 +49,11 @@ hr {
 	    </tr>
 	    <tr>
 	      <th id="BFile">첨부파일</th>
-	      <td colspan="3" id="BFile">첨부파일 ㅋㅋ</td>      
+	      <td colspan="3" id="BFile">
+	      	<button type="button" class="btn btn-outline-success btn-block" onclick="fileDownload('${board.BORIFILENAME}','${board.BREFILENAME}');">
+	      		첨부파일 - ${board.BORIFILENAME}
+	      	</button>
+	      </td>      
 	    </tr>
 	    <tr>
 	    	<th>내용</th>
@@ -65,6 +69,13 @@ hr {
 	  </tbody>
 	</table>
 </section>
+<script>
+	function fileDownload(oName,rName)
+	{
+		oName = encodeURIComponent(oName);
+		location.href="${path}/board/filedownLoad.do?oName="+oName+"&rName="+rName;
+	}
+</script>
 
 
 

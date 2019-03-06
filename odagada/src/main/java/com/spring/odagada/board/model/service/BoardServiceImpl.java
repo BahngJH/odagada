@@ -33,6 +33,11 @@ public class BoardServiceImpl implements BoardService {
 	public int updateBoardCount(int boardNo) {
 		return dao.updateBoardCount(boardNo);
 	}
+
+	@Override
+	public int insertBoard(Map<String, String> board) {
+		return dao.insertBoard(board);
+	}
 	
 	
 	

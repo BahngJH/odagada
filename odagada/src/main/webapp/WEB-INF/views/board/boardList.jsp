@@ -22,10 +22,15 @@
 			<td>${b.BOARDNO }</td>
 			<td><a href="${path}/board/boardView.do?boardNo=${b.BOARDNO}">${b.BTITLE }</a></td>
 			<td>${b.BDATE}</td>
-			<td>첨부파일 자리~!</td>
+			<td>
+				<c:if test="${b.BREFILENAME !=null}">
+					<img src="${path}/resources/images/file.png"/>
+				</c:if>
+			</td>
 			<td>${b.BCOUNT}</td>
         </tr>   
 	    </c:forEach>
-	</table>    
+	</table>
+	${pageBar}   
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
