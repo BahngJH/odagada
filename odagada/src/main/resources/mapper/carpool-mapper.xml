@@ -4,4 +4,13 @@
 	<select id="selectCarpoolList">
 		SELECT * FROM CARPOOL 
 	</select>
+	<insert id="insertCarpool" parameterType="carpool">
+		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})
+		<selectKey keyProperty="carpoolNum" resultType="_int" order="AFTER">
+			SELECT  SEQ_CARPOOLNUM.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<insert id="insertOption" parameterType="option">
+		INSERT INTO CAROPTION VALUES(#{carpoolNum}, #{animal}, #{teenage}, #{talking}, #{music}, #{gender}, #{food}, #{baggage}, #{seatcount}, #{smoking})
+	</insert>
 </mapper>

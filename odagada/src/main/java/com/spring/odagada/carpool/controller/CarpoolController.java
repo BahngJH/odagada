@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.carpool.model.vo.Carpool;
-import com.spring.odagada.carpool.model.vo.Option;
+import com.spring.odagada.carpool.model.vo.CarOption;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.vo.Member;
@@ -57,21 +57,49 @@ public class CarpoolController {
 			mav.addObject("msg", "로그인 해주세요.");
 			mav.addObject("loc", "/member/loginForm.do");
 			return mav;
-		}
-		
-		
-		
+		}		
 	}
 
-	
 	@RequestMapping("/carpool/registerEnd")
-	public String carpoolRegisterEnd(Carpool carpool, Option option) {
+	public String carpoolRegisterEnd(HttpSession session, Carpool carpool, CarOption option) {
+		Member m = (Member) session.getAttribute("logined");
+		carpool.setMemberNum(m.getMemberNum());
+		
+		//넘어오지 않은 옵션 값 세팅
+		option = setOption(option);
+				
 		l.debug(carpool.toString());
 		l.debug(option.toString());
 		
 		int result = service.insertCarpool(carpool, option);
 		
 		return "redirect:/";
+	}
+	
+	private CarOption setOption(CarOption option) {
+		if(option.getAnimal() == null) {
+			option.setAnimal("N");
+		}
+		if(option.getBaggage() == null) {
+			option.setBaggage("N");
+		}
+		if(option.getFood() == null) {
+			option.setFood("N");
+		}
+		if(option.getSmoking() == null) {
+			option.setSmoking("N");
+		}
+		if(option.getTeenage() == null) {
+			option.setTeenage("N");
+		}
+		if(option.getTalking() == null) {
+			option.setTalking("N");
+		}
+		if(option.getMusic() == null) {
+			option.setMusic("N");
+		}
+		
+		return option;
 	}
 	
 	@RequestMapping("/carpool/search.do")
