@@ -1,6 +1,6 @@
 package com.spring.odagada.carpool.model.vo;
 
-public class Option {
+public class CarOption {
 	private int carpoolNum;
 	private String animal;
 	private String smoking;
@@ -12,7 +12,7 @@ public class Option {
 	private String gender;
 	private int seatcount;
 	
-	public Option() {
+	public CarOption() {
 		// TODO Auto-generated constructor stub
 	}
 

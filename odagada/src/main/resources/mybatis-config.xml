@@ -7,7 +7,7 @@
 		<typeAlias type="com.spring.odagada.community.model.vo.MessageVo" alias="msgVo"/>
 		<typeAlias type="com.spring.odagada.driver.model.vo.Driver" alias="driver"/>
 		<typeAlias type="com.spring.odagada.carpool.model.vo.Carpool" alias="carpool"/>
-		<typeAlias type="com.spring.odagada.carpool.model.vo.Option" alias="option"/>
+		<typeAlias type="com.spring.odagada.carpool.model.vo.CarOption" alias="option"/>
 	</typeAliases>
 	
 </configuration>
