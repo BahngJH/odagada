@@ -1,5 +1,7 @@
 package com.spring.odagada.carpool.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +12,29 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.carpool.model.vo.Carpool;
 import com.spring.odagada.carpool.model.vo.Option;
+import com.spring.odagada.driver.model.service.DriverService;
+import com.spring.odagada.driver.model.vo.Driver;
+import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class CarpoolController {
 
 	@Autowired
 	CarpoolService service;
+	DriverService dService;
 	
 	
 	private Logger l = LoggerFactory.getLogger(CarpoolController.class);
 			
 	@RequestMapping("/carpool/register")
-	public ModelAndView carpoolRegister() {
+	public ModelAndView carpoolRegister(HttpSession session) {
+		Member m = (Member) session.getAttribute("logined");
+		
+		if(m != null) {
+			Driver d = dService.selectOne(m.getMemberNum);
+		}
+		l.debug(m+"");
+		
 		ModelAndView mav = new ModelAndView("/carpool/register");	
 		
 		return mav;
