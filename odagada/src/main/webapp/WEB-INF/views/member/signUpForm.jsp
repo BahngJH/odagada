@@ -134,6 +134,8 @@
   	.passwordInfo{
   	height:40px;
   	}
+  	
+ 
     </style>
     
      
@@ -394,11 +396,11 @@ $(function(){
                   </div>                      
                   </div>
                   <div class="row genderRow">         
-                <div class="gender form-check-inline from-control">성별 : &nbsp; 
+                	<div class="gender form-check-inline from-control">성별 : &nbsp; 
                         <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
                         <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
                    </div>
-                </div>
+                </div>                 
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;

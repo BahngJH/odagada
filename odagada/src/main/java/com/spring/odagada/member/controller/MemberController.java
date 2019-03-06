@@ -117,7 +117,7 @@ public class MemberController {
 		String msg="";
 		String loc="/";
 		if(result>0) {
-			msg="회원가입 성공";
+			msg="오다가다 환영합니다 *^^*";
 		}else {
 			msg="회원가입 실패";
 		}
