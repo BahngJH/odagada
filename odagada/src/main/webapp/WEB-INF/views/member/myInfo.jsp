@@ -19,7 +19,9 @@
   div#enroll-container{width:400px; margin:0 auto;}
   div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
   .menu{text-align:center; font-weight:bold;}
-  .info{margin-top:50px; margin-bottom: 50px;
+  .info{margin-top:50px; margin-bottom: 50px;}
+  .alertS{padding:5px; font-size:12px; text-align:center;}
+  
 }
 </style>
 
@@ -56,9 +58,12 @@
 				       <td><c:out value="${logined.email }"></c:out></td>
 				      <td>
 				      	<c:choose>
-				      		<c:when test="${sessionscope.logined.isEmailAuth eq N}">인증안됨</c:when>
-				      		<c:when test="${sessionscope.logined.isEmailAuth eq Y}">인증완료</c:when>
-				      		<c:otherwise>넌 나오지말아야해</c:otherwise>  	
+				      		<c:when test="${sessionscope.logined.isEmailAuth eq N}">
+				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+		      				</c:when>
+				      		<c:when test="${sessionscope.logined.isEmailAuth eq Y}">
+				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
+			      			</c:when>
 				      	</c:choose> 
 				      </td>				       
 				    </tr>
@@ -67,16 +72,19 @@
 				      <td><c:out value="${logined.phone }"></c:out></td> 
 				      <td>				      		
 			       		<c:choose>
-				      		<c:when test="${sessionscope.logined.isPhoneAuth eq N}">인증안됨</c:when>
-				      		<c:when test="${sessionscope.logined.isPhoneAuth eq Y}">인증완료</c:when>
-				      		<c:otherwise>슈벌</c:otherwise>  	
+				      		<c:when test="${sessionscope.logined.isPhoneAuth eq N}">				      			
+				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+				      		</c:when>
+				      		<c:when test="${sessionscope.logined.isPhoneAuth eq Y}">
+				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
+				      		</c:when>
 			      		</c:choose>  
 				      </td>
 				    </tr>		 
 				</table>		
 			  <div class="menu card-body">
-			    <a href="#" class="card-link text-success">내 정보 변경</a>
-			    <a href="#" class="card-link text-danger">회원 탈퇴</a>
+			    <a href="#" onclick="updateCk();" class="card-link text-secondary">내 정보 변경</a>
+			    <a href="#" id="withdrawal" onclick="withdrawalCk();" class="card-link text-secondary">회원 탈퇴</a>
 			  </div>
 			</div>
 		</div>		
@@ -84,13 +92,30 @@
 </div>
 
 <script>
-$.ajax({
+/* $.ajax({
 	url:"${path}/member/checkPassword.do",
-	data:{"memberPw":memberPw},
-	success:function{
+	dataType:"json",
+	data:{"memberPw":$(#memberPw).val()},
+	success:function(data){
+		if()
 		
 	}
-})
+}) */
+
+function withdrawalCk(){
+	if(confirm("정말 탈퇴하시겠습니까?")){
+		var ck=prompt("비밀번호를 입력해주세요.");
+		document.wirte(ck);
+		/* document.write("탈퇴하기"); */
+	}else{
+		document.write("취소");
+	}
+	
+}
+function updateCk(){
+	var ck=prompt("비밀번호를 다시 한 번 입력해주세요.");
+	document.write(ck);
+}
 
 
 </script>
