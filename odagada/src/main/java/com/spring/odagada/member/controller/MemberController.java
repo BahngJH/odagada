@@ -153,7 +153,7 @@ public class MemberController {
 	   
 	   if(result!=null) {
 		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
-			   msg="로그인 성공";			   
+			   msg="환영합니다! "+m.getMemberId()+" 님.";			   
 			   mv.addObject("logined", m);			   
 		   }else {
 			  msg="패스워드가 일치하지 않습니다.";

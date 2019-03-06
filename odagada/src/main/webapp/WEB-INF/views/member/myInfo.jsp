@@ -5,6 +5,7 @@
 
 <%
 	Member m = (Member) request.getAttribute("logined");
+    String eDate []=m.getEnrollDate().split(" ");
 %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -176,14 +177,14 @@ $(function(){
       }
    });
    
-   //핸드폰 숫자만 입력받게 하는 함수    
+/*    //핸드폰 숫자만 입력받게 하는 함수    
    $('#phone2').on('keyup', function() {
       if (/\D/.test(this.value)) {
          this.value = this.value.replace(/\D/g, '')
          alert('숫자만 입력가능합니다.');
       }
    });
-   
+    */
  });
 
  function validate() { 	  
@@ -233,16 +234,24 @@ $(function(){
             <div class="row">
                <div class="col-6">
                   <div>                   
-                   	<input type="text" class="form-control" value="${logined.memberId }" name="memberId" id="memberId_" readonly required>
+                   	<input type="text" class="form-control" value="ID : ${logined.memberId }" name="memberId" id="memberId_" readonly required>
                   </div>                       
                </div>
                <div class="col-6">
                   <div>
-                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" value="${logined.memberName }" readonly required>
+                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" value="이름 : ${logined.memberName }" readonly required>
                   </div>                       
                </div>           
-            </div>                          
-             <div class="row">
+            </div> 
+            <div class="row"> 
+	          	<div class="col-6">
+	          		<input type="text" class="form-control" value="생년월일 : ${logined.birth }" name="birth" id="birth" readonly required>                                    
+	       		</div>
+	       		<div class="col-6">
+	          		 <input type="text" class="form-control" value="가입 날짜: <%=eDate[0] %>" readonly required>     		                               
+	       		</div>
+           </div>                         
+            <!--  <div class="row">
                <div class="col-6 dL">
                   <div>
                      <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                
@@ -255,28 +264,20 @@ $(function(){
                      <span class="ck ckNo">비밀번호 불일치</span>                      
                   </div>                       
                </div>           
-            </div>
+            </div> -->
             <div class="row">            
                <div class="col-6 dR">
                   <div>
-                    <input type="text" class="tel" value="${logined.phone }" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>         
+                    <input type="text" class="form-control" value="핸드폰  : ${logined.phone }" name="phone2" id="phone2"  readonly required>         
                   </div>                       
                </div>
                <div class="col-6 dR">
                   <div>
-                    <input type="text" class="emailC form-control" value="${logined.email }" name="email" id="email" maxlength="20" required>          
+                    <input type="text" class="emailC form-control" value="${logined.email }" name="email" id="email" maxlength="20" readonly required>          
                   </div>                       
                </div>             
             </div>   
-          <div class="row"> 
-          	<div class="col-6">
-          		<input type="text" class="form-control" value="${logined.birth }" name="birth" id="birth" required>                                    
-       		</div>
-       		<%--<div class="col-6">
-          		 <input type="text" class="form-control" value="${logined.ENROLLDATE }"  required> -
-          		${logined.ENROLLDATE }                                  
-       		</div>--%> 
-          </div>
+       
           <div class="row">                     
              <div class="custom-file col-12">
              	 <%-- <img src="${path }/resources/upload/profile/${logined.profileImageOri}" width="500" height="500"> --%>
