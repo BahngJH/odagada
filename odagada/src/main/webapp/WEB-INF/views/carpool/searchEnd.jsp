@@ -8,25 +8,48 @@
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <style>
-	div.search-div{
-		margin:10px;
+	input.search-div{
+		margin:13px;
 	}
-	
+	input#start-date{
+		display:none;
+	}
+	button#btn-reset{
+	    height: 38px;
+    	margin-top: 12px;	
+	}
+	span.icon-right{
+		margin-top:15px;
+	}
+	span.span-option{
+		float:right;
+	}
+	h5.h5-icon{
+		color:darkgray;
+	}
+	img.driver-profile{
+		width:70px;
+		height:70px;
+		border-radius: 100px;
+	}
+	.col-text{
+		color:black;
+	}
 </style>
 <section id="container">
 	<div class="row">
 		<div class="col-12 col-md-2"></div>
-		<div class="col-12 col-md-6">
-			<div class="input-group search-div">
-				<input class="form-control" type="text" placeholder="출발지 들어와">
-				<div class="col-1">
-					<span class="fas fa-arrow-right fa-3x"></span>
-				</div>
-				<input class="form-control" type="text" placeholder="도착지 들어와">
-				<input class="form-control" type="datetime-local" placeholder="날짜 들어와">
+		<div class="col-12 col-md-8">
+			<div class="input-group">
+				<input class="form-control search-div" type="text" placeholder="출발지" value="${startSearch }" readonly>
+				<span class="fas fa-arrow-right fa-2x icon-right"></span>
+				<input class="form-control search-div" type="text" placeholder="도착지" value="${endSearch }" readonly>
+				<input class="form-control search-div" type="datetime-local" name="start-date" id="start-date">
+				<input type="text" class="form-control search-div" value="${startDate }" readonly>
+				<!-- <button class="btn btn-success search-div" id='btn-reset' onclick="search-reset()">초기화</button> -->
 			</div>
 		</div>
-		<div class="col-12 col-md-4"></div>
+		<div class="col-12 col-md-2"></div>
 	</div>
 	<hr>
 	<div class="row">
@@ -34,86 +57,51 @@
 		<div class="col-12 col-md-3">
 			<div class="row">
 				<div class="col-12">
-					<div class="card " style="width: 20rem;">
+					<div class="card ">
 						<div class="card-body">
 	    					<h4 class="card-title">옵션(option)</h4>
-							<div class="form-check form-check-inline">
-								동물:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
+	    					<hr>
+	    					<div class="row">
+								<div class="col-6" >
+									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
+								</div>
+								<div class="col-6" >
+									<label>흡연 <input type="checkbox" name="smoking" id="smoking" value="Y"/></label>
+								</div>
 							</div>
-							<div class="form-check form-check-inline">
-								흡연:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
+							<div class="row">
+								<div class="col-6">
+									<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="Y" /></label>
+								</div>
+								<div class="col-6">
+									<label>대화 <input type="checkbox" name="talking" id="talking" value="Y" /></label>
+								</div>
 							</div>
-							<div class="form-check form-check-inline">
-								미성년자:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
+							<div class="row">
+								<div class="col-6">
+									<label>노래 <input type="checkbox" name="music" id="music" value="Y" /></label>
+								</div>
+								<div class="col-6">
+									<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
+								</div>
 							</div>
-							<div class="form-check form-check-inline">
-								대화:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
+							<div class="row">
+								<div class="col-6">
+									<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
+								</div>
 							</div>
-							<div class="form-check form-check-inline">
-								음악:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
-							</div>
-							<div class="form-check form-check-inline">
-								성별:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 남&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 여&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value=""> 상관없음&nbsp;
-							  	</label>
-							</div>
-							<div class="form-check form-check-inline">
-								음식물 섭취:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
-							</div>
-							<div class="form-check form-check-inline">
-								수화물:&nbsp;
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal1" value="Y"> 가능&nbsp;
-							  	</label>
-							  	<label class="form-check-label">
-							    	<input class="form-check-input" type="radio" name="animal" id="animal2" value="N"> 불가능
-							  	</label>
-							</div>
-							<div class="form-check form-check-inline">
-								좌석 수:&nbsp;
+							<div class="row">
+								<div class="col-6">
+									성별
+									<select name="gender" id="gender" class="form-control">
+										<option value="A">무관</option>
+										<option value="F">여</option>
+										<option value="M">남</option>
+									</select>
+								</div>
+								<div class="col-6">
+									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeholder="최소 1개"/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -122,17 +110,55 @@
 		</div>
 		<!-- 검색 결과만큼 출력 -->
 		<div class="col-12 col-md-5">
-			<div class="card border-success mb-3" style="max-width: 40rem;">
-			  <div class="card-body text-success">
-			    
-			  </div>
-			  <div class="card-footer bg-transparent border-success">Footer</div>
-			</div>
+			<!-- 조건만큼 검색 결과 출력 -->
+			<%-- <c:forEach items="${dList}" var="d"> --%>
+				<form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+					<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
+					  <div class="card-body text-success">
+					    <div class="row">
+					    	<div class="col-4">
+					    		<span class="badge badge-primary">출발시간</span> 장소명<br>
+					    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+					    		<span class="badge badge-success">도착시간</span> 장소명<br>
+				    		</div>
+					    	<div class="col-8">
+					    		<div class="row">
+					    			<div class="col-12">
+					    				<span class="span-option col-text">금액</span>
+					    			</div>
+					    		</div>
+					    		<div class="row">
+					    			<div class="col-12">
+					    				<span class="span-option">
+					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
+					    					<p class="col-text">드라이버성명</p>
+					    				</span>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
+					  </div>
+					  <div class="row">
+					  	<div class="col-12">
+					  		<span class="span-option">설정옵션</span>
+					  	</div>
+					  </div>
+					</div>
+				</form>
+			<%-- </c:forEach> --%>
 		</div>
 		<div class="col-12 col-md-2"></div>
 	</div>
 </section>
 <script>
+function validate(){
+	return true;
+}
+function onecar(){
+	$("#form-onecar").submit();
+}
 
+$(function(){
+});
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
