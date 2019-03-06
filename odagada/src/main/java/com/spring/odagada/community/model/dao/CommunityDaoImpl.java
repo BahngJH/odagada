@@ -1,5 +1,6 @@
 package com.spring.odagada.community.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,12 +21,26 @@ public class CommunityDaoImpl implements CommunityDao {
 		return session.insert("community.saveMessage", msg);
 	}
 
+	//채팅 내용들 가져옴
 	@Override
-	public int insertNotify(Map<String, String> map) {
-		return session.insert("community.insertNotify",map);
+	public List<Map<String, String>> bringMsg(String roomId) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.bringMsg", roomId);
 	}
 	
+	//채팅방들 가져옴
+	@Override
+	public List<Map<String, String>> bringChatRooms(String loginId) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.bringChatRooms",loginId);
+	}
 	
+	//신고 글쓰기
+		@Override
+		public int insertNotify(Map<String, String> map) {
+			return session.insert("community.insertNotify",map);
+		}
+		
 	
 	
 }

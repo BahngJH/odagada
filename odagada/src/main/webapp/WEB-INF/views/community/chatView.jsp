@@ -36,14 +36,14 @@
 		ws = new SockJS(url);
 		
 		ws.onmessage = function(event){
-			writeResponse(event.data);
+			//writeResponse(event.data);
+			jsonTextParse(event.data);
 		};
 		
 		ws.onopen = function(event){
-			var myid = {"myId" : "test1"};
+			var myid = {"myId" : "${logined.memberId}"};
 			ws.send(JSON.stringify(myid));
-			if(event.data===undefined) return;
-			writeResponse(event.data);
+			
 		};
 		
 		//소켓이 닫히고 실행되는 함수, 즉 이 메소드가 실행될 땐 이미 소켓이 닫힌 상태
@@ -52,12 +52,18 @@
 		};
 		
 	}
+	function jsonTextParse(jsonText){
+    	var json = JSON.parse(jsonText);
+    	writeResponse(json.sender+" : "+json.text);
+    	
+    	console.log("파이널에 합치는중 : "+json.text);
+    }
 	
 	function MessageSend()
 	{
 		var jsonData ={};
 		jsonData.text = $('#messageinput').val();
-		jsonData.sender ="test1";
+		jsonData.sender ="${logined.memberId}";
 		jsonData.reciver = "test2";
 		jsonData.roomId = "test1,test2";
 		ws.send(JSON.stringify(jsonData));
@@ -70,7 +76,7 @@
 	{
 		//세션 닫기전에 삭제할 id를 보내어 userList지우고 세션 닫기
 		//로그아웃전에 삭제할 id를 보내어 userList지우고 세션 닫기로 바꿀 예정
-		var deleteId = {"deleteId" : "test1"};
+		var deleteId = {"deleteId" : "${logined.memberId}"};
 		ws.send(JSON.stringify(deleteId));
 		ws.close();
 	}

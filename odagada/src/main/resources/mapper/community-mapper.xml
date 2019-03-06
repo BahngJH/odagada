@@ -4,6 +4,12 @@
   <insert id="saveMessage" parameterType="msgVo">
   		insert into chattingview values(#{receiver},#{sender},sysdate,#{cContent},#{roomId})
   </insert>
+  <select id="bringMsg" parameterType="string" resultType="map">
+  	select * from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate
+  </select>
+  <select id="bringChatRooms" parameterType="string" resultType="map">
+  	select roomid,memberid,membername,cdate,ccontent from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId}
+  </select>
   <insert id="insertNotify" parameterType="map">
   		insert into notify values(6,19,#{nContent},sysdate)
   </insert>

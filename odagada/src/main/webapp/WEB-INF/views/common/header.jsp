@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<!-- font awesome 아이콘 -->
@@ -36,7 +36,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">검색</a>
+                  <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
@@ -47,12 +47,12 @@
                  <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
                 </li>
-            	<c:if test="${sessionScope.memberId==null }">   
+            	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
 	                </li> 
                 </c:if>
-               	<c:if test="${sessionScope.memberId!=null }">   
+               	<c:if test="${sessionScope.logined!=null }">   
 	                 <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
 	                </li> 
@@ -60,7 +60,7 @@
                
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   관리자메뉴
+                 		  관리자메뉴
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="#">공지사항</a>
