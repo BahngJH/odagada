@@ -142,6 +142,8 @@
 				<input type="number" class="form-control" name="destLat" id="destLat" readonly hidden/>
 				<input type="text" class="form-control" name="startCity" id="startCity" readonly hidden/>
 				<input type="text" class="form-control" name="endCity" id="endCity" readonly hidden/>
+				<input type="text" class="form-control" name="startDetail" id="startDetail" readonly hidden/>
+				<input type="text" class="form-control" name="endDetail" id="endDetail" readonly hidden/>
 			</form>
 		</div>
 		
@@ -336,11 +338,13 @@ function reverseGeo(lonlat){
 			if(markers.length === 0){
 				$("#startLocation").val(arrResult.fullAddress);
 				$("#startCity").val(arrResult.city_do + " " + arrResult.gu_gun);
+				$("#startDetail").val((arrResult.eup_myun != "" ? arrResult.eup_myun + " " : "") + arrResult.roadName + " " + arrResult.buildingIndex + " " + arrResult.buildingName);
 				$("#startLong").val(lonlat.lon);
 				$("#startLat").val(lonlat.lat);
 			}else if(markers.length === 1){
 				$("#destLocation").val(arrResult.fullAddress);
 				$("#endCity").val(arrResult.city_do + " " + arrResult.gu_gun);
+				$("#endDetail").val((arrResult.eup_myun != "" ? arrResult.eup_myun + " " : "") + arrResult.roadName + " " + arrResult.buildingIndex + " " + arrResult.buildingName);
 				$("#destLong").val(lonlat.lon);
 				$("#destLat").val(lonlat.lat);
 			}
