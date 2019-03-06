@@ -48,16 +48,21 @@ public class CarpoolController {
 		return mav;
 	}
 	@RequestMapping("/carpool/searchEnd.do")
-	public ModelAndView carpoolSearchEnd(String startSearch, String endSearch, String startDate){
+	public ModelAndView wcarpoolSearchEnd(String startSearch, String endSearch, String startDate, String startLon, String startLat, String endLon, String endLat){
 		ModelAndView mav = new ModelAndView();
 		l.debug("죄표값");
 		
 		Map<String,String> m = new HashMap<String, String>();
-		m.put("", startSearch);
-		m.put("",endSearch);
-		m.put("", startDate);
+		m.put("startCity", startSearch);
+		m.put("endCity",endSearch);
+		m.put("startDate", startDate);
+		m.put("startLong", startLon);
+		m.put("startLat",startLat);
+		m.put("destLong",endLon);
+		m.put("destLat",endLat);
 		
-		/*List<Map<String,String>> list = service.selectCarpoolList();*/
+		
+		List<Map<String,String>> list = service.selectCarpoolList(m);
 		
 		mav.addObject("startSearch",startSearch);
 		mav.addObject("endSearch",endSearch);
