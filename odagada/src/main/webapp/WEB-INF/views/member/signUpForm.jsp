@@ -164,26 +164,26 @@
  
     //비밀번호 유효성 검사
    function passwordCheck(password){
-       var pw=$(password).val();      
+      var pw=$(password).val();
       var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
         if(!ckPw.test(pw)){        
            alert('숫자,영문자,특수문자 조합으로 6~15자');
            $('#password_').val('').focus();
            return false;
-       }                     
+       }                  
        return true;
    }
 
 $(function(){
     //비밀번호 일치 확인
          $('#password2').keyup(function(){
-            var password2=$("#password2").val().trim();
-            if(password2.length<6){
+            var pw1=$("#password_").val().trim();
+            var pw2=$("#password2").val().trim();
+            var id=$("#memberName").val().trim();
+            if(pw2.length<1){
                $(".ck").hide();
                return;
             }
-            var pw1=$("#password_").val().trim();
-            var pw2=$("#password2").val().trim();
             if(pw1==pw2){
                $(".ck.ckOk").show();
                $(".ck.ckNo").hide();
@@ -269,13 +269,6 @@ $(function(){
            alert('ID 중복확인해주세요.');
            return false;
          }         
-       //날짜 형식 체크
-       var dateFormat = /^(19[2-9][0-9]|20[0-1][0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-       if(!dateFormat.test($("input[name=birth]").val())){
-    	   alert("생년월일은 1990-05-07 형식으로 입력해야합니다.)");
-           return false; 	   
-       }        
-      return true;
    }
  
 
@@ -321,6 +314,15 @@ $(function(){
                </div>           
             </div>
             <div class="row">
+            	
+           		<div>
+          			<p>비밀번호는 숫자,영문자,특수문자 조합으로 6~15자 입력하세요.</p>
+       			</div>
+           	
+            	
+            </div>
+            
+            <div class="row">
                <div class="col-6 dL">
                   <div>
                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" required>
@@ -328,7 +330,7 @@ $(function(){
                </div>
                <div class="col-6 dR">
                   <div>
-                     <input type="text" class="form-control" placeholder="생년월일 (1990-05-07)" name="birth" id="birth" required>
+                     <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
                   </div>                       
                </div>           
             </div>    
