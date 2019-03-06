@@ -100,7 +100,7 @@
 									</select>
 								</div>
 								<div class="col-6">
-									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeholder="최소 1인"/>
+									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeholder="최소 1개"/>
 								</div>
 							</div>
 						</div>

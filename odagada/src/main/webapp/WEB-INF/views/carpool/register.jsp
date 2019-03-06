@@ -392,7 +392,6 @@ function clearLoc(){
 //주소 검색창
 $("#addrSearch").on("keydown", function(e){
 	var keyCode = e.which;
-	
 	if(keyCode === 13){
 		searchAddressToCoordinate($("#addrSearch").val());
 	}
@@ -404,6 +403,7 @@ function addrSearch(){
 
 // 주소 검색 내용으로 지도 이동
 function searchAddressToCoordinate(address){
+	console.log(address);
 	$.ajax({
 		method:"GET",
 		url:"https://api2.sktelecom.com/tmap/geo/fullAddrGeo?version=1&format=xml&callback=result",
@@ -432,7 +432,7 @@ function searchAddressToCoordinate(address){
 				lon = $coordinate[0].getElementsByTagName("newLon")[0].childNodes[0].nodeValue;
 				lat = $coordinate[0].getElementsByTagName("newLat")[0].childNodes[0].nodeValue;
 			}
-			
+			console.log(lon+":"+lat);
 			var position = new Tmap.LonLat(lon, lat).transform("EPSG:4326", "EPSG:3857");
 			map.setCenter(position, 15);
 		}, error:function(request, status, error){
