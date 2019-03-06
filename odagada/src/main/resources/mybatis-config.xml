@@ -5,6 +5,7 @@
 	<typeAliases>
 		<typeAlias type="com.spring.odagada.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.spring.odagada.community.model.vo.MessageVo" alias="msgVo"/>
+		<typeAlias type="com.spring.odagada.driver.model.vo.Driver" alias="driver"/>
 	</typeAliases>
 	
 </configuration>
