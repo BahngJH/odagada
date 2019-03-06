@@ -28,6 +28,7 @@
 <body>
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
+           <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,17 +56,19 @@
 	                  <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
 	                </li>
                 </c:if>            
+
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  		  관리자메뉴
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">공지사항</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
                     <a class="dropdown-item" href="#">회원 관리</a>
                     <a class="dropdown-item" href="#">드라이버 관리</a>
                     <a class="dropdown-item" href="#">질의응답</a>
                   </div>
                 </li>
+              
               </ul>
             </div>
           </nav>
