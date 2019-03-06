@@ -1,5 +1,7 @@
 package com.spring.odagada.community.model.service;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,13 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.saveMessage(msg);
 	}
+
+	@Override
+	public int insertNotify(Map<String, String> map) {
+		return dao.insertNotify(map);
+	}
+	
+	
 	
 	
 }

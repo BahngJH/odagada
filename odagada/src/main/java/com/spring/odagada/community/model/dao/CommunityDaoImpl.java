@@ -1,5 +1,7 @@
 package com.spring.odagada.community.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		return session.insert("community.saveMessage", msg);
 	}
+
+	@Override
+	public int insertNotify(Map<String, String> map) {
+		return session.insert("community.insertNotify",map);
+	}
+	
 	
 	
 	

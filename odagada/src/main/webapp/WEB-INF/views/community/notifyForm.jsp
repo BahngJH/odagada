@@ -26,7 +26,7 @@
 <script>
    function validate()
    {
-       var content = $("[name=notifyContent]").val();
+       var content = $("[name=nContent]").val();
        if(content.trim().length==0)
        {
            alert("내용을 입력하세요");
@@ -36,13 +36,12 @@
    }
 </script>
 <div id="notify-container">
+	<form name="notifyFrm" action="${path}/community/notifyFormEnd.do" method="post" onsubmit="return validate();"> 
 	<h1>신고</h1>
-	<form name="notifyFrm" action="${path}/community/notifyFormEnd" method="post" onsubmit="return validate();"> 
-		<input type="text" class="form-control" placeholder="아이디" name="notifyWriter" <%-- value="${memberId}" --%> id="notifyWriter" readonly required>
-		<input type="text" class="form-control" placeholder="신고사유" name="notifyTitle" id="notifyTitle" required>
-		<textarea class="form-control" name="notifyContent" placeholder="내용" required></textarea>
+		<input type="text" class="form-control" placeholder="아이디" name="notifyNum" id="notifyNum" readonly required>
+		<textarea class="form-control" name="nContent" placeholder="신고사유" required></textarea>
 		<br/>
-		<input type="submit" class="btn btn-outline-success" value="입력" >
+		<input type="submit" class="btn btn-outline-success" value="등록" >
 		<input type="reset" class="btn btn-outline-success" value="취소" >
 	</form>
 </div>
