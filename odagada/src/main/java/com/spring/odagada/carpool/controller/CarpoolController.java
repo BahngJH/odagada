@@ -1,10 +1,11 @@
 package com.spring.odagada.carpool.controller;
 
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,9 +80,8 @@ public class CarpoolController {
 		return mav;
 	}
 	@RequestMapping("/carpool/searchEnd.do")
-	public ModelAndView wcarpoolSearchEnd(String startSearch, String endSearch, String startDate, String startLon, String startLat, String endLon, String endLat){
+	public ModelAndView wcarpoolSearchEnd(String memberNum,String startSearch, String endSearch, String startDate, String startLon, String startLat, String endLon, String endLat){
 		ModelAndView mav = new ModelAndView();
-		l.debug("죄표값");
 		
 		Map<String,String> m = new HashMap<String, String>();
 		m.put("startCity", startSearch);
@@ -92,12 +92,20 @@ public class CarpoolController {
 		m.put("destLong",endLon);
 		m.put("destLat",endLat);
 		
+		List<Carpool> carlist = service.selectCarpoolList(m);
+		System.out.println(carlist);
+		List driverList = dService.selectDriverList();
+		System.out.println(driverList);
 		
-		List<Map<String,String>> list = service.selectCarpoolList(m);
-		
+		mav.addObject("cList",carlist);
+		mav.addObject("dList",driverList);
 		mav.addObject("startSearch",startSearch);
 		mav.addObject("endSearch",endSearch);
 		mav.addObject("startDate",startDate);
+		mav.addObject("startLong", startLon);
+		mav.addObject("startLat",startLat);
+		mav.addObject("destLong",endLon);
+		mav.addObject("destLat",endLat);
 		mav.setViewName("carpool/searchEnd");
 		return mav;
 		

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.odagada.carpool.model.dao.CarpoolDao;
+import com.spring.odagada.carpool.model.vo.Carpool;
 
 @Service
 public class CarpoolServiceImpl implements CarpoolService {
@@ -14,7 +15,7 @@ public class CarpoolServiceImpl implements CarpoolService {
 	CarpoolDao dao;
 
 	@Override
-	public List<Map<String, String>> selectCarpoolList(Map<String, String> map) {
+	public List<Carpool> selectCarpoolList(Map<String, String> map) {
 		return dao.selectCarpoolList(map);
 	}
 	
