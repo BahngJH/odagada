@@ -39,6 +39,8 @@
                 </li>          
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
+                </li><li class="nav-item">
+                  <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
