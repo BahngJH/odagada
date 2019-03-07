@@ -56,7 +56,7 @@
 				      	<c:choose>
 				      		<c:when test="${logined.isEmailAuth eq 'N'}">
 				      			<a href="#" class="ck badge badge-danger">인증하기</a>
-		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">인증하기</button>
+		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail" data-whatever="@mdo">인증하기</button>
 		      				</c:when>
 				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
 				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
@@ -87,19 +87,16 @@
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalLabel">정보변경</h5>
-					        
+					        <h5 class="modal-title" id="exampleModalLabel">정보변경</h5>				        
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					        <%-- <form action="${path }/member/updateInfo.do" method="post">		 --%>			         
 					          <div class="form-group">
 					            <label for="answer" class="form-control-label">보안을 위해 비밀번호를 한 번 더 입력해주세요.</label>
 					            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
 					          </div>
-					        <!-- </form> -->
 					      </div>
 					      <div class="modal-footer">					      	
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -107,7 +104,49 @@
 					      </div>
 					    </div>
 					  </div>
-					</div>		 	 
+					</div>
+					
+					
+					
+					
+					<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="sendEmailLabel">E-mail 인증하기</h5>				        
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					          <div class="form-group">
+					            <label for="answer" class="form-control-label">E-mail로 전송된 인증번호를 입력해주세요.</label>
+					            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
+					          </div>
+					      </div>
+					      <div class="modal-footer">					      	
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" onclick="emailCheck();">인증하기</button>					        
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+							 	 
 			  </div>
 			</div>
 		</div>		
@@ -134,10 +173,13 @@ function updateCheck() {
     		}
     	}
     });  
+    
+    
+   
   
 }
-    	
-
+function  emailCheck() {  	
+}
 
 
 
