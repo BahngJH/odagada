@@ -22,17 +22,6 @@
   .info{margin-top:50px; margin-bottom: 50px;}
   .alertS{padding:5px; font-size:12px; text-align:center;}
   
-  div.menu_list>a.active{
-  	background-color: #70A9A1AA;
-  	color: #FFFFFF;
-  }
-  
-  div.menu_list>a:not(.active):hover{
-  	background-color: #70A9A1;
-  	color: #FFFFFF;
-  }
-  
-}
 </style>
 
 <section class="container">

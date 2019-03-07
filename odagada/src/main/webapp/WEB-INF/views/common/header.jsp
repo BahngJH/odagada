@@ -30,6 +30,17 @@
       float: right;
       margin-bottom: 5px;
     }
+    
+    div.menu_list>a.active{
+  	background-color: #70A9A1AA;
+  	color: #FFFFFF;
+	}
+	
+	div.menu_list>a:not(.active):hover{
+		background-color: #70A9A1;
+		color: #FFFFFF;
+	}
+    
 </style>
 </head>
 
