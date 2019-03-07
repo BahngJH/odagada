@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.spring.odagada.community.model.dao.CommunityDao;
+import com.spring.odagada.community.model.vo.ChatRoomVo;
 import com.spring.odagada.community.model.vo.MessageVo;
 
 @Service
@@ -31,7 +32,7 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	//채팅방 리스트 가져오는거
 	@Override
-	public List<Map<String, String>> bringChatRooms(String loginId) {
+	public List<ChatRoomVo> bringChatRooms(String loginId) {
 		// TODO Auto-generated method stub
 		return dao.bringChatRooms(loginId);
 	}
@@ -46,6 +47,7 @@ public class CommunityServiceImpl implements CommunityService {
 	public int insertReview(Map<String, String> map) {
 		return dao.insertReview(map);
 	}
+	
 	
 	
 	

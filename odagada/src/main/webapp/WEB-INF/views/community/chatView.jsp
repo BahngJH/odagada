@@ -72,6 +72,7 @@
 		$('#messageinput').val("");
 	}
 	
+	
 	function closeSocket()
 	{
 		//세션 닫기전에 삭제할 id를 보내어 userList지우고 세션 닫기
