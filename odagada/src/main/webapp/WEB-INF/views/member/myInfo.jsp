@@ -97,14 +97,13 @@
 					        <%-- <form action="${path }/member/updateInfo.do" method="post">		 --%>			         
 					          <div class="form-group">
 					            <label for="answer" class="form-control-label">보안을 위해 비밀번호를 한 번 더 입력해주세요.</label>
-					            <input type="text" class="form-control" id="answer" name="answer" style="resize: none;">
+					            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
 					          </div>
 					        <!-- </form> -->
 					      </div>
 					      <div class="modal-footer">					      	
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경하기</button>
-					        
+					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경하기</button>					        
 					      </div>
 					    </div>
 					  </div>
@@ -127,7 +126,7 @@ function updateCheck() {
     		console.log(data);
     		console.log(data+": "+typeof data);
     		
-    		if(data.trim()=='no'){
+    		if(data =='no'){
 				alert("비밀번호가 올바르지 않습니다.");
 				return;
     		}else{   			

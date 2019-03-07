@@ -39,65 +39,6 @@
     padding-right:13px;
     }
        
-  .emailC{     
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;   
-    }
-    
-    .tel{
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
-    width: 100%; 
-    }
-   
-   .div-email{
-   padding : 0px;
-   }
-   .row-email{
-      padding: 0px;
-      margin-left: 0px;
-      margin-right: 0px;
-   }
-    
-   .addon-email{
-      margin-bottom: 10px;
-   }
-   
-   .profile{
-   margin-left:13px;
-   margin-right:13px;
-   }
-   
- 
-   .submitB{
-   margin-top:5%;
-   margin-left:30%;
-   margin-bottom: 10%;
-   }
-   
-   #enrollBtn{
-   margin-right:15%; 
-   }
-    #memberId_, #memberName{
-   margin-top:20%;
-   }
-
     </style>
     
      
@@ -211,66 +152,25 @@
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/updateInfo.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
        		<div class="row">
-	           <div class="custom-file col-6" >
-      				<input type="file" class="custom-file-input"  accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
-	           		<img class="card-img-top" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-	           </div>
-	           <div class="col-6">
-	           			                                
-	           			 <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                              
-	                     <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-	                     <span class="ck ckOk">비밀번호 일치</span>
-	                     <span class="ck ckNo">비밀번호 불일치</span>                      
-	          			
-	           			 <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
-		                     <option  value="010" selected>010</option>
-		                     <option  value="011">011</option>
-		                     <option  value="016">016</option>
-		                     <option  value="017">017</option>
-		                     <option  value="018">018</option>
-		                     <option  value="019">019</option>         
-		                     <option  value="070">070</option> 
-		                  </select>
-                 	 <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>         	           		
-	             <div class="custom-file col-12">
-	                 <!-- <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-	                 <label class="custom-file-label profile" for="upFile">프로필 사진 변경</label> -->
-	             </div>                      
-	           </div>
-                        
-             
-	           
-	           
-	           
-	           
-	           
-	           
-	           
-	           
-	           
-	             
-	                    
-	  
-	     
-	       
-	                  
-	                <div class="row submitB">  
-	                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
-	                  <input type="reset" class="btn btn-outline-success" value="취소">
-	               </div>
-               </div> 
-            </form>
-         </div>
-
-
-
-
-
-
-
-
-
-
+       			<div class="col-6">
+		           <div class="custom-file" >
+		           		<img class="card-img-top" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+		           </div>
+		         </div> 
+	           <div class="col-6">           			                                
+       			 <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                              
+                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+                  <span class="ck ckOk">비밀번호 일치</span>
+                  <span class="ck ckNo">비밀번호 불일치</span>                      	          			
+       			  <input type="email" class="form-control" value="${logined.email }" name="email" maxlength="15" required>
+       			  <input type="text" class="form-control" value="${logined.phone }" name="phone" maxlength="15" required>	           				         
+   		    	  <input type="file" class="custom-file-input"  accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
+                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
+                  <input type="reset" class="btn btn-outline-success" value="취소">
+               </div>
+             </div> 
+          </form>
+       </div>
 
 
 
