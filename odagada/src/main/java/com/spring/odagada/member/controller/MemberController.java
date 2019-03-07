@@ -42,6 +42,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
+	//아이디 중복확인
 	@RequestMapping("/member/checkId.do")
 	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
 	{
@@ -63,11 +64,13 @@ public class MemberController {
 		return mv;	
 	}
 	
+	//회원가입페이지 전환
 	@RequestMapping("/member/signUp.do")
 	public String signUp() {
 		return "member/signUpForm";
 	}
 	
+	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) {
 		logger.debug("뉴비: "+m);
@@ -126,12 +129,13 @@ public class MemberController {
 		return "common/msg";		
 	}
 	
-	
+	//로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
 		return "member/loginForm";
 	}
 	
+	//로그인
    @RequestMapping("/member/login.do")
    public ModelAndView login(String memberId, String memberPw, Model model) {
 	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);
@@ -167,6 +171,7 @@ public class MemberController {
 	   return mv;
    }
    
+   //로그아웃(세션끊기)
    @RequestMapping("/member/logout.do")
    public String logout(SessionStatus status) {
 	   	if(!status.isComplete()) {
@@ -175,12 +180,17 @@ public class MemberController {
 	   	return "redirect:/index.jsp";
    }
    
+   //마이페이지 
    @RequestMapping("/member/myInfo.do")
    public String myInfo() {
 	   return "member/myInfo";
    }
    
-   
+   //내 정보 변경
+   @RequestMapping("/member/updateInfo.do")
+   public String updateInfo(Model model) {
+	   return "member/updateForm";
+   }
    
    
 

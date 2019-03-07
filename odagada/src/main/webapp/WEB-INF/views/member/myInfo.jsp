@@ -5,6 +5,7 @@
 
 <%
 	Member m = (Member) request.getAttribute("logined");
+	System.out.println(m);
     String eDate []=m.getEnrollDate().split(" ");
 %>
 
@@ -25,11 +26,6 @@
 }
 </style>
 
-
-			   
-			     
-		
-			     	    
 
 
 <div id="enroll-container">	
@@ -56,12 +52,13 @@
 				     <tr>
 				       <th scope="row">E-mail</th>
 				       <td><c:out value="${logined.email }"></c:out></td>
+				       <td><c:out value="${logined.isEmailAuth }"></c:out></td>
 				      <td>
 				      	<c:choose>
-				      		<c:when test="${sessionscope.logined.isEmailAuth eq N}">
+				      		<c:when test="${logined.isEmailAuth eq 'N'}">
 				      			<a href="#" class="ck badge badge-danger">인증하기</a>
 		      				</c:when>
-				      		<c:when test="${sessionscope.logined.isEmailAuth eq Y}">
+				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
 				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
 			      			</c:when>
 				      	</c:choose> 
@@ -69,22 +66,25 @@
 				    </tr>
 				     <tr>				       
 				      <th scope="row">Phone</th>
-				      <td><c:out value="${logined.phone }"></c:out></td> 
-				      <td>				      		
-			       		<c:choose>
-				      		<c:when test="${sessionscope.logined.isPhoneAuth eq N}">				      			
+				      <td>		
+			       	 	<c:choose>
+			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
 				      			<a href="#" class="ck badge badge-danger">인증하기</a>
 				      		</c:when>
-				      		<c:when test="${sessionscope.logined.isPhoneAuth eq Y}">
+				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
 				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
 				      		</c:when>
-			      		</c:choose>  
+			      		</c:choose>   
 				      </td>
 				    </tr>		 
 				</table>		
 			  <div class="menu card-body">
-			    <a href="#" onclick="updateCk();" class="card-link text-secondary">내 정보 변경</a>
-			    <a href="#" id="withdrawal" onclick="withdrawalCk();" class="card-link text-secondary">회원 탈퇴</a>
+			  	<form action="${path }/member/updateInfo.do" onsubmit="return updateCheck();" method="post">
+			   		 <a href="${path }/member/updateInfo.do" onclick="updateCk();" class="card-link text-secondary">내 정보 변경</a>
+		   		 </form>
+		   		 <form>
+			 	   <a href="#" id="withdrawal" onclick="withdrawalCk();" class="card-link text-secondary">회원 탈퇴</a>
+			 	 </form>  
 			  </div>
 			</div>
 		</div>		
@@ -112,11 +112,17 @@ function withdrawalCk(){
 	}
 	
 }
-function updateCk(){
-	var ck=prompt("비밀번호를 다시 한 번 입력해주세요.");
-	document.write(ck);
+<%-- function updateCk(){
+	/* document.write(ck); */
+	alert("Password=<%=m.getMemberPw()%>");
+	var answer=prompt("Password");
+	if(answer==<%=m.getMemberPw()%>){
+		return true;
+	}
+	return false;
+		window.history.back();
 }
-
+ --%>
 
 </script>
 
