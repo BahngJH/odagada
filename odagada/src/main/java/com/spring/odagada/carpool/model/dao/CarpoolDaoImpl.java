@@ -16,7 +16,7 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	SqlSessionTemplate session;
 	
 	@Override
-	public List<Map<String, String>> selectCarpoolList(Map<String, String> map) {
+	public List<Carpool> selectCarpoolList(Map<String, String> map) {
 		return session.selectList("carpool.selectCarpoolList", map);
 	}
 
