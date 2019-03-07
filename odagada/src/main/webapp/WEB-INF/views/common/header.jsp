@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +39,8 @@
                 </li>          
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
+                </li><li class="nav-item">
+                  <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
@@ -54,21 +56,24 @@
 	                </li> 
 	                <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
+	                </li>          
+                </c:if> 
+               <c:set var="isAdmin" value="${logined.isAdmin}"/>
+               <c:if test="${isAdmin eq '1'}">
+                	<li class="nav-item dropdown">
+	                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                 		  관리자메뉴
+	                  </a>
+	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
+	                    <a class="dropdown-item" href="#">회원 관리</a>
+	                    <a class="dropdown-item" href="#">드라이버 관리</a>
+	                    <a class="dropdown-item" href="#">질의응답</a>
+	                  </div>
 	                </li>
-                </c:if>            
+               </c:if>      
+   
 
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 		  관리자메뉴
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
-                    <a class="dropdown-item" href="#">회원 관리</a>
-                    <a class="dropdown-item" href="#">드라이버 관리</a>
-                    <a class="dropdown-item" href="#">질의응답</a>
-                  </div>
-                </li>
-              
               </ul>
             </div>
           </nav>

@@ -5,6 +5,8 @@
 
 <%
 	Member m = (Member) request.getAttribute("logined");
+	System.out.println(m);
+    String eDate []=m.getEnrollDate().split(" ");
 %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -13,179 +15,107 @@
 </jsp:include>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<style>
 
-
-  <style>
-     div#enroll-container{width:400px; margin:0 auto; text-align:center;}
-     div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-
-    /*중복아이디체크관련*/
-    div#enroll-container{position:relative; padding:0px;}
-    div#enroll-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-    div#enroll-container span.ok{color:green;}
-    div#enroll-container span.error{color:red;}
-    
-    div#board-continer{width:400px;margin:0 auto; text-align:center}
-    div#board-continer input{margin-bottom:15px;} 
-    
-    
-    /*비밀번호 체크 */
-    div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-    div#enroll-container span.ckOk{color:green;}
-    div#enroll-container span.ckNo{color:red;}
-    
-    .ckOk, .ckNo{
-    padding-right:13px;
-    }
-       
-  .emailC{     
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;   
-    }
-    
-    .tel{
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
-    width: 100%; 
-    }
-   
-   .div-email{
-   padding : 0px;
-   }
-   .row-email{
-      padding: 0px;
-      margin-left: 0px;
-      margin-right: 0px;
-   }
-    
-   .addon-email{
-      margin-bottom: 10px;
-   }
-   
-   .profile{
-   margin-left:13px;
-   margin-right:13px;
-   }
-   
-   .gender{
-   padding-left:28%;
-   }
-   
-   .genderRow{
-   margin-top: 10px;
-   }
-   
-   .submitB{
-   margin-top:5%;
-   margin-left:30%;
-   margin-bottom: 10%;
-   }
-   
-   #enrollBtn{
-   margin-right:15%; 
-   }
-    #memberId_, #memberName{
-   margin-top:20%;
-   }
-   /*
-    .genderC{
-   padding-left:0;
-   }
-   
-   #gender1{
-   margin-left:20px;
-   } 
-   .dR{
-   padding-left:2%;
-   }
-   .dL{
-   padding-right:2%;
-   }
-   .phone2C{
-   padding-left:0px;
-   } */ 
+  div#enroll-container{width:400px; margin:0 auto;}
+  div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
+  .menu{text-align:center; font-weight:bold;}
+  .info{margin-top:50px; margin-bottom: 50px;}
+  .alertS{padding:5px; font-size:12px; text-align:center;}
   
-    </style>
-    
-     
+}
+</style>
+
+
+
+<div id="enroll-container">	
+	<div class="info col-12">
+		<div class="card-group">
+			<div class="card">
+			  <img class="card-img-top" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+				  <table class="table table-hover">
+				    <tr>
+				      <th scope="row">아이디</th>
+				      <td><c:out value="${logined.memberId }"></c:out></td>
+				      <td></td>   
+				    </tr>
+				    <tr>
+					   <th scope="row">이름</th>
+				       <td><c:out value="${logined.memberName }"></c:out></td>
+				       <td></td>     
+				    </tr>
+				    <tr>
+				       <th scope="row">가입날짜</th>
+			     	   <td><%=eDate[0] %></td>
+			     	   <td></td>  
+				    </tr>
+				     <tr>
+				       <th scope="row">E-mail</th>
+				       <td><c:out value="${logined.email }"></c:out></td>
+				      <td>
+				      	<c:choose>
+				      		<c:when test="${logined.isEmailAuth eq 'N'}">
+				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+		      				</c:when>
+				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
+				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
+			      			</c:when>
+				      	</c:choose> 
+				      </td>				       
+				    </tr>
+				     <tr>				       
+				      <th scope="row">Phone</th>
+				        <td><c:out value="${logined.phone }"></c:out></td>
+				      <td>		
+			       	 	<c:choose>
+			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
+				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+				      		</c:when>
+				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
+				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
+				      		</c:when>
+			      		</c:choose>   
+				      </td>
+				    </tr>		 
+				</table>		
+			  <div class="menu card-body">
+ 			 	   <input type="button" id="withdrawal" onclick="updateCheck();" class="btn btn-outline-success" value="정보변경">
+   			 	   <a href="#" id="withdrawal" onclick="withdrawal();" class="card-link text-secondary">회원탈퇴</a>
+			 	   
+			  
+			<%--   	<form action="${path }/member/updateInfo.do" onsubmit="return updateCheck();" method="post">
+			   		 <input type="hidden" name="memberPw"/>
+			   		 <input type="submit" class="btn btn-outline-success" value="내 정보 변경">
+		   		 </form>
+		   		 <form>
+			 	   <a href="#" id="withdrawal" onclick="withdrawal();" class="card-link text-secondary">회원 탈퇴</a>
+			 	 </form>   --%>
+			  </div>
+			</div>
+		</div>		
+	</div>
+</div>
+
 <script>
- $(function(){
-   $('[name=upFile]').on('change',function(){
-      //var filename=$(this).val();
-      var filename=this.files[0].name;
-      //var filename=$(this).prop('files')[0].name;
-      $(this).next('.custom-file-label').html(filename);
-   });  
- }); 
- 
-    //비밀번호 유효성 검사
-   function passwordCheck(password){
-       var pw=$(password).val();      
-      var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
-        if(!ckPw.test(pw)){        
-           alert('숫자,영문자,특수문자 조합으로 6~15자');
-           $('#password_').val('').focus();
-           return false;
-       }                     
-       return true;
-   }
-
-$(function(){
-    //비밀번호 일치 확인
-         $('#password2').keyup(function(){
-            var password2=$("#password2").val().trim();
-            if(password2.length<6){
-               $(".ck").hide();
-               return;
-            }
-            var pw1=$("#password_").val().trim();
-            var pw2=$("#password2").val().trim();
-            if(pw1==pw2){
-               $(".ck.ckOk").show();
-               $(".ck.ckNo").hide();
-            }else{
-               $(".ck.ckOk").hide();
-               $(".ck.ckNo").show(); 
-            }
-         });
+function updateCheck() {
+	var testTimes=1;
+    var answer = prompt("다시 한 번 비밀번호 입력해주세요.");
     
-
-   
-              
-   //이메일(아이디부분) 알파벳만 입력 받게 하기    
-   $("#email1").keyup(function(event) {
-      if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-         var inputVal = $(this).val();
-         $(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
-      }
-   });
-   
-   //핸드폰 숫자만 입력받게 하는 함수    
-   $('#phone2').on('keyup', function() {
-      if (/\D/.test(this.value)) {
-         this.value = this.value.replace(/\D/g, '')
-         alert('숫자만 입력가능합니다.');
-      }
-   });
-   
- });
-
+    $.ajax({
+    	url:"${path}/member/checkPw.do",
+    	data:{"answer":answer},
+    	success:function(data){
+    		if(data === "no"){
+				alert("비밀번호가 올바르지 않습니다.");		
+    		}
+    		else{   			
+    			location.href="${path}/member/updateInfo.do";
+    	  	}
+    	}
+    });  
+  
+}
+    	
  function validate() { 	  
       //핸드폰 유효성 검사 
       var regExp = /([0-9]{7,8})$/;
@@ -210,22 +140,6 @@ $(function(){
    }
 
 
-   //프로필 사진을 이미지 타입 파일로만 받기
-   function fileCheck(obj){
-      var fileKind=obj.value.lastIndexOf('.');
-      var fileName=obj.value.substring(fileKind+1, obj.length);
-      var fileType=fileName.toLowerCase();
-      
-      var ckFileType=new Array();
-      ckFileType=['jpg','gif','png','jpeg','jpeg','bmp'];
-      
-      if(ckFileType.indexOf(fileType)==-1){
-         alert("이미지 파일만 선택할 수 있습니다.");
-         var parentObj=obj.parentNode;
-         var node=parentObj.replaceChild(obj.cloneNode(true), obj);
-         return false;      
-         }   
-      }
 </script>
       
       <section class="container">
@@ -308,6 +222,8 @@ $(function(){
 
 
 
+=======
+>>>>>>> branch 'Member' of https://github.com/BahngJH/odagada
 
 
 

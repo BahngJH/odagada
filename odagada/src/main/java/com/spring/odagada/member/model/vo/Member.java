@@ -18,21 +18,23 @@ public class Member implements Serializable {
 	private String email;
 	private String enrollDate;
 	private int isAdmin;
-	private char gender;
+	private String gender;
 	private String profileImageOri;
 	private String profileImageRe;
-	private char isPhoneAuth;
-	private char isEmailAuth;
+	private String isPhoneAuth;
+	private String isEmailAuth;
 
 
 	public Member() {
 		super();
 	}
 
+	
+
 
 	public Member(int memberNum, String memberId, String memberPw, String memberName, String birth, String phone,
-			String email, String enrollDate, int isAdmin, char gender, String profileImageOri, String profileImageRe,
-			char isPhoneAuth, char isEmailAuth) {
+			String email, String enrollDate, int isAdmin, String gender, String profileImageOri, String profileImageRe,
+			String isPhoneAuth, String isEmailAuth) {
 		super();
 		this.memberNum = memberNum;
 		this.memberId = memberId;
@@ -49,6 +51,8 @@ public class Member implements Serializable {
 		this.isPhoneAuth = isPhoneAuth;
 		this.isEmailAuth = isEmailAuth;
 	}
+
+
 
 
 	public int getMemberNum() {
@@ -141,14 +145,7 @@ public class Member implements Serializable {
 	}
 
 
-	public char getGender() {
-		return gender;
-	}
-
-
-	public void setGender(char gender) {
-		this.gender = gender;
-	}
+	
 
 
 	public String getProfileImageOri() {
@@ -171,24 +168,49 @@ public class Member implements Serializable {
 	}
 
 
-	public char getIsPhoneAuth() {
+	
+
+
+	public String getGender() {
+		return gender;
+	}
+
+
+
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+
+
+
+	public String getIsPhoneAuth() {
 		return isPhoneAuth;
 	}
 
 
-	public void setIsPhoneAuth(char isPhoneAuth) {
+
+
+	public void setIsPhoneAuth(String isPhoneAuth) {
 		this.isPhoneAuth = isPhoneAuth;
 	}
 
 
-	public char getIsEmailAuth() {
+
+
+	public String getIsEmailAuth() {
 		return isEmailAuth;
 	}
 
 
-	public void setIsEmailAuth(char isEmailAuth) {
+
+
+	public void setIsEmailAuth(String isEmailAuth) {
 		this.isEmailAuth = isEmailAuth;
 	}
+
+
 
 
 	public static long getSerialversionuid() {

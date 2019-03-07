@@ -38,4 +38,5 @@ public class MemberServiceImple implements MemberService {
 		return dao.checkId(memberId);
 	}
 
+
 }
