@@ -44,6 +44,12 @@
 		font-size:10px;
 		color:black;
 	}
+	div#option_flex{
+		position:fixed;
+	}
+	button.start-search{
+		float:right;
+	}
 </style>
 <section id="container">
 	<div class="row">
@@ -55,7 +61,6 @@
 				<input class="form-control search-div" type="text" placeholder="도착지" value="${endSearch }" readonly>
 				<input class="form-control search-div" type="datetime-local" name="start-date" id="start-date">
 				<input type="text" class="form-control search-div" value="${startDate }" readonly>
-				<!-- <button class="btn btn-success search-div" id='btn-reset' onclick="search-reset()">초기화</button> -->
 			</div>
 		</div>
 		<div class="col-12 col-md-2"></div>
@@ -66,7 +71,7 @@
 		<div class="col-12 col-md-3">
 			<div class="row">
 				<div class="col-12">
-					<div class="card ">
+					<div class="card "  id="option_flex">
 						<div class="card-body">
 	    					<h4 class="card-title">옵션(option)</h4>
 	    					<hr>
@@ -112,58 +117,56 @@
 									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeholder="최소 1개"/>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-12">
+									<button class="btn btn-success search-div start-search" id='btn-reset' onclick="start-search">검색</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				 </div>
 			</div>
 		</div>
 		<!-- 검색 결과만큼 출력 -->
-		<div class="col-12 col-md-5">
+		<div class="col-12 col-md-5" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
-			<c:forEach items="${dList}" var="d" varStatus="n">
-				<c:forEach items="${cList}" var="c">
-					<form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
-						<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
-						  <div class="card-body text-success">
-						    <div class="row">
-						    	<div class="col-6">
-						    		<span class="badge badge-primary">출발시간</span> <span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
-						    		<input type="hidden" name="driverStartLat" id="driverStartLat" value="${c.STARTLAT }"  />
-						    		<input type="hidden" name="driverStartLon" id="driverStartLon" value="${c.STARTLON }"  />
-						    		<input type="hidden" name="driverEndLat" id="driverEndLat" value="${c.STARTLAT }"  />
-						    		<input type="hidden" name="driverEndLon" id="driverEndLon" value="${c.STARTLON }"  />
-						    		<input type="hidden" name="searchStartLat" id="searchStartLat" value="${startLat }"/>
-						    		<input type="hidden" name="searchStartLon" id="searchStartLon" value="${startLong }"/>
-						    		<input type="hidden" name="searchEndLat" id="searchEndLat" value="${destLat }"/>
-						    		<input type="hidden" name="searchEndLon" id="searchEndLon" value="${destLong }"/>
- 						    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
-						    		<span class="badge badge-success">도착시간</span><span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
+			<c:forEach items="${cList}" var="c">
+				<form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+					<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
+					  <div class="card-body text-success">
+					    <div class="row">
+					    	<div class="col-6">
+					    	 <span class="span_city">${c.startDate }</span><br>
+					    		<span class="badge badge-primary">출발</span><br>
+					    		<span class="span_city">${c.startCity}${c.startDetail }</span><br>
+						    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+					    		<span class="badge badge-success">도착</span><br>
+					    		<span class="span_city">${c.endCity}${c.endDetail }</span> <br>
+				    		</div>
+					    	<div class="col-6">
+					    		<div class="row">
+					    			<div class="col-12">
+					    				<span class="span-option col-text">${c.pay}</span>
+					    			</div>
 					    		</div>
-						    	<div class="col-6">
-						    		<div class="row">
-						    			<div class="col-12">
-						    				<span class="span-option col-text">${c.PAY}</span>
-						    			</div>
-						    		</div>
-						    		<div class="row">
-						    			<div class="col-12">
-						    				<span class="span-option">
-						    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
-						    					<%-- <p class="col-text">${d.MEMBERNUM }</p> --%>
-						    				</span>
-						    			</div>
-						    		</div>
-						    	</div>
-						    </div>
-						  </div>
-						  <div class="row">
-						  	<div class="col-12">
-						  		<span class="span-option">설정옵션</span>
-						  	</div>
-						  </div>
-						</div>
-					</form>
-				</c:forEach>
+					    		<div class="row">
+					    			<div class="col-12">
+					    				<span class="span-option">
+					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
+					    					<%-- <p class="col-text">${d.MEMBERNUM }</p> --%>
+					    				</span>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
+					  </div>
+					  <div class="row">
+					  	<div class="col-12">
+					  		<span class="span-option">설정옵션</span>
+					  	</div>
+					  </div>
+					</div>
+				</form>
 			</c:forEach>
 		</div>
 		<div class="col-12 col-md-2"></div>
@@ -178,57 +181,27 @@ function onecar(){
 }
 
 $(function(){
+	function start-search(){
+		var animal,smoking,teenage,talking,music,gender,food,bagage,seatcount;
+		$.ajax({
+			url:"${path}/carpool/searchOption",
+			data:{"animal":$('#animal').val(),
+				"smoking",$('#smoking').val(),
+				"teenage":$('#teenage').val(),
+				"talking":$('#talking').val(),
+				"music":$('#music').val(),
+				"gender":$('#gender'),val(),
+				"food":$('#food').val(),
+				"bagage":$('#bagage').val(),
+				"seatcount":$('#seatcount').val()
+			},
+			dataType:"html",
+			success:function(data){
+				$('#result-search')
+			}
+		}); 
+	}
+	
 });
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
-
-
-<!-- 여기가 tmap시작  -->
-<%-- <p id="result"></p>
-<script>	
-var map;
-// 페이지가 로딩이 된 후 호출하는 함수입니다.
-$(document).ready(function(){
-	// 3. 직선거리 계산  API 사용요청
-	<%for(int i=0;i<cList.size();i++){%>
-		console.log(cList.get(i).getStartLong());
-		$.ajax({
-			method:"GET",
-			url:"https://api2.sktelecom.com/tmap/routes/distance?version=1&format=xml",//직선거리 계산 api 요청 url입니다.
-			async:false, 
-			data:{
-				//시작 지점 위경도 좌표입니다. //카풀정보
-				"startX" : $('#driverStartLon').val(),
-				"startY" : $('#driverStartLat').val(),
-				//끝 지점 위경도 좌표입니다. //검색정보
-				"endX" : $('#searchStartLon').val(),
-				"endY" : $('#searchStartLat').val(),
-				//입력하는 좌표계 유형을 지정합니다.
-				"reqCoordType" : "WGS84GEO",
-				//실행을 위한 키 입니다. 발급받으신 AppKey(서버키)를 입력하세요.
-				"appKey" : "8ea84df6-f96e-4f9a-9429-44cee22ab70f"  
-
-			},
-			//데이터 로드가 성공적으로 완료되었을 때 발생하는 함수입니다.
-			success:function(response){
-				console.log(response);
-				
-				prtcl = response;
-				
-				var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
-			    xmlDoc = $.parseXML( prtclString ),
-			    $xml = $( xmlDoc ),
-			    $intRate = $xml.find("distanceInfo");
-				var distance = $intRate[0].getElementsByTagName("distance")[0].childNodes[0].nodeValue;
-				$("#result").text("두점의 직선거리 : "+distance+"m");
-			},
-			//요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
-			error:function(request,status,error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			}
-		});
-	<%}%>
-});
-</script>
- --%>
