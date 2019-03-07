@@ -36,10 +36,17 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	
 	//신고 글쓰기
-		@Override
-		public int insertNotify(Map<String, String> map) {
-			return session.insert("community.insertNotify",map);
-		}
+	@Override
+	public int insertNotify(Map<String, String> map) {
+		return session.insert("community.insertNotify",map);
+	}
+
+	@Override
+	public int insertReview(Map<String, String> map) {
+		return session.insert("community.insertReview",map);
+	}
+	
+	
 		
 	
 	

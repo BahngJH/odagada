@@ -65,12 +65,12 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/community/notifyFormEnd.do")
-	public String notifyFormEnd(String nContent, Model model)
+	public String notifyFormEnd(String notifyNum, String nonNotifyNum, String nContent, Model model)
 	{
 		Map<String,String> map=new HashMap();
+		map.put("notifyNum", notifyNum);
+		map.put("nonNotify", nonNotifyNum);
 		map.put("nContent",nContent);
-		System.out.println(map);
-		
 		
 		int result=service.insertNotify(map);
 		String msg="";
@@ -92,6 +92,34 @@ public class CommunityController {
 	public String reviewForm()
 	{
 		return "community/reviewForm";
+	}
+	
+	@RequestMapping("/community/reviewFormEnd.do")
+	public String reviewFormEnd(/*String writerNum, String driverNum,*/ String rContent, String rGrade, Model model)
+	{
+		Map<String, String> map=new HashMap();
+		/*map.put("writerNum", writerNum);
+		map.put("driverNum", driverNum);*/
+		map.put("rContent", rContent);
+		map.put("rGrade", rGrade);
+		
+		int result=service.insertReview(map);
+		String msg="";
+		String loc="/";
+		if(result>0)
+		{
+			msg="리뷰등록 성공";
+		}
+		else
+		{
+			msg="리뷰등록 실패";
+		}
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+		return "common/msg";
+		
+		
+		
 	}
 		
 	

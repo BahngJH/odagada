@@ -10,5 +10,6 @@ public interface CommunityService {
 	int saveMessage(MessageVo msg);
 	List<Map<String,String>> bringMsg(String roomId);
 	List<Map<String,String>> bringChatRooms(String loginId);
-	int insertNotify(Map<String,String>map);	
+	int insertNotify(Map<String,String>map);
+	int insertReview(Map<String, String> map);	
 }
