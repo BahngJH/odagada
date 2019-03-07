@@ -1,6 +1,7 @@
 package com.spring.odagada.carpool.model.vo;
 
-public class Option {
+public class CarOption {
+	private int carpoolNum;
 	private String animal;
 	private String smoking;
 	private String teenage;
@@ -11,8 +12,16 @@ public class Option {
 	private String gender;
 	private int seatcount;
 	
-	public Option() {
+	public CarOption() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public int getCarpoolNum() {
+		return carpoolNum;
+	}
+
+	public void setCarpoolNum(int carpoolNum) {
+		this.carpoolNum = carpoolNum;
 	}
 
 	public String getAnimal() {
@@ -89,10 +98,8 @@ public class Option {
 
 	@Override
 	public String toString() {
-		return "Option [animal=" + animal + ", smoking=" + smoking + ", teenage=" + teenage + ", talking=" + talking
-				+ ", music=" + music + ", food=" + food + ", baggage=" + baggage + ", gender=" + gender + ", seatcount="
-				+ seatcount + "]";
+		return "Option [carpoolNum=" + carpoolNum + ", animal=" + animal + ", smoking=" + smoking + ", teenage="
+				+ teenage + ", talking=" + talking + ", music=" + music + ", food=" + food + ", baggage=" + baggage
+				+ ", gender=" + gender + ", seatcount=" + seatcount + "]";
 	}
-	
-	
 }

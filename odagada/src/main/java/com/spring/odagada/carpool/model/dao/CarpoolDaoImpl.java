@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.odagada.carpool.model.vo.Carpool;
+import com.spring.odagada.carpool.model.vo.CarOption;
 
 @Repository
 public class CarpoolDaoImpl implements CarpoolDao {
@@ -17,6 +18,16 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	@Override
 	public List<Carpool> selectCarpoolList(Map<String, String> map) {
 		return session.selectList("carpool.selectCarpoolList", map);
+	}
+
+	@Override
+	public int insertCarpool(Carpool carpool) {
+		return session.insert("carpool.insertCarpool", carpool);
+	}
+
+	@Override
+	public int insertOption(CarOption option) {
+		return session.insert("carpool.insertOption", option);
 	}
 	
 }

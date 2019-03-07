@@ -2,9 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="carpool">
 	<resultMap type="map" id="carpool"></resultMap>
-	<select id="selectCarpoolList" parameterType="map" resultMap="carpool">
+	<select id="selectCarpoolList" parameterType="map" resultType="carpool">
 		SELECT * FROM CARPOOL
+		<![CDATA[
 		where (startlat >= (#{startLat} - 0.01)) and (startlat <= (#{startLat}  + 0.01)) 
-		and (startlong >= (#{startLong} - 0.01) and startlong <= (#{startLong} + 0.01))
+		and (startlong >= (#{startLong} - 0.01) and startlong <= (#{startLong} + 0.01)) ]]>
 	</select>
+	<insert id="insertCarpool" parameterType="carpool">
+		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})
+		<selectKey keyProperty="carpoolNum" resultType="_int" order="AFTER">
+			SELECT  SEQ_CARPOOLNUM.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<insert id="insertOption" parameterType="option">
+		INSERT INTO CAROPTION VALUES(#{carpoolNum}, #{animal}, #{teenage}, #{talking}, #{music}, #{gender}, #{food}, #{baggage}, #{seatcount}, #{smoking})
+	</insert>
 </mapper>
