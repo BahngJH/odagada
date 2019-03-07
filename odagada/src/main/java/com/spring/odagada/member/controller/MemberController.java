@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -189,28 +190,29 @@ public class MemberController {
    }
    
    //비밀번호 체크
+   @ResponseBody
    @RequestMapping("/member/checkPw.do")
-   public void checkPw(HttpServletResponse response, String answer, HttpSession session) {
+   public String checkPw(HttpServletResponse response, String answer, HttpSession session) {
 	   logger.debug("받아오는 pw 값: "+answer);
 	   
 	   Member m = (Member)session.getAttribute("logined");
-	   
-	   
-/*	   if(pwEncoder.matches(answer, m.getMemberPw())) {
+	   String result="";
+  
+	   if(pwEncoder.matches(answer, m.getMemberPw())) {
 		   logger.debug("ok");
 		   result = "ok";
 	   }else {
 		   logger.debug("no");
 		   result = "no";
 	   }	 
-	   return result;*/
-	   try {
+	   return result;
+	/*   try {
 		   if(pwEncoder.matches(answer, m.getMemberPw()))
 		      {
 		         response.setContentType("text/csv;charset=UTF-8");
 		         logger.debug("ok");
 		         
-		         response.getWriter().println();
+		         response.getWriter().println("ok");
 		      }
 		      else {
 		         response.setContentType("text/csv;charset=UTF-8");
@@ -221,7 +223,7 @@ public class MemberController {
 	   catch(IOException e)
 	   {
 		   e.printStackTrace();
-	   }
+	   }*/
    }
  
    //내 정보 변경

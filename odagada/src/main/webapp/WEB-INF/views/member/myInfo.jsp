@@ -78,7 +78,8 @@
 			      		</c:choose>   
 				      </td>
 				    </tr>		 
-				</table>		
+				</table>
+				<a href="${path }/member/updateInfo.do" class="btn btn-primary" >정보변경하자좀</a>		
 			  <div class="menu card-body">		 	   
 			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">정보 변경</button>
 				 <button type="button" class="btn btn-outline-success" onclick="withdrawal();"data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">회원 탈퇴</button>	
@@ -87,6 +88,7 @@
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="exampleModalLabel">정보변경</h5>
+					        
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
@@ -102,6 +104,7 @@
 					      <div class="modal-footer">					      	
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경하기</button>
+					        
 					      </div>
 					    </div>
 					  </div>
@@ -124,11 +127,10 @@ function updateCheck() {
     		console.log(data);
     		console.log(data+": "+typeof data);
     		
-    		if(data!=data){
+    		if(data.trim()=='no'){
 				alert("비밀번호가 올바르지 않습니다.");
 				return;
-    		}
-    		else{   			
+    		}else{   			
     			location.href="${path}/member/updateInfo.do";
     		}
     	}
