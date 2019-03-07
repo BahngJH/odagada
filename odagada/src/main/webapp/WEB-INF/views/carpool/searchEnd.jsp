@@ -46,6 +46,7 @@
 	}
 	div#option_flex{
 		position:fixed;
+		width:245px;
 	}
 	button.start-search{
 		float:right;
@@ -71,10 +72,19 @@
 		<div class="col-12 col-md-3">
 			<div class="row">
 				<div class="col-12">
-					<div class="card "  id="option_flex">
-						<div class="card-body">
+					<div class="card"  id="option_flex">
+						<div class="card-body" >
 	    					<h4 class="card-title">옵션(option)</h4>
 	    					<hr>
+	    					<div class="row">
+	    						<div class="col-12">
+	    							<span>검색 반경: </span><br>
+	    							<label>3KM 이내 <input type="radio" name="kmNum" id="3kmNum" value="3" checked></label><br>
+	    							<label>5KM 이내 <input type="radio" name="kmNum" id="5kmNum" value="5"></label><br>
+	    							<label>10KM 이내 <input type="radio" name="kmNum" id="10kmNum" value="10"></label><br>
+	    							<hr>
+	    						</div>
+	    					</div>
 	    					<div class="row">
 								<div class="col-6" >
 									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
@@ -119,7 +129,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<button class="btn btn-success search-div start-search" id='btn-reset' onclick="start-search">검색</button>
+									<button class="btn btn-success search-div start-search" id='btn-reset' onclick="start-search()">검색</button>
 								</div>
 							</div>
 						</div>
@@ -180,28 +190,28 @@ function onecar(){
 	$("#form-onecar").submit();
 }
 
-$(function(){
+/* $(function(){ */
 	function start-search(){
 		var animal,smoking,teenage,talking,music,gender,food,bagage,seatcount;
 		$.ajax({
 			url:"${path}/carpool/searchOption",
 			data:{"animal":$('#animal').val(),
-				"smoking",$('#smoking').val(),
+				"smoking":$('#smoking').val(),
 				"teenage":$('#teenage').val(),
 				"talking":$('#talking').val(),
 				"music":$('#music').val(),
-				"gender":$('#gender'),val(),
+				"gender":$('#gender').val(),
 				"food":$('#food').val(),
 				"bagage":$('#bagage').val(),
 				"seatcount":$('#seatcount').val()
 			},
 			dataType:"html",
 			success:function(data){
-				$('#result-search')
+				$('#result-search').append(data);
 			}
 		}); 
 	}
 	
-});
+/* }); */
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
