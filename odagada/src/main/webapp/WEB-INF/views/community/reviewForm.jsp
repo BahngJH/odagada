@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+
 <style>
 div#review-container {
 	text-align: center;
@@ -147,20 +148,21 @@ div#review-container textarea {
 	<form name="reviewFrm" action="${path}/community/reviewFormEnd.do" method="post" onsubmit="return validate();"> 
 	<h1>리뷰</h1>
 	<br/>
-	<textarea class="form-control" name="reviewContent" placeholder="내용입력" required></textarea>
+	<input type="text" class="form-control" name="writerNum" id="writerNum" value="작성자 : <%-- ${logined.memberId} --%>" readonly required>
+	<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>
 	<br/>
-	<span class="star-input">
+	<span class="star-input" name="rGrade">
 	<span class="input">
-		<input type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>
-		<input type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
-		<input type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
-		<input type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
-		<input type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
-		<input type="radio" name="star-input" id="p6" value="6"><label for="p6">6</label>
-		<input type="radio" name="star-input" id="p7" value="7"><label for="p7">7</label>
-		<input type="radio" name="star-input" id="p8" value="8"><label for="p8">8</label>
-		<input type="radio" name="star-input" id="p9" value="9"><label for="p9">9</label>
-		<input type="radio" name="star-input" id="p10" value="10"><label for="p10">10</label>
+		<input type="radio" name="star-input" id="p1" value="0.5"><label for="p1">0.5</label>
+		<input type="radio" name="star-input" id="p2" value="1"><label for="p2">1</label>
+		<input type="radio" name="star-input" id="p3" value="1.5"><label for="p3">1.5</label>
+		<input type="radio" name="star-input" id="p4" value="2"><label for="p4">2</label>
+		<input type="radio" name="star-input" id="p5" value="2.5"><label for="p5">2.5</label>
+		<input type="radio" name="star-input" id="p6" value="3"><label for="p6">3</label>
+		<input type="radio" name="star-input" id="p7" value="3.5"><label for="p7">3.5</label>
+		<input type="radio" name="star-input" id="p8" value="4"><label for="p8">4</label>
+		<input type="radio" name="star-input" id="p9" value="4.5"><label for="p9">4.5</label>
+		<input type="radio" name="star-input" id="p10" value="5"><label for="p10">5</label>
 	</span>
 	<output for="star-input"><b>0</b>점</output>
 	</span>

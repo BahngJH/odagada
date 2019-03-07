@@ -42,6 +42,13 @@ public class CommunityServiceImpl implements CommunityService {
 	public int insertNotify(Map<String, String> map) {
 		return dao.insertNotify(map);
 	}
+
+	@Override
+	public int insertReview(Map<String, String> map) {
+		return dao.insertReview(map);
+	}
+	
+	
 	
 	
 	

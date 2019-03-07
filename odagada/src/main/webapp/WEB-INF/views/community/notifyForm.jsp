@@ -38,7 +38,8 @@
 <div id="notify-container">
 	<form name="notifyFrm" action="${path}/community/notifyFormEnd.do" method="post" onsubmit="return validate();"> 
 	<h1>신고</h1>
-		<input type="text" class="form-control" placeholder="아이디" name="notifyNum" id="notifyNum" readonly required>
+		<input type="text" class="form-control" name="notifyNum" id="notifyNum" value="신고자 : ${logined.memberId}" readonly required>
+		<input type="text" class="form-control" name="nonNotifyNum" id="nonNotifyNum" value="신고대상 : " readonly required>
 		<textarea class="form-control" name="nContent" placeholder="신고사유" required></textarea>
 		<br/>
 		<input type="submit" class="btn btn-outline-success" value="등록" >

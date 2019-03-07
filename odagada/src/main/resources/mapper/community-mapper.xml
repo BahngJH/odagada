@@ -13,7 +13,10 @@
  	</select>
 
   <insert id="insertNotify" parameterType="map">
-  		insert into notify values(6,19,#{nContent},sysdate)
+  	insert into notify values(6,19,#{nContent},sysdate)
+  </insert>
+  <insert id="insertReview" parameterType="map">
+  	insert into review values(6,19,#{rContent},sysdate,#{rGrade})
   </insert>
 
 </mapper>
