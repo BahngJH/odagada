@@ -234,7 +234,7 @@ function search(){
 	document.getElementById("endLon").value=lon;
 	document.getElementById("endLat").value=lat;
 	console.log("end:"+lon+"/"+lat);
-	/* $('#search-form').submit();  */
+	$('#search-form').submit(); 
 }
 //검색한 주소를 좌표로 변경하기 
 function fullAddressSearch(fullAddress){
