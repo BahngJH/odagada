@@ -9,16 +9,26 @@ public class MessageVo {
 	private String sender;
 	private Date cDate;
 	private String cContent;
+	private String isRead;
 	
 	public MessageVo() {}
 	
-	public MessageVo(String roomId, String receiver, String sender, Date cDate, String cContent) {
+	public MessageVo(String roomId, String receiver, String sender, Date cDate, String cContent, String isRead) {
 		this.roomId = roomId;
 		this.receiver = receiver;
 		this.sender = sender;
 		this.cDate = cDate;
 		this.cContent = cContent;
+		this.isRead = isRead;
 	}
+	public String getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
+	}
+
 	public MessageVo(String roomId, String receiver, String sender, String cContent) {
 		this.roomId = roomId;
 		this.receiver = receiver;
@@ -70,8 +80,10 @@ public class MessageVo {
 	@Override
 	public String toString() {
 		return "MessageVo [roomId=" + roomId + ", receiver=" + receiver + ", sender=" + sender + ", cDate=" + cDate
-				+ ", cContent=" + cContent + "]";
+				+ ", cContent=" + cContent + ", isRead=" + isRead + "]";
 	}
+
+	
 
 	
 	

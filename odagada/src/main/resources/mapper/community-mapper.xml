@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="community">
   <insert id="saveMessage" parameterType="msgVo">
-  		insert into chattingview values(#{receiver},#{sender},sysdate,#{cContent},#{roomId})
+  		insert into chattingview values(#{receiver},#{sender},sysdate,#{cContent},#{roomId},'N')
   </insert>
   <select id="bringMsg" parameterType="string" resultType="map">
   	select * from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate

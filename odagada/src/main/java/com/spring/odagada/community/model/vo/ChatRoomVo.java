@@ -8,17 +8,17 @@ public class ChatRoomVo {
 	private String memberName;
 	private String cDate;
 	private String cContent;
+	private int isReadCount;
 	
 	public ChatRoomVo() {}
 	
-	
-
-	public ChatRoomVo(String roomId, String memberId, String memberName, String cDate, String cContent) {
+	public ChatRoomVo(String roomId, String memberId, String memberName, String cDate, String cContent, int isReadCount) {
 		this.roomId = roomId;
 		this.memberId = memberId;
 		this.memberName = memberName;
 		this.cDate = cDate;
 		this.cContent = cContent;
+		this.isReadCount = isReadCount;
 	}
 
 
@@ -63,11 +63,22 @@ public class ChatRoomVo {
 		this.cContent = cContent;
 	}
 
+	
+	public int getIsReadCount() {
+		return isReadCount;
+	}
+
+	public void setIsReadCount(int isReadCount) {
+		this.isReadCount = isReadCount;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatRoomVo [roomId=" + roomId + ", memberId=" + memberId + ", memberName=" + memberName + ", cDate="
-				+ cDate + ", cContent=" + cContent + "]";
+				+ cDate + ", cContent=" + cContent + ", isReadCount=" + isReadCount + "]";
 	}
+
+	
 	
 	
 }

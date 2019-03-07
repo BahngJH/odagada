@@ -33,55 +33,60 @@ public class CommunityController {
 	
 	//채팅방 클릭 했을 때
 	@RequestMapping("/chat/bringMessage.do")
-	public ModelAndView bringMsg(String roomId) throws UnsupportedEncodingException
+	public ModelAndView bringMsg(String roomId, ModelAndView mv) throws UnsupportedEncodingException
 	{
-		ModelAndView mv = new ModelAndView();
 		List<Map<String,String>> chatContent = service.bringMsg(roomId);
 		
-		for(Map<String,String> i:chatContent) {
+		for(Map<String,String> i:chatContent) 
+		{
 			logger.debug("MAP데이터 : "+i);
-			/*i.put("CCONTENT", URLEncoder.encode((String)i.get("CCONTENT"),"UTF-8"));*/
 		}
+		
 		mv.addObject("chatList",chatContent);
 		mv.setViewName("jsonView");
+		
 		return mv;
 	}
 	
 
 	//채팅방 입장
-		@RequestMapping("/chatting.do")
-		public ModelAndView chatting(HttpServletRequest request) 
+	@RequestMapping("/chatting.do")
+	public ModelAndView chatting(HttpServletRequest request) 
+	{
+		ModelAndView mv = new ModelAndView();
+		Member m = (Member)request.getSession().getAttribute("logined");
+		
+		List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
+		
+		for(ChatRoomVo i:chatRooms) 
 		{
-			ModelAndView mv = new ModelAndView();
-			Member m = (Member)request.getSession().getAttribute("logined");
-			logger.debug(m+"");
-			List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
-			for(ChatRoomVo i:chatRooms) {
-				logger.debug("채팅방 정보들"+i);
-				i.setcDate(i.getcDate().substring(0, 14));
-				
-			}
-			mv.addObject("chatRooms", chatRooms);
-			mv.setViewName("community/chatting");
-			return mv;
+			logger.debug("채팅방 정보들"+i);
+			i.setcDate(i.getcDate().substring(0, 14));
 		}
+		
+		mv.addObject("chatRooms", chatRooms);
+		mv.setViewName("community/chatting");
+		
+		return mv;
+	}
 	
 	//메시지 왔을 때 채팅방 최신화
 	@RequestMapping("/chat/updateRoom.do")
 	public ModelAndView updateRoom(HttpServletRequest request)
 	{
 		ModelAndView mv = new ModelAndView();
-		Member m = (Member)request.getSession().getAttribute("logined");
-		
-		//List<Map<String,String>> chatRooms = service.bringChatRooms(m.getMemberId());
+		Member m = (Member)request.getSession().getAttribute("logined");		
 		
 		List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
-		for(ChatRoomVo i:chatRooms) {
+		
+		for(ChatRoomVo i:chatRooms) 
+		{
 			logger.debug("채팅방 정보들"+i);
 		}
 		
 		mv.addObject("chatRooms", chatRooms);
 		mv.setViewName("jsonView");
+		
 		return mv;
 	}
 
