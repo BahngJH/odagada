@@ -4,7 +4,6 @@
   <insert id="saveMessage" parameterType="msgVo">
   		insert into chattingview values(#{receiver},#{sender},sysdate,#{cContent},#{roomId})
   </insert>
-  
   <select id="bringMsg" parameterType="string" resultType="map">
   	select * from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate
   </select>
@@ -12,5 +11,9 @@
   <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">
 		select roomid,memberid,membername,TO_CHAR(cDate+9/24,'yy.MM.dd HH24:mi:ss') as cDate,ccontent from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId} order by cdate desc
  	</select>
-  
+
+  <insert id="insertNotify" parameterType="map">
+  		insert into notify values(6,19,#{nContent},sysdate)
+  </insert>
+
 </mapper>
