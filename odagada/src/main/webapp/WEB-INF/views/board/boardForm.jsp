@@ -28,7 +28,7 @@ $(function(){
 	}
 </script>
 <section id="board-container" class="container">
-	<form name="boardFrm" action="${path}/board/boardFormEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+	<form name="boardFrm" action="${path}/board/boardFormEnd" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 	<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
 		<input type="text" class="form-control" placeholder="제목" name="bTitle" id="bTitle" required/>		
 	</div>
@@ -42,14 +42,6 @@ $(function(){
                     <input type="file" class="custom-file-input" name="upFile" id="upFile1">
                     <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
                 </div>
-                
-                
-			    <!-- <input type="file" class="custom-file-input" id="upFile" name="upFile">
-			    <label class="custom-file-label" for="upFile1">파일을 선택하세요.</label>
-			  </div>
-			  <div class="input-group-append">
-			    <span class="input-group-text" id="">Upload</span>
-			  </div> -->
 			</div>
 			</div>
 		</div>

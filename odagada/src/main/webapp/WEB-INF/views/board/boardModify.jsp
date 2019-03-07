@@ -8,7 +8,10 @@
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 ​<style>
-	
+	section div h2 {
+		text-align: center;
+		font-weight: bold;
+	}
 </style>
 <script>
 $(function(){
@@ -28,39 +31,35 @@ $(function(){
 	}
 </script>
 <section id="board-container" class="container">
-	<form name="boardFrm" action="${path}/board/boardModifyEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+	<form name="boardFrm" action="${path}/board/boardModifyEnd?boardNo=${board.BOARDNO}" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 	<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
-		<input type="text" class="form-control" placeholder="제목" name="bTitle" id="bTitle" required/>		
+		<h2>공지사항</h2>
+		<hr/>		
+	</div>
+	<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
+		<input type="text" class="form-control" placeholder="제목" name="bTitle" id="bTitle" value="${board.BTITLE}" required/>		
 	</div>
 		<div class="col-md-6 offset-md-3" style="padding:0px;">
 			<div class="input-group mb-3">
-			  <div class="custom-file">
-			  	<div class="input-group-prepend" style="padding:0px;">
-                    <span class="input-group-text">첨부파일</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
-                    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
-                </div>
-                
-                
-			    <!-- <input type="file" class="custom-file-input" id="upFile" name="upFile">
-			    <label class="custom-file-label" for="upFile1">파일을 선택하세요.</label>
-			  </div>
-			  <div class="input-group-append">
-			    <span class="input-group-text" id="">Upload</span>
-			  </div> -->
-			</div>
+				<div class="custom-file">
+					<div class="input-group-prepend" style="padding:0px;">
+						<span class="input-group-text">첨부파일</span>
+					</div>
+					<div class="custom-file">
+                 	   <input type="file" class="custom-file-input" name="upFile" id="upFile1">
+                 	   <label class="custom-file-label" for="upFile1"><c:out value="${board.BORIFILENAME}"/></label>
+                 	</div>
+             	</div>
 			</div>
 		</div>
 		<br/>
 		<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
-			<textarea class="form-control" name="bContent" placeholder="내용" required></textarea>
-		<br/>
+			<textarea class="form-control" name="bContent" placeholder="내용" required>${board.BCONTENT}</textarea><br/>
 		</div>		
 		<div class="col-6 col-md-6 offset-md-3" style="text-align: center;">
+			<input type="hidden" name="boardNo" value="${board.BOARDNO}"/>
 			<input type="submit" class="btn btn-outline-success" value="수정">
-			<input type="button" class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardList?BoardNo=';" value="취소">
+			<input type="button" class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardList';" value="취소">
 		</div>
 	</form>
 </section>
