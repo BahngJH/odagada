@@ -53,6 +53,7 @@
 							<input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="출발지" readonly/>
 							<input type="text" name="startLon" id="startLon" value="" hidden/>
 							<input type="text" name="startLat" id="startLat" value="" hidden/>
+							<input type="text" name="kmNum" id="kmNum" value="3" hidden/>
 							<input type="button" class="btn btn-outline-success road-btn" onclick="sample6_execDaumPostcode1()" value="출발지 검색"><br>
 						</div>
 					</div>
