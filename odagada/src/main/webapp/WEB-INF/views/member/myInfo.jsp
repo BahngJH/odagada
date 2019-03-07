@@ -93,12 +93,12 @@
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					        <form action="${path }/member/updateInfo.do" method="post">					         
+					        <%-- <form action="${path }/member/updateInfo.do" method="post">		 --%>			         
 					          <div class="form-group">
 					            <label for="answer" class="form-control-label">보안을 위해 비밀번호를 한 번 더 입력해주세요.</label>
-					            <textarea class="form-control" id="answer" style="resize: none;" rows="1"></textarea>
+					            <input type="text" class="form-control" id="answer" name="answer" style="resize: none;">
 					          </div>
-					        </form>
+					        <!-- </form> -->
 					      </div>
 					      <div class="modal-footer">					      	
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -115,18 +115,23 @@
 
 <script>
 function updateCheck() {
-    var answer = prompt("다시 한 번 비밀번호 입력해주세요.");
-    
+    var answer = $("#answer").val();
+    console.log("anwer : "+answer);
     $.ajax({
     	url:"${path}/member/checkPw.do",
     	data:{"answer":answer},
     	success:function(data){
-    		if(data === "no"){
-				alert("비밀번호가 올바르지 않습니다.");		
+    		
+    		console.log(data);
+    		console.log(data+": "+typeof data);
+    		
+    		if(data!=data){
+				alert("비밀번호가 올바르지 않습니다.");
+				return;
     		}
     		else{   			
     			location.href="${path}/member/updateInfo.do";
-    	  	}
+    		}
     	}
     });  
   

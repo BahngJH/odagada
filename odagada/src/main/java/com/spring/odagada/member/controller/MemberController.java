@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -21,7 +22,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -190,20 +190,38 @@ public class MemberController {
    
    //비밀번호 체크
    @RequestMapping("/member/checkPw.do")
-   public String checkPw(String answer, HttpSession session) {
+   public void checkPw(HttpServletResponse response, String answer, HttpSession session) {
 	   logger.debug("받아오는 pw 값: "+answer);
 	   
 	   Member m = (Member)session.getAttribute("logined");
-	   String result="";
 	   
-	   if(pwEncoder.matches(answer, m.getMemberPw())) {
+	   
+/*	   if(pwEncoder.matches(answer, m.getMemberPw())) {
 		   logger.debug("ok");
 		   result = "ok";
 	   }else {
 		   logger.debug("no");
 		   result = "no";
-	   }	   
-	   return result;
+	   }	 
+	   return result;*/
+	   try {
+		   if(pwEncoder.matches(answer, m.getMemberPw()))
+		      {
+		         response.setContentType("text/csv;charset=UTF-8");
+		         logger.debug("ok");
+		         
+		         response.getWriter().println();
+		      }
+		      else {
+		         response.setContentType("text/csv;charset=UTF-8");
+		         logger.debug("no");
+		         response.getWriter().println("no");
+		      }
+	   }
+	   catch(IOException e)
+	   {
+		   e.printStackTrace();
+	   }
    }
  
    //내 정보 변경
