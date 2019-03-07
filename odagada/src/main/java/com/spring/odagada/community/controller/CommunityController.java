@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.community.model.service.CommunityService;
+import com.spring.odagada.community.model.vo.ChatRoomVo;
 import com.spring.odagada.member.model.vo.Member;
 
 @Controller
@@ -30,21 +31,7 @@ public class CommunityController {
 		return "community/chatView";
 	}
 	
-	//채팅방 입장
-	@RequestMapping("/chatting.do")
-	public ModelAndView chatting(HttpServletRequest request) 
-	{
-		ModelAndView mv = new ModelAndView();
-		Member m = (Member)request.getSession().getAttribute("logined");
-		logger.debug(m+"");
-		List<Map<String,String>> chatRooms = service.bringChatRooms(m.getMemberId());
-		for(Map i:chatRooms) {
-			logger.debug("채팅방 정보들"+i);
-		}
-		mv.addObject("chatRooms", chatRooms);
-		mv.setViewName("community/chatting");
-		return mv;
-	}
+	//채팅방 클릭 했을 때
 	@RequestMapping("/chat/bringMessage.do")
 	public ModelAndView bringMsg(String roomId) throws UnsupportedEncodingException
 	{
@@ -53,9 +40,46 @@ public class CommunityController {
 		
 		for(Map<String,String> i:chatContent) {
 			logger.debug("MAP데이터 : "+i);
-			i.put("CCONTENT", URLEncoder.encode((String)i.get("CCONTENT"),"UTF-8"));
+			/*i.put("CCONTENT", URLEncoder.encode((String)i.get("CCONTENT"),"UTF-8"));*/
 		}
 		mv.addObject("chatList",chatContent);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	//채팅방 입장
+		@RequestMapping("/chatting.do")
+		public ModelAndView chatting(HttpServletRequest request) 
+		{
+			ModelAndView mv = new ModelAndView();
+			Member m = (Member)request.getSession().getAttribute("logined");
+			logger.debug(m+"");
+			List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
+			for(ChatRoomVo i:chatRooms) {
+				logger.debug("채팅방 정보들"+i);
+				i.setcDate(i.getcDate().substring(0, 14));
+				
+			}
+			mv.addObject("chatRooms", chatRooms);
+			mv.setViewName("community/chatting");
+			return mv;
+		}
+	
+	//메시지 왔을 때 채팅방 최신화
+	@RequestMapping("/chat/updateRoom.do")
+	public ModelAndView updateRoom(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		Member m = (Member)request.getSession().getAttribute("logined");
+		
+		//List<Map<String,String>> chatRooms = service.bringChatRooms(m.getMemberId());
+		
+		List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
+		for(ChatRoomVo i:chatRooms) {
+			logger.debug("채팅방 정보들"+i);
+		}
+		
+		mv.addObject("chatRooms", chatRooms);
 		mv.setViewName("jsonView");
 		return mv;
 	}

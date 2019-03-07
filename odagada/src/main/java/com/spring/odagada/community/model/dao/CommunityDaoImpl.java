@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.odagada.community.model.vo.ChatRoomVo;
 import com.spring.odagada.community.model.vo.MessageVo;
 
 @Repository
@@ -30,7 +31,7 @@ public class CommunityDaoImpl implements CommunityDao {
 	
 	//채팅방들 가져옴
 	@Override
-	public List<Map<String, String>> bringChatRooms(String loginId) {
+	public List<ChatRoomVo> bringChatRooms(String loginId) {
 		// TODO Auto-generated method stub
 		return session.selectList("community.bringChatRooms",loginId);
 	}

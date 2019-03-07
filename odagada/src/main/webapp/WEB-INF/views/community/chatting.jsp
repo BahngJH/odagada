@@ -11,6 +11,9 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <style>
+    	#container{
+    		margin-bottom:60px;
+    	}
         #chattingRoom, #profile{
             display: inline-block;
             width:23%;
@@ -80,7 +83,7 @@
         	word-break: break-all;
         	margin-right: 10px;
         }
-        .msgDiv{
+        .msgDivLeft{
         	width:400px;
         }
     </style>
@@ -94,28 +97,19 @@
             <div id="chatRooms">
             
               <c:forEach items="${chatRooms }"  var="rooms">
-            		<div id="chatRoom" onclick="bringMessage('${rooms.ROOMID}')">
+            		<div id="chatRoom" onclick="bringMessage(this)">
+            		<input type="hidden" id="roomId" value="${rooms.roomId }">
+            		<input type="hidden" id="memberId" value="${rooms.memberId }">
             			<div id="userInfoTop">
-            				<span id=userName><b>${ rooms.MEMBERNAME}</b></span>
-            				<span id="time">${rooms.CDATE }</span>
+            				<span id=userName><b>${ rooms.memberName}</b></span>
+            				<span id="time"> ${rooms.cDate }</span>
             			</div>
             			<div id="userInfoBottom">
-            				<span id="recentMsg">${ rooms.CCONTENT}</span>
+            				<span id="recentMsg">${ rooms.cContent}</span>
             			</div>
-            	</div>
-            </c:forEach>
-             
-             <div id="chatRoom" onclick="bringMessage('test1,test2');">
-                    <div id="userInfoTop">
-                        <span id="userName"><b>나연</b></span>
-                        <span id="time">19.3.2 14:20</span>
-                    </div>
-                    <div id="userInfoBottom">
-                        <span id="recentMsg">아령하세요</span>
-                    </div>
-                </div>
-            </div>    
-                                                        
+	            	</div>
+	            </c:forEach>
+            </div>                                                           
         </div>
 
         <div id="chattingView" class="col-6 col-xs-12 " >
@@ -147,31 +141,38 @@
     //데이터 보낼 json객체
     var jsonData ={};
     
+    var allMsg="";
+    
     
     //처음 창에 들어오면 웹소켓 자동 연결
-    $(function(){
+    $(function()
+    {
     	var url="http://localhost:9090/odagada/echo";
 		ws = new SockJS(url);
 		
-		ws.onmessage = function(event){
-			//writeResponse(event.data);
+		ws.onmessage = function(event)
+		{
 			jsonTextParse(event.data);
-			
 	    	//채팅방순서 최신화, 안읽은 메시지 띄워주기
+	    	updateChatRoom();
 
 		};
 		
-		ws.onopen = function(event){
+		ws.onopen = function(event)
+		{
 			var myid = {"myId" : "${logined.memberId}"};
 			ws.send(JSON.stringify(myid));
 		};
 		
 		//소켓이 닫히고 실행되는 함수, 즉 이 메소드가 실행될 땐 이미 소켓이 닫힌 상태
-		ws.onclose = function(){
+		ws.onclose = function()
+		{
 			console.log("Connection Closed");
 		};
 
-		
+		ws.error=function(event){
+			console.log(event);
+		}
     });
     
     //메시지 보내는 기능
@@ -179,82 +180,110 @@
 	{
 		jsonData.text = $('#messageInput').val();
 		jsonData.sender ="${logined.memberId}";
-		
-		//나중에 채팅방 클릭하면 그쪽으로 옮겨야함, 아래 공간있음
-		jsonData.reciver = "test2";
-		jsonData.roomId = "test1,test2";
-		
 		ws.send(JSON.stringify(jsonData));
 		$('#messageInput').val("");
 		$('#messageInput').focus();
 	}
     
     
-    function bringMessage(roomId){
+    function bringMessage(e)
+    {
+    	//채티방 클릭시 reciver와 roomid를 셋팅한다.
+    	jsonData.receiver = $(e).children('#memberId').val();
+		jsonData.roomId = $(e).children('#roomId').val();
     	
-    	//receiver, roomid 해당값으로 변경하는 로직 구현해야함
-  
     	$.ajax({
     		url:"${path}/chat/bringMessage.do",
-    		data:{"roomId":roomId},
+    		data:{"roomId":$(e).children('#roomId').val()},
     		success:function(data)
     		{
     			for(var i=0;i<data.chatList.length;i++){
-    				console.log(data.chatList[i]);
-    				var allMsg="";
+    				//console.log(data.chatList[i]);
     				                                                      
-    				if(data.chatList[i].SENDER=='test1')
+    				if(data.chatList[i].SENDER=='${logined.memberId}')
         			{
-						var right = "<div >";
+						var right ="<div >";
 						right +="<p class='right' style='clear:both'>"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
 						right +="</div>";
     					allMsg +=right;
     					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
-        				$('#chatContent').append(right);
+        				//$('#chatContent').append(right);
         			}
         			else{
-        				var left = "<div class='msgDiv'>";
+        				var left = "<div class='msgDivLeft'>";
         				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
         				left +="<p class='left' >"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
         				left +="</div>";
     					allMsg +=left;
         				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
-        				$('#chatContent').append(left);
+        				//$('#chatContent').append(left);
         			}
     			}
-    			/* $('#chatContent').html(allMsg); */
+    			$('#chatContent').html(allMsg);
+    			allMsg="";
     		}
-    		
     	});
-    	
-    	//스크롤 최신화, 채팅방순서 최신화, 안읽은 메시지 띄워주기
-    	$("#chatContent").scrollTop($("#chatContent")[0].scrollHeight);
-    	
-    	
+    	//스크롤 최신화, 안읽은 메시지 띄워주기
+
     }
+     
+     function updateChatRoom()
+    {
+    	$.ajax({
+    		url:"${path}/chat/updateRoom.do",
+    		success:function(data)
+    		{
+				var updateRoom="";
+    			
+    			for(var i=0;i<data.chatRooms.length;i++)
+    			{
+            		var roomId = data.chatRooms[i].roomId;
+            		var memberId = data.chatRooms[i].memberId;
+					var cDate = (data.chatRooms[i].cDate).substring(0,14);	
+            		
+     				updateRoom +='<div id="chatRoom" onclick="bringMessage(this)">';
+     				updateRoom +='<input type="hidden" id="roomId" value="'+roomId+'">';
+     				updateRoom +='<input type="hidden" id="memberId" value="'+memberId+'">';
+ 					updateRoom +='<div id="userInfoTop">';
+    				updateRoom +='<span id=userName><b>'+data.chatRooms[i].memberName+'</b></span>';
+					updateRoom +='<span id="time">'+cDate+'</span>';
+					updateRoom +='</div>';
+        			updateRoom +='<div id="userInfoBottom">';
+        			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span></div></div>';
+    			}
+    			$('#chatRooms').html(updateRoom);
+    		}
+    	});
+    }   
     
-    function jsonTextParse(jsonText){
+     //메시지 받았을 때 켜 있는 화면이랑 메시지 roomid가 같으면 보여주고 아니면 안보여줌
+    function jsonTextParse(jsonText)
+    {
     	var json = JSON.parse(jsonText);
-    	console.log("파이널에 합치는중 : "+json.sender);
+    	/* console.log("파이널에 합치는중 : "+json.sender); */
     	
-    	if(json.sender=='test1')
-		{
-			var right = "<div >";
-			right +="<p class='right' style='clear:both'>"+json.text+"</p>";
-			right +="</div>";
-			
-			//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
-			$('#chatContent').append(right);
-		}
-		else{
-			var left = "<div class='msgDiv'>";
-			left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
-			left +="<p class='left' >"+json.text+"</p>";
-			left +="</div>";
-			
-			//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
-			$('#chatContent').append(left);
-		}
+    	//넘어온 데이터의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
+    	if(json.roomId==jsonData.roomId){
+    	
+	    	if(json.sender=='${logined.memberId}')
+			{
+				var right = "<div >";
+				right +="<p class='right' style='clear:both'>"+json.text+"</p>";
+				right +="</div>";
+				
+				//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
+				$('#chatContent').append(right);
+			}
+			else{
+				var left = "<div class='msgDiv'>";
+				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
+				left +="<p class='left' >"+json.text+"</p>";
+				left +="</div>";
+				
+				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
+				$('#chatContent').append(left);
+			}
+    	}
     }
     
     </script>
