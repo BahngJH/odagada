@@ -230,6 +230,14 @@ public class MemberController {
 	   return "member/updateForm";
    }
    
+   @RequestMapping("/member/myCarpool")
+   public ModelAndView myCarpool() {
+	   ModelAndView mav = new ModelAndView("member/myCarpool");
+	   
+	   
+	   return mav;
+   }
+   
    
 
 }
