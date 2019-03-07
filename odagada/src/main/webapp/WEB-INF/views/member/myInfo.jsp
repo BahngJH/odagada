@@ -222,11 +222,6 @@ function updateCheck() {
 
 
 
-=======
->>>>>>> branch 'Member' of https://github.com/BahngJH/odagada
-
-
-
 
 
 
