@@ -4,27 +4,35 @@
 	<resultMap type="map" id="carpool"></resultMap>
 	<select id="selectCarpoolList" parameterType="map" resultType="carpool">
 		SELECT * FROM CARPOOL
-<!-- 		<choose>
-			<when test=""> -->
+		<choose>
+			<when test="kmNum eq '3'">
 			<![CDATA[
-				where (startlat >= (#{startLat} - 0.0272830231094096) and (startlat <= (#{startLat}  + 0.0272830231094096))) 
+				where ((startlat >= (#{startLat} - 0.0272830231094096) and (startlat <= (#{startLat}  + 0.0272830231094096))) 
 				and (startlong >= (#{startLong} - 0.0338066260987153) and (startlong <= (#{startLong} + 0.0338066260987153)))
 				and (destlat >= (#{startLat} -  0.0272830231094096)) and (destlat <= (#{startLat}  +  0.0272830231094096))
-				and destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153);
+				and destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
 			]]>
-<!-- 			</when>
-			<when test="">
-			<![CDATA[
-				where (startlat >= (#{startLat} - 0.0454717051823493)) and (startlat <= (#{startLat}  + 0.0454717051823493)) 
-				and (startlong >= (#{startLong} - 0.0563443768311922)) and startlong <= (#{startLong} + 0.0563443768311922)) ]]>
 			</when>
-			<when test="">
+			<when test="kmNum eq '5'">
 			<![CDATA[
-				where (startlat >= (#{startLat} - 0.0900943410364699)) and (startlat <= (#{startLat}  + 0.0900943410364699)) 
-				and (startlong >= (#{startLong} - 0.1126887536623845)) and startlong <= (#{startLong} + 0.1126887536623845)) ]]>
+				where ((startlat >= (#{startLat} - 0.0454717051823493)) and (startlat <= (#{startLat}  + 0.0454717051823493)) 
+				and (startlong >= (#{startLong} - 0.0563443768311922)) and startlong <= (#{startLong} + 0.0563443768311922))
+				and (destlat >= (#{startLat} -  0.0454717051823493)) and (destlat <= (#{startLat}  +  0.0454717051823493))
+				and destlong >= (#{destLong} - 0.0563443768311922) and destlong <= (#{destLong} + 0.0563443768311922))
+				 ]]>
 			</when>
-		</choose> -->
+			<when test="kmNum eq '10'">
+			<![CDATA[
+				where ((startlat >= (#{startLat} - 0.0900943410364699)) and (startlat <= (#{startLat}  + 0.0900943410364699)) 
+				and (startlong >= (#{startLong} - 0.1126887536623845)) and startlong <= (#{startLong} + 0.1126887536623845)) 
+				and (destlat >= (#{startLat} -  0.0900943410364699)) and (destlat <= (#{startLat}  +  0.0900943410364699))
+				and destlong >= (#{destLong} - 0.1126887536623845) and destlong <= (#{destLong} + 0.1126887536623845))
+				]]>
+			</when>
+		</choose>
 	</select>
+	
+	
 	<insert id="insertCarpool" parameterType="carpool">
 		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})
 		<selectKey keyProperty="carpoolNum" resultType="_int" order="AFTER">
