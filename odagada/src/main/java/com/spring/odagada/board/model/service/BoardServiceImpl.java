@@ -38,6 +38,18 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoard(Map<String, String> board) {
 		return dao.insertBoard(board);
 	}
+
+	@Override
+	public int updateBoard(Map<String,Object> board){
+		return dao.updateBoard(board);
+	}
+
+	@Override
+	public int deleteBoard(int boardNo) {
+		return dao.deleteBoard(boardNo);
+	}
+	
+	
 	
 	
 	
