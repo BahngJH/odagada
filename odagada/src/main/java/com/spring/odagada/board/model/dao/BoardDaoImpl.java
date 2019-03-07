@@ -40,6 +40,19 @@ public class BoardDaoImpl implements BoardDao {
 	public int insertBoard(Map<String, String> board) {
 		return sqlSession.insert("board.insertBoard",board);
 	}
+
+	@Override
+	public int updateBoard(Map<String,Object> board){
+		return sqlSession.update("board.updateBoard",board);
+	}
+
+	@Override
+	public int deleteBoard(int boardNo) {
+		return sqlSession.delete("board.deleteBoard",boardNo);
+	}
+	
+	
+	
 	
 	
 	
