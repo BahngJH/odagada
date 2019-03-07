@@ -52,7 +52,6 @@
 				     <tr>
 				       <th scope="row">E-mail</th>
 				       <td><c:out value="${logined.email }"></c:out></td>
-				       <td><c:out value="${logined.isEmailAuth }"></c:out></td>
 				      <td>
 				      	<c:choose>
 				      		<c:when test="${logined.isEmailAuth eq 'N'}">
@@ -66,6 +65,7 @@
 				    </tr>
 				     <tr>				       
 				      <th scope="row">Phone</th>
+				        <td><c:out value="${logined.phone }"></c:out></td>
 				      <td>		
 			       	 	<c:choose>
 			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
@@ -79,12 +79,17 @@
 				    </tr>		 
 				</table>		
 			  <div class="menu card-body">
-			  	<form action="${path }/member/updateInfo.do" onsubmit="return updateCheck();" method="post">
-			   		 <a href="${path }/member/updateInfo.do" onclick="updateCk();" class="card-link text-secondary">내 정보 변경</a>
+ 			 	   <input type="button" id="withdrawal" onclick="updateCheck();" class="btn btn-outline-success" value="정보변경">
+   			 	   <a href="#" id="withdrawal" onclick="withdrawal();" class="card-link text-secondary">회원탈퇴</a>
+			 	   
+			  
+			<%--   	<form action="${path }/member/updateInfo.do" onsubmit="return updateCheck();" method="post">
+			   		 <input type="hidden" name="memberPw"/>
+			   		 <input type="submit" class="btn btn-outline-success" value="내 정보 변경">
 		   		 </form>
 		   		 <form>
-			 	   <a href="#" id="withdrawal" onclick="withdrawalCk();" class="card-link text-secondary">회원 탈퇴</a>
-			 	 </form>  
+			 	   <a href="#" id="withdrawal" onclick="withdrawal();" class="card-link text-secondary">회원 탈퇴</a>
+			 	 </form>   --%>
 			  </div>
 			</div>
 		</div>		
@@ -92,37 +97,29 @@
 </div>
 
 <script>
-/* $.ajax({
-	url:"${path}/member/checkPassword.do",
-	dataType:"json",
-	data:{"memberPw":$(#memberPw).val()},
-	success:function(data){
-		if()
-		
-	}
-}) */
+function updateCheck() {
+	var testTimes=1;
+    var answer = prompt("다시 한 번 비밀번호 입력해주세요.");
+    
+    $.ajax({
+    	url:"${path}/member/checkPw.do",
+    	data:{"answer":answer},
+    	success:function(data){
+    		if(data.result.equals("N")){
+    			history.go(-1);   			
+				alert("비밀번호가 올바르지 않습니다.");		
+    		}
+    		else{   			
+    			location.href="${path}/member/updateInfo.do";
+    	  	}
+    	}
+    });  
+  
+}
+    	
 
-function withdrawalCk(){
-	if(confirm("정말 탈퇴하시겠습니까?")){
-		var ck=prompt("비밀번호를 입력해주세요.");
-		document.wirte(ck);
-		/* document.write("탈퇴하기"); */
-	}else{
-		document.write("취소");
-	}
-	
-}
-<%-- function updateCk(){
-	/* document.write(ck); */
-	alert("Password=<%=m.getMemberPw()%>");
-	var answer=prompt("Password");
-	if(answer==<%=m.getMemberPw()%>){
-		return true;
-	}
-	return false;
-		window.history.back();
-}
- --%>
+
+
 
 </script>
 

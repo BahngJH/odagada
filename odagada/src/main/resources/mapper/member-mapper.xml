@@ -17,7 +17,9 @@
 	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId},#{memberPw}, #{memberName}, #{birth}, #{phone}, #{email}, sysdate, #{gender}, default,#{profileImageOri}, #{profileImageRe}, default, default)
 	</insert>
 	
+	<!--ID중복 체크 -->
 	<select id="checkId" parameterType="string" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBERID=#{memberId}
 	</select>
+	
 </mapper>
