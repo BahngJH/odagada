@@ -21,7 +21,8 @@
   div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
   .menu{text-align:center; font-weight:bold;}
   .info{margin-top:50px; margin-bottom: 50px;}
-  .alertS{padding:5px; font-size:12px; text-align:center;}
+  #answer{height:50%;}
+  
   
 }
 </style>
@@ -56,6 +57,7 @@
 				      	<c:choose>
 				      		<c:when test="${logined.isEmailAuth eq 'N'}">
 				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">인증하기</button>
 		      				</c:when>
 				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
 				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
@@ -78,18 +80,33 @@
 				      </td>
 				    </tr>		 
 				</table>		
-			  <div class="menu card-body">
- 			 	   <input type="button" id="withdrawal" onclick="updateCheck();" class="btn btn-outline-success" value="정보변경">
-   			 	   <a href="#" id="withdrawal" onclick="withdrawal();" class="card-link text-secondary">회원탈퇴</a>
-			 	   
-			  
-			<%--   	<form action="${path }/member/updateInfo.do" onsubmit="return updateCheck();" method="post">
-			   		 <input type="hidden" name="memberPw"/>
-			   		 <input type="submit" class="btn btn-outline-success" value="내 정보 변경">
-		   		 </form>
-		   		 <form>
-			 	   <a href="#" id="withdrawal" onclick="withdrawal();" class="card-link text-secondary">회원 탈퇴</a>
-			 	 </form>   --%>
+			  <div class="menu card-body">		 	   
+			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">정보 변경</button>
+				 <button type="button" class="btn btn-outline-success" onclick="withdrawal();"data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">회원 탈퇴</button>	
+					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">정보변경</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					        <form action="${path }/member/updateInfo.do" method="post">					         
+					          <div class="form-group">
+					            <label for="answer" class="form-control-label">보안을 위해 비밀번호를 한 번 더 입력해주세요.</label>
+					            <textarea class="form-control" id="answer" style="resize: none;" rows="1"></textarea>
+					          </div>
+					        </form>
+					      </div>
+					      <div class="modal-footer">					      	
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경하기</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>		 	 
 			  </div>
 			</div>
 		</div>		
@@ -98,7 +115,6 @@
 
 <script>
 function updateCheck() {
-	var testTimes=1;
     var answer = prompt("다시 한 번 비밀번호 입력해주세요.");
     
     $.ajax({
