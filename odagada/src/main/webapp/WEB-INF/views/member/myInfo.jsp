@@ -105,8 +105,7 @@ function updateCheck() {
     	url:"${path}/member/checkPw.do",
     	data:{"answer":answer},
     	success:function(data){
-    		if(data.result.equals("N")){
-    			history.go(-1);   			
+    		if(data === "no"){
 				alert("비밀번호가 올바르지 않습니다.");		
     		}
     		else{   			
