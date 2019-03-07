@@ -208,7 +208,7 @@ $(function(){
        }                  
       return true;
    }
- 
+
 
    //프로필 사진을 이미지 타입 파일로만 받기
    function fileCheck(obj){
@@ -228,7 +228,13 @@ $(function(){
       }
 </script>
       
-      <div id="enroll-container">
+      <section class="container">
+      
+      <div class="col-12 col-sm-3">
+      
+      </div>
+      
+      <div class="col-12 col-sm-9" id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/updateInfo.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
             <div class="row">
                <div class="col-6">
@@ -298,6 +304,7 @@ $(function(){
 
 
 
+      </section>
 
 
 
