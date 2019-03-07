@@ -148,4 +148,14 @@ public class CarpoolController {
 		mav.setViewName("carpool/oneSearch");
 		return mav;
 	}
+	
+	@RequestMapping("/carpool/payment")
+	public ModelAndView payment() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("carpool/payment");
+		
+		return mav;
+	}
+	
 }
