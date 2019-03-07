@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +39,8 @@
                 </li>          
                 <li class="nav-item">
                   <a class="nav-link" href="#">드라이버등록</a>
+                </li><li class="nav-item">
+                  <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
@@ -71,6 +73,7 @@
 	                </li>
                </c:if>      
    
+
               </ul>
             </div>
           </nav>

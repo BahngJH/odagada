@@ -120,7 +120,21 @@
    .phone2C{
    padding-left:0px;
    }
+   
+   li { list-style: none }
   
+  	li.li_pass{
+  		font-size:14px;
+  		margin-top:-10px;
+  		margin-left:-10px;
+  	}
+  	p{
+  	font-size:13px;
+  	}
+  	.passwordInfo{
+  	height:40px;
+  	}
+
     </style>
     
      
@@ -313,17 +327,17 @@ $(function(){
                   </div>                       
                </div>           
             </div>
-            <div class="row">
-            	
-           		<div>
-          			<p>비밀번호는 숫자,영문자,특수문자 조합으로 6~15자 입력하세요.</p>
-       			</div>
-           	
-            	
+            <div class="row passwordInfo">    	
+           		<div class="ptext col-5">
+           			<p class="badge badge-secondary p_pass">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
+       			</div>  
+       			<div class="col-7">      	
+          				<p>숫자/영문자/특수문자 조합 6~15자</p>
+          		</div> 		
             </div>
             
             <div class="row">
-               <div class="col-6 dL">
+               <div class="col-6">
                   <div>
                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" required>
                   </div>                       
@@ -381,11 +395,11 @@ $(function(){
                   </div>                      
                   </div>
                   <div class="row genderRow">         
-                <div class="gender form-check-inline from-control">성별 : &nbsp; 
+                	<div class="gender form-check-inline from-control">성별 : &nbsp; 
                         <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
                         <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
                    </div>
-                </div>
+                </div>                 
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;

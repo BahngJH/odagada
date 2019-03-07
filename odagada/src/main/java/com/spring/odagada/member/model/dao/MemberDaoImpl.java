@@ -36,7 +36,5 @@ public class MemberDaoImpl implements MemberDao {
 	public int checkId(String memberId) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.checkId", memberId);
-	}
-
-	
+	}	
 }
