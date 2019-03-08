@@ -144,7 +144,7 @@
 	}
 </script>
       <div id="enroll-container">
-         <form name="memberEnrollFrm" id="memberEnrollFrm" action="${path }/member/updateInfo.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
+         <form name="memberEnrollFrm" id="memberEnrollFrm" action="${path }/member/updateInfoEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
        		<div class="row">
        			<div class="col-6">
 		           <div class="custom-file" >
@@ -176,7 +176,7 @@
 	           			<c:if test="${fn:length(phone) eq 10}">
 	                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
 	           			</c:if> 
-	           	 </div>     			       	           				         
+	           	 </div>
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="정보변경" >&nbsp;
                   <input type="reset" class="btn btn-outline-success" value="취소">
                </div>

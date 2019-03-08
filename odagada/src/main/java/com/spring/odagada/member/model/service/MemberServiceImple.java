@@ -38,5 +38,11 @@ public class MemberServiceImple implements MemberService {
 		return dao.checkId(memberId);
 	}
 
+	@Override
+	public int updateMember(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateMember(m);
+	}
+
 
 }

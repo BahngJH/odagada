@@ -239,11 +239,54 @@ public class MemberController {
    }
    
    //내 정보 변경
-/*   @RequestMapping("/member/updateInfoEnd.do")
-   public ModelAndView updateInfoEnd(Model model) {
-	   ModelAndView mv= new ModelAndView();
-	   return mv;
-   }*/
+   @RequestMapping("/member/updateInfoEnd.do")
+   public String updateInfoEnd(Member m, HttpServletRequest request, MultipartFile upFile) {
+
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone = phone1 + phone2;
+		m.setPhone(phone);
+
+		String orPw = m.getMemberPw();
+		m.setMemberPw(pwEncoder.encode(orPw));
+
+		// 프로필 사진 저장되는 장소
+		String sd = request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+
+		ModelAndView mv = new ModelAndView();
+
+		if (!upFile.isEmpty()) {
+			// 파일명 생성(ReName)
+			String oriFileName = upFile.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+
+			// rename 규칙
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv = (int) (Math.random() * 1000);
+			String reName = sdf.format(System.currentTimeMillis()) + "_" + rdv + ext;
+
+			// profile 사진 저장
+			try {
+				upFile.transferTo(new File(sd + "/" + reName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			m.setProfileImageOri(oriFileName);
+			m.setProfileImageRe(reName);
+		}
+		int result = service.updateMember(m);
+		String msg = "";
+		String loc = "/";
+		if (result > 0) {
+			msg = "정보수정이 완료되었습니다.";
+		} else {
+			msg = "정보수정 실패.";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		return "common/msg";
+	}
+
    
 
    

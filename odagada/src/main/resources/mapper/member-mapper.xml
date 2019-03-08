@@ -22,4 +22,16 @@
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBERID=#{memberId}
 	</select>
 	
+	<!--회원 정보 수정  -->
+	<update id="updateMember" parameterType="member">
+	UPDATE MEMBER SET VALUE memberPw=#{memberPw},
+	                        phone=#{phone},
+	                        email=#{email},
+	                        #{profileImageOri},
+	                        #{profileImageRe},
+	                        #{isPhoneAuth},
+	                        #{isEmailAuth}
+	                        where memberNum=#{memberNum}                      
+	</update>
+	
 </mapper>
