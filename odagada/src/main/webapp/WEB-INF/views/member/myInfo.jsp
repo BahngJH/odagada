@@ -27,7 +27,7 @@
 <section class="container">
    <div class="row">
 
-      <div class="col-12 col-sm-4">
+      <div class="col-12 col-md-4">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
             <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
@@ -35,7 +35,7 @@
          </div>
       </div>
       
-      <div class="col-12 col-sm-8" id="enroll-container">   
+      <div class="col-12 col-md-8" id="enroll-container">   
          <div class="info col-12 col-sm-12 col-md-9">
            <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
             <div class="card-group">
