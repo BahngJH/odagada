@@ -12,5 +12,7 @@ public interface CarpoolDao {
 	int insertCarpool(Carpool carpool);
 
 	int insertOption(CarOption option);
+	
+	List<Map<String, String>> selectCarOptionList(Map<String, String> map);
 
 }
