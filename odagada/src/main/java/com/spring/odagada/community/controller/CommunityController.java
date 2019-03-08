@@ -26,36 +26,10 @@ public class CommunityController {
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
-	@RequestMapping("/moveChat.do")
-	public String moveChat() 
-	{
-		return "community/chatView";
-	}
-
-	
-	//채팅방 클릭 했을 때
-	@RequestMapping("/chat/bringMessage.do")
-	public ModelAndView bringMsg(String roomId, ModelAndView mv) throws UnsupportedEncodingException
-	{
-		List<Map<String,String>> chatContent = service.bringMsg(roomId);
-		
-		for(Map<String,String> i:chatContent) 
-		{
-			logger.debug("MAP데이터 : "+i);
-		}
-		
-		mv.addObject("chatList",chatContent);
-		mv.setViewName("jsonView");
-		
-		return mv;
-	}
-	
-
 	//채팅방 입장
 	@RequestMapping("/chatting.do")
-	public ModelAndView chatting(HttpServletRequest request) 
+	public ModelAndView chatting(HttpServletRequest request, ModelAndView mv) 
 	{
-		ModelAndView mv = new ModelAndView();
 		Member m = (Member)request.getSession().getAttribute("logined");
 		
 		List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
@@ -74,9 +48,8 @@ public class CommunityController {
 	
 	//메시지 왔을 때 채팅방 최신화
 	@RequestMapping("/chat/updateRoom.do")
-	public ModelAndView updateRoom(HttpServletRequest request)
+	public ModelAndView updateRoom(HttpServletRequest request, ModelAndView mv)
 	{
-		ModelAndView mv = new ModelAndView();
 		Member m = (Member)request.getSession().getAttribute("logined");		
 		
 		List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
@@ -87,6 +60,31 @@ public class CommunityController {
 		}
 		
 		mv.addObject("chatRooms", chatRooms);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	//채팅방 클릭 했을 때
+	@RequestMapping("/chat/bringMessage.do")
+	public ModelAndView bringMsg(String roomId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
+	{
+		
+		Member m =(Member) request.getSession().getAttribute("logined");
+		Map<String,Object> isreadData = new HashMap();
+		
+		isreadData.put("loginId", m.getMemberId());
+		isreadData.put("roomId", roomId);
+		
+		List<Map<String,String>> chatContent = service.bringMsg(roomId);
+		int rs = service.checkedMessage(isreadData);
+		
+		for(Map<String,String> i:chatContent) 
+		{
+			logger.debug("MAP데이터 : "+i);
+		}
+		
+		mv.addObject("chatList",chatContent);
 		mv.setViewName("jsonView");
 		
 		return mv;

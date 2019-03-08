@@ -39,6 +39,9 @@
         #chatRoom:hover{
             background-color: gray;
         }
+        .recentMsg{
+        	overflow:hidden;
+        }
         #time{
             margin-top: 5px; 
             float: right;
@@ -115,23 +118,14 @@
             				<span id="time"> ${rooms.cDate }</span>
             			</div>
             			<div id="userInfoBottom">
-            				<span id="recentMsg">${ rooms.cContent}</span>
-            				<!-- <span class="msgCount"></span> -->
+            				<span class="recentMsg">${ rooms.cContent}</span>
+            				<c:if test="${rooms.isReadCount>0 }">
+            					<span class="msgCount">${rooms.isReadCount }</span>
+            				</c:if> 
             			</div>
 	            	</div>
 	            </c:forEach>
-	            
-	            <div id="chatRoom" onclick="">
-            			<div id="userInfoTop">
-            				<span id=userName><b>유인나</b></span>
-            				<span id="time">19.03.07 15:24</span>
-            			</div>
-            			<div id="userInfoBottom">
-            				<span id="recentMsg">메시지 잘 가나요?</span>
-            				<sapn class="msgCount">5</sapn>
-            			</div>
-	            	</div>
-	            	
+	    
             </div>                                                           
         </div>
 
@@ -156,7 +150,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
     
     <script>
     //웹소켓 객체 사용할 변수
@@ -175,16 +169,14 @@
     	var url="http://localhost:9090/odagada/echo";
 		ws = new SockJS(url);
 		
+		//메세지를 받았을 때
 		ws.onmessage = function(event)
 		{
 			//1개씩 날아오는 메시지 받는 함수
 			jsonTextParse(event.data);
 	    	
 			//메시지가 오면 채팅방 위치 재배열
-	    	updateChatRoom();
-	    	
-			//알림처리
-			
+	    	updateChatRoom();	
 		};
 		
 		ws.onopen = function(event)
@@ -207,6 +199,12 @@
     //메시지 보내는 기능
     function MessageSend()
 	{
+    	if(jsonData.receiver==null)
+    	{
+    		alert("채팅방을 선택하세요!");
+    		return;
+    	}
+    	
 		jsonData.text = $('#messageInput').val();
 		jsonData.sender ="${logined.memberId}";
 		ws.send(JSON.stringify(jsonData));
@@ -248,6 +246,7 @@
     			}
     			$('#chatContent').html(allMsg);
     			allMsg="";
+    			updateChatRoom();
     		}
     	});
     	//스크롤 최신화, 안읽은 메시지 띄워주기
@@ -276,7 +275,14 @@
 					updateRoom +='<span id="time">'+cDate+'</span>';
 					updateRoom +='</div>';
         			updateRoom +='<div id="userInfoBottom">';
-        			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span></div></div>';
+        			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span>';
+        			
+        			if(data.chatRooms[i].isReadCount>0)
+        			{
+        				updateRoom +='<span class="msgCount">'+data.chatRooms[i].isReadCount+'</span>';
+        			}
+        			updateRoom +='</div></div>';
+        			
     			}
     			$('#chatRooms').html(updateRoom);
     		}
@@ -314,9 +320,6 @@
 				$('#chatContent').append(left);
 			}
     	}
-    	
-    	
-    	
     }
     
     </script>

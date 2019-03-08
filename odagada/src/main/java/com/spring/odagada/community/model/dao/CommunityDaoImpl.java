@@ -22,6 +22,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		return session.insert("community.saveMessage", msg);
 	}
 
+	@Override
+	public int checkedMessage(Map isreadData) {
+		// TODO Auto-generated method stub
+		return session.update("community.checkedMessage",isreadData);
+	}
+
 	//채팅 내용들 가져옴
 	@Override
 	public List<Map<String, String>> bringMsg(String roomId) {
@@ -33,7 +39,13 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public List<ChatRoomVo> bringChatRooms(String loginId) {
 		// TODO Auto-generated method stub
-		return session.selectList("community.bringChatRooms",loginId);
+		
+		List<ChatRoomVo> chatRoomList =  session.selectList("community.bringChatRooms",loginId);
+		for(ChatRoomVo room:chatRoomList)
+		{
+			room.setIsReadCount(session.selectOne("community.isReadCount", room));
+		}
+		return chatRoomList;
 	}
 	
 	//신고 글쓰기
