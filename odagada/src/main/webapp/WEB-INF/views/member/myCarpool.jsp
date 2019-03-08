@@ -58,6 +58,10 @@ div.status_option>span {
 div.driver>span{
 	float: left;
 }
+
+a#pay{
+	color: #FFFFFF;
+}
 </style>
 
 <section class="container">
@@ -94,7 +98,26 @@ div.driver>span{
 				                   </div>
 				                   <div class="col status_option">
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
-					                        <span class="span-option col-text">${list.PAYCODE }</span>
+					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
+					                        <!-- Modal -->
+											<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											  <div class="modal-dialog" role="document">
+											    <div class="modal-content">
+											      <div class="modal-header">
+											        <h5 class="modal-title" id="exampleModalLabel">결제 코드</h5>
+											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											          <span aria-hidden="true">&times;</span>
+											        </button>
+											      </div>
+											      <div class="modal-body">
+											        ${list.PAYCODE }
+											      </div>
+											      <div class="modal-footer">
+											        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											      </div>
+											    </div>
+											  </div>
+											</div>
 				                   		</c:if>
 				                   		<c:if test='${list.PAYSTATUS == "Y"}'>
 											<span class="badge badge-success">결제 완료</span>
@@ -114,6 +137,7 @@ div.driver>span{
 				          </div>
 				        </div>
 				      </div>
+				      
 				   </form>
 				</c:forEach>
 		     </div>
