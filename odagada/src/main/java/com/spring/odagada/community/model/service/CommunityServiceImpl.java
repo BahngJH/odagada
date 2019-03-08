@@ -22,6 +22,12 @@ public class CommunityServiceImpl implements CommunityService {
 		// TODO Auto-generated method stub
 		return dao.saveMessage(msg);
 	}
+	
+	@Override
+	public int checkedMessage(Map isreadData) {
+		// TODO Auto-generated method stub
+		return dao.checkedMessage(isreadData);
+	}
 
 	//채팅 내용들 가져오는거
 	@Override

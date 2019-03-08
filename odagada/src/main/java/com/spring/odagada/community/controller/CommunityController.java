@@ -26,31 +26,6 @@ public class CommunityController {
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
-	@RequestMapping("/moveChat.do")
-	public String moveChat() 
-	{
-		return "community/chatView";
-	}
-
-	
-	//채팅방 클릭 했을 때
-	@RequestMapping("/chat/bringMessage.do")
-	public ModelAndView bringMsg(String roomId, ModelAndView mv) throws UnsupportedEncodingException
-	{
-		List<Map<String,String>> chatContent = service.bringMsg(roomId);
-		
-		for(Map<String,String> i:chatContent) 
-		{
-			logger.debug("MAP데이터 : "+i);
-		}
-		
-		mv.addObject("chatList",chatContent);
-		mv.setViewName("jsonView");
-		
-		return mv;
-	}
-	
-
 	//채팅방 입장
 	@RequestMapping("/chatting.do")
 	public ModelAndView chatting(HttpServletRequest request) 
@@ -68,6 +43,31 @@ public class CommunityController {
 		
 		mv.addObject("chatRooms", chatRooms);
 		mv.setViewName("community/chatting");
+		
+		return mv;
+	}
+	
+	//채팅방 클릭 했을 때
+	@RequestMapping("/chat/bringMessage.do")
+	public ModelAndView bringMsg(String roomId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
+	{
+		
+		Member m =(Member) request.getSession().getAttribute("logined");
+		Map<String,String> isreadData = new HashMap();
+		
+		isreadData.put("loginId", m.getMemberId());
+		isreadData.put("roomId", roomId);
+		
+		List<Map<String,String>> chatContent = service.bringMsg(roomId);
+		int rs = service.checkedMessage(isreadData);
+		
+		for(Map<String,String> i:chatContent) 
+		{
+			logger.debug("MAP데이터 : "+i);
+		}
+		
+		mv.addObject("chatList",chatContent);
+		mv.setViewName("jsonView");
 		
 		return mv;
 	}
