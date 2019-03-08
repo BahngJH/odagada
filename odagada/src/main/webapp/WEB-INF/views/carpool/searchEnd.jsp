@@ -44,10 +44,6 @@
 		font-size:10px;
 		color:black;
 	}
-/* 	div#option_flex{
-		position:fixed;
-		width:245px;
-	} */
 	button.start-search{
 		float:right;
 	}
@@ -78,14 +74,20 @@
 	    					<hr>
 	    					<div class="row">
 	    						<div class="col-12">
-	    							<span>검색 반경: </span><br>
-									<select name="kmNum" id="kmNum" class="form-control">
+	    							<span>시작 검색 반경: </span><br>
+									<select name="kmNumS" id="kmNumS" class="form-control">
+										<option value="3">3KM 이내 </option>
+										<option value="5">5KM 이내 </option>
+										<option value="10">10KM 이내</option>
+									</select>
+	    							<span>도착 검색 반경: </span><br>
+									<select name="kmNumE" id="kmNumE" class="form-control">
 										<option value="3">3KM 이내 </option>
 										<option value="5">5KM 이내 </option>
 										<option value="10">10KM 이내</option>
 									</select>
 	    							<hr>
-	    							<input type="hidden" name="startLat" id="startLat" value="${seatch.startLat }"/>
+	    							<input type="hidden" name="startLat" id="startLat" value="${search.startLat }"/>
 	    							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
 	    							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
 	    							<input type="hidden" name="destLong" id="destLong" value="${search.destLong }"/>
@@ -189,6 +191,17 @@
 	</div>
 </section>
 <script>
+//옵션바 고정
+$(function () {
+            var currentPosition = parseInt($("#option_flex").css("top"));
+            $(window).scroll(function () {
+                var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+                
+                $("#option_flex").stop().animate({
+                    "top": position + currentPosition + "px"
+                }, 500);
+            });
+});
 function validate(){
 	return true;
 }
@@ -212,7 +225,8 @@ function onecar(){
 				"food":$('#food').is(":checked"),
 				"baggage":$('#baggage').is(":checked"),
 				"seatcount":$('#seatcount').val(),
-				"kmNum":$('#kmNum').val(),
+				"kmNumS":$('#kmNumS').val(),
+				"kmNumE":$('#kmNumE').val(),
 				"startLat":$('#startLat').val(),
 				"startLong":$('#startLong').val(),
 				"destLat":$('#destLat').val(),
