@@ -18,4 +18,9 @@
 		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
 		where passenger.memberNum = #{memberNum}
 	</select>
+	<select id="selectCarpoolCount" parameterType="_int" resultType="_int">
+		select count(*)
+		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
+		where passenger.memberNum = #{memberNum}
+	</select>
 </mapper>
