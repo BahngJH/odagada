@@ -29,5 +29,10 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	public int insertOption(CarOption option) {
 		return session.insert("carpool.insertOption", option);
 	}
+
+	@Override
+	public List<Map<String, String>> selectCarpoolList(int memberNum) {
+		return session.selectList("carpool.selectMemberCarpoolList", memberNum);
+	}
 	
 }

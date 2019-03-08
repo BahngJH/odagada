@@ -28,6 +28,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.carpool.model.vo.Carpool;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -40,6 +42,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	@Autowired
+	CarpoolService cService;
 	
 	//비밀번호 암호화 처리
 	@Autowired
@@ -233,8 +238,14 @@ public class MemberController {
    }
    
    @RequestMapping("/member/myCarpool")
-   public ModelAndView myCarpool() {
+   public ModelAndView myCarpool(HttpSession session) {
 	   ModelAndView mav = new ModelAndView("member/myCarpool");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   List<Map<String, String>> list = cService.selectCarpoolList(m.getMemberNum());
+	   
+	   mav.addObject("carpoolList", list);
 	   
 	   
 	   return mav;

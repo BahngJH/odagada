@@ -41,4 +41,9 @@ public class CarpoolServiceImpl implements CarpoolService {
 		
 		return result;
 	}
+
+	@Override
+	public List<Map<String, String>> selectCarpoolList(int memberNum) {
+		return dao.selectCarpoolList(memberNum);
+	}
 }
