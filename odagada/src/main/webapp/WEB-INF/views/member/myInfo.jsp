@@ -22,32 +22,36 @@
   .info{margin-top:50px; margin-bottom: 50px;}
   #answer{height:50%;}
   
-  
-}
 </style>
 
+<section class="container">
+   <div class="row">
 
-
-<div id="enroll-container">	
-	<div class="info col-12">
-		<div class="card-group">
-			<div class="card">
-			  <img class="card-img-top" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-				  <table class="table table-hover">
-				    <tr>
-				      <th scope="row">아이디</th>
-				      <td><c:out value="${logined.memberId }"></c:out></td>
-				      <td></td>   
+      <div class="col-12 col-sm-4">
+         <div class="menu_list info list-group">
+            <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
+            <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+            <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+         </div>
+      </div>
+      
+      <div class="col-12 col-sm-8" id="enroll-container">   
+         <div class="info col-12 col-sm-12 col-md-8">
+           <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+            <div class="card-group">
+               <div class="card">
+                    <table class="table table-hover">
+                      <tr>
+                      <th scope="row">아이디</th>
+				      <td colspan="2"><c:out value="${logined.memberId }"></c:out></td>  
 				    </tr>
 				    <tr>
 					   <th scope="row">이름</th>
-				       <td><c:out value="${logined.memberName }"></c:out></td>
-				       <td></td>     
+				       <td colspan="2"><c:out value="${logined.memberName }"></c:out></td>
 				    </tr>
 				    <tr>
 				       <th scope="row">가입날짜</th>
-			     	   <td><%=eDate[0] %></td>
-			     	   <td></td>  
+			     	   <td colspan="2"><%=eDate[0] %></td>
 				    </tr>
 				     <tr>
 				       <th scope="row">E-mail</th>
@@ -109,49 +113,35 @@
 					
 					
 					
-					<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
-					  <div class="modal-dialog" role="document">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title" id="sendEmailLabel">E-mail 인증하기</h5>				        
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					          <span aria-hidden="true">&times;</span>
-					        </button>
-					      </div>
-					      <div class="modal-body">
-					          <div class="form-group">
-					            <label for="answer" class="form-control-label">E-mail로 전송된 인증번호를 입력해주세요.</label>
-					            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
-					          </div>
-					      </div>
-					      <div class="modal-footer">					      	
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" onclick="emailCheck();">인증하기</button>					        
-					      </div>
-					    </div>
+						<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="sendEmailLabel">E-mail 인증하기</h5>				        
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						          <div class="form-group">
+						            <label for="answer" class="form-control-label">E-mail로 전송된 인증번호를 입력해주세요.</label>
+						            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
+						          </div>
+						      </div>
+						      <div class="modal-footer">					      	
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						        <button type="button" class="btn btn-primary" onclick="emailCheck();">인증하기</button>					        
+						      </div>
+						    </div>
+						  </div>
+						</div>
 					  </div>
 					</div>
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-							 	 
-			  </div>
+				</div>		
 			</div>
-		</div>		
+		</div>
 	</div>
-</div>
+</section>
 
 <script>
 function updateCheck() {
