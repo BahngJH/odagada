@@ -9,6 +9,7 @@ public class Member implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private int memberNum;
 	private String memberId;
 	private String memberPw;
 	private String memberName;

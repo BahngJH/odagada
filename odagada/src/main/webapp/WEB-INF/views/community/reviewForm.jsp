@@ -170,7 +170,7 @@ div#review-container textarea {
 	</span>
 	<br/>
 	<br/>
-	<input type="hidden" name="memberNum"value="${logined.memberNum }">
+	<input type="hidden" name="memberNum"value="${logined.memberNum}">
 	<input type="submit" class="btn btn-outline-success" value="등록" >
 	<input type="reset" class="btn btn-outline-success" value="취소" >
 	</form>

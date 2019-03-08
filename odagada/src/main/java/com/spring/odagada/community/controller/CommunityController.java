@@ -5,12 +5,9 @@ import java.util.Map;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,19 +123,25 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/community/reviewForm.do")
-	public ModelAndView reviewForm(HttpServletRequest request)
+	public ModelAndView reviewForm(HttpServletRequest request, HttpSession session)
 	{
 		ModelAndView mv=new ModelAndView();
-		Member m = (Member)request.getSession().getAttribute("logined");
+		Member m = (Member)session.getAttribute("logined");
+		
 		if(m!=null)
 		{
 			mv.setViewName("community/reviewForm");
+			logger.debug("멤버정보 "+m);
+			return mv;
 		}
 		else
 		{
-			mv.setViewName("member/loginForm");
+			mv.setViewName("/common/msg");
+			mv.addObject("msg","로그인 후 이용해주세요.");
+			mv.addObject("loc","/member/loginForm.do");
+			
+			return mv;
 		}
-		return mv;
 		
 	}
 	
