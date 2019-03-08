@@ -86,6 +86,16 @@
         .msgDivLeft{
         	width:400px;
         }
+         .msgCount{
+        	float:right;
+        	border:1px solid red;
+        	background-color:red;
+        	border-radius: 100%;
+        	width: 30px;
+            text-align: center;
+            color:white;
+        }
+        
     </style>
 <div id="container" class="container-fluid">
       <div class="row">
@@ -98,17 +108,30 @@
             
               <c:forEach items="${chatRooms }"  var="rooms">
             		<div id="chatRoom" onclick="bringMessage(this)">
-            		<input type="hidden" id="roomId" value="${rooms.roomId }">
-            		<input type="hidden" id="memberId" value="${rooms.memberId }">
+            			<input type="hidden" id="roomId" value="${rooms.roomId }">
+            			<input type="hidden" id="memberId" value="${rooms.memberId }">
             			<div id="userInfoTop">
             				<span id=userName><b>${ rooms.memberName}</b></span>
             				<span id="time"> ${rooms.cDate }</span>
             			</div>
             			<div id="userInfoBottom">
             				<span id="recentMsg">${ rooms.cContent}</span>
+            				<!-- <span class="msgCount"></span> -->
             			</div>
 	            	</div>
 	            </c:forEach>
+	            
+	            <div id="chatRoom" onclick="">
+            			<div id="userInfoTop">
+            				<span id=userName><b>유인나</b></span>
+            				<span id="time">19.03.07 15:24</span>
+            			</div>
+            			<div id="userInfoBottom">
+            				<span id="recentMsg">메시지 잘 가나요?</span>
+            				<sapn class="msgCount">5</sapn>
+            			</div>
+	            	</div>
+	            	
             </div>                                                           
         </div>
 
@@ -138,9 +161,11 @@
     <script>
     //웹소켓 객체 사용할 변수
     var ws;
-    //데이터 보낼 json객체
+    
+    //메시지 보낼 json객체
     var jsonData ={};
     
+    //채팅 데이터 합칠 거
     var allMsg="";
     
     
@@ -152,10 +177,14 @@
 		
 		ws.onmessage = function(event)
 		{
+			//1개씩 날아오는 메시지 받는 함수
 			jsonTextParse(event.data);
-	    	//채팅방순서 최신화, 안읽은 메시지 띄워주기
+	    	
+			//메시지가 오면 채팅방 위치 재배열
 	    	updateChatRoom();
-
+	    	
+			//알림처리
+			
 		};
 		
 		ws.onopen = function(event)
@@ -207,7 +236,6 @@
 						right +="</div>";
     					allMsg +=right;
     					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
-        				//$('#chatContent').append(right);
         			}
         			else{
         				var left = "<div class='msgDivLeft'>";
@@ -216,7 +244,6 @@
         				left +="</div>";
     					allMsg +=left;
         				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
-        				//$('#chatContent').append(left);
         			}
     			}
     			$('#chatContent').html(allMsg);
@@ -259,12 +286,13 @@
      //메시지 받았을 때 켜 있는 화면이랑 메시지 roomid가 같으면 보여주고 아니면 안보여줌
     function jsonTextParse(jsonText)
     {
+    	 //JSON파싱처리
     	var json = JSON.parse(jsonText);
-    	/* console.log("파이널에 합치는중 : "+json.sender); */
     	
     	//넘어온 데이터의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
-    	if(json.roomId==jsonData.roomId){
-    	
+    	if(json.roomId==jsonData.roomId)
+    	{
+    		//보낸 사람이 자기 자신이면 오른쪽에 메시지 붙임
 	    	if(json.sender=='${logined.memberId}')
 			{
 				var right = "<div >";
@@ -274,7 +302,9 @@
 				//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
 				$('#chatContent').append(right);
 			}
-			else{
+    		//보낸 사람이 내가 아니라면 왼쪽에 메시지 붙임
+			else
+			{
 				var left = "<div class='msgDiv'>";
 				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
 				left +="<p class='left' >"+json.text+"</p>";
@@ -284,6 +314,9 @@
 				$('#chatContent').append(left);
 			}
     	}
+    	
+    	
+    	
     }
     
     </script>
