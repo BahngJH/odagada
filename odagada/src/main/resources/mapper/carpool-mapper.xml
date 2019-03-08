@@ -12,28 +12,42 @@
 		]]>
 	</select>
 	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
-		SELECT * FROM CARPOOL join caroption using(carpoolnum) 
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
 		<choose>
-			<when test='kmNum eq "3"'>
+			<when test='kmNumS eq "3"'>
 			<![CDATA[
 				where (startlat >= (#{startLat} - 0.0272830231094096) and startlat <= (#{startLat}  + 0.0272830231094096)) 
 				and (startlong >= (#{startLong} - 0.0338066260987153) and startlong <= (#{startLong} + 0.0338066260987153))
+			]]>
+			</when>
+			<when test='kmNumS eq "5"'>
+			<![CDATA[
+				where (startlat >= (#{startLat} - 0.0454717051823493) and startlat <= (#{startLat}  + 0.0454717051823493)) 
+				and (startlong >= (#{startLong} - 0.0563443768311922) and startlong <= (#{startLong} + 0.0563443768311922))
+				 ]]>
+			</when>
+			<when test='kmNumS eq "10"'>
+			<![CDATA[
+				where (startlat >= (#{startLat} - 0.0900943410364699) and startlat <= (#{startLat}  + 0.0900943410364699)) 
+				and (startlong >= (#{startLong} - 0.1126887536623845) and startlong <= (#{startLong} + 0.1126887536623845))
+				]]>
+			</when>
+		</choose>
+		<choose>
+			<when test='kmNumE eq "3"'>
+			<![CDATA[
 				and (destlat >= (#{destLat} -  0.0272830231094096) and destlat <= (#{destLat}  +  0.0272830231094096))
 				and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
 			]]>
 			</when>
-			<when test='kmNum eq "5"'>
+			<when test='kmNumE eq "5"'>
 			<![CDATA[
-				where (startlat >= (#{startLat} - 0.0454717051823493) and startlat <= (#{startLat}  + 0.0454717051823493)) 
-				and (startlong >= (#{startLong} - 0.0563443768311922) and startlong <= (#{startLong} + 0.0563443768311922))
 				and (destlat >= (#{destLat} -  0.0454717051823493) and destlat <= (#{destLat}  +  0.0454717051823493))
 				and (destlong >= (#{destLong} - 0.0563443768311922) and destlong <= (#{destLong} + 0.0563443768311922))
 				 ]]>
 			</when>
-			<when test='kmNum eq "10"'>
+			<when test='kmNumE eq "10"'>
 			<![CDATA[
-				where (startlat >= (#{startLat} - 0.0900943410364699) and startlat <= (#{startLat}  + 0.0900943410364699)) 
-				and (startlong >= (#{startLong} - 0.1126887536623845) and startlong <= (#{startLong} + 0.1126887536623845))
 				and (destlat >= (#{destLat} -  0.0900943410364699) and destlat <= (#{destLat}  +  0.0900943410364699))
 				and (destlong >= (#{destLong} - 0.1126887536623845) and destlong <= (#{destLong} + 0.1126887536623845))
 				]]>
@@ -62,13 +76,13 @@
 		</if>
 		<choose>
 			<when test='gender eq "A"'>
-				and gender='A' 
+				and o.gender='A' 
 			</when>
 			<when test='gender eq "F"'>
-				and gender='F' 
+				and o.gender='F' 
 			</when>
 			<when test='gender eq "M"'>
-				and gender='M' 
+				and o.gender='M' 
 			</when>
 		</choose>
 		<if test="seatcount != null">
