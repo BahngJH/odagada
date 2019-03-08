@@ -22,15 +22,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
+import static com.spring.odagada.common.PageFactory.getpageBar;
 
 @SessionAttributes("logined")
 @Controller
@@ -40,6 +43,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	@Autowired
+	CarpoolService cService;
 	
 	//비밀번호 암호화 처리
 	@Autowired
@@ -242,8 +248,20 @@ public class MemberController {
 
    
    @RequestMapping("/member/myCarpool")
-   public ModelAndView myCarpool() {
-	   ModelAndView mav = new ModelAndView("member/myCarpool");   
+   public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
+	   
+	   int numPerPage = 5;
+	   
+	   ModelAndView mav = new ModelAndView("member/myCarpool");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   List<Map<String, String>> list = cService.selectCarpoolList(m.getMemberNum(), cPage, numPerPage);
+	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
+	   
+	   mav.addObject("carpoolList", list);
+	   mav.addObject("pageBar", getpageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
+	   
 	   return mav;
    }
    
