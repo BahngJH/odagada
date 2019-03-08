@@ -44,9 +44,15 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public int insertReview(Map<String, String> map) {
+	public int insertReview(Map<String, Object> map) {
 		return dao.insertReview(map);
 	}
+
+	@Override
+	public Map<String, String> selectMyReview(int writerNum) {
+		return dao.selectMyReview(writerNum);
+	}
+	
 	
 	
 	

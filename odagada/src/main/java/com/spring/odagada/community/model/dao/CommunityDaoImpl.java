@@ -43,9 +43,19 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	@Override
-	public int insertReview(Map<String, String> map) {
+	public int insertReview(Map<String, Object> map) {
 		return session.insert("community.insertReview",map);
 	}
+
+	@Override
+	public Map<String, String> selectMyReview(int writerNum) {
+		return session.selectOne("community.selectReview",writerNum);
+	}
+	
+	
+
+	
+	
 	
 	
 		

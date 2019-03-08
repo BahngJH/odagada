@@ -13,7 +13,9 @@ public interface CommunityDao {
 	List<ChatRoomVo> bringChatRooms(String loginId);
 	
 	int insertNotify(Map<String,String>map);
-	int insertReview(Map<String,String>map);
+	int insertReview(Map<String,Object>map);
+	Map<String,String> selectMyReview(int writerNum);
+	
 
 	
 	

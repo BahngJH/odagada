@@ -5,7 +5,12 @@ import java.util.Map;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,19 +121,33 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/community/reviewForm.do")
-	public String reviewForm()
+	public ModelAndView reviewForm(HttpServletRequest request)
 	{
-		return "community/reviewForm";
+		ModelAndView mv=new ModelAndView();
+		Member m = (Member)request.getSession().getAttribute("logined");
+		if(m!=null)
+		{
+			mv.setViewName("community/reviewForm");
+		}
+		else
+		{
+			mv.setViewName("member/loginForm");
+		}
+		return mv;
+		
 	}
 	
 	@RequestMapping("/community/reviewFormEnd.do")
-	public String reviewFormEnd(/*String writerNum, String driverNum,*/ String rContent, String rGrade, Model model)
+	public String reviewFormEnd(int memberNum, /*String driverNum,*/ String rContent, int rGrade, Model model)
 	{
-		Map<String, String> map=new HashMap();
-		/*map.put("writerNum", writerNum);
-		map.put("driverNum", driverNum);*/
+		
+		Map<String, Object> map=new HashMap();
+		/*map.put("writerNum", writerNum);*/
+		/*map.put("driverNum", driverNum);*/
 		map.put("rContent", rContent);
 		map.put("rGrade", rGrade);
+		map.put("memberNum", memberNum);
+		System.out.println("map나와라 짜샤 :"+map);
 		
 		int result=service.insertReview(map);
 		String msg="";
@@ -144,8 +163,29 @@ public class CommunityController {
 		model.addAttribute("msg",msg);
 		model.addAttribute("loc",loc);
 		return "common/msg";
-		
-		
-		
 	}
+	@RequestMapping("community/reviewView.do")
+	public String reviewView()
+	{
+		return "community/reviewView";
+	}
+	
+	@RequestMapping("community/myReviewView.do")
+	public ModelAndView myReviewView(int writerNum)
+	{
+		ModelAndView mv=new ModelAndView();
+		Map<String,String> map=service.selectMyReview(writerNum);
+		mv.addObject("review",map);
+		mv.setViewName("community/myReviewView");
+		return mv;
+	}
+	
+	/*@RequestMapping("community/reviewList.do")
+	public ModelAndView reviewList(int writerNum, int driverNum)
+	{
+		ModelAndView mv=new ModelAndView();
+		List<Map<String,String>> list=service.selectReviewList(writerNum,driverNum);
+		mv.addObject("list",list);
+		mv.setViewName("community/reviewList");
+	}*/
 }
