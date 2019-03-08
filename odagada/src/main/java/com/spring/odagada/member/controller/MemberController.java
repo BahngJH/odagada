@@ -226,17 +226,24 @@ public class MemberController {
 	   }*/
    }
  
-   //내 정보 변경
+   //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
    public String updateInfo(Model model) {
 	   return "member/updateForm";
    }
    
+   //내 정보 변경
+/*   @RequestMapping("/member/updateInfoEnd.do")
+   public ModelAndView updateInfoEnd(Model model) {
+	   ModelAndView mv= new ModelAndView();
+	   return mv;
+   }*/
+   
+
+   
    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool() {
-	   ModelAndView mav = new ModelAndView("member/myCarpool");
-	   
-	   
+	   ModelAndView mav = new ModelAndView("member/myCarpool");   
 	   return mav;
    }
    

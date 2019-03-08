@@ -193,7 +193,6 @@ $(function(){
          $('#password2').keyup(function(){
             var pw1=$("#password_").val().trim();
             var pw2=$("#password2").val().trim();
-            var id=$("#memberName").val().trim();
             if(pw2.length<1){
                $(".ck").hide();
                return;

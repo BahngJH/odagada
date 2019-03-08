@@ -104,7 +104,7 @@
 					      </div>
 					      <div class="modal-footer">					      	
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경하기</button>					        
+					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경 하러가기</button>					        
 					      </div>
 					    </div>
 					  </div>
