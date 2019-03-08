@@ -41,7 +41,7 @@ public class PageFactory {
 			{
 				pageBar+="<li class='page-item'>";
 				pageBar+="<a class='page-link'"
-						+"href='javascript:fn_paging("+pageNo+")'>";
+						+"href='javascript:fn_paging("+pageNo+")'>"+pageNo;
 				pageBar+="</li>";
 			}
 			pageNo++;

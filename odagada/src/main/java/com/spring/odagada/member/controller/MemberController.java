@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +44,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
+	//아이디 중복확인
 	@RequestMapping("/member/checkId.do")
 	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
 	{
@@ -63,11 +66,13 @@ public class MemberController {
 		return mv;	
 	}
 	
+	//회원가입페이지 전환
 	@RequestMapping("/member/signUp.do")
 	public String signUp() {
 		return "member/signUpForm";
 	}
 	
+	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) {
 		logger.debug("뉴비: "+m);
@@ -110,15 +115,14 @@ public class MemberController {
 				upFile.transferTo(new File(sd+"/"+reName));
 			}catch(IllegalStateException | IOException e){
 				e.printStackTrace();
-			}
-			
+			}		
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);					
 		}int result=service.insertMember(m);
 		String msg="";
 		String loc="/";
 		if(result>0) {
-			msg="회원가입 성공";
+			msg="오다가다 환영합니다 *^^*";
 		}else {
 			msg="회원가입 실패";
 		}
@@ -127,12 +131,13 @@ public class MemberController {
 		return "common/msg";		
 	}
 	
-	
+	//로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
 		return "member/loginForm";
 	}
 	
+	//로그인
    @RequestMapping("/member/login.do")
    public ModelAndView login(String memberId, String memberPw, Model model) {
 	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);
@@ -154,7 +159,7 @@ public class MemberController {
 	   
 	   if(result!=null) {
 		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
-			   msg="로그인 성공";			   
+			   msg="환영합니다! "+m.getMemberId()+" 님.";			   
 			   mv.addObject("logined", m);			   
 		   }else {
 			  msg="패스워드가 일치하지 않습니다.";
@@ -164,15 +169,47 @@ public class MemberController {
 		   mv.setViewName("common/msg");
 	   }	  
 	   logger.debug("로그인 멤버 정보"+m);
+	   logger.debug("관리자 테스트"+m.getIsAdmin());
 	   return mv;
    }
    
+   //로그아웃(세션끊기)
    @RequestMapping("/member/logout.do")
    public String logout(SessionStatus status) {
 	   	if(!status.isComplete()) {
 	   		status.setComplete();
 	   	}
 	   	return "redirect:/index.jsp";
+   }
+   
+   //마이페이지 
+   @RequestMapping("/member/myInfo.do")
+   public String myInfo() {
+	   return "member/myInfo";
+   }
+   
+   //비밀번호 체크
+   @RequestMapping("/member/checkPw.do")
+   public String checkPw(String answer, HttpSession session) {
+	   logger.debug("받아오는 pw 값: "+answer);
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   String result="";
+	   
+	   if(pwEncoder.matches(answer, m.getMemberPw())) {
+		   logger.debug("ok");
+		   result = "ok";
+	   }else {
+		   logger.debug("no");
+		   result = "no";
+	   }	   
+	   return result;
+   }
+ 
+   //내 정보 변경
+   @RequestMapping("/member/updateInfo.do")
+   public String updateInfo(Model model) {
+	   return "member/updateForm";
    }
    
    

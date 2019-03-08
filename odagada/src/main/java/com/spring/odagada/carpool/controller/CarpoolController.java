@@ -1,34 +1,105 @@
 package com.spring.odagada.carpool.controller;
 
-import java.sql.Date;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.carpool.model.vo.Carpool;
+import com.spring.odagada.carpool.model.vo.CarOption;
+import com.spring.odagada.driver.model.service.DriverService;
+import com.spring.odagada.driver.model.vo.Driver;
+import com.spring.odagada.member.model.vo.Member;
+
 @Controller
 public class CarpoolController {
 
+	@Autowired
+	CarpoolService service;
+	@Autowired
+	DriverService dService;
+	
+	
 	private Logger l = LoggerFactory.getLogger(CarpoolController.class);
 			
 	@RequestMapping("/carpool/register")
-	public ModelAndView carpoolRegister() {
-		ModelAndView mav = new ModelAndView("/carpool/register");	
+	public ModelAndView carpoolRegister(HttpSession session) {
+		Member m = (Member) session.getAttribute("logined");
+		ModelAndView mav = new ModelAndView();	
+
+		l.debug("로그인 정보 : " + m);
 		
-		return mav;
+		if(m != null) {
+			Driver d = dService.selectOne(m.getMemberNum());
+			l.debug("드라이버 정보: " + d);
+			
+			if(d == null) {
+				l.debug("드라이버 등록 필요");
+				mav.setViewName("/");
+				return mav;
+			}else {
+				mav.setViewName("/carpool/register");
+				return mav;
+			}
+			
+		}else {
+			l.debug("로그인 필요");
+			mav.setViewName("/common/msg");
+			mav.addObject("msg", "로그인 해주세요.");
+			mav.addObject("loc", "/member/loginForm.do");
+			return mav;
+		}		
+	}
+
+	@RequestMapping("/carpool/registerEnd")
+	public String carpoolRegisterEnd(HttpSession session, Carpool carpool, CarOption option) {
+		Member m = (Member) session.getAttribute("logined");
+		carpool.setMemberNum(m.getMemberNum());
+		
+		//넘어오지 않은 옵션 값 세팅
+		option = setOption(option);
+				
+		l.debug(carpool.toString());
+		l.debug(option.toString());
+		
+		int result = service.insertCarpool(carpool, option);
+		
+		return "redirect:/";
 	}
 	
-	@RequestMapping("/carpool/registerEnd")
-	public ModelAndView carpoolRegisterEnd(String startLocation, String destLocation, String startDate) {
-		ModelAndView mav = new ModelAndView();
+	private CarOption setOption(CarOption option) {
+		if(option.getAnimal() == null) {
+			option.setAnimal("N");
+		}
+		if(option.getBaggage() == null) {
+			option.setBaggage("N");
+		}
+		if(option.getFood() == null) {
+			option.setFood("N");
+		}
+		if(option.getSmoking() == null) {
+			option.setSmoking("N");
+		}
+		if(option.getTeenage() == null) {
+			option.setTeenage("N");
+		}
+		if(option.getTalking() == null) {
+			option.setTalking("N");
+		}
+		if(option.getMusic() == null) {
+			option.setMusic("N");
+		}
 		
-		l.debug("시작위치: " + startLocation);
-		l.debug("도착위치: " + destLocation);
-		l.debug("시작날짜: " + startDate);
-				
-		return mav;
+		return option;
 	}
 	
 	@RequestMapping("/carpool/search.do")
@@ -38,11 +109,35 @@ public class CarpoolController {
 		return mav;
 	}
 	@RequestMapping("/carpool/searchEnd.do")
-	public ModelAndView carpoolSearchEnd(String startSearch, String endSearch, String startDate){
+	public ModelAndView wcarpoolSearchEnd(String startSearch, String endSearch, String startDate, String startLon, String startLat, String endLon, String endLat){
 		ModelAndView mav = new ModelAndView();
+		l.debug("죄표값");
 		
+		Map<String,String> m = new HashMap<String, String>();
+		m.put("startCity", startSearch);
+		m.put("endCity",endSearch);
+		m.put("startDate", startDate);
+		m.put("startLong", startLon);
+		m.put("startLat",startLat);
+		m.put("destLong",endLon);
+		m.put("destLat",endLat);
+		
+		
+		List<Map<String,String>> list = service.selectCarpoolList(m);
+		
+		mav.addObject("startSearch",startSearch);
+		mav.addObject("endSearch",endSearch);
+		mav.addObject("startDate",startDate);
 		mav.setViewName("carpool/searchEnd");
 		return mav;
 		
+	}
+	
+	@RequestMapping("/carpool/oneSearch.do")
+	public ModelAndView carpoolOne(int carpoolnum) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("carpool/oneSearch");
+		return mav;
 	}
 }

@@ -7,4 +7,21 @@
   <select id="selectBoardList" resultType="map">
   	select * from board
   </select>
+  <select id="selectBoard" resultType="map" parameterType="_int">
+  	SELECT * FROM BOARD WHERE BOARDNO=#{boardNo}
+  </select>
+  <update id="updateBoardCount" parameterType="_int">
+  	UPDATE BOARD SET BCOUNT = (BCOUNT+1) WHERE BOARDNO = #{boardNo}
+  </update>
+  <insert id="insertBoard" parameterType="map">
+  	INSERT INTO BOARD VALUES(SEQ_BOARDNO.NEXTVAL,#{title},#{content},default,#{oriFileName},#{reFileName},default)
+  </insert>
+  <update id="updateBoard" parameterType="map">
+  	UPDATE BOARD SET BTITLE=#{title},BCONTENT=#{content},BDATE=default,BORIFILENAME=#{oriFileName},BREFILENAME=#{reFileName} WHERE BOARDNO=#{boardNo}
+  </update>
+  <delete id="deleteBoard">
+  	DELETE FROM BOARD WHERE BOARDNO=#{boardNo}
+  </delete>
+  
+  
 </mapper>
