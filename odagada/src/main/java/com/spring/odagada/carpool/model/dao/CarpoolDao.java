@@ -13,6 +13,8 @@ public interface CarpoolDao {
 
 	int insertOption(CarOption option);
 
-	List<Map<String, String>> selectCarpoolList(int memberNum);
+	List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage);
+
+	int selectCarpoolCount(int memberNum);
 
 }

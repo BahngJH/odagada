@@ -3,6 +3,7 @@ package com.spring.odagada.carpool.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,8 +32,14 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	}
 
 	@Override
-	public List<Map<String, String>> selectCarpoolList(int memberNum) {
-		return session.selectList("carpool.selectMemberCarpoolList", memberNum);
+	public List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("carpool.selectMemberCarpoolList", memberNum, rb);
+	}
+
+	@Override
+	public int selectCarpoolCount(int memberNum) {
+		return session.selectOne("carpool.selectCarpoolCount", memberNum);
 	}
 	
 }

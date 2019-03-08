@@ -15,19 +15,55 @@
 </jsp:include>
 
 <style>
+div#enroll-container {
+	width: 400px;
+	margin: 0 auto;
+}
 
-  div#enroll-container{width:400px; margin:0 auto;}
-  div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-  .menu{text-align:center; font-weight:bold;}
-  .info{margin-top:50px; margin-bottom: 50px;}
-  
-  
+div#enroll-container input, div#enroll-container select {
+	margin-bottom: 10px;
+}
+
+.menu {
+	text-align: center;
+	font-weight: bold;
+}
+
+.info {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+span.span-option {
+	float: right;
+}
+
+.col-text {
+	color: black;
+}
+
+span.span_city {
+	font-size: 13px;
+	color: black;
+}
+
+button.start-search {
+	float: right;
+}
+
+div.status_option>span {
+	float: right;
+}
+
+div.driver>span{
+	float: left;
+}
 </style>
 
 <section class="container">
 	<div class="row">
 
-		<div class="col-12 col-md-4">
+		<div class="col-12 col-md-2">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
 				<a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
@@ -35,35 +71,60 @@
 			</div>
 		</div>
 		
-		<div class="col-12 col-md-8" id="enroll-container">	
-			<div class="info col-12 col-sm-12 col-md-12">
-				<table class="table">
-					<tr>
-						<th>카풀 번호</th>
-						<th>출발지</th>
-						<th>목적지</th>
-						<th>운전자</th>
-						<th>요금</th>
-						<th>신청상태</th>
-						<th>결제코드</th>
-					</tr>
-				 	<c:forEach items="${carpoolList }" var="list">
-						<tr>
-							<td><c:out value="${list.CARPOOLNUM}"></c:out></td>
-							<td><c:out value="${list.STARTCITY} ${list.STARTDETAIL }"></c:out></td>
-							<td><c:out value="${list.ENDCITY} ${list.ENDDETAIL }"></c:out></td>
-							<td><c:out value="${list.MEMBERNAME }"></c:out> </td>
-							<td><c:out value="${list.PAY }"></c:out></td>
-							<td><c:out value="${list.PSTATUS}"></c:out></td>
-							<td><c:out value="${list.PAYCODE }"></c:out></td>
-						</tr>
-				 	</c:forEach>
-				</table>
-			</div>
+		<div class="col-12 col-md-10" id="enroll-container">	
+			<div class="info col-12 col-sm-12 col-md-10">
+				<!-- 조건만큼 검색 결과 출력 -->
+				<c:forEach items="${carpoolList }" var="list">
+				   <form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+				      <div id="div-pick" class="card border-success mb-3">
+				        <div class="card-body text-success">
+				          <div class="row">
+				             <div class="col-12">
+					             <span class="span_city">${list.STARTDATE }</span>
+								 <span class="span-option col-text">${list.PAY }원</span><br/>
+					             <span class="badge badge-primary">출발</span>
+					             <span class="span_city">${list.STARTCITY} ${list.STARTDETAIL }</span> <br/>
+					             <span class="badge badge-success">도착</span>
+					             <span class="span_city">${list.ENDCITY} ${list.ENDDETAIL }</span> <br>
+				             </div>
+				             <div class="col-12">
+				                <div class="row">
+				                	<div class="col driver">
+				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
+				                   </div>
+				                   <div class="col status_option">
+				                   		<c:if test='${list.PAYSTATUS == "N" }'>
+					                        <span class="span-option col-text">${list.PAYCODE }</span>
+				                   		</c:if>
+				                   		<c:if test='${list.PAYSTATUS == "Y"}'>
+											<span class="badge badge-success">결제 완료</span>
+										</c:if>
+										<span>
+										&nbsp;&nbsp;
+										</span>
+				                   		<c:if test='${list.PSTATUS == "N" }'>
+					                        <span class="badge badge-danger">미승인</span>
+				                   		</c:if>
+				                   		<c:if test='${list.PSTATUS == "Y"}'>
+											<span class="badge badge-success">승인</span>
+										</c:if>
+				                   </div>
+				                </div>
+				             </div>
+				          </div>
+				        </div>
+				      </div>
+				   </form>
+				</c:forEach>
+		     </div>
+
 		</div>
+	</div>
+	<nav aria-label="Page navigation">
+		${pageBar }
+	</nav>
       
 
-	</div>
 </section>
 
 
