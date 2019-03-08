@@ -159,7 +159,8 @@ public class CarpoolController {
 	public void carpoolSearchOption(HttpServletRequest req,
 			HttpServletResponse res,
 			CarOption option,
-			String kmNum,
+			String kmNumS,
+			String kmNumE,
 			String startLong,
 			String startLat,
 			String destLat,
@@ -235,7 +236,8 @@ public class CarpoolController {
 		map.put("music", option.getMusic());
 		map.put("seatcount",Integer.toString(option.getSeatcount()));
 		map.put("gender", option.getGender());
-		map.put("kmNum", kmNum);
+		map.put("kmNumS", kmNumS);
+		map.put("kmNumE", kmNumE);
 		map.put("startLat", startLat);
 		map.put("startLong", startLong);
 		map.put("destLat", destLat);
@@ -244,7 +246,7 @@ public class CarpoolController {
 		l.debug(map.toString());
 		
 		List<Map<String,String>> cList = service.selectCarOptionList(map);
-		req.setAttribute("cList", cList);
+		req.setAttribute("coList", cList);
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
 	}
 }
