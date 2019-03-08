@@ -36,7 +36,7 @@
       </div>
       
       <div class="col-12 col-sm-8" id="enroll-container">   
-         <div class="info col-12 col-sm-12 col-md-8">
+         <div class="info col-12 col-sm-12 col-md-9">
            <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
             <div class="card-group">
                <div class="card">
