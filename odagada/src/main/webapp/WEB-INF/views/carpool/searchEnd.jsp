@@ -44,10 +44,10 @@
 		font-size:10px;
 		color:black;
 	}
-	div#option_flex{
+/* 	div#option_flex{
 		position:fixed;
 		width:245px;
-	}
+	} */
 	button.start-search{
 		float:right;
 	}
@@ -57,11 +57,11 @@
 		<div class="col-12 col-md-2"></div>
 		<div class="col-12 col-md-8">
 			<div class="input-group">
-				<input class="form-control search-div" type="text" placeholder="출발지" value="${startSearch }" readonly>
+				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
-				<input class="form-control search-div" type="text" placeholder="도착지" value="${endSearch }" readonly>
+				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
 				<input class="form-control search-div" type="datetime-local" name="start-date" id="start-date">
-				<input type="text" class="form-control search-div" value="${startDate }" readonly>
+				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
 			</div>
 		</div>
 		<div class="col-12 col-md-2"></div>
@@ -79,39 +79,45 @@
 	    					<div class="row">
 	    						<div class="col-12">
 	    							<span>검색 반경: </span><br>
-	    							<label>3KM 이내 <input type="radio" name="kmNum" id="3kmNum" value="3" checked></label><br>
-	    							<label>5KM 이내 <input type="radio" name="kmNum" id="5kmNum" value="5"></label><br>
-	    							<label>10KM 이내 <input type="radio" name="kmNum" id="10kmNum" value="10"></label><br>
+									<select name="kmNum" id="kmNum" class="form-control">
+										<option value="3">3KM 이내 </option>
+										<option value="5">5KM 이내 </option>
+										<option value="10">10KM 이내</option>
+									</select>
 	    							<hr>
+	    							<input type="hidden" name="startLat" id="startLat" value="${seatch.startLat }"/>
+	    							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
+	    							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
+	    							<input type="hidden" name="destLong" id="destLong" value="${search.destLong }"/>
 	    						</div>
 	    					</div>
 	    					<div class="row">
 								<div class="col-6" >
-									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
+									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="" /></label>
 								</div>
 								<div class="col-6" >
-									<label>흡연 <input type="checkbox" name="smoking" id="smoking" value="Y"/></label>
+									<label>흡연 <input type="checkbox" name="smoking" id="smoking" value=""/></label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="Y" /></label>
+									<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="" /></label>
 								</div>
 								<div class="col-6">
-									<label>대화 <input type="checkbox" name="talking" id="talking" value="Y" /></label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-6">
-									<label>노래 <input type="checkbox" name="music" id="music" value="Y" /></label>
-								</div>
-								<div class="col-6">
-									<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
+									<label>대화 <input type="checkbox" name="talking" id="talking" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
+									<label>노래 <input type="checkbox" name="music" id="music" value="" /></label>
+								</div>
+								<div class="col-6">
+									<label>음식 섭취 <input type="checkbox" name="food" id="food" value="" /></label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
@@ -124,12 +130,12 @@
 									</select>
 								</div>
 								<div class="col-6">
-									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeholder="최소 1개"/>
+									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" value="1" />
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<button class="btn btn-success search-div start-search" id='btn-reset' onclick="start-search()">검색</button>
+									<button class="btn btn-success search-div start-search" id='btn-reset'>검색</button>
 								</div>
 							</div>
 						</div>
@@ -162,7 +168,7 @@
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
+					    					<%-- <img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/> --%>
 					    					<%-- <p class="col-text">${d.MEMBERNUM }</p> --%>
 					    				</span>
 					    			</div>
@@ -188,30 +194,37 @@ function validate(){
 }
 function onecar(){
 	$("#form-onecar").submit();
-}
+};
 
-/* $(function(){ */
-	function start-search(){
-		var animal,smoking,teenage,talking,music,gender,food,bagage,seatcount;
-		$.ajax({
+ $(function(){ 
+	
+ 	$('#btn-reset').on("click",function(){
+ 		 var animal = $('#animal').is(":checked");
+ 		 console.log(animal);
+ 		$.ajax({
 			url:"${path}/carpool/searchOption",
-			data:{"animal":$('#animal').val(),
-				"smoking":$('#smoking').val(),
-				"teenage":$('#teenage').val(),
-				"talking":$('#talking').val(),
-				"music":$('#music').val(),
+			data:{"animal":$('#animal').is(":checked"),
+				"smoking":$('#smoking').is(":checked"),
+				"teenage":$('#teenage').is(":checked"),
+				"talking":$('#talking').is(":checked"),
+				"music":$('#music').is(":checked"),
 				"gender":$('#gender').val(),
-				"food":$('#food').val(),
-				"bagage":$('#bagage').val(),
-				"seatcount":$('#seatcount').val()
+				"food":$('#food').is(":checked"),
+				"baggage":$('#baggage').is(":checked"),
+				"seatcount":$('#seatcount').val(),
+				"kmNum":$('#kmNum').val(),
+				"startLat":$('#startLat').val(),
+				"startLong":$('#startLong').val(),
+				"destLat":$('#destLat').val(),
+				"destLong":$('#destLong').val()
 			},
 			dataType:"html",
 			success:function(data){
-				$('#result-search').append(data);
+				$('#result-search').html(data);
 			}
-		}); 
-	}
+		});  
+	})
 	
-/* }); */
+});
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

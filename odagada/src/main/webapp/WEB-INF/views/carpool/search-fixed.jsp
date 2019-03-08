@@ -23,7 +23,7 @@
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
+					    					<%-- <img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/> --%>
 					    					<%-- <p class="col-text">${d.MEMBERNUM }</p> --%>
 					    				</span>
 					    			</div>
