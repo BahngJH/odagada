@@ -12,6 +12,7 @@
 <%
 	int seat = (int)request.getAttribute("seat");
 	List pList = (List)request.getAttribute("pList"); 
+	int stop=0;
 %>
 <style>
 	input.search-div{
@@ -26,11 +27,12 @@
 	img.option-icon{
 		width:50px;height:50px;
 		float:left;
-		margin:5px;
+		margin:7px;
 	}
 	button.btn-chat{
 		font-size: 13px;
-		margin-top:7px;
+		margin-top:10px;
+		margin-bottom: 10px;
 	}
 	img.driver-img{
 		width:80px;height:80px;
@@ -48,14 +50,35 @@
 	p.intro-p{
 		display:block;
 		overflow: hidden; 
- 		text-overflow: ellipsis;
-		white-space: nowrap;
+/*  		text-overflow: ellipsis;
+		white-space: nowrap; */
 		width: auto;
 		height: 50px;
 		margin:30px;
 	}
 	button.ride-btn{
-		float:right;
+		margin:10px;
+		margin-top:40px;
+	}
+	img.seat-img{
+		width:45px;height:45px;
+		margin:8px;
+	}
+	div.seat-div{
+		margin-top:12px;
+	}
+	img.car-img{
+		width:100px; height:100px;
+		border:1px;
+	}
+	span.car-span{
+		margin-left:10px;
+	}
+	img.re-img{
+		margin-top:20px;
+		margin-left:4px;
+		width:70px;height:70px;
+		border-radius: 30px;
 	}
 </style>
 <section id="container">
@@ -144,31 +167,35 @@
 					  <div class="card-body">
 					  	<div class="row">
 					  		<div class="col-8">
-					  			<span class="badge badge-pill badge-warning">이용 좌석</span>
-					  		</div>
-					  		<div class="col-4">
-					  			<button class="btn btn-success ride-btn">탑승 신청</button>
+					  			<span class="badge badge-pill badge-warning">이용 좌석 </span>
+					  			<span>&nbsp;| &nbsp;(${fn:length(pList)}/${seat })</span>
 					  		</div>
 					  	</div>
 					  	<div class="row">
 					  		<div class="col-12">
-<%-- 					  			<%for(int i=0;i<seat;i++){ %>
-					  				<%if(pList.get(i)==null){ %>
-						  				<c:forEach items="${pList }" var="p">
-						  					<c:choose>
-							  					<c:when test='${p.PSTATUS eq "Y"}'>
-							  						<img src="${path }/resources/images/option-icon/full.png"/>
-							  					</c:when>
-							  					<c:otherwise>
-							  						<img src="${path }/resources/images/option-icon/empty.png"/>
-							  					</c:otherwise>
-						  					</c:choose>
-						  				</c:forEach>
-					  				<%}
-					  				else{%>
-					  					<img src="${path }/resources/images/option-icon/empty.png"/>
-					  				<%} %>
-				  				<%} %> --%>
+					  			<div class="card seat-div">
+					  				<div class="row">
+					  					<div class="col-9">
+					  						<span>
+										  		<c:forEach begin="1" end="${seat }"  var="count">
+										  			<c:choose>
+											  			<c:when test="${count <= fn:length(pList)}">
+										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
+								  						</c:when>
+								  						<c:otherwise>
+								  							<img src="${path }/resources/images/option-icon/empty.png" class="seat-img"/>
+							  							</c:otherwise>
+							  						</c:choose>
+							  					</c:forEach>
+						  					</span>
+					  					</div>
+					  					<div class="col-3">
+					  					<span class="line-div"></span>
+					  						<button class="btn btn-success ride-btn">탑승 신청</button>
+					  					</div>
+					  				</div>
+					  				
+			  					</div>
 					  		</div>
 					  	</div>
 					  </div>
@@ -182,42 +209,43 @@
 			  <div class="card-body">
 			     <div class="row">
 				  	<div class="col-12">
-				  	<div class="card text">
-				  		<c:forEach items="${oList}" var="c">
-				  			<span class="span-option">
-					  			<c:if test='${c.ANIMAL eq "Y"}'>
-					  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
-					  			</c:if>
-			  					<c:if test='${c.SMOKING eq "Y"}'>
-			  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
-								</c:if>
-								<c:if test='${c.TEENAGE eq "Y"}'>
-									<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
-								</c:if>
-								<c:if test='${c.TALKING eq "Y"}'>
-									<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
-								</c:if>
-								<c:if test='${c.MUSIC eq "Y"}'>
-									<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
-								</c:if>
-								<c:if test='${c.FOOD eq "Y"}'>
-									<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
-								</c:if>
-								<c:if test='${c.BAGGAGE eq "Y"}'>
-									<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
-								</c:if>
-								<c:choose>
-									<c:when test='${c.GENDER eq "A"}'>
-									</c:when>
-									<c:when test='${c.GENDER eq "F"}'>
-										<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
-									</c:when>
-									<c:when test='${ c.GENDER eq "M"}'>
-										<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
-									</c:when>
-								</c:choose>
-					  		</span>
-						</c:forEach>
+					  	<div class="card text">
+					  		<span class="badge badge-secondary">드라이버 선택 옵션 </span>
+					  		<c:forEach items="${oList}" var="c">
+					  			<span class="span-option">
+						  			<c:if test='${c.ANIMAL eq "Y"}'>
+						  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+						  			</c:if>
+				  					<c:if test='${c.SMOKING eq "Y"}'>
+				  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+									</c:if>
+									<c:if test='${c.TEENAGE eq "Y"}'>
+										<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+									</c:if>
+									<c:if test='${c.TALKING eq "Y"}'>
+										<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+									</c:if>
+									<c:if test='${c.MUSIC eq "Y"}'>
+										<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+									</c:if>
+									<c:if test='${c.FOOD eq "Y"}'>
+										<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+									</c:if>
+									<c:if test='${c.BAGGAGE eq "Y"}'>
+										<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+									</c:if>
+									<c:choose>
+										<c:when test='${c.GENDER eq "A"}'>
+										</c:when>
+										<c:when test='${c.GENDER eq "F"}'>
+											<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+										</c:when>
+										<c:when test='${ c.GENDER eq "M"}'>
+											<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+										</c:when>
+									</c:choose>
+						  		</span>
+							</c:forEach>
 						</div>
 				  	</div>
 				  </div>
@@ -226,6 +254,62 @@
 				  	<div class="col-3"></div>
 				  	<div class="col-6">
 				  		<button class="btn btn-success search-div btn-chat">드라이버와 채팅</button>
+				  	</div>
+				  	<div class="col-3"></div>
+				  </div>
+				  <div class="row">
+				  	<div class="col-12">
+				  		<div class="card">
+				  			<span class="badge badge-secondary">드라이버 차량 </span>
+				  			<div class="row">
+				  				<div class="col-10">
+				  					<span class="badge badge-pill badge-warning car-span">차종 </span> <span>&nbsp;|&nbsp; ${oList[0].CARMODEL}</span>
+				  				</div>
+			  				</div>
+			  				<div class="row">
+				  				<div class="col-10">
+				  					<span class="badge badge-pill badge-warning car-span">차량 번호  </span> <span>&nbsp;|&nbsp;${oList[0].CARNUM}</span>
+				  				</div>
+			  				</div>
+				  			<hr>
+				  			<span>
+					  			<c:forEach items="${cList }" var="c">
+				  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="car-img"/>
+					  			</c:forEach>
+				  			</span>
+				  		</div>
+				  	</div>
+				  </div>
+				  <div class="row">
+				  	<div class="col-12">
+				  		<div class="card">
+				  			<span class="badge badge-secondary">리뷰</span>
+				  			<div class="row">
+				  				<c:forEach items="${rList }" var="r">
+					  				<div class="col-4">
+					  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
+					  					<span class="line-div"></span>
+					  				</div>
+					  					<span class="line-div"></span>
+					  				<div class="col-7">
+					  					<div>
+					  						별점 이미지: ${r.RGRADE }
+					  					</div>
+					  					<div>
+					  						${r.RCONTENT }
+				  						</div>
+					  				</div>
+				  				</c:forEach>
+
+				  			</div>
+				  		</div>
+				  	</div>
+				  </div>
+				   <!-- 드라이버 신고 버튼 -->
+				  <div class="row">
+				  	<div class="col-3"></div>
+				  	<div class="col-6">
+				  		<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
 				  	</div>
 				  	<div class="col-3"></div>
 				  </div>
