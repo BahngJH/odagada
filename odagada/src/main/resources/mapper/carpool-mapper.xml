@@ -91,8 +91,12 @@
 		</if>
 		order by startdate desc
 	</select>
-	<select id="selectCarOneList" parameterType="map" resultMap="carpool">
+	<select id="selectCarOneList" parameterType="_int" resultMap="carpool">
 		select * from carpool join caroption using(carpoolnum) join driver using(membernum) join member using(membernum) where carpoolnum=#{carpoolNum}
+	</select>
+	<!-- 동승자 출력  -->
+	<select id="selectPasList" parameterType="_int" resultMap="carpool">
+		select * from passenger where carpoolnum=#{carpoolNum} order by pstatus desc
 	</select>
 	<insert id="insertCarpool" parameterType="carpool">
 		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})
