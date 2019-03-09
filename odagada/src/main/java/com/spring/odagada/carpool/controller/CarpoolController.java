@@ -158,19 +158,29 @@ public class CarpoolController {
 	
 	//세부검색페이지에서 클릭된 카풀 정보페이지
 	@RequestMapping("/carpool/oneSearch.do")
-	public ModelAndView carpoolOne(HttpServletRequest req, int carpoolNum,String startCity, String endCity, String startDate ,String seat)
+	public ModelAndView carpoolOne(HttpServletRequest req, int carpoolNum,String startCity, String endCity, String startDate ,String seat, int mem)
 	{
 		ModelAndView mav = new ModelAndView();
 		Map<String,String> m = new HashMap<String, String>();
 		m.put("startCity", startCity);
 		m.put("endCity",endCity);
 		m.put("startDate", startDate);
-		l.debug("확인: "+m+": "+carpoolNum+" : "+seat);
+		l.debug("확인: "+m+": "+carpoolNum+" : "+seat+" : mem: "+mem);
 		
+		//해당 내역 몽땅!
 		List<Map<String,String>> oneList = service.selectCarOneList(carpoolNum);
+		//동승객 정보
 		List<Map<String,String>> pList =service.selectPasList(carpoolNum);
+		//차량 이미지 정보
+		List<Map<String,String>> cList =service.selectImageList(mem);
+		//리뷰 정보
+		List<Map<String,String>> rList =service.selectReList(carpoolNum);
 		
+		//seat int형으로 변경
 		int count = Integer.parseInt(seat);
+		
+		mav.addObject("rList",rList);
+		mav.addObject("cList",cList);
 		mav.addObject("seat",count);
 		mav.addObject("pList",pList);
 		mav.addObject("search",m);
