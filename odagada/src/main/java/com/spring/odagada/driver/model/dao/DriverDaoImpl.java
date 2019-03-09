@@ -17,10 +17,5 @@ public class DriverDaoImpl implements DriverDao {
 	public Driver selectOne(int memberNum) {
 		return session.selectOne("driver.selectDriver", memberNum);
 	}
-
-	@Override
-	public List selectDriverList() {
-		return session.selectList("driver.selectDriverList");
-	}
 	
 }

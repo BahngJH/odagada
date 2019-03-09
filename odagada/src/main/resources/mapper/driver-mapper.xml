@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="driver">
-	<resultMap type="map" id="driver_"></resultMap>
 	<select id="selectDriver" parameterType="_int" resultType="driver"> 
 		SELECT * FROM DRIVER WHERE MEMBERNUM = #{memberNum}
-	</select>
-	<select id="selectDriverList" resultMap="driver_">
-		select * from driver
 	</select>
 </mapper>
