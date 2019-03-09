@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.community.model.vo.ChatRoomVo;
@@ -46,12 +47,20 @@ public class CommunityController {
 		return mv;
 	}
 	
-	//메시지 왔을 때 채팅방 최신화
+	//메시지 왔을 때 채팅방 최신화, (원본 세이브)!	
 	@RequestMapping("/chat/updateRoom.do")
-	public ModelAndView updateRoom(HttpServletRequest request, ModelAndView mv)
+	public ModelAndView updateRoom(HttpServletRequest request, ModelAndView mv, @RequestParam(value="roomId",required=false, defaultValue="null") String roomId)
 	{
 		Member m = (Member)request.getSession().getAttribute("logined");		
+		logger.debug("updateRoom에 들어온 roomId : "+roomId);
 		
+		if(!roomId.equals("null")) 
+		{
+			Map<String,Object> isreadData = new HashMap();
+			isreadData.put("loginId", m.getMemberId());
+			isreadData.put("roomId", roomId);
+			int rs = service.checkedMessage(isreadData);
+		}
 		List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
 		
 		for(ChatRoomVo i:chatRooms) 

@@ -274,22 +274,58 @@
 					updateRoom +='</div>';
         			updateRoom +='<div id="userInfoBottom">';
         			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span>';
-<<<<<<< HEAD
         			
         			if(data.chatRooms[i].isReadCount>0)
         			{
         				updateRoom +='<span class="msgCount">'+data.chatRooms[i].isReadCount+'</span>';
         			}
-=======
-        			updateRoom +='<span class="msgCount">'+data.chatRoom[i].isReadCount+'</span>';
->>>>>>> branch 'community' of https://github.com/BahngJH/odagada
+
         			updateRoom +='</div></div>';
         			
     			}
     			$('#chatRooms').html(updateRoom);
     		}
     	});
-    }   
+    }
+     
+    //사본 생성
+    function updateChatRoomCK(roomId)
+    {
+    	$.ajax({
+    		url:"${path}/chat/updateRoom.do",
+    		data:{"roomId":roomId},
+    		success:function(data)
+    		{
+				var updateRoom="";
+    			
+    			for(var i=0;i<data.chatRooms.length;i++)
+    			{
+            		var roomId = data.chatRooms[i].roomId;
+            		var memberId = data.chatRooms[i].memberId;
+					var cDate = (data.chatRooms[i].cDate).substring(0,14);	
+            		
+     				updateRoom +='<div id="chatRoom" onclick="bringMessage(this)">';
+     				updateRoom +='<input type="hidden" id="roomId" value="'+roomId+'">';
+     				updateRoom +='<input type="hidden" id="memberId" value="'+memberId+'">';
+ 					updateRoom +='<div id="userInfoTop">';
+    				updateRoom +='<span id=userName><b>'+data.chatRooms[i].memberName+'</b></span>';
+					updateRoom +='<span id="time">'+cDate+'</span>';
+					updateRoom +='</div>';
+        			updateRoom +='<div id="userInfoBottom">';
+        			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span>';
+        			
+        			if(data.chatRooms[i].isReadCount>0)
+        			{
+        				updateRoom +='<span class="msgCount">'+data.chatRooms[i].isReadCount+'</span>';
+        			}
+
+        			updateRoom +='</div></div>';
+        			
+    			}
+    			$('#chatRooms').html(updateRoom);
+    		}
+    	});
+    } 
     
      //메시지 받았을 때 켜 있는 화면이랑 메시지 roomid가 같으면 보여주고 아니면 안보여줌
     function jsonTextParse(jsonText)
@@ -300,6 +336,7 @@
     	//넘어온 데이터의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
     	if(json.roomId==jsonData.roomId)
     	{
+    		updateChatRoomCK(json.roomId);
     		//보낸 사람이 자기 자신이면 오른쪽에 메시지 붙임
 	    	if(json.sender=='${logined.memberId}')
 			{

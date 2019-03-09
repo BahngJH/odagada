@@ -40,7 +40,7 @@ public class EchoHandler extends TextWebSocketHandler {
 		Object obj = parser.parse(message.getPayload());
 		JSONObject json = (JSONObject) obj;
 
-		logger.info("메시지 받아서 JSON파싱한 데이터 : "+json);
+		logger.debug("메시지 받아서 JSON파싱한 데이터 : "+json);
 
 		// 유저가 접속했을 때 자동으로 userList에 추가
 		if (json.get("myId") != null) {
@@ -57,7 +57,7 @@ public class EchoHandler extends TextWebSocketHandler {
 			
 			//vo객체에 데이터 담고 DB에 채팅 내용 저장 
 			MessageVo msg = new MessageVo((String)json.get("roomId"),(String)json.get("receiver"),(String)json.get("sender"),(String)json.get("text"));
-			logger.info(msg+"");
+			logger.debug(msg+"");
 			int rs = service.saveMessage(msg);
 			
 			Map<String,Object> isreadData = new HashMap();
