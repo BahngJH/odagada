@@ -80,6 +80,9 @@
 		width:70px;height:70px;
 		border-radius: 30px;
 	}
+	div.re-div{
+		margin-top:12px;
+	}
 </style>
 <section id="container">
 	<div class="row">
@@ -282,7 +285,7 @@
 				  </div>
 				  <div class="row">
 				  	<div class="col-12">
-				  		<div class="card">
+				  		<div class="card re-div">
 				  			<span class="badge badge-secondary">리뷰</span>
 				  			<div class="row">
 				  				<c:forEach items="${rList }" var="r">
