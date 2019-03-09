@@ -154,26 +154,20 @@ public class MemberController {
 	   login.put("memberPw", memberPw);
 	   
 	   Map<String, String>result=service.login(login);
-	   
-	   logger.debug("로그인 결과:"+result);
-	   
+	   	   
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
-	
-	   String msg="";
-	   String loc="/";
-	   
+		   
 	   if(result!=null) {
 		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
-			   msg="환영합니다! "+m.getMemberId()+" 님.";			   
-			   mv.addObject("logined", m);			   
+			   mv.addObject("logined", m);
+			   mv.setViewName("redirect:/");
 		   }else {
-			  msg="패스워드가 일치하지 않습니다.";
+			  mv.addObject("msg", "패스워드가 일치하지 않습니다.");
+			  mv.addObject("loc", "/member/loginForm.do");
+			  mv.setViewName("common/msg");
 		   }	   
-		   mv.addObject("msg", msg);
-		   mv.addObject("loc", loc);
-		   mv.setViewName("common/msg");
 	   }	  
 	   logger.debug("로그인 멤버 정보"+m);
 	   logger.debug("관리자 테스트"+m.getIsAdmin());
