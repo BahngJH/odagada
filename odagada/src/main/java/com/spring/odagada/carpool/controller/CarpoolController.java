@@ -2,6 +2,7 @@ package com.spring.odagada.carpool.controller;
 
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,7 @@ public class CarpoolController {
 		mav.setViewName("carpool/search");
 		return mav;
 	}
+	
 	@RequestMapping("/carpool/searchEnd.do")
 	public ModelAndView carpoolSearchEnd(String kmNum,
 			String memberNum,String startSearch, 
@@ -131,11 +133,21 @@ public class CarpoolController {
 		m.put("destLong",endLon);
 		m.put("destLat",endLat);
 		m.put("kmNum", kmNum);
-		l.debug(startLon + " : " + startLat+" : "+endLon+":"+ endLat);
-		//반경 구하기(default3)
 		
+		//지나간 날짜 비교해야함 
+/*		l.debug("날짜 확인이요: "+ startDate.trim());
+		
+		String[] mm=startDate.split("\\.");
+		for(int i=0;i<mm.length;i++) {
+			l.debug("split: "+ mm[i]);
+		}
+		
+		String day=mm[0]+mm[1]+mm[2];
+		l.debug("day: "+day);
+		m.put("day", "day");*/
+		
+		//반경 구하기(default3)
 		List<Map<String,String>> carlist = service.selectCarpoolList(m);
-		System.out.println(carlist);
 		
 		mav.addObject("cList",carlist);
 		mav.addObject("search", m);
@@ -244,6 +256,7 @@ public class CarpoolController {
 		l.debug(map.toString());
 		
 		List<Map<String,String>> cList = service.selectCarOptionList(map);
+		
 		req.setAttribute("coList", cList);
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
 	}
