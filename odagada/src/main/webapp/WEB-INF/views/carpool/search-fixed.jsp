@@ -6,7 +6,7 @@
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${coList}" var="c">
-				<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
+				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
 					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="onecar()">
 					  <div class="card-body text-success">
 					    <div class="row">
@@ -14,9 +14,14 @@
 					    	 <span class="span_city">${c.STARTDATE }</span><br>
 					    		<span class="badge badge-primary">출발</span><br>
 					    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
-						    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+					    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 					    		<span class="badge badge-success">도착</span><br>
 					    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
+					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
+					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
+					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
+					    		<input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
+					    		<input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
 				    		</div>
 					    	<div class="col-6">
 					    		<div class="row">
@@ -76,3 +81,12 @@
 					</div>
 				</form>
 			</c:forEach>
+			<c:if test="${empty coList }">
+				<div class="row">
+					<div class="col-12">
+						<div>
+							<h2>검색결과가 없습니다.</h2>
+						</div>
+					</div>
+				</div>
+			</c:if>

@@ -5,11 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
-<%
-	List<Carpool> cList = (List)request.getAttribute("cList");
-	Carpool cp=new Carpool();
-	Date today=new Date();
-%>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
@@ -41,7 +37,7 @@
 		margin-top:10px;
 	}
 	.col-text{
-		color:black;
+		color:rgb(0,175,76);
 	}
 	span.span_city{
 		font-size:13px;
@@ -78,7 +74,7 @@
 				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
 				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
-				<input class="form-control search-div" type="datetime-local" name="start-date" id="start-date">
+				<!-- <input class="form-control search-div" type="datetime-local" name="start-date" id="start-date"> -->
 				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
 			</div>
 		</div>
@@ -171,7 +167,7 @@
 		<div class="col-12 col-md-5" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
-				<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
+				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
 					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="onecar()">
 					  <div class="card-body text-success">
 					    <div class="row">
@@ -179,9 +175,14 @@
 					    	 <span class="span_city">${c.STARTDATE }</span><br>
 					    		<span class="badge badge-primary">출발</span><br>
 					    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
-						    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+					    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 					    		<span class="badge badge-success">도착</span><br>
 					    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
+					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
+					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
+					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
+					    		<input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
+					    		<input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
 				    		</div>
 					    	<div class="col-6">
 					    		<div class="row">
