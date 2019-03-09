@@ -12,14 +12,12 @@
 
     <style>
     	#container{
+    		margin-top: 30px;
     		margin-bottom:60px;
     	}
         #chattingRoom, #profile{
             display: inline-block;
             width:23%;
-        }
-        #container{
-            margin-top: 30px;
         }
         #chatRooms, #chatContent, #myInfo{
             overflow: auto;
@@ -35,11 +33,11 @@
         }
         #chatRoom{
             border-top: 1px solid black;
+            padding:10px;
         }
         #chatRoom:hover{
-            background-color: gray;
+            background-color: #D9E5FF;
         }
-
         #time{
             margin-top: 5px; 
             float: right;
@@ -51,8 +49,8 @@
         }
         #userInfoBottom{
             margin-top: 10px;
-            margin-bottom: 15px;
         }
+       
         #selectUserInfo{
             border-bottom: 1px solid black;
         }
@@ -61,7 +59,7 @@
         }
         #chatContent{
             
-            background-color:gray;
+            background-color:#EAEAEA;
         }
         #messageInput{
         	
@@ -76,6 +74,9 @@
         img{
             border-radius: 100%;
         }
+        div.recentMsg{
+        	
+        }
         .left{
         	float:left;
         	word-break: break-all;
@@ -85,7 +86,12 @@
         	background-color:white;
         	border:2px soild white;
         	padding: 10px;
-        	margin-bottom:5px;
+        	
+        	
+        	border-top-left-radius: 3px;
+        	border-top-right-radius: 10px;        	
+		    border-bottom-right-radius: 10px;
+		    border-bottom-left-radius: 10px;
         }
         .right{
         	float:right;
@@ -95,7 +101,12 @@
         	background-color:yellow;
         	border:2px soild yellow;
         	padding: 10px;
-        }
+        	
+        	border-top-right-radius: 3px;
+        	border-top-left-radius: 10px;
+		    border-bottom-right-radius: 10px;
+		    border-bottom-left-radius: 10px;
+		}
         .msgDivLeft{
         	width:400px;
         }
@@ -301,7 +312,7 @@
 					updateRoom +='<span id="time">'+cDate+'</span>';
 					updateRoom +='</div>';
         			updateRoom +='<div id="userInfoBottom">';
-        			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span>';
+        			updateRoom +='<span class="recentMsg">'+data.chatRooms[i].cContent+'</span>';
         			
         			if(data.chatRooms[i].isReadCount>0)
         			{
@@ -340,7 +351,7 @@
 					updateRoom +='<span id="time">'+cDate+'</span>';
 					updateRoom +='</div>';
         			updateRoom +='<div id="userInfoBottom">';
-        			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span>';
+        			updateRoom +='<span class="recentMsg">'+data.chatRooms[i].cContent+'</span>';
         			
         			if(data.chatRooms[i].isReadCount>0)
         			{
