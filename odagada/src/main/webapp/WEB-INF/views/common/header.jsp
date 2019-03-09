@@ -17,11 +17,31 @@
 <meta charset="UTF-8">
 <title>ODA-GADA</title>
 <style>
+	body{
+		min-width: 350px;
+	}
+
+	footer>div.row{
+		margin-right: 0px;
+	}
+
     header button.btn.btn-success{
       background-color: rgb(0, 175, 76);
       float: right;
       margin-bottom: 5px;
     }
+    
+    div.menu_list>a.active{
+	  	background-color: #70A9A1AA;
+	  	color: #FFFFFF;
+  	    border-color: #FFFFFF;
+	}
+	
+	div.menu_list>a:not(.active):hover{
+		background-color: #70A9A1;
+		color: #FFFFFF;
+	}
+    
 </style>
 </head>
 
