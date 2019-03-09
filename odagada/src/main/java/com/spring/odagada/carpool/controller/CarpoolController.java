@@ -134,13 +134,10 @@ public class CarpoolController {
 		l.debug(startLon + " : " + startLat+" : "+endLon+":"+ endLat);
 		//반경 구하기(default3)
 		
-		List<Carpool> carlist = service.selectCarpoolList(m);
+		List<Map<String,String>> carlist = service.selectCarpoolList(m);
 		System.out.println(carlist);
-		List driverList = dService.selectDriverList();
-		System.out.println(driverList);
 		
 		mav.addObject("cList",carlist);
-		mav.addObject("dList",driverList);
 		mav.addObject("search", m);
 		mav.setViewName("carpool/searchEnd");
 		return mav;
@@ -148,9 +145,10 @@ public class CarpoolController {
 	}
 	
 	@RequestMapping("/carpool/oneSearch.do")
-	public ModelAndView carpoolOne(int carpoolnum) {
+	public ModelAndView carpoolOne(int carpoolNum) {
 		ModelAndView mav = new ModelAndView();
-		
+		List<Map<String,String>> oneList = service.selectCarOneList(carpoolNum);
+		mav.addObject("oList",oneList);
 		mav.setViewName("carpool/oneSearch");
 		return mav;
 	}

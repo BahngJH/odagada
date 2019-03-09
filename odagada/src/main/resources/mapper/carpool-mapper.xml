@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="carpool">
 	<resultMap type="map" id="carpool"></resultMap>
-	<select id="selectCarpoolList" parameterType="map" resultType="carpool">
-		SELECT * FROM CARPOOL
+	<select id="selectCarpoolList" parameterType="map" resultMap="carpool">
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
 		<![CDATA[
 			where (startlat >= (#{startLat} - 0.0272830231094096) and startlat <= (#{startLat}  + 0.0272830231094096)) 
 			and (startlong >= (#{startLong} - 0.0338066260987153) and startlong <= (#{startLong} + 0.0338066260987153))
@@ -89,6 +89,9 @@
 			and seatcount <![CDATA[>=]]> #{seatcount} 
 		</if>
 		order by startdate desc
+	</select>
+	<select id="selectCarOneList" parameterType="map" resultMap="carpool">
+		select * from carpool join caroption using(carpoolnum) join driver using(membernum) join member using(membernum) where carpoolnum=#{carpoolNum}
 	</select>
 	<insert id="insertCarpool" parameterType="carpool">
 		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})

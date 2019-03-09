@@ -21,7 +21,7 @@ public class CarpoolServiceImpl implements CarpoolService {
 	private Logger l = LoggerFactory.getLogger(CarpoolServiceImpl.class);
 	
 	@Override
-	public List<Carpool> selectCarpoolList(Map<String, String> map) {
+	public List<Map<String,String>> selectCarpoolList(Map<String, String> map) {
 		return dao.selectCarpoolList(map);
 	}
 
@@ -45,6 +45,11 @@ public class CarpoolServiceImpl implements CarpoolService {
 	@Override
 	public List<Map<String,String>> selectCarOptionList(Map<String,String> map) {
 		return dao.selectCarOptionList(map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectCarOneList(int carpoolNum) {
+		return dao.selectCarOneList(carpoolNum);
 	}
 	
 	
