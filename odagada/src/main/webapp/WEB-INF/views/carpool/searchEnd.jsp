@@ -149,29 +149,29 @@
 		<div class="col-12 col-md-5" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
-				<form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+				<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
 					<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
 					  <div class="card-body text-success">
 					    <div class="row">
 					    	<div class="col-6">
-					    	 <span class="span_city">${c.startDate }</span><br>
+					    	 <span class="span_city">${c.STARTDATE }</span><br>
 					    		<span class="badge badge-primary">출발</span><br>
-					    		<span class="span_city">${c.startCity}${c.startDetail }</span><br>
+					    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
 						    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 					    		<span class="badge badge-success">도착</span><br>
-					    		<span class="span_city">${c.endCity}${c.endDetail }</span> <br>
+					    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
 				    		</div>
 					    	<div class="col-6">
 					    		<div class="row">
 					    			<div class="col-12">
-					    				<span class="span-option col-text">${c.pay}</span>
+					    				<span class="span-option col-text">${c.PAY}</span>
 					    			</div>
 					    		</div>
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-					    					<%-- <img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/> --%>
-					    					<%-- <p class="col-text">${d.MEMBERNUM }</p> --%>
+					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
+					    					<span>${c.MEMBERNAME }</span>
 					    				</span>
 					    			</div>
 					    		</div>
@@ -186,6 +186,15 @@
 					</div>
 				</form>
 			</c:forEach>
+			<c:if test="${cList.size()==0 }">
+				<div class="row">
+					<div class="col-12">
+						<div>
+							검색결과가 없습니다.
+						</div>
+					</div>
+				</div>
+			</c:if>
 		</div>
 		<div class="col-12 col-md-2"></div>
 	</div>
