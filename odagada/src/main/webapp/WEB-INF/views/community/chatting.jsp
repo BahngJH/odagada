@@ -39,9 +39,7 @@
         #chatRoom:hover{
             background-color: gray;
         }
-        .recentMsg{
-        	overflow:hidden;
-        }
+
         #time{
             margin-top: 5px; 
             float: right;
@@ -276,11 +274,15 @@
 					updateRoom +='</div>';
         			updateRoom +='<div id="userInfoBottom">';
         			updateRoom +='<span id="recentMsg">'+data.chatRooms[i].cContent+'</span>';
+<<<<<<< HEAD
         			
         			if(data.chatRooms[i].isReadCount>0)
         			{
         				updateRoom +='<span class="msgCount">'+data.chatRooms[i].isReadCount+'</span>';
         			}
+=======
+        			updateRoom +='<span class="msgCount">'+data.chatRoom[i].isReadCount+'</span>';
+>>>>>>> branch 'community' of https://github.com/BahngJH/odagada
         			updateRoom +='</div></div>';
         			
     			}
