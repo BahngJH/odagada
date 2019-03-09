@@ -10,6 +10,7 @@
 			and (destlat >= (#{destLat} -  0.0272830231094096) and destlat <= (#{destLat}  +  0.0272830231094096))
 			and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
 		]]>
+		order by startdate desc
 	</select>
 	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
 		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
