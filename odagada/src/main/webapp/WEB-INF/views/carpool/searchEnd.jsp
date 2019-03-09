@@ -183,6 +183,7 @@
 					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
 					    		<input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
 					    		<input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
+					    		<input type="hidden" value="${c.MEMBERNUM }" id="mem" name="mem"/>
 				    		</div>
 					    	<div class="col-6">
 					    		<div class="row">
