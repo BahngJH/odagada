@@ -17,6 +17,11 @@ public class CommunityDaoImpl implements CommunityDao {
 	SqlSessionTemplate session;
 
 	@Override
+	public int jsutCheckMsg(String myId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("community.jsutCheckMsg", myId);
+	}
+	@Override
 	public int saveMessage(MessageVo msg) {
 		// TODO Auto-generated method stub
 		return session.insert("community.saveMessage", msg);

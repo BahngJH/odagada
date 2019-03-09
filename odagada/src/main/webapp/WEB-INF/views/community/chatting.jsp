@@ -60,10 +60,12 @@
         	font-size: 180%;
         }
         #chatContent{
-            margin-top: 20px;
+            
+            background-color:gray;
         }
-        #message{
-            width: 95%;
+        #messageInput{
+        	
+            width: 100%;
         }
         #myName{
             font-size: 200%;
@@ -79,10 +81,20 @@
         	word-break: break-all;
         	margin-left: 10px;
         }
+        p.left{
+        	background-color:white;
+        	border:2px soild white;
+        	padding: 10px;
+        	margin-bottom:5px;
+        }
         .right{
         	float:right;
         	word-break: break-all;
         	margin-right: 10px;
+        	margin-left: 10px;
+        	background-color:yellow;
+        	border:2px soild yellow;
+        	padding: 10px;
         }
         .msgDivLeft{
         	width:400px;
@@ -137,8 +149,7 @@
             </div>
             
             <div id="sendForm">
-                <input type="text" id="messageInput" placeholder="메시지를 입력해주세요.">
-                <input type="button" value="전송" onclick="MessageSend();"/>
+                <input type="text" id="messageInput" placeholder="메시지를 입력하고 Enter를 눌러주세요.">
             </div>
         </div>
         <div id="profile" class="col col-xs-12 ">
@@ -189,9 +200,19 @@
 			console.log("Connection Closed");
 		};
 
-		ws.error=function(event){
+		ws.error=function(event)
+		{
 			console.log(event);
 		}
+		
+		//엔터로 전송하는 코드
+		$("#messageInput").keypress(function(e){ 
+		    if (e.keyCode == 13)
+		    {
+		        MessageSend();
+		    }    
+		});
+		
     });
     
     //메시지 보내는 기능
@@ -202,12 +223,19 @@
     		alert("채팅방을 선택하세요!");
     		return;
     	}
+    	if($('#messageInput').val().trim().length==0)
+    	{
+    		alert("메시지를 입력하세요!");
+    		return;	
+    	}
     	
 		jsonData.text = $('#messageInput').val();
 		jsonData.sender ="${logined.memberId}";
 		ws.send(JSON.stringify(jsonData));
 		$('#messageInput').val("");
 		$('#messageInput').focus();
+		
+		
 	}
     
     
@@ -218,7 +246,7 @@
 		jsonData.roomId = $(e).children('#roomId').val();
     	
     	$.ajax({
-    		url:"${path}/chat/bringMessage.do",
+    		url:"${path}/community/bringMessage.do",
     		data:{"roomId":$(e).children('#roomId').val()},
     		success:function(data)
     		{
@@ -254,7 +282,7 @@
      function updateChatRoom()
     {
     	$.ajax({
-    		url:"${path}/chat/updateRoom.do",
+    		url:"${path}/community/updateRoom.do",
     		success:function(data)
     		{
 				var updateRoom="";
@@ -292,7 +320,7 @@
     function updateChatRoomCK(roomId)
     {
     	$.ajax({
-    		url:"${path}/chat/updateRoom.do",
+    		url:"${path}/community/updateRoom.do",
     		data:{"roomId":roomId},
     		success:function(data)
     		{
@@ -361,7 +389,8 @@
     	}
     }
     
-    </script>
+    
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

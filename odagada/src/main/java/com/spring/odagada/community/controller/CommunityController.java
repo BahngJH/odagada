@@ -27,8 +27,19 @@ public class CommunityController {
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
+	//채팅방이 아닌곳에서 안읽은 메시지 확인용
+	@RequestMapping("/community/checkMsg.do")
+	public ModelAndView jsutCheckMsg(ModelAndView mv, String myId) 
+	{
+		int unIsReadMsg = service.jsutCheckMsg(myId);
+		mv.addObject("unIsReadMsg", unIsReadMsg);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
 	//채팅방 입장
-	@RequestMapping("/chatting.do")
+	@RequestMapping("/community/chatting.do")
 	public ModelAndView chatting(HttpServletRequest request, ModelAndView mv) 
 	{
 		Member m = (Member)request.getSession().getAttribute("logined");
@@ -48,7 +59,7 @@ public class CommunityController {
 	}
 	
 	//메시지 왔을 때 채팅방 최신화, (원본 세이브)!	
-	@RequestMapping("/chat/updateRoom.do")
+	@RequestMapping("/community/updateRoom.do")
 	public ModelAndView updateRoom(HttpServletRequest request, ModelAndView mv, @RequestParam(value="roomId",required=false, defaultValue="null") String roomId)
 	{
 		Member m = (Member)request.getSession().getAttribute("logined");		
@@ -75,7 +86,7 @@ public class CommunityController {
 	}
 	
 	//채팅방 클릭 했을 때
-	@RequestMapping("/chat/bringMessage.do")
+	@RequestMapping("/community/bringMessage.do")
 	public ModelAndView bringMsg(String roomId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
 	{
 		

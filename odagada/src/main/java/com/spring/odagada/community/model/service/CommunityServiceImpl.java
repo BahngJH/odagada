@@ -17,6 +17,13 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityServiceImpl.class);
 
+	
+	@Override
+	public int jsutCheckMsg(String myId) {
+		// TODO Auto-generated method stub
+		return dao.jsutCheckMsg(myId);
+	}
+
 	@Override
 	public int saveMessage(MessageVo msg) {
 		// TODO Auto-generated method stub
