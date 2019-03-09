@@ -168,9 +168,12 @@
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
 				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
-					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="onecar()">
-					  <div class="card-body text-success">
-					    <div class="row">
+					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="return oneck()">
+					  <div class="card-body text-success click">
+  					  <input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
+					  <input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
+					  <input type="hidden" value="${c.MEMBERNUM }" id="mem" name="mem"/>
+			    		<div class="row">
 					    	<div class="col-6">
 					    	 <span class="span_city">${c.STARTDATE }</span><br>
 					    		<span class="badge badge-primary">출발</span><br>
@@ -181,9 +184,6 @@
 					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
 					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
 					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
-					    		<input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
-					    		<input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
-					    		<input type="hidden" value="${c.MEMBERNUM }" id="mem" name="mem"/>
 				    		</div>
 					    	<div class="col-6">
 					    		<div class="row">
@@ -259,22 +259,35 @@
 <script>
 //옵션바 고정
 $(function () {
-            var currentPosition = parseInt($("#option_flex").css("top"));
-            $(window).scroll(function () {
-                var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-                
-                $("#option_flex").stop().animate({
-                    "top": position + currentPosition + "px"
-                }, 500);
-            });
+	var currentPosition = parseInt($("#option_flex").css("top"));
+	$(window).scroll(function () {
+	    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+	    
+	    $("#option_flex").stop().animate({
+	        "top": position + currentPosition + "px"
+	    }, 500);
+	});
 });
 
 function validate(){
 	return true;
-}
-function onecar(){
-	$("#form-onecar").submit();
 };
+function oneck(){
+	$('#form-onecar').submit();	
+}
+$(function () {
+ 	$('.click').on("click",function(e){
+		var carpoolNum=$(this).find('#carpoolNum').val();
+		var seat=$(this).find('#seat').val();
+		var mem=$(this).find('#mem').val();
+		console.log(carpoolNum+" : "+seat+" : "+mem);
+		document.getElementById("carpoolNum").value=carpoolNum;
+		document.getElementById("seat").value=seat;
+		document.getElementById("mem").value=mem;
+		$('#div-pick').click();
+	});
+
+}); 
 
  $(function(){ 
 	
