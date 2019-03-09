@@ -11,4 +11,5 @@ public interface CarpoolService {
 	int insertCarpool(Carpool carpool, CarOption option);
 	List<Map<String,String>> selectCarOptionList(Map<String,String> map);
 	List<Map<String,String>> selectCarOneList(int carpoolNum);
+	List<Map<String,String>> selectPasList(int carpoolNum);
 }

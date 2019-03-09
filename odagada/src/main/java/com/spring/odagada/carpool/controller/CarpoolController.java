@@ -2,7 +2,6 @@ package com.spring.odagada.carpool.controller;
 
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +107,7 @@ public class CarpoolController {
 		return option;
 	}
 	
+	//검색페이지로 이동
 	@RequestMapping("/carpool/search.do")
 	public ModelAndView carpoolSearch() {
 		ModelAndView mav = new ModelAndView();
@@ -115,6 +115,7 @@ public class CarpoolController {
 		return mav;
 	}
 	
+	//세부 검색페이지로 이동
 	@RequestMapping("/carpool/searchEnd.do")
 	public ModelAndView carpoolSearchEnd(String kmNum,
 			String memberNum,String startSearch, 
@@ -146,7 +147,6 @@ public class CarpoolController {
 		l.debug("day: "+day);
 		m.put("day", "day");*/
 		
-		//반경 구하기(default3)
 		List<Map<String,String>> carlist = service.selectCarpoolList(m);
 		
 		mav.addObject("cList",carlist);
@@ -156,15 +156,30 @@ public class CarpoolController {
 		
 	}
 	
+	//세부검색페이지에서 클릭된 카풀 정보페이지
 	@RequestMapping("/carpool/oneSearch.do")
-	public ModelAndView carpoolOne(int carpoolNum) {
+	public ModelAndView carpoolOne(HttpServletRequest req, int carpoolNum,String startCity, String endCity, String startDate ,String seat)
+	{
 		ModelAndView mav = new ModelAndView();
+		Map<String,String> m = new HashMap<String, String>();
+		m.put("startCity", startCity);
+		m.put("endCity",endCity);
+		m.put("startDate", startDate);
+		l.debug("확인: "+m+": "+carpoolNum+" : "+seat);
+		
 		List<Map<String,String>> oneList = service.selectCarOneList(carpoolNum);
+		List<Map<String,String>> pList =service.selectPasList(carpoolNum);
+		
+		int count = Integer.parseInt(seat);
+		mav.addObject("seat",count);
+		mav.addObject("pList",pList);
+		mav.addObject("search",m);
 		mav.addObject("oList",oneList);
 		mav.setViewName("carpool/oneSearch");
 		return mav;
 	}
 	
+	//세부검색페이지에서 옵션 검색시
 	@RequestMapping("/carpool/searchOption")
 	public void carpoolSearchOption(HttpServletRequest req,
 			HttpServletResponse res,
@@ -257,6 +272,7 @@ public class CarpoolController {
 		
 		List<Map<String,String>> cList = service.selectCarOptionList(map);
 		
+		req.setAttribute("search", map);
 		req.setAttribute("coList", cList);
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
 	}

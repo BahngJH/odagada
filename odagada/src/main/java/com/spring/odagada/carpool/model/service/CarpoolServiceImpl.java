@@ -51,6 +51,13 @@ public class CarpoolServiceImpl implements CarpoolService {
 	public List<Map<String, String>> selectCarOneList(int carpoolNum) {
 		return dao.selectCarOneList(carpoolNum);
 	}
+
+	@Override
+	public List<Map<String, String>> selectPasList(int carpoolNum) {
+		return dao.selectPasList(carpoolNum);
+	}
+	
+	
 	
 	
 }

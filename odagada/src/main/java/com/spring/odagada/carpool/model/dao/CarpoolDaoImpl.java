@@ -40,6 +40,11 @@ public class CarpoolDaoImpl implements CarpoolDao {
 		return session.selectList("carpool.selectCarOneList",carpoolNum);
 	}
 
+	@Override
+	public List<Map<String, String>> selectPasList(int carpoolNum) {
+		return session.selectList("carpool.selectPasList",carpoolNum);
+	}
+
 	
 	
 }
