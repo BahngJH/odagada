@@ -7,7 +7,7 @@
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${coList}" var="c">
 				<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
-					<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
+					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="onecar()">
 					  <div class="card-body text-success">
 					    <div class="row">
 					    	<div class="col-6">
@@ -21,24 +21,25 @@
 					    	<div class="col-6">
 					    		<div class="row">
 					    			<div class="col-12">
-					    				<span class="span-option col-text">${c.PAY}</span>
+					    				<span class="span-option col-text">￦${c.PAY}</span>
 					    			</div>
 					    		</div>
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-				    						<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
-					    					<span>${c.MEMBERNAME }</span>
+					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+					    					<span class="driver-name">${c.MEMBERNAME }</span>
 					    				</span>
 					    			</div>
 					    		</div>
 					    	</div>
 					    </div>
 					  </div>
+					  <hr style="margin:0px;">
 					  <div class="row">
 					  	<div class="col-12">
-					  		<span class="span-option">
-				  				<c:if test='${c.ANIMAL eq "Y"}'>
+				  			<span class="span-option">
+					  			<c:if test='${c.ANIMAL eq "Y"}'>
 					  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
 					  			</c:if>
 			  					<c:if test='${c.SMOKING eq "Y"}'>
