@@ -27,7 +27,7 @@
     }
    .msgCount{
    		margin-top:5px;
-      	float:right;
+      	float:left;
       	border:1px solid red;
       	background-color:red;
       	border-radius: 100%;
@@ -141,7 +141,7 @@
 				if(data.unIsReadMsg>0)
 				{
 					
-					var unCheckMsg="<span class='msgCount'>"+data.unIsReadMsg+"</span>";
+					var unCheckMsg="<a href='${path }/community/chatting.do'><span class='msgCount'>"+data.unIsReadMsg+"</span></a>";
 					$("#msgDiv").html(unCheckMsg);
 				}
 			}		
