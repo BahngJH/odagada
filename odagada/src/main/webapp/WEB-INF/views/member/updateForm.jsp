@@ -110,6 +110,8 @@
 			$("#sentEmailDiv").hide();
 			$("#alertEmail").hide();
 			$("#inputPhone").hide();
+			$("#sentPhoneDiv").hide();
+			$("#alertPhone").hide();
 		})
 		
 		//이메일 변경 버튼 
@@ -137,6 +139,18 @@
 		$("#backPhone").on("click", function(){
 			$("#inputPhone").hide();
      	    $("#oriPhoneDiv").show();
+		})
+		
+		//인증 번호 발송 버튼
+		$("#sentTxtBtn").on("click", function(){
+			$("#sentPhoneDiv").show();
+			$("#sentTxtDiv").hide();
+		})
+		
+		//인증 번호 취소 버튼
+		$("#backOriPhone").on("click", function(){
+			$("#sentPhoneDiv").hide();
+			$("#sentTxtDiv").show();
 		})
 
 	});
@@ -197,114 +211,101 @@
 	   		    	    <input type="file" class="custom-file-input"  accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
 		           </div>
 		         </div> 
-	           <div class="col-6">           			                                
-       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
-                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-                  <span class="ck ckOk">비밀번호 일치</span>
-                  <span class="ck ckNo">비밀번호 불일치</span>
-                 <div class="row passwordInfo">    	
-	           		<div class="ptext col-5">
-	           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
-	       			</div>  
-	       			<div class="col-7">      	
-	          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
-	          		</div> 		
-           		 </div>
-           		 <!--기존 Email 정보  -->
-           		  <div class="row passwordInfo" id="oriEmailDiv">    	
-	           		<div class="ptext col-6">
-	           			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
-	       			</div>  
-	       			<div class="col-6 chgBtnDiv">
-	       				<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
-	          		</div> 		
-           		 </div>
-           		 <!--Email 변경 버튼 클릭시  -->
-           		 <div class="row passwordInfo" id="chgEmailInfo">    	
-	           		<div class="ptext col-7">
-	       			  <input type="email" class="form-control" value="${logined.email }" name="email" maxlength="30" required>
-	       			</div>  
-	       			<div class="btns col-5">
-	       			  <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 발송</button>
-	       			  <button type="button" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
-	          		</div> 		
-           		 </div>
-       			    <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
+	         	  <div class="col-6">           			                                
+	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
+	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+	                  <span class="ck ckOk">비밀번호 일치</span>
+	                  <span class="ck ckNo">비밀번호 불일치</span>
+	                 <div class="row passwordInfo">    	
+		           		<div class="ptext col-5">
+		           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
+		       			</div>  
+		       			<div class="col-7">      	
+		          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
+		          		</div> 		
+		           		 </div>
+	           		 <!--기존 Email 정보  -->
+	           		  <div class="row passwordInfo" id="oriEmailDiv">    	
+		           		<div class="ptext col-6">
+		           			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
+		       			</div>  
+		       			<div class="col-6 chgBtnDiv">
+		       				<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
+		          		</div> 		
+	           		 </div>
+	           		 <!--Email 변경 버튼 클릭시  -->
+	           		 <div class="row passwordInfo" id="chgEmailInfo">    	
+		           		<div class="ptext col-7">
+		       			  <input type="email" class="form-control" value="${logined.email }" name="email" maxlength="30" required>
+		       			</div>  
+		       			<div class="btns col-5">
+		       			  <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 발송</button>
+		       			  <button type="button" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
+		          		</div> 		
+	           		 </div>
+     			     <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
        			 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
-           		  <!--Email 변경 인증 메일 전송 후  -->      			  
-       			  <div id="sentEmailDiv">
-	    			  <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
-	    			  <p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
-	    			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
-	       			  <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
-       			  </div>
+	           		  <!--Email 변경 인증 메일 전송 후  -->      			  
+	       			  <div id="sentEmailDiv">
+		    			  <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
+		    			  <p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
+		    			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
+		       			  <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
+	       			  </div>
        			  
        			  
-       			  
-       			  
-       			  
-       			  
-       			  
-       			  
-       			   <!--기존 Phone 정보  -->
-           		  <div class="row passwordInfo" id="oriPhoneDiv">    	
-	           		<div class="ptext col-6">
-	           			<p class="oriEmail font-weight-bold"><%=m.getPhone() %></p>
-	       			</div>  
-	       			<div class="col-6">
-	       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
-	          		</div> 		
-           		 </div>
-           		 <!--Phone 변경 버튼 클릭시  -->
-           		 <div id="inputPhone">
-	       		      <div class="row phone">
-		               	  <c:set var="phone" value="${logined.phone}"/>
-		                     <select class="tel form-control col-sm-5" name="phone1" id="selectPhone" required>                                                                                        
-		                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>>010</option>
-		                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
-		                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
-		                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
-		                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
-		                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
-		                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
-		                     </select>
-		                   
-		                     <c:if test="${fn:length(phone) eq 11}">
-		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}"required>
-		           			 </c:if>
-		           			 <c:if test="${fn:length(phone) eq 10}">
-		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
-		           			</c:if>
-	         		 </div>	       			
-	       			<div>
-	   			      <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
-	       			  <button type="button" class="cg btn btn-secondary btn-sm">인증 번호 발송</button>
-	       			  <button type="button" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
-	          		</div> 		
-	       		</div>	
-		 
-           		 </div>
-       			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 
-           		  
-           		  
-           		  <!--핸드폰 변경 문자 인증 전송 후  -->      			  
-       			  <div id="sentPhoneDiv">
-	    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
-	    			  <p class="pPassword">유효시간: 3분 이내.</p>
-    			      <button type="button" class="cg btn btn-secondary btn-sm">인증 문자 재발송</button>
-		           	  <input type="number" class="form-control" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
-       			  </div>
-       			  
-       			  
-       			  		
-       			
-    
-                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="정보변경" >&nbsp;
-                  <input type="reset" class="btn btn-outline-success" value="취소">
-               </div>
-             </div> 
+			  
+	       			   <!--기존 Phone 정보  -->
+	           		  <div class="row passwordInfo" id="oriPhoneDiv">    	
+		           		<div class="ptext col-6">
+		           			<p class="oriEmail font-weight-bold"><%=m.getPhone() %></p>
+		       			</div>  
+		       			<div class="col-6">
+		       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+		          		</div> 		
+	           		 </div>
+	           		 <!--핸드폰번호 변경 버튼 클릭시  -->
+	           		 <div id="inputPhone">
+		       		      <div class="row phone">
+			               	  <c:set var="phone" value="${logined.phone}"/>
+			                     <select class="tel form-control col-sm-5" name="phone1" id="selectPhone" required>                                                                                        
+			                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>>010</option>
+			                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
+			                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
+			                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
+			                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
+			                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
+			                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
+			                     </select>
+			                   
+			                     <c:if test="${fn:length(phone) eq 11}">
+			                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}"required>
+			           			 </c:if>
+			           			 <c:if test="${fn:length(phone) eq 10}">
+			                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
+			           			</c:if>
+		         		 </div>	       			
+	       			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
+		   			     <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
+		   			    <div id="sentTxtDiv">
+		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn">인증 번호 발송</button>
+		       			  <button type="button" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
+		       			</div>   
+	       			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
+		       			  <div id="sentPhoneDiv">
+			    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
+				           	  <input type="number" class="form-control" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
+		    			      <button type="button" class="cg btn btn-secondary btn-sm">인증 문자 재발송</button>
+		    			      <button type="button" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
+		       			  </div>	          				
+		       	   	</div>	
+	                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="정보변경" >&nbsp;
+	                  <input type="reset" class="btn btn-outline-success" value="취소">
+           	 	</div>       			   			
+              </div>
           </form>
-       </div>
+       </div> 
+
 
 
    
