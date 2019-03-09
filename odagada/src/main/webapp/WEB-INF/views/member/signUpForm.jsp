@@ -281,7 +281,42 @@ $(function(){
         if($('#checkStatus').val()==0){
            alert('ID 중복확인해주세요.');
            return false;
-         }         
+         }  
+        
+        //E-mail 중복 확인
+        var email1=$("#email1").val();
+        var email2=$("#email2").val();
+        var email=email+"@"+email2;
+        
+        
+        
+        $.ajax({
+            url:"${path}/member/checkEmail.do",
+            data:{"email":email},
+            success:function(data){         
+                                                     
+                if(data.isId==true)
+                {
+                   $(".guide.ok").hide();
+                   $(".guide.error").show();
+                   document.getElementById('checkStatus').value='0';
+                }
+                else{
+                   $(".guide.ok").show();
+                   $(".guide.error").hide();
+                   document.getElementById('checkStatus').value='1';
+                }
+            }
+         }); 
+        
+        
+        
+        
+        
+        
+        
+        
+        
    }
  
 

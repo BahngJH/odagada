@@ -1,6 +1,8 @@
 package com.spring.odagada.member.controller;
 
 
+import static com.spring.odagada.common.PageFactory.getpageBar;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -33,8 +35,6 @@ import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
-import static com.spring.odagada.common.PageFactory.getpageBar;
-
 @SessionAttributes("logined")
 @Controller
 public class MemberController {
@@ -51,6 +51,18 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
+/*	//email 중복확인
+	@ResponseBody
+	@RequestMapping("/member/checkEmail.do")
+	public ModelAndView checkEmail(String email, ModelAndView mv) {
+		logger.debug("받아오는 메일:"+email);
+		Map map=new HashMap();
+		boolean isEmail=service.checkEmail(email)==0?false:true;
+		map.put("isEmail", isEmail);
+		
+		return map;
+	}*/
+			
 	//아이디 중복확인
 	@RequestMapping("/member/checkId.do")
 	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException

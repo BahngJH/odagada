@@ -44,5 +44,11 @@ public class MemberServiceImple implements MemberService {
 		return dao.updateMember(m);
 	}
 
+	@Override
+	public Map<String, String> checkEmail(String email) {
+		// TODO Auto-generated method stub
+		return dao.checkEmail(email);
+	}
+
 
 }
