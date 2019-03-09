@@ -12,6 +12,7 @@
 <!-- 제이쿼리 --> 	
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 
 <style>
@@ -139,6 +140,23 @@ function search(){
 		alert("날짜를 설정해주세요.");
 		return false;
 	}
+	
+	var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] ([0-9]|1[0-2]):([0-5][0-9])$/; 
+	
+	if(!exp.test($("#startDate").val())){
+		alert("날짜를 확인해주세요.");
+		return false;
+	}
+
+	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
+	console.log($("#startDate").val());
+	
+	if(!($("#startDate").val() > nowDate)){
+		alert("날짜를 확인해주세요.");
+		return false;
+	}
+	
+	
 	// 검색된 주소의 lat,lon 값 넣기
 	fullAddressSearch($("#startSearch").val());
 	document.getElementById("startLon").value=lon;
