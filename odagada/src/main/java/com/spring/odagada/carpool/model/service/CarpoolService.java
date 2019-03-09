@@ -12,4 +12,5 @@ public interface CarpoolService {
 	List<Map<String,String>> selectCarOptionList(Map<String,String> map);
 	List<Map<String,String>> selectCarOneList(int carpoolNum);
 	List<Map<String,String>> selectPasList(int carpoolNum);
+	List<Map<String,String>> selectImageList(int mem);
 }
