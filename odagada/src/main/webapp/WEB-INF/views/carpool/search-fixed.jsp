@@ -6,7 +6,7 @@
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${coList}" var="c">
-				<form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+				<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
 					<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
 					  <div class="card-body text-success">
 					    <div class="row">
@@ -27,8 +27,8 @@
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-					    					<%-- <img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/> --%>
-					    					<p class="col-text">${c.MEMBERNAME }</p>
+				    						<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+					    					<span>${c.MEMBERNAME }</span>
 					    				</span>
 					    			</div>
 					    		</div>
