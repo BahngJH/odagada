@@ -8,5 +8,233 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
-
+<%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
+<%
+	int seat = (int)request.getAttribute("seat");
+	List pList = (List)request.getAttribute("pList"); 
+%>
+<style>
+	input.search-div{
+		margin:13px;
+	}
+	span.icon-right{
+		margin-top:15px;
+	}
+	button.start-search{
+		margin-top:13px;
+	}
+	img.option-icon{
+		width:50px;height:50px;
+		float:left;
+		margin:5px;
+	}
+	button.btn-chat{
+		font-size: 13px;
+		margin-top:7px;
+	}
+	img.driver-img{
+		width:80px;height:80px;
+		border-radius: 100px;
+		float:left;
+		margin:19px;
+	}
+	span.line-div{
+		border:1px solid rgb(230,230,230);
+		 height:100px;
+		float:left;
+		border-style: dashed;
+		margin-top:10px;
+	}
+	p.intro-p{
+		display:block;
+		overflow: hidden; 
+ 		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: auto;
+		height: 50px;
+		margin:30px;
+	}
+	button.ride-btn{
+		float:right;
+	}
+</style>
+<section id="container">
+	<div class="row">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-8">
+			<div class="input-group">
+				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
+				<span class="fas fa-arrow-right fa-2x icon-right"></span>
+				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
+				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
+			</div>
+		</div>
+		<div class="col-12 col-md-2"></div>
+	</div>
+	<hr>
+	<!-- body -->
+	<div class="row">
+		<div class="col-12 col-md-2"></div>
+		<div class="col-12 col-md-5">
+			<div class="card">
+			  <div class="card-header">
+			    <ul class="nav nav-tabs card-header-tabs">
+			      <li class="nav-item" id="li1" >
+			        <a class="nav-link active" >카풀 정보</a>
+			      </li>
+			      <li class="nav-item"id="li2" >
+			        <a class="nav-link" >경로 보기</a>
+			      </li>
+			    </ul>
+			  </div>
+			  <div class="card-body">
+			  	<!-- 경로 정보 -->
+			  	<c:forEach items="${oList}" var="o">
+				  	<div class="row">
+				  		<div class="col-12">
+				  			<span class="badge badge-pill badge-warning">출발</span>
+				  			<span> |&nbsp;${o.STARTCITY } ${o.STARTDETAIL}</span>
+				  		</div>
+			  		</div><br>
+			  		<div class="row">
+				  		<div class="col-12">
+				  			<span class="badge badge-pill badge-warning">도착</span>
+				  			<span> |&nbsp;${o.ENDCITY } ${o.ENDDETAIL}</span>
+				  		</div>
+			  		</div><br>
+			  		<div class="row">
+				  		<div class="col-6">
+				  			<span class="badge badge-pill badge-warning">출발일</span>
+				  			<span> |&nbsp;${fn:substring(o.STARTDATE,0,10)}</span>
+			  			</div>
+			  			<div class="col-6">
+				  			<span class="badge badge-pill badge-warning">출발 예정 시간</span>
+				  			<span> |&nbsp;${fn:substring(o.STARTDATE,11,19)}</span>
+				  		</div>
+			  		</div><br>
+			  		<div class="row">
+						<div class="col-12">
+				  			<span class="badge badge-pill badge-warning">인당 금액</span>
+				  			<span> |&nbsp;￦ ${o.PAY }</span>
+				  		</div>
+			  		</div>
+				  	<hr>
+				  	<!-- 드라이버 소개 -->
+				  	<div class="card text-center">
+				  		<div class="row">
+				  			<div class="col-3">
+								<span>
+				  					<img src="${path }/resources/images/ilhoon2.jpg" class="driver-img"/>
+				  					<span class="line-div"></span>
+				  				</span>
+				  			</div>
+				  			<div class="col-9">
+				  				<p class="intro-p">${o.INTRODUCE }</p>
+				  			</div>
+				  		</div>
+				  	</div>
+			  	</c:forEach>
+			  </div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+					  <div class="card-header">이용 현황</div>
+					  <div class="card-body">
+					  	<div class="row">
+					  		<div class="col-8">
+					  			<span class="badge badge-pill badge-warning">이용 좌석</span>
+					  		</div>
+					  		<div class="col-4">
+					  			<button class="btn btn-success ride-btn">탑승 신청</button>
+					  		</div>
+					  	</div>
+					  	<div class="row">
+					  		<div class="col-12">
+<%-- 					  			<%for(int i=0;i<seat;i++){ %>
+					  				<%if(pList.get(i)==null){ %>
+						  				<c:forEach items="${pList }" var="p">
+						  					<c:choose>
+							  					<c:when test='${p.PSTATUS eq "Y"}'>
+							  						<img src="${path }/resources/images/option-icon/full.png"/>
+							  					</c:when>
+							  					<c:otherwise>
+							  						<img src="${path }/resources/images/option-icon/empty.png"/>
+							  					</c:otherwise>
+						  					</c:choose>
+						  				</c:forEach>
+					  				<%}
+					  				else{%>
+					  					<img src="${path }/resources/images/option-icon/empty.png"/>
+					  				<%} %>
+				  				<%} %> --%>
+					  		</div>
+					  	</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-3">
+			<div class="card bg-light mb-3">
+			  <div class="card-header">드라이버 정보</div>
+			  <div class="card-body">
+			     <div class="row">
+				  	<div class="col-12">
+				  	<div class="card text">
+				  		<c:forEach items="${oList}" var="c">
+				  			<span class="span-option">
+					  			<c:if test='${c.ANIMAL eq "Y"}'>
+					  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+					  			</c:if>
+			  					<c:if test='${c.SMOKING eq "Y"}'>
+			  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.TEENAGE eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.TALKING eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.MUSIC eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.FOOD eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.BAGGAGE eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+								</c:if>
+								<c:choose>
+									<c:when test='${c.GENDER eq "A"}'>
+									</c:when>
+									<c:when test='${c.GENDER eq "F"}'>
+										<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+									</c:when>
+									<c:when test='${ c.GENDER eq "M"}'>
+										<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+									</c:when>
+								</c:choose>
+					  		</span>
+						</c:forEach>
+						</div>
+				  	</div>
+				  </div>
+				  <!-- 채팅창 연결 버튼 -->
+				  <div class="row">
+				  	<div class="col-3"></div>
+				  	<div class="col-6">
+				  		<button class="btn btn-success search-div btn-chat">드라이버와 채팅</button>
+				  	</div>
+				  	<div class="col-3"></div>
+				  </div>
+			  </div>
+			</div>
+		</div>
+		<div class="col-12 col-md-2">
+		</div>
+	</div>
+	<!-- 카풀 이용객 현황 -->
+</section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
