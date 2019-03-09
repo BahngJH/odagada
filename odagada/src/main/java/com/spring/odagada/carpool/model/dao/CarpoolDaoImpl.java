@@ -50,6 +50,11 @@ public class CarpoolDaoImpl implements CarpoolDao {
 		return session.selectList("carpool.selectImageList",mem);
 	}
 
+	@Override
+	public List<Map<String, String>> selectReList(int carpoolNum) {
+		return session.selectList("carpool.selectReList",carpoolNum);
+	}
+
 	
 	
 }

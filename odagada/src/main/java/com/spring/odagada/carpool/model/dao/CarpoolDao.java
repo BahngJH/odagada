@@ -20,4 +20,6 @@ public interface CarpoolDao {
 	List<Map<String,String>> selectPasList(int carpoolNum);
 	
 	List<Map<String,String>> selectImageList(int mem);
+	
+	List<Map<String,String>> selectReList(int carpoolNum);
 }
