@@ -43,7 +43,7 @@
 		color:black;
 	}
 	span.span_city{
-		font-size:10px;
+		font-size:13px;
 		color:black;
 	}
 	button.start-search{
@@ -54,8 +54,8 @@
 		float:right;
 		margin:4px;
 	}
-	div#form-onecar:hover{
-		text-shadow: 1px 1px 2px rgb(200,200,200);
+	form-onecar:hover{
+		text-shadow: 1px 1px 2px rgb(1,1,1);
 	}
 	span.driver-name{
 		color:black;
@@ -64,6 +64,9 @@
 	}
 	div#div-pick{
 		border:2px solid rgb(0,175,76);
+	}
+	div.finish-time{
+		border:2px solid rgb(50,50,50);
 	}
 </style>
 <section id="container">
@@ -167,75 +170,148 @@
 		<div class="col-12 col-md-5" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
-					<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
-						<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
-						  <div class="card-body text-success">
-						    <div class="row">
-						    	<div class="col-6">
-						    	 <span class="span_city">${c.STARTDATE }</span><br>
-						    		<span class="badge badge-primary">출발</span><br>
-						    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
-							    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
-						    		<span class="badge badge-success">도착</span><br>
-						    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
-					    		</div>
-						    	<div class="col-6">
-						    		<div class="row">
-						    			<div class="col-12">
-						    				<span class="span-option col-text">￦${c.PAY}</span>
-						    			</div>
+				<c:choose>
+					<c:when test='${c.startDate >= today}'>
+						<form method="post" action="${path}/carpool/oneSearch.do?carpoolNum=${c.CARPOOLNUM}" id="form-onecar">
+							<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
+							  <div class="card-body text-success">
+							    <div class="row">
+							    	<div class="col-6">
+							    	 <span class="span_city">${c.STARTDATE }</span><br>
+							    		<span class="badge badge-primary">출발</span><br>
+							    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
+								    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+							    		<span class="badge badge-success">도착</span><br>
+							    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
 						    		</div>
-						    		<div class="row">
-						    			<div class="col-12">
-						    				<span class="span-option">
-						    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
-						    					<span class="driver-name">${c.MEMBERNAME }</span>
-						    				</span>
-						    			</div>
+							    	<div class="col-6">
+							    		<div class="row">
+							    			<div class="col-12">
+							    				<span class="span-option col-text">￦${c.PAY}</span>
+							    			</div>
+							    		</div>
+							    		<div class="row">
+							    			<div class="col-12">
+							    				<span class="span-option">
+							    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+							    					<span class="driver-name">${c.MEMBERNAME }</span>
+							    				</span>
+							    			</div>
+							    		</div>
+							    	</div>
+							    </div>
+							  </div>
+							  <hr style="margin:0px;">
+							  <div class="row">
+							  	<div class="col-12">
+						  			<span class="span-option">
+							  			<c:if test='${c.ANIMAL eq "Y"}'>
+							  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+							  			</c:if>
+					  					<c:if test='${c.SMOKING eq "Y"}'>
+					  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.TEENAGE eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.TALKING eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.MUSIC eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.FOOD eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.BAGGAGE eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+										</c:if>
+										<c:choose>
+											<c:when test='${c.GENDER eq "A"}'>
+											</c:when>
+											<c:when test='${c.GENDER eq "F"}'>
+												<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+											</c:when>
+											<c:when test='${ c.GENDER eq "M"}'>
+												<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+											</c:when>
+										</c:choose>
+							  		</span>
+							  	</div>
+							  </div>
+							</div>
+						</form>
+					</c:when>
+					<c:otherwise>
+						<div id="div-pick" class="card border-success mb-3 finish-time">
+							  <div class="card-body text-success">
+							    <div class="row">
+							    	<div class="col-6">
+							    	 <span class="span_city">${c.STARTDATE }</span><br>
+							    		<span class="badge badge-primary">출발</span><br>
+							    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
+								    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+							    		<span class="badge badge-success">도착</span><br>
+							    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
 						    		</div>
-						    	</div>
-						    </div>
-						  </div>
-						  <hr style="margin:0px;">
-						  <div class="row">
-						  	<div class="col-12">
-					  			<span class="span-option">
-						  			<c:if test='${c.ANIMAL eq "Y"}'>
-						  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
-						  			</c:if>
-				  					<c:if test='${c.SMOKING eq "Y"}'>
-				  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
-									</c:if>
-									<c:if test='${c.TEENAGE eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
-									</c:if>
-									<c:if test='${c.TALKING eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
-									</c:if>
-									<c:if test='${c.MUSIC eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
-									</c:if>
-									<c:if test='${c.FOOD eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
-									</c:if>
-									<c:if test='${c.BAGGAGE eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
-									</c:if>
-									<c:choose>
-										<c:when test='${c.GENDER eq "A"}'>
-										</c:when>
-										<c:when test='${c.GENDER eq "F"}'>
-											<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
-										</c:when>
-										<c:when test='${ c.GENDER eq "M"}'>
-											<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
-										</c:when>
-									</c:choose>
-						  		</span>
-						  	</div>
-						  </div>
-						</div>
-					</form>
+							    	<div class="col-6">
+							    		<div class="row">
+							    			<div class="col-12">
+							    				<span class="span-option col-text">￦${c.PAY}</span>
+							    			</div>
+							    		</div>
+							    		<div class="row">
+							    			<div class="col-12">
+							    				<span class="span-option">
+							    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+							    					<span class="driver-name">${c.MEMBERNAME }</span>
+							    				</span>
+							    			</div>
+							    		</div>
+							    	</div>
+							    </div>
+							  </div>
+							  <hr style="margin:0px;">
+							  <div class="row">
+							  	<div class="col-12">
+						  			<span class="span-option">
+							  			<c:if test='${c.ANIMAL eq "Y"}'>
+							  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+							  			</c:if>
+					  					<c:if test='${c.SMOKING eq "Y"}'>
+					  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.TEENAGE eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.TALKING eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.MUSIC eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.FOOD eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+										</c:if>
+										<c:if test='${c.BAGGAGE eq "Y"}'>
+											<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+										</c:if>
+										<c:choose>
+											<c:when test='${c.GENDER eq "A"}'>
+											</c:when>
+											<c:when test='${c.GENDER eq "F"}'>
+												<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+											</c:when>
+											<c:when test='${ c.GENDER eq "M"}'>
+												<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+											</c:when>
+										</c:choose>
+							  		</span>
+							  	</div>
+							  </div>
+							</div>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 			<c:if test="${empty cList }">
 				<div class="row">

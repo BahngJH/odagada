@@ -37,7 +37,39 @@
 					  </div>
 					  <div class="row">
 					  	<div class="col-12">
-					  		<span class="span-option">설정옵션</span>
+					  		<span class="span-option">
+				  				<c:if test='${c.ANIMAL eq "Y"}'>
+					  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+					  			</c:if>
+			  					<c:if test='${c.SMOKING eq "Y"}'>
+			  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.TEENAGE eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.TALKING eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.MUSIC eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.FOOD eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.BAGGAGE eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+								</c:if>
+								<c:choose>
+									<c:when test='${c.GENDER eq "A"}'>
+									</c:when>
+									<c:when test='${c.GENDER eq "F"}'>
+										<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+									</c:when>
+									<c:when test='${ c.GENDER eq "M"}'>
+										<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+									</c:when>
+								</c:choose>
+					  		</span>
 					  	</div>
 					  </div>
 					</div>

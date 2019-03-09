@@ -128,7 +128,7 @@ function validate(){
 // form submit
 var lon, lat;
 function search(){
-	if($("#startSearch").val()===""){
+ 	if($("#startSearch").val()===""){
 		alert("출발지를 설정해주세요.");
 		return false;
 	}
@@ -140,7 +140,7 @@ function search(){
 		alert("날짜를 설정해주세요.");
 		return false;
 	}
-	
+
 	var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] ([0-9]|1[0-2]):([0-5][0-9])$/; 
 	
 	if(!exp.test($("#startDate").val())){
@@ -161,13 +161,12 @@ function search(){
 	fullAddressSearch($("#startSearch").val());
 	document.getElementById("startLon").value=lon;
 	document.getElementById("startLat").value=lat;
-	console.log("start:"+lon+"/"+lat);
 	
 	fullAddressSearch($("#endSearch").val());
 	document.getElementById("endLon").value=lon;
 	document.getElementById("endLat").value=lat;
-	console.log("end:"+lon+"/"+lat);
-	$('#search-form').submit(); 
+	console.log("  dfdf"+$('#today').val());
+	$('#search-form').submit();
 }
 //검색한 주소를 좌표로 변경하기 
 function fullAddressSearch(fullAddress){
