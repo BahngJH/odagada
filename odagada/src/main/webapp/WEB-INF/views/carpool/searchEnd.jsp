@@ -112,6 +112,11 @@
 	    						</div>
 	    					</div>
 	    					<div class="row">
+	    						<div class="col-12">
+	    							<span class=""><i>(체크시 옵션에 포함되는 카풀만 검색)</i> </span>
+	    						</div>
+	    					</div><br>
+	    					<div class="row">
 								<div class="col-6" >
 									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="" /></label>
 								</div>
@@ -184,6 +189,10 @@
 					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
 					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
 					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
+				    			<input type="hidden" name="startLat" id="startLat" value="${search.startLat }"/>
+    							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
+    							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
+    							<input type="hidden" name="destLong" id="destLong" value="${search.destLong }"/>
 				    		</div>
 					    	<div class="col-6">
 					    		<div class="row">
@@ -280,7 +289,7 @@ $(function () {
 		var carpoolNum=$(this).find('#carpoolNum').val();
 		var seat=$(this).find('#seat').val();
 		var mem=$(this).find('#mem').val();
-		console.log(carpoolNum+" : "+seat+" : "+mem+" : "+dNum);
+		console.log(carpoolNum+" : "+seat+" : "+mem);
 		document.getElementById("carpoolNum").value=carpoolNum;
 		document.getElementById("seat").value=seat;
 		document.getElementById("mem").value=mem;
@@ -291,7 +300,7 @@ $(function () {
  $(function(){ 
 	
  	$('#btn-reset').on("click",function(){
- 		console.log($('#check').val());
+ 		console.log($('#startLat').val());
  		$.ajax({
 			url:"${path}/carpool/searchOption",
 			data:{"animal":$('#animal').is(":checked"),
