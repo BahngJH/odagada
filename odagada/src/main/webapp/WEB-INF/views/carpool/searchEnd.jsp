@@ -173,6 +173,7 @@
   					  <input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
 					  <input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
 					  <input type="hidden" value="${c.MEMBERNUM }" id="mem" name="mem"/>
+					  <input type="hidden" value="${c.MEMBERNUM }" id="dNum" name="dNum"/>
 			    		<div class="row">
 					    	<div class="col-6">
 					    	 <span class="span_city">${c.STARTDATE }</span><br>
@@ -280,11 +281,13 @@ $(function () {
 		var carpoolNum=$(this).find('#carpoolNum').val();
 		var seat=$(this).find('#seat').val();
 		var mem=$(this).find('#mem').val();
-		console.log(carpoolNum+" : "+seat+" : "+mem);
+		var dNum=$(this).find('#dNum').val();
+		console.log(carpoolNum+" : "+seat+" : "+mem+" : "+dNum);
 		document.getElementById("carpoolNum").value=carpoolNum;
 		document.getElementById("seat").value=seat;
 		document.getElementById("mem").value=mem;
-		$('#div-pick').click();
+		document.getElementById('dNum').value=dNum;
+		/* $('#div-pick').click(); */
 	});
 
 }); 
