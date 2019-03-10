@@ -54,13 +54,17 @@ public class MemberController {
 	//email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
-	public Map checkEmail(String email, ModelAndView mv) {
+	public String checkEmail(String email) {
 		logger.debug("받아오는 메일:"+email);
-		Map map=new HashMap();
-		boolean isEmail=service.checkEmail(email)==0?false:true;
-		map.put("isEmail", isEmail);
-		
-		return map;
+		int emailNum=service.checkEmail(email);
+		String result="";
+		if(emailNum==0) {
+			result="ok";
+		}else {
+			result="no";
+		}
+		logger.debug(result);
+		return result;
 	}
 			
 	//아이디 중복확인

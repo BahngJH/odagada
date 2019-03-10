@@ -1,3 +1,4 @@
+  
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -17,7 +18,6 @@
    <style>
      div#enroll-container{width:400px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-
     /*중복아이디체크관련*/
     div#enroll-container{position:relative; padding:0px;}
     div#enroll-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
@@ -134,7 +134,7 @@
   	.passwordInfo{
   	height:40px;
   	}
-
+  	.eck{padding-right:0; padding-left:0; font-size:15px;}
     </style>
     
      
@@ -191,7 +191,6 @@
        }                  
        return true;
    }
-
 $(function(){
     //비밀번호 일치 확인
          $('#password2').keyup(function(){
@@ -248,7 +247,6 @@ $(function(){
    });
    
  });
-
  function validate() {
   	 //ID 4자리~12자리 소문자, 숫자 가능 확인하기 
       var idReg =/^[A-Za-z0-9]{4,12}$/;
@@ -292,7 +290,6 @@ $(function(){
         
    }
  
-
    //프로필 사진을 이미지 타입 파일로만 받기
    function fileCheck(obj){
       var fileKind=obj.value.lastIndexOf('.');
@@ -310,7 +307,51 @@ $(function(){
          }   
       }
    
-   //메일 선택 함수
+   
+ //E-mail 중복 확인
+   function checkEmail(){
+   	
+     	//이메일 도메인 정규식 받기    
+       var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
+       if(!mC.test($("input[name=email2]").val())){
+         alert("정확한 이메일 형식을 입력해주세요.");
+         return false;
+      }  
+   		
+       var email1=$("#email1").val();
+       var at='@';
+       var email2=$("#email2").val();
+       var email=email1+at+email2;
+        
+       $.ajax({
+           url:"${path}/member/checkEmail.do",
+           data:{"email":email},
+           success:function(data){                                                        
+               if(data =='no')
+               {
+              	  alert('이미 사용중인 이메일 입니다.');          
+                  document.getElementById('emailStatus').value='0';
+                  return false;
+               }else{
+               	 document.getElementById('emailStatus').value='1'; 
+               	alert('사용하셔도 좋습니다.');
+               }
+           }
+        });  
+      };
+      
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+/*    //메일 선택 함수
    function selectMail(){
 	   var mailList=document.getElementById("mailList");
 	   var selectMail=mailList.options[mailList.selected].value;
@@ -325,7 +366,7 @@ $(function(){
 		   $('#mailList').show();
 	   }
 	   
-   }
+   } */
 </script>
       
       <div id="enroll-container">
@@ -335,8 +376,6 @@ $(function(){
             <span class="guide error">ID 중복 사용 불가 </span>
             <input type="hidden" name="checkId" value="0"/>
             <input type="hidden" id="checkStatus" value="0"/>
-            
-              
             <div class="row">
                <div class="col-6 dL">
                   <div>
@@ -358,8 +397,7 @@ $(function(){
        			<div class="col-7">      	
           				<p>숫자/영문자/특수문자 조합 6~15자</p>
           		</div> 		
-            </div>
-            
+            </div>           
             <div class="row">
                <div class="col-6">
                   <div>
@@ -372,16 +410,17 @@ $(function(){
                   </div>                       
                </div>           
             </div>    
-         <div class="row row-email">
-               <div class="col-6 div-email">
+            <div class="row row-email">
+               <div class="col-5 div-email">
                   <div class="input-group div-email">
                      <input type="text" class="emailC form-control" placeholder="이메일 아이디" name="email1" id="email1" maxlength="20" required>
                      <span class="input-group-addon addon-email" id="basic-addon1">@</span>
                   </div>
                </div>
-               <div class="col-6 div-email">
+               <input type="hidden" id="emailStatus" value="0"/>
+               <div class="col-5 div-email">
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                   
-                  <select class="select-C form-control" name="selectEmail" id="mailList" onchange="javascript:selectMail(this.options[this.selectedIndex].value)">
+                 <!--  <select class="select-C form-control" name="selectEmail" id="mailList" onchange="javascript:selectMail(this.options[this.selectedIndex].value)">
                      <option selected>선택</option>
                      <option value="hanmail.net">hanmail.net</option>
                      <option value="hotmail.com">hotmail.com</option>
@@ -391,21 +430,24 @@ $(function(){
                      <option value="gmail.com">gmail.com</option>
                      <option value="nate.com">nate.com</option>
                      <option value="self">직접입력</option>
-                  </select> 
+                  </select> --> 
                </div>
-            </div>
+               <div class="div-email col-2">
+               		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
+               </div>
+          </div>
                <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
                <div class="row">
                   <div class="col-4">         
-                  <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
-                     <option  value="010" selected>010</option>
-                     <option  value="011">011</option>
-                     <option  value="016">016</option>
-                     <option  value="017">017</option>
-                     <option  value="018">018</option>
-                     <option  value="019">019</option>         
-                     <option  value="070">070</option> 
-                  </select>
+	                  <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
+	                     <option  value="010" selected>010</option>
+	                     <option  value="011">011</option>
+	                     <option  value="016">016</option>
+	                     <option  value="017">017</option>
+	                     <option  value="018">018</option>
+	                     <option  value="019">019</option>         
+	                     <option  value="070">070</option> 
+	                  </select>
                   </div>          
                   <div class="col-8 phone2C">
                     <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>         
@@ -416,13 +458,13 @@ $(function(){
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
                       <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
                   </div>                      
-                  </div>
-                  <div class="row genderRow">         
-                	<div class="gender form-check-inline from-control">성별 : &nbsp; 
-                        <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
-                        <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
-                   </div>
-                </div>                 
+               </div>
+               <div class="row genderRow">         
+             		<div class="gender form-check-inline from-control">성별 : &nbsp; 
+	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
+	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
+             	   </div>
+               </div>                 
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
