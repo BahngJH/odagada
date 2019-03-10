@@ -158,7 +158,7 @@ public class CarpoolController {
 	
 	//세부검색페이지에서 클릭된 카풀 정보페이지
 	@RequestMapping("/carpool/oneSearch.do")
-	public ModelAndView carpoolOne(HttpServletRequest req, int carpoolNum,String startCity, String endCity, String startDate ,String seat, int mem, int dNum)
+	public ModelAndView carpoolOne(HttpServletRequest req, int carpoolNum,String startCity, String endCity, String startDate ,String seat, int mem)
 	{
 		ModelAndView mav = new ModelAndView();
 		Map<String,String> m = new HashMap<String, String>();
@@ -174,7 +174,7 @@ public class CarpoolController {
 		//차량 이미지 정보
 		List<Map<String,String>> cList =service.selectImageList(mem);
 		//리뷰 정보
-		List<Map<String,String>> rList =service.selectReList(dNum);
+		List<Map<String,String>> rList =service.selectReList(mem); //membernum이 drivernum과 같음
 		
 		//seat int형으로 변경
 		int count = Integer.parseInt(seat);

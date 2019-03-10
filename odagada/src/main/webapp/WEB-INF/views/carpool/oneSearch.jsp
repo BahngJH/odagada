@@ -324,4 +324,10 @@
 	</div>
 	<!-- 카풀 이용객 현황 -->
 </section>
+
+<script>
+	$('#li2').on('click',function(){
+		
+	});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
