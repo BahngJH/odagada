@@ -31,6 +31,9 @@
             text-align: center;
             margin-bottom: 50px;
         }
+        #insertContent{
+        	overflow:auto;
+        }
         #chatRoom{
             border-top: 1px solid black;
             padding:10px;
@@ -156,7 +159,9 @@
                 <span id="selectName">나연</span>
             </div>
             <div id="chatContent">
-                
+                <div id="insertContent">
+                	
+                </div>
             </div>
             
             <div id="sendForm">
@@ -281,12 +286,17 @@
         				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
         			}
     			}
-    			$('#chatContent').html(allMsg);
+    			$('#insertContent').html(allMsg);
     			allMsg="";
     			updateChatRoom();
+    			
+    			//스크롤 자동 최신화
+    			var chatAreaHeight = $("#chatContent").height();
+    	        var maxScroll = $("#insertContent").height() - chatAreaHeight;
+    	        $("#chatContent").scrollTop(maxScroll);
+    	        
     		}
     	});
-    	//스크롤 최신화, 안읽은 메시지 띄워주기
 
     }
      
@@ -384,7 +394,7 @@
 				right +="</div>";
 				
 				//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
-				$('#chatContent').append(right);
+				$('#insertContent').append(right);
 			}
     		//보낸 사람이 내가 아니라면 왼쪽에 메시지 붙임
 			else
@@ -395,8 +405,14 @@
 				left +="</div>";
 				
 				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
-				$('#chatContent').append(left);
+				$('#insertContent').append(left);
 			}
+    		
+	    	//스크롤 자동 최신화
+	    	var chatAreaHeight = $("#chatContent").height();
+	        var maxScroll = $("#insertContent").height() - chatAreaHeight;
+	        $("#chatContent").scrollTop(maxScroll);
+	        
     	}
     }
     
