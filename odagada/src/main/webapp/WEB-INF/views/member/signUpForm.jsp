@@ -147,6 +147,10 @@
       $(this).next('.custom-file-label').html(filename);
    });
    
+   
+   
+   
+   
     //ID 중복확인
    $("#memberId_").keyup(function(){
       var memberId=$("#memberId_").val().trim();
@@ -305,6 +309,23 @@ $(function(){
          return false;      
          }   
       }
+   
+   //메일 선택 함수
+   function selectMail(){
+	   var mailList=document.getElementById("mailList");
+	   var selectMail=mailList.options[mailList.selected].value;
+	  // var self=document.getElementById("email2").value;
+	   
+	   if(selectMail === 'self'){
+		   $('#email2').show();
+		   $('#mailList').hide()=false;
+		   
+	   }else{
+		   $('#email2').hide()=true;
+		   $('#mailList').show();
+	   }
+	   
+   }
 </script>
       
       <div id="enroll-container">
@@ -359,9 +380,8 @@ $(function(){
                   </div>
                </div>
                <div class="col-6 div-email">
-                  <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>      
-               <!--    <input type="text" class="select-C form-control" name="email2" id="email2" readonly>   
-                  <select class="select-C form-control" name="selectEmail" id="selectEmail" onchange="selectMail(this.options[this.selectedIndex].value)">
+                  <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                   
+                  <select class="select-C form-control" name="selectEmail" id="mailList" onchange="javascript:selectMail(this.options[this.selectedIndex].value)">
                      <option selected>선택</option>
                      <option value="hanmail.net">hanmail.net</option>
                      <option value="hotmail.com">hotmail.com</option>
@@ -371,7 +391,7 @@ $(function(){
                      <option value="gmail.com">gmail.com</option>
                      <option value="nate.com">nate.com</option>
                      <option value="self">직접입력</option>
-                  </select> -->
+                  </select> 
                </div>
             </div>
                <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
