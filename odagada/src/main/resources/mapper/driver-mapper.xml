@@ -4,8 +4,4 @@
 	<select id="selectDriver" parameterType="_int" resultType="driver"> 
 		SELECT * FROM DRIVER WHERE MEMBERNUM = #{memberNum}
 	</select>
-	<select id="selectDriverList" resultType="driver">
-		select * from driver
-	</select>
-	<resultMap type="map" id="driver"></resultMap>
 </mapper>

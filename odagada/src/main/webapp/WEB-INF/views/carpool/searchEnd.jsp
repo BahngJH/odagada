@@ -5,10 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
-<%
-	List<Carpool> cList = (List)request.getAttribute("cList");
-	Carpool cp=new Carpool();
-%>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
@@ -28,6 +25,7 @@
 	}
 	span.span-option{
 		float:right;
+		margin:5px;
 	}
 	h5.h5-icon{
 		color:darkgray;
@@ -36,13 +34,36 @@
 		width:70px;
 		height:70px;
 		border-radius: 100px;
+		margin-top:10px;
 	}
 	.col-text{
-		color:black;
+		color:rgb(0,175,76);
 	}
 	span.span_city{
-		font-size:10px;
+		font-size:13px;
 		color:black;
+	}
+	button.start-search{
+		float:right;
+	}
+	img.option-icon{
+		width:30px; height:30px;
+		float:right;
+		margin:4px;
+	}
+	div.div-pick:hover{
+		box-shadow: 4px 4px 15px rgb(190,190,190);
+	}
+	span.driver-name{
+		color:black;
+		text-size:14px;
+		margin-left:25px;
+	}
+	div#div-pick{
+		border:2px solid rgb(0,175,76);
+	}
+	div#finish-time{
+		border:2px solid rgb(50,50,50);
 	}
 </style>
 <section id="container">
@@ -50,12 +71,11 @@
 		<div class="col-12 col-md-2"></div>
 		<div class="col-12 col-md-8">
 			<div class="input-group">
-				<input class="form-control search-div" type="text" placeholder="출발지" value="${startSearch }" readonly>
+				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
-				<input class="form-control search-div" type="text" placeholder="도착지" value="${endSearch }" readonly>
-				<input class="form-control search-div" type="datetime-local" name="start-date" id="start-date">
-				<input type="text" class="form-control search-div" value="${startDate }" readonly>
-				<!-- <button class="btn btn-success search-div" id='btn-reset' onclick="search-reset()">초기화</button> -->
+				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
+				<!-- <input class="form-control search-div" type="datetime-local" name="start-date" id="start-date"> -->
+				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
 			</div>
 		</div>
 		<div class="col-12 col-md-2"></div>
@@ -66,37 +86,58 @@
 		<div class="col-12 col-md-3">
 			<div class="row">
 				<div class="col-12">
-					<div class="card ">
-						<div class="card-body">
+					<div class="card"  id="option_flex">
+						<div class="card-body" >
 	    					<h4 class="card-title">옵션(option)</h4>
 	    					<hr>
 	    					<div class="row">
+	    						<div class="col-12">
+	    							<span>시작 검색 반경: </span><br>
+									<select name="kmNumS" id="kmNumS" class="form-control">
+										<option value="3">3KM 이내 </option>
+										<option value="5">5KM 이내 </option>
+										<option value="10">10KM 이내</option>
+									</select>
+	    							<span>도착 검색 반경: </span><br>
+									<select name="kmNumE" id="kmNumE" class="form-control">
+										<option value="3">3KM 이내 </option>
+										<option value="5">5KM 이내 </option>
+										<option value="10">10KM 이내</option>
+									</select>
+	    							<hr>
+	    							<input type="hidden" name="startLat" id="startLat" value="${search.startLat }"/>
+	    							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
+	    							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
+	    							<input type="hidden" name="destLong" id="destLong" value="${search.destLong }"/>
+	    						</div>
+	    					</div>
+	    					<div class="row">
 								<div class="col-6" >
-									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
+									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="" /></label>
 								</div>
 								<div class="col-6" >
-									<label>흡연 <input type="checkbox" name="smoking" id="smoking" value="Y"/></label>
+									<label>흡연 <input type="checkbox" name="smoking" id="smoking" value=""/></label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="Y" /></label>
+									<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="" /></label>
 								</div>
 								<div class="col-6">
-									<label>대화 <input type="checkbox" name="talking" id="talking" value="Y" /></label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-6">
-									<label>노래 <input type="checkbox" name="music" id="music" value="Y" /></label>
-								</div>
-								<div class="col-6">
-									<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
+									<label>대화 <input type="checkbox" name="talking" id="talking" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
+									<label>노래 <input type="checkbox" name="music" id="music" value="" /></label>
+								</div>
+								<div class="col-6">
+									<label>음식 섭취 <input type="checkbox" name="food" id="food" value="" /></label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
@@ -109,7 +150,12 @@
 									</select>
 								</div>
 								<div class="col-6">
-									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeholder="최소 1개"/>
+									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" value="1" />
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<button class="btn btn-success search-div start-search" id='btn-reset'>검색</button>
 								</div>
 							</div>
 						</div>
@@ -118,117 +164,160 @@
 			</div>
 		</div>
 		<!-- 검색 결과만큼 출력 -->
-		<div class="col-12 col-md-5">
+		<div class="col-12 col-md-5" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
-			<c:forEach items="${dList}" var="d" varStatus="n">
-				<c:forEach items="${cList}" var="c">
-					<form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
-						<div id="div-pick" class="card border-success mb-3" onclick="onecar()">
-						  <div class="card-body text-success">
-						    <div class="row">
-						    	<div class="col-6">
-						    		<span class="badge badge-primary">출발시간</span> <span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
-						    		<input type="hidden" name="driverStartLat" id="driverStartLat" value="${c.STARTLAT }"  />
-						    		<input type="hidden" name="driverStartLon" id="driverStartLon" value="${c.STARTLON }"  />
-						    		<input type="hidden" name="driverEndLat" id="driverEndLat" value="${c.STARTLAT }"  />
-						    		<input type="hidden" name="driverEndLon" id="driverEndLon" value="${c.STARTLON }"  />
-						    		<input type="hidden" name="searchStartLat" id="searchStartLat" value="${startLat }"/>
-						    		<input type="hidden" name="searchStartLon" id="searchStartLon" value="${startLong }"/>
-						    		<input type="hidden" name="searchEndLat" id="searchEndLat" value="${destLat }"/>
-						    		<input type="hidden" name="searchEndLon" id="searchEndLon" value="${destLong }"/>
- 						    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
-						    		<span class="badge badge-success">도착시간</span><span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
+			<c:forEach items="${cList}" var="c">
+				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
+					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="return oneck()">
+					  <div class="card-body text-success click">
+  					  <input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
+					  <input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
+					  <input type="hidden" value="${c.MEMBERNUM }" id="mem" name="mem"/>
+			    		<div class="row">
+					    	<div class="col-6">
+					    	 <span class="span_city">${c.STARTDATE }</span><br>
+					    		<span class="badge badge-primary">출발</span><br>
+					    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
+					    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
+					    		<span class="badge badge-success">도착</span><br>
+					    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
+					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
+					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
+					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
+				    		</div>
+					    	<div class="col-6">
+					    		<div class="row">
+					    			<div class="col-12">
+					    				<span class="span-option col-text">￦${c.PAY}</span>
+					    			</div>
 					    		</div>
-						    	<div class="col-6">
-						    		<div class="row">
-						    			<div class="col-12">
-						    				<span class="span-option col-text">${c.PAY}</span>
-						    			</div>
-						    		</div>
-						    		<div class="row">
-						    			<div class="col-12">
-						    				<span class="span-option">
-						    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/>
-						    					<%-- <p class="col-text">${d.MEMBERNUM }</p> --%>
-						    				</span>
-						    			</div>
-						    		</div>
-						    	</div>
-						    </div>
-						  </div>
-						  <div class="row">
-						  	<div class="col-12">
-						  		<span class="span-option">설정옵션</span>
-						  	</div>
-						  </div>
-						</div>
-					</form>
-				</c:forEach>
+					    		<div class="row">
+					    			<div class="col-12">
+					    				<span class="span-option">
+					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+					    					<span class="driver-name">${c.MEMBERNAME }</span>
+					    				</span>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
+					  </div>
+					  <hr style="margin:0px;">
+					  <div class="row">
+					  	<div class="col-12">
+				  			<span class="span-option">
+					  			<c:if test='${c.ANIMAL eq "Y"}'>
+					  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+					  			</c:if>
+			  					<c:if test='${c.SMOKING eq "Y"}'>
+			  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.TEENAGE eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.TALKING eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.MUSIC eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.FOOD eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+								</c:if>
+								<c:if test='${c.BAGGAGE eq "Y"}'>
+									<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+								</c:if>
+								<c:choose>
+									<c:when test='${c.GENDER eq "A"}'>
+									</c:when>
+									<c:when test='${c.GENDER eq "F"}'>
+										<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+									</c:when>
+									<c:when test='${ c.GENDER eq "M"}'>
+										<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+									</c:when>
+								</c:choose>
+					  		</span>
+					  	</div>
+					  </div>
+					</div>
+				</form>
 			</c:forEach>
+			<c:if test="${empty cList }">
+				<div class="row">
+					<div class="col-12">
+						<div>
+							<h2>검색결과가 없습니다.</h2>
+						</div>
+					</div>
+				</div>
+			</c:if>
 		</div>
 		<div class="col-12 col-md-2"></div>
 	</div>
 </section>
 <script>
+//옵션바 고정
+$(function () {
+	var currentPosition = parseInt($("#option_flex").css("top"));
+	$(window).scroll(function () {
+	    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+	    
+	    $("#option_flex").stop().animate({
+	        "top": position + currentPosition + "px"
+	    }, 500);
+	});
+});
+
 function validate(){
 	return true;
+};
+function oneck(){
+	$('#form-onecar').submit();	
 }
-function onecar(){
-	$("#form-onecar").submit();
-}
+$(function () {
+ 	$('.click').on("click",function(e){
+		var carpoolNum=$(this).find('#carpoolNum').val();
+		var seat=$(this).find('#seat').val();
+		var mem=$(this).find('#mem').val();
+		console.log(carpoolNum+" : "+seat+" : "+mem);
+		document.getElementById("carpoolNum").value=carpoolNum;
+		document.getElementById("seat").value=seat;
+		document.getElementById("mem").value=mem;
+		$('#div-pick').click();
+	});
 
-$(function(){
+}); 
+
+ $(function(){ 
+	
+ 	$('#btn-reset').on("click",function(){
+ 		console.log($('#check').val());
+ 		$.ajax({
+			url:"${path}/carpool/searchOption",
+			data:{"animal":$('#animal').is(":checked"),
+				"smoking":$('#smoking').is(":checked"),
+				"teenage":$('#teenage').is(":checked"),
+				"talking":$('#talking').is(":checked"),
+				"music":$('#music').is(":checked"),
+				"gender":$('#gender').val(),
+				"food":$('#food').is(":checked"),
+				"baggage":$('#baggage').is(":checked"),
+				"seatcount":$('#seatcount').val(),
+				"kmNumS":$('#kmNumS').val(),
+				"kmNumE":$('#kmNumE').val(),
+				"startLat":$('#startLat').val(),
+				"startLong":$('#startLong').val(),
+				"destLat":$('#destLat').val(),
+				"destLong":$('#destLong').val()
+			},
+			dataType:"html",
+			success:function(data){
+				$('#result-search').html(data);
+			}
+		});  
+	})
+	
 });
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
-
-
-<!-- 여기가 tmap시작  -->
-<%-- <p id="result"></p>
-<script>	
-var map;
-// 페이지가 로딩이 된 후 호출하는 함수입니다.
-$(document).ready(function(){
-	// 3. 직선거리 계산  API 사용요청
-	<%for(int i=0;i<cList.size();i++){%>
-		console.log(cList.get(i).getStartLong());
-		$.ajax({
-			method:"GET",
-			url:"https://api2.sktelecom.com/tmap/routes/distance?version=1&format=xml",//직선거리 계산 api 요청 url입니다.
-			async:false, 
-			data:{
-				//시작 지점 위경도 좌표입니다. //카풀정보
-				"startX" : $('#driverStartLon').val(),
-				"startY" : $('#driverStartLat').val(),
-				//끝 지점 위경도 좌표입니다. //검색정보
-				"endX" : $('#searchStartLon').val(),
-				"endY" : $('#searchStartLat').val(),
-				//입력하는 좌표계 유형을 지정합니다.
-				"reqCoordType" : "WGS84GEO",
-				//실행을 위한 키 입니다. 발급받으신 AppKey(서버키)를 입력하세요.
-				"appKey" : "8ea84df6-f96e-4f9a-9429-44cee22ab70f"  
-
-			},
-			//데이터 로드가 성공적으로 완료되었을 때 발생하는 함수입니다.
-			success:function(response){
-				console.log(response);
-				
-				prtcl = response;
-				
-				var prtclString = new XMLSerializer().serializeToString(prtcl);//xml to String	
-			    xmlDoc = $.parseXML( prtclString ),
-			    $xml = $( xmlDoc ),
-			    $intRate = $xml.find("distanceInfo");
-				var distance = $intRate[0].getElementsByTagName("distance")[0].childNodes[0].nodeValue;
-				$("#result").text("두점의 직선거리 : "+distance+"m");
-			},
-			//요청 실패시 콘솔창에서 에러 내용을 확인할 수 있습니다.
-			error:function(request,status,error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			}
-		});
-	<%}%>
-});
-</script>
- --%>
