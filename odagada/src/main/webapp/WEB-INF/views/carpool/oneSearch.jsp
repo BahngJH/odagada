@@ -42,19 +42,22 @@
 	}
 	span.line-div{
 		border:1px solid rgb(230,230,230);
-		 height:100px;
+		height:auto;
+		position:relative;
 		float:left;
 		border-style: dashed;
 		margin-top:10px;
 	}
+	div.intro-driver{
+		position:relative;
+		height:auto;
+	}
 	p.intro-p{
-		display:block;
-		overflow: hidden; 
-/*  		text-overflow: ellipsis;
-		white-space: nowrap; */
+		/* display:block; */
 		width: auto;
-		height: 50px;
 		margin:30px;
+		position:relative;
+		height:auto;
 	}
 	button.ride-btn{
 		margin:10px;
@@ -170,17 +173,32 @@
 			  		<input type="hidden" value="${o.CARPOOLNUM }" id="carpoolNum" name="carpoolNum">
 				  	<hr>
 				  	<!-- 드라이버 소개 -->
-				  	<div class="card text-center">
+				  	<div class="card text-center intro-driver" >
 				  		<div class="row">
 				  			<div class="col-3">
-								<span>
-				  					<%-- <img src="${path }/resources/images/${o.PROFILEIMAGERE}" class="driver-img"/> --%>
-				  					<img src="${path }/resources/images/ilhoon2.jpg" class="driver-img"/>
-				  					<span class="line-div"></span>
-				  				</span>
+				  				<div class="row">
+				  					<div class="col-10">
+										<span>
+						  					<%-- <img src="${path }/resources/images/${o.PROFILEIMAGERE}" class="driver-img"/> --%>
+						  					<img src="${path }/resources/images/ilhoon2.jpg" class="driver-img"/>
+						  				</span>
+					  				</div>
+				  				</div>
+				  				<div class="row">
+				  					<div class="col-12">
+				  						<span>${o.MEMBERNAME }</span>
+			  						</div>
+			  					</div>
 				  			</div>
 				  			<div class="col-9">
 				  				<p class="intro-p">${o.INTRODUCE }</p>
+				  				<input type="hidden" id="intro" name="intro" value="${o.INTRODUCE }"/>
+				  				<div class="row">
+				  					<div class="col-9"></div>
+				  					<div class="col-3">
+				  						<p class="plus-content">더보기</p>
+				  					</div>
+				  				</div>
 				  			</div>
 				  		</div>
 				  	</div>
@@ -400,7 +418,7 @@
 								  							</c:when>
 								  						</c:choose>
 								  					</div>
-								  					<div class="text-center">
+								  					<div class="text-center rcontent-div">
 								  						${r.RCONTENT }
 							  						</div>
 								  				</div>
@@ -437,7 +455,40 @@
 		</div>
 	</div>
 </section>
-
+<script>
+	//더보기
+	$('.plus-content').on('click',function(){
+		var length=65;
+		var text = $('.intro-p');
+		var textL = $('.intro-p').text().trim().length;
+		var rtext = $('#intro').val();
+		if(textL < rtext.length){
+			text.text(rtext);
+			return;
+		}
+		else{
+			text.text(text.text().trim().substr(0,length)+'...');
+		}
+	});
+	//인트로 
+	$('.intro-p').each(function(){
+		var length=65;
+		$(this).each(function(){
+			if($(this).text().trim().length >= length){
+				$(this).text($(this).text().trim().substr(0,length)+'...');
+			}
+		});
+	});
+	//리뷰 콘텐츠
+	$('.rcontent-div').each(function(){
+		var length=20;
+		$(this).each(function(){
+			if($(this).text().trim().length >= length){
+				$(this).text($(this).text().trim().substr(0,length)+'...');
+			}
+		});
+	});
+</script>
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
 <script>
 $(function(){
