@@ -17,7 +17,24 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityServiceImpl.class);
 
-	
+	@Override
+	public int insertRoomId(Map roomIdData) {
+		// TODO Auto-generated method stub
+		return dao.insertRoomId(roomIdData);
+	}
+
+	@Override
+	public List<Map<String, String>> bringUserInfo(String chatUser) {
+		// TODO Auto-generated method stub
+		return dao.bringUserInfo(chatUser);
+	}
+
+	@Override
+	public String roomIdCheck(Map<String,String> roomIdData) {
+		// TODO Auto-generated method stub
+		return dao.roomIdCheck(roomIdData);
+	}
+
 	@Override
 	public int jsutCheckMsg(String myId) {
 		// TODO Auto-generated method stub

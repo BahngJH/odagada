@@ -152,11 +152,13 @@
 	    
             </div>                                                           
         </div>
-
-        <div id="chattingView" class="col-6 col-xs-12 " >
+		<c:forEach items="${chatContent }" var="chatCon">
+			<c:set var="name" value="${chatCon.MEMBERNAME}"/>
+		</c:forEach>
+        <div id="chattingView" class="col-6 col-xs-12" >
             <div id="selectUserInfo">
                 <span id="selectImage"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
-                <span id="selectName">나연</span>
+                <span id="selectName">${name }</span>
             </div>
             <div id="chatContent">
                 <div id="insertContent">
@@ -171,7 +173,7 @@
         <div id="profile" class="col col-xs-12 ">
             <div id="myInfo">
                 <img width="120px" height="120px" src="http://img.etnews.com/news/article/2017/08/16/cms_temp_article_16215301717720.jpg" alt="내 사진"><br>
-                <span id="myName">류준열</span>
+                <span id="myName"><%-- ${logined.memberName } --%>류준열</span>
             </div>
         </div>
     </div>
@@ -249,9 +251,7 @@
 		jsonData.sender ="${logined.memberId}";
 		ws.send(JSON.stringify(jsonData));
 		$('#messageInput').val("");
-		$('#messageInput').focus();
-		
-		
+		$('#messageInput').focus();	
 	}
     
     

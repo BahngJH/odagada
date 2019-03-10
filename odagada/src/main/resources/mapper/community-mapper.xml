@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="community">
 
+  <insert id="insertRoomId">
+  	insert into chattingroom values(#{myId},#{chatUser},#{roomId})
+  </insert>
+  <insert id="insertRoomId2">
+  	insert into chattingroom values(#{chatUser},#{myId},#{roomId})
+  </insert>
+
+  <select id="bringUserInfo" parameterType="string" resultType="map">
+  	select * from member where memberid=#{chatUser}
+  </select>
+
+  <select id="roomIdCheck" parameterType="map" resultType="string">
+  	select roomid from chattingroom where member1=#{myId} and member2=#{chatUser}
+  </select>
+
   <select id="jsutCheckMsg" parameterType="string" resultType="int">
 	select count(*) from chattingview where receiver=#{myId} and isread='N'
   </select>
