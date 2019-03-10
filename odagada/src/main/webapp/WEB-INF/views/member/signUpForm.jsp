@@ -283,35 +283,7 @@ $(function(){
            return false;
          }  
         
-        //E-mail 중복 확인
-        var email1=$("#email1").val();
-        var email2=$("#email2").val();
-        var email=email+"@"+email2;
-                
-        $.ajax({
-            url:"${path}/member/checkEmail.do",
-            data:{"email":email},
-            success:function(data){         
-                                                     
-                if(data.isEmail==true)
-                {               
-                  /*  document.getElementById('checkEmail').value='0'; */
-                   alert('이미 사용중인 메일입니다.');
-                   return false;
-                }
-                else{
-                  /*  document.getElementById('checkEmail').value='1'; */
-                }
-            }
-         }); 
-       /*  return true; */
- });
-        
-        
-        
-        
-        
-        
+     
         
         
    }
@@ -401,7 +373,6 @@ $(function(){
                      <option value="self">직접입력</option>
                   </select> -->
                </div>
-           		 <input type="hidden" id="checkEmail" value="0"/>
             </div>
                <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
                <div class="row">
