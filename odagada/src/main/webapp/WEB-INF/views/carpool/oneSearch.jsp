@@ -96,6 +96,16 @@
 	span.pas-name{
 		margin-top:-30px;
 	}
+	div.star-div{
+		margin-top:20px;
+		margin-left:25px;
+	}
+	/* 별점 css 테스트 */
+	.star-rating { width:150px; }
+	.star-rating,.star-rating span { display:inline-block; height:21px; overflow:hidden; background:url(${pageContext.request.contextPath}/resources/images/option-icon/star.png)no-repeat; }
+	.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; } 
+
+	
 </style>
 <section id="container">
 	<div class="row">
@@ -115,7 +125,7 @@
 	<div class="row">
 		<div class="col-12 col-md-2"></div>
 		<div class="col-12 col-md-5">
-			<div class="card">
+			<div class="card"  id="li-div">
 			  <div class="card-header">
 			    <ul class="nav nav-tabs card-header-tabs">
 			      <li class="nav-item" id="li1" >
@@ -333,10 +343,62 @@
 								  					<%-- <img src="${path }/resources/images/${r.PROFILEIMAGERE}" class="re-img"/> --%>
 								  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
 								  				</div>
-								  					<span class="line-div"></span>
+								  					<span class="line-div" ></span>
 								  				<div class="col-7">
-								  					<div>
-								  						별점 이미지: ${r.RGRADE }
+								  					<div class="star-div">
+								  						<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg"/>
+								  						<c:choose>
+								  							<c:when test="${rg >=0 && rg <= 1 }">
+								  								<span class="star-rating">
+										  							<span style="width:7.6%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >1 && rg <= 2 }">
+								  								<span class="star-rating">
+										  							<span style="width:15.2%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >2 && rg <= 3 }">
+								  								<span class="star-rating">
+										  							<span style="width:22.8%"> </span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >3 && rg <= 4 }">
+								  								<span class="star-rating">
+										  							<span style="width:30.4%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >4 && rg <= 5 }">
+								  								<span class="star-rating">
+										  							<span style="width:38%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >5 && rg <= 6 }">
+								  								<span class="star-rating">
+										  							<span style="width:45.6%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >6 && rg <= 7 }">
+								  								<span class="star-rating">
+										  							<span style="width:53.2%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >7 && rg <= 8 }">
+								  								<span class="star-rating">
+										  							<span style="width:60.8%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >8 && rg <= 9 }">
+								  								<span class="star-rating">
+										  							<span style="width:68.4%"></span>
+										  						</span>
+								  							</c:when>
+								  							<c:when test="${rg >9 && rg <= 10 }">
+								  								<span class="star-rating">
+										  							<span style="width:76%;"></span>
+										  						</span>
+								  							</c:when>
+								  						</c:choose>
 								  					</div>
 								  					<div class="text-center">
 								  						${r.RCONTENT }
@@ -376,10 +438,25 @@
 	</div>
 </section>
 
+<script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
 <script>
+$(function(){
+	
 	$('#li2').on('click',function(){
 		var carpoolNum=$('#carpoolNum').val();
-		location.href="${path}/carpool/oneSearchMap?capoolNum="+carpoolNum+"&";
+		$.ajax({
+			url:"${path}/carpool/oneSearchMap",
+			data:{"carpoolNum":carpoolNum},
+			success:function(data){
+				$('#li-div').html(data);
+			}
+		});
 	});
+	
+});
 </script>
+
+
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
