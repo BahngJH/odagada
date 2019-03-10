@@ -213,15 +213,15 @@ $(function(){
    $("#memberId_").keyup(function(event) {
       if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
          var inputVal = $(this).val();
-         $(this).val(inputVal.replace(/[^a-z0-9]/gis, ''));
+         $(this).val(inputVal.replace(/[^a-z0-9]{2,6}/gis, ''));
       }
    });
       
-   //이름 영문,한글만 입력받게 하는 함수       
+   //이름 한글만 입력받게 하는 함수       
    $("#memberName").keyup(function(event) {
          if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
             var inputVal = $(this).val();
-            $(this).val(inputVal.replace(/\d/, ''));
+            $(this).val(inputVal.replace(/[^가-힣]/gis, ''));
       }
    });
    
@@ -283,11 +283,14 @@ $(function(){
         if($('#checkStatus').val()==0){
            alert('ID 중복확인해주세요.');
            return false;
-         }  
+         } 
         
-     
-        
-        
+        //E-mail 중복확인 체크
+        if($('#emailStatus').val()==0){
+        alert('e-mail 중복확인 해주세요.')
+        return false;
+        }
+  
    }
  
    //프로필 사진을 이미지 타입 파일로만 받기
@@ -329,7 +332,7 @@ $(function(){
            success:function(data){                                                        
                if(data =='no')
                {
-              	  alert('이미 사용중인 이메일 입니다.');          
+              	  alert('이미 사용중인 이메일 입니다. 사용하실 수 없습니다.');          
                   document.getElementById('emailStatus').value='0';
                   return false;
                }else{
@@ -341,15 +344,7 @@ $(function(){
       };
       
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
    
 /*    //메일 선택 함수
    function selectMail(){
@@ -401,7 +396,7 @@ $(function(){
             <div class="row">
                <div class="col-6">
                   <div>
-                     <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" required>
+                     <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
                   </div>                       
                </div>
                <div class="col-6 dR">
