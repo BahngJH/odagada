@@ -51,17 +51,17 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
-/*	//email 중복확인
+	//email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
-	public ModelAndView checkEmail(String email, ModelAndView mv) {
+	public Map checkEmail(String email, ModelAndView mv) {
 		logger.debug("받아오는 메일:"+email);
 		Map map=new HashMap();
 		boolean isEmail=service.checkEmail(email)==0?false:true;
 		map.put("isEmail", isEmail);
 		
 		return map;
-	}*/
+	}
 			
 	//아이디 중복확인
 	@RequestMapping("/member/checkId.do")

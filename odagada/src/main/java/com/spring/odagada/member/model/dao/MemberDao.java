@@ -10,6 +10,6 @@ public interface MemberDao {
 	int insertMember(Member m);
 	int checkId(String memberId);
 	int updateMember(Member m);
-	Map<String, String>checkEmail(String email);
+	int checkEmail(String email);
 
 }

@@ -45,7 +45,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Map<String, String> checkEmail(String email) {
+	public int checkEmail(String email) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.checkEmail", email);
 	}	
