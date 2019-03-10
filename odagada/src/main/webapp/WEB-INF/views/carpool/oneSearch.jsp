@@ -200,6 +200,7 @@
 					  								if(${logined == null}){
 					  									return alert("로그인 필요");
 					  								}
+					  								
 				  									var imp = window.IMP;
 				  									imp.init('imp87992639');
 				  									
@@ -215,13 +216,20 @@
 				  										m_redirect_url : '${path}/'
 				  									}, function(rsp){
 				  										if(rsp.success){
-				  											console.log(rsp);
+				  											$.ajax({
+				  												url: "carpool/paymentEnd",
+				  												data: {"carpoolNum": ${oList.get(0).CARPOOLNUM},
+				  														"memberNum": ${logined.memberNum}	
+				  												},
+				  												type: "post"
+				  											}, success(result){
+				  												console.log(result);
+				  											});
 				  										}else{
 				  											console.log(rsp);
 				  										}
-				  									}
-				  									
-			  									)};
+				  									})
+			  									};
 					  						</script>
 					  					</div>
 					  				</div>
