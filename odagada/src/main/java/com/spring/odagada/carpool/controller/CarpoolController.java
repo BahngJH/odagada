@@ -295,4 +295,9 @@ public class CarpoolController {
 		req.setAttribute("coList", cList);
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
 	}
+	
+	@RequestMapping("carpool/paymentEnd")
+	public void paymentEnd() {
+		
+	}
 }
