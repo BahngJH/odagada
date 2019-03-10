@@ -83,6 +83,19 @@
 	div.re-div{
 		margin-top:12px;
 	}
+	img.pas-img{
+		width:70px; height:70px;
+		border-radius:50px;
+		margin:10px;
+	}
+	span.pas-span{
+		float:left;
+		border:none;
+		margin-bottom:10px;
+	}
+	span.pas-name{
+		margin-top:-30px;
+	}
 </style>
 <section id="container">
 	<div class="row">
@@ -140,16 +153,18 @@
 			  		</div><br>
 			  		<div class="row">
 						<div class="col-12">
-				  			<span class="badge badge-pill badge-warning">인당 금액</span>
+				  			<span class="badge badge-pill badge-warning">1인당 금액</span>
 				  			<span> |&nbsp;￦ ${o.PAY }</span>
 				  		</div>
 			  		</div>
+			  		<input type="hidden" value="${o.CARPOOLNUM }" id="carpoolNum" name="carpoolNum">
 				  	<hr>
 				  	<!-- 드라이버 소개 -->
 				  	<div class="card text-center">
 				  		<div class="row">
 				  			<div class="col-3">
 								<span>
+				  					<%-- <img src="${path }/resources/images/${o.PROFILEIMAGERE}" class="driver-img"/> --%>
 				  					<img src="${path }/resources/images/ilhoon2.jpg" class="driver-img"/>
 				  					<span class="line-div"></span>
 				  				</span>
@@ -180,9 +195,9 @@
 					  				<div class="row">
 					  					<div class="col-9">
 					  						<span>
-										  		<c:forEach begin="1" end="${seat }"  var="count">
+										  		<c:forEach begin="1" end="${seat }"  varStatus="count">
 										  			<c:choose>
-											  			<c:when test="${count <= fn:length(pList)}">
+											  			<c:when test="${count.index <= fn:length(pList)}">
 										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
 								  						</c:when>
 								  						<c:otherwise>
@@ -193,11 +208,32 @@
 						  					</span>
 					  					</div>
 					  					<div class="col-3">
-					  					<span class="line-div"></span>
+					  						<span class="line-div"></span>
 					  						<button class="btn btn-success ride-btn">탑승 신청</button>
 					  					</div>
 					  				</div>
-					  				
+					  				<hr>
+					  				<!-- 이용객 정보 -->
+								  	<div class="row">
+								  		<div class="col-12">
+								  			<c:choose>
+								  				<c:when test='${fn:length(pList) != 0 }'>
+								  					<c:forEach items='${pList }' var='p'>
+								  						<span class="card pas-span">
+								  							<%-- <img src="${path }/resources/images/${p.PROFILEIMAGERE}" class="pas-img"><br> --%>
+								  							<img src="${path }/resources/images/ilhoon.jpg" class="pas-img"><br>
+								  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
+							  							</span>
+								  					</c:forEach>
+								  				</c:when>
+								  				<c:otherwise>
+								  					<div class="text-center">
+								  						<p><b>이용중인 탑승객이 없습니다.</b></p>
+								  					</div>
+								  				</c:otherwise>
+								  			</c:choose>
+								  		</div>
+								  	</div>
 			  					</div>
 					  		</div>
 					  	</div>
@@ -206,6 +242,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- 왼쪽바 : 드라이버 정보창 -->
 		<div class="col-12 col-md-3">
 			<div class="card bg-light mb-3">
 			  <div class="card-header">드라이버 정보</div>
@@ -217,34 +254,34 @@
 					  		<c:forEach items="${oList}" var="c">
 					  			<span class="span-option">
 						  			<c:if test='${c.ANIMAL eq "Y"}'>
-						  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+						  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon" title="애완견 동반 가능"></span>
 						  			</c:if>
 				  					<c:if test='${c.SMOKING eq "Y"}'>
-				  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+				  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon" title="흡연 가능"></span>
 									</c:if>
 									<c:if test='${c.TEENAGE eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+										<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon" title="미성년자 가능"></span>
 									</c:if>
 									<c:if test='${c.TALKING eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+										<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon" title="대화 가능"></span>
 									</c:if>
 									<c:if test='${c.MUSIC eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+										<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon" title="음악 가능"></span>
 									</c:if>
 									<c:if test='${c.FOOD eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+										<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon" title="음식물 섭취 가능"></span>
 									</c:if>
 									<c:if test='${c.BAGGAGE eq "Y"}'>
-										<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+										<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon" title="짐 수용"></span>
 									</c:if>
 									<c:choose>
 										<c:when test='${c.GENDER eq "A"}'>
 										</c:when>
 										<c:when test='${c.GENDER eq "F"}'>
-											<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon" title="여성 전용"></span>
 										</c:when>
 										<c:when test='${ c.GENDER eq "M"}'>
-											<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon" title="남성 전용"></span>
 										</c:when>
 									</c:choose>
 						  		</span>
@@ -287,24 +324,39 @@
 				  	<div class="col-12">
 				  		<div class="card re-div">
 				  			<span class="badge badge-secondary">리뷰</span>
-				  			<div class="row">
-				  				<c:forEach items="${rList }" var="r">
-					  				<div class="col-4">
-					  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
-					  					<span class="line-div"></span>
-					  				</div>
-					  					<span class="line-div"></span>
-					  				<div class="col-7">
-					  					<div>
-					  						별점 이미지: ${r.RGRADE }
-					  					</div>
-					  					<div>
-					  						${r.RCONTENT }
-				  						</div>
-					  				</div>
-				  				</c:forEach>
-
-				  			</div>
+				  			<c:choose>
+					  			<c:when test="${fn:length(rList) !=0}">
+						  			<div class="row">
+						  				<c:forEach items="${rList }" var="r" varStatus="count">
+						  					<c:if test="${count.index <2}">
+								  				<div class="col-4">
+								  					<%-- <img src="${path }/resources/images/${r.PROFILEIMAGERE}" class="re-img"/> --%>
+								  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
+								  				</div>
+								  					<span class="line-div"></span>
+								  				<div class="col-7">
+								  					<div>
+								  						별점 이미지: ${r.RGRADE }
+								  					</div>
+								  					<div class="text-center">
+								  						${r.RCONTENT }
+							  						</div>
+								  				</div>
+							  				</c:if>
+						  				</c:forEach>
+						  			</div>
+					  			</c:when>
+					  			<c:otherwise>
+					  				<div class="row">
+						  				<div class="col-12">
+						  					<div class="text-center">
+						  						<p><b>등록된 리뷰가 없습니다.</b></p>
+						  					</div>
+						  					
+						  				</div>
+						  			</div>
+					  			</c:otherwise>
+				  			</c:choose>
 				  		</div>
 				  	</div>
 				  </div>
@@ -322,12 +374,12 @@
 		<div class="col-12 col-md-2">
 		</div>
 	</div>
-	<!-- 카풀 이용객 현황 -->
 </section>
 
 <script>
 	$('#li2').on('click',function(){
-		
+		var carpoolNum=$('#carpoolNum').val();
+		location.href="${path}/carpool/oneSearchMap?capoolNum="+carpoolNum+"&";
 	});
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
