@@ -63,8 +63,8 @@ public class CarpoolServiceImpl implements CarpoolService {
 	}
 
 	@Override
-	public List<Map<String, String>> selectReList(int carpoolNum) {
-		return dao.selectReList(carpoolNum);
+	public List<Map<String, String>> selectReList(int dNum) {
+		return dao.selectReList(dNum);
 	}
 	
 	
