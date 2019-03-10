@@ -151,10 +151,6 @@ function updateCheck() {
     	url:"${path}/member/checkPw.do",
     	data:{"answer":answer},
     	success:function(data){
-    		
-    		console.log(data);
-    		console.log(data+": "+typeof data);
-    		
     		if(data =='no'){
 				alert("비밀번호가 올바르지 않습니다.");
 				return;
@@ -162,11 +158,7 @@ function updateCheck() {
     			location.href="${path}/member/updateInfo.do";
     		}
     	}
-    });  
-    
-    
-   
-  
+    });      
 }
 function  emailCheck() {  	
 }
