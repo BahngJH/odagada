@@ -72,8 +72,11 @@
 		margin-top:12px;
 	}
 	img.car-img{
-		width:100px; height:100px;
+		width:120px; height:120px;
 		border:1px;
+		border-radius:3px;
+		margin-left:22px;
+		margin-bottom: 10px;
 	}
 	span.car-span{
 		margin-left:10px;
@@ -181,7 +184,7 @@
 					  			</div>
 					  			<div class="col-6">
 						  			<span class="badge badge-pill badge-warning">출발 예정 시간</span>
-						  			<span> |&nbsp;${fn:substring(o.STARTDATE,11,19)}</span>
+						  			<span> |&nbsp;${fn:substring(o.STARTDATE,11,20)}</span>
 						  		</div>
 					  		</div><br>
 					  		<div class="row">
@@ -255,8 +258,8 @@
 					  			<span class="badge badge-pill badge-warning">이용 좌석 </span>
 					  			<c:set var='size' value='0'/>
 					  			<fmt:parseNumber value="${size}" type="number" var="si"/>
-					  			<c:forEach begin="1" end="${fn:length(pList) }"  varStatus="count">
-						  				<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
+					  			<c:forEach begin="0" end="${fn:length(pList)-1 }"  varStatus="count">
+						  				<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
 						  					<c:set var="si" value='${si+1 }'/>
 				  						</c:if>
 			  					</c:forEach>
@@ -269,10 +272,10 @@
 					  				<div class="row">
 					  					<div class="col-9">
 					  						<span>
-										  		<c:forEach begin="0" end="${seat }"  varStatus="count">
+										  		<c:forEach begin="1" end="${seat }"  varStatus="count">
 										  			<c:choose>
 											  			<%-- <c:when test="${count.index <= fn:length(pList)}"> --%>
-											  				<c:when test='${pList[count.index].PSTATUS eq "Y" }'>
+											  				<c:when test='${pList[count.index-1].PSTATUS eq "Y" }'>
 										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
 									  						</c:when>
 								  						<%-- </c:when> --%>
@@ -291,11 +294,11 @@
 						  							<c:if test="${not flag }">
 					  									<c:choose>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
-					  											<button class="btn btn-success ride-btn" >탑승중</button>
+					  											<button class="btn btn-danger ride-btn" onclick="checkIng();">탑승중</button>
 					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "N" }'>
-					  											<button class="btn btn-success ride-btn">탑승승인중</button>
+					  											<button class="btn btn-danger ride-btn" onclick="checkSubmit();">탑승<br/>승인중</button>
 					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  									</c:choose>
@@ -466,8 +469,11 @@
 			  				</div>
 				  			<hr>
 				  			<span>
-					  			<c:forEach items="${cList }" var="c">
+					  			<c:forEach items="${cList }" var="c" varStatus="count">
 				  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="car-img"/>
+				  					<c:if test="${count.index==1}">
+				  						<br/>
+				  					</c:if>
 					  			</c:forEach>
 				  			</span>
 				  		</div>
@@ -682,5 +688,24 @@
 	}
 	// 맵 생성 실행
 	initTmap();
+</script>
+<script>
+//탑승중 / 탑승승인중
+function checkIng(){
+	if(!confirm('탑승 확인을 위해 마이페이지로 이동하시겠습니까?')){
+		return;
+	}
+	else{
+		location.href="${path}/member/myInfo.do";
+	}
+}
+function checkSubmit(){
+	if(!confirm('탑승 상태 확인을 위해 마이페이지로 이동하시겠습니까?')){
+		return;
+	}
+	else{
+		location.href="${path}/member/myInfo.do";
+	}
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
