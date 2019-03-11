@@ -42,6 +42,24 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- E-mail 전송(인증관련) -->	
+   	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="burny9057@gmail.com" /><!--관리자 계정  -->
+      <property name="password" value="odagada@@" /><!--계정 비밀번호 -->
+    
+      <!-- E-mail 요청 SMTP -->
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.debug">true</prop>
+         </props>
+      </property>
+   </bean>
 
 
 </beans>
