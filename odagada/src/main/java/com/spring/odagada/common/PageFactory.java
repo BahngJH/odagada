@@ -41,7 +41,7 @@ public class PageFactory {
 			{
 				pageBar+="<li class='page-item'>";
 				pageBar+="<a class='page-link'"
-						+"href='javascript:fn_paging("+pageNo+")'>";
+						+"href='javascript:fn_paging("+pageNo+")'>"+pageNo;
 				pageBar+="</li>";
 			}
 			pageNo++;
@@ -64,7 +64,7 @@ public class PageFactory {
 		//paging 처리 script작성
 		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
-		pageBar+="location.href="+url+"?cPage='cPage";
+		pageBar+="location.href='"+url+"?cPage='+cPage";
 		pageBar+="}";
 		pageBar+="</script>";
 		
