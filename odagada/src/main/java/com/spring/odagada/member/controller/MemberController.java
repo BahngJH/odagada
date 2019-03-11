@@ -88,69 +88,67 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
-	
 
 	//회원가입
-		@RequestMapping("/member/signUpEnd.do")
-		public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile, RedirectAttributes rttr) throws Exception {
-			logger.debug("뉴비: "+m);
+	@RequestMapping("/member/signUpEnd.do")
+	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
+		logger.debug("뉴비: "+m);
+		//암호화 전 패스워드
+		String oriPw=m.getMemberPw();
+		logger.debug("암호화 전:"+oriPw);
+		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
+		m.setMemberPw(pwEncoder.encode(oriPw));		
+		//메일주소
+		String email1=request.getParameter("email1");
+		String email2=request.getParameter("email2");
+		String email=email1+"@"+email2;	
+		m.setEmail(email);			
+		//전화번호
+		String phone1=request.getParameter("phone1");
+		String phone2=request.getParameter("phone2");
+		String phone=phone1+phone2;
+		m.setPhone(phone);		
+		//프로필 사진 저장되는 장소
+		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+
+		ModelAndView mv=new ModelAndView();
+		
+		if(!upFile.isEmpty()) {
+			//파일명 생성(ReName)
+			String oriFileName=upFile.getOriginalFilename();
+			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
 			
-			//암호화 전 패스워드
-			String oriPw=m.getMemberPw();
-			logger.debug("암호화 전:"+oriPw);
-			logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
-			m.setMemberPw(pwEncoder.encode(oriPw));		
-			//메일주소
-			String email1=request.getParameter("email1");
-			String email2=request.getParameter("email2");
-			String email=email1+"@"+email2;	
-			m.setEmail(email);			
-			//전화번호
-			String phone1=request.getParameter("phone1");
-			String phone2=request.getParameter("phone2");
-			String phone=phone1+phone2;
-			m.setPhone(phone);		
-			//프로필 사진 저장되는 장소
-			String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+			//rename 규칙
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv=(int)(Math.random()*1000);
+			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
 			
-			ModelAndView mv=new ModelAndView();
-			
-			if(!upFile.isEmpty()) {
-				//파일명 생성(ReName)
-				String oriFileName=upFile.getOriginalFilename();
-				String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
-				
-				//rename 규칙
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-				int rdv=(int)(Math.random()*1000);
-				String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
-				
-				//profile 사진 저장
-				try {
-					upFile.transferTo(new File(sd+"/"+reName));
-				}catch(IllegalStateException | IOException e){
-					e.printStackTrace();
-				}		
-				m.setProfileImageOri(oriFileName);
-				m.setProfileImageRe(reName);					
-			}
-			
-	/*		int result=service.insertMember(m);
-			String msg="";
-			String loc="/";
-			if(result>0) {
-				msg="인증 메일이 전송되었습니다. 확인해주세요.";
-			}else {
-				msg="회원가입 실패";
-			}
-			model.addAttribute("msg", msg);
-			model.addAttribute("loc", loc);
-			return "common/msg";
-			*/
-			service.insertMember(m);
-		    rttr.addFlashAttribute("msg" , "가입시 사용한 이메일로 인증해주세요");
-	        return "redirect:/";
+			//profile 사진 저장
+			try {
+				upFile.transferTo(new File(sd+"/"+reName));
+			}catch(IllegalStateException | IOException e){
+				e.printStackTrace();
+			}		
+			m.setProfileImageOri(oriFileName);
+			m.setProfileImageRe(reName);					
 		}
+		service.insertMember(m);
+		
+/*		int result=service.insertMember(m);
+		String msg="";
+		String loc="/";
+		if(result>0) {
+			msg="인증 메일이 전송되었습니다. 확인해주세요.";
+		}else {
+			msg="회원가입 실패";
+		}*/
+		String msg="인증 메일이 전송되었습니다. 확인해주세요.";
+		String loc="/";
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";
+		
+	}
 	
 /*	 //이메일 인증 코드 검증
     @RequestMapping(value = "/emailConfirm", method = RequestMethod.GET)

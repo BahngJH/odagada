@@ -262,7 +262,8 @@ $(function(){
          }
       //이름 유효성 검사
       //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-       if(($("input[name=memberName]").val().length>7)){
+      var name=$('#memberName').val().trim();
+       if(name.length>7){
           alert("정확한 이름을 입력해주세요.");
           return false;
     	  }

@@ -12,11 +12,11 @@ public interface MemberDao {
 	int updateMember(Member m);
 	int checkEmail(String email);
 	
-	
+	//회원가입
 	void insertMember(Member m) throws Exception;
 	
 	//인증키생성
-	void createAuthKey(String email, String mailcode) throws Exception;
+	void createAuthKey(String email, String mailCode) throws Exception;
 /*	//이메일 인증상태 업데이트
 	void updateEmailStatus(Member m) throws Exception;
 	
