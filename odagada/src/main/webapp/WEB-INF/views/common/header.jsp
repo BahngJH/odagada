@@ -32,8 +32,9 @@
     }
     
     div.menu_list>a.active{
-  	background-color: #70A9A1AA;
-  	color: #FFFFFF;
+	  	background-color: #70A9A1AA;
+	  	color: #FFFFFF;
+  	    border-color: #FFFFFF;
 	}
 	
 	div.menu_list>a:not(.active):hover{

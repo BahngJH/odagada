@@ -38,5 +38,17 @@ public class MemberServiceImple implements MemberService {
 		return dao.checkId(memberId);
 	}
 
+	@Override
+	public int updateMember(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateMember(m);
+	}
+
+	@Override
+	public int checkEmail(String email) {
+		// TODO Auto-generated method stub
+		return dao.checkEmail(email);
+	}
+
 
 }
