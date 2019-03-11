@@ -1,8 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="carpool">
-	<select id="selectCarpoolList">
-		SELECT * FROM CARPOOL 
+	<resultMap type="map" id="carpool"></resultMap>
+	<select id="selectCarpoolList" parameterType="map" resultMap="carpool">
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
+		<![CDATA[
+			where (startlat >= (#{startLat} - 0.0272830231094096) and startlat <= (#{startLat}  + 0.0272830231094096)) 
+			and (startlong >= (#{startLong} - 0.0338066260987153) and startlong <= (#{startLong} + 0.0338066260987153))
+			and (destlat >= (#{destLat} -  0.0272830231094096) and destlat <= (#{destLat}  +  0.0272830231094096))
+			and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
+		]]>
+		order by startdate desc
+	</select>
+	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
+		<choose>
+			<when test='kmNumS eq "3"'>
+			<![CDATA[
+				where (startlat >= (#{startLat} - 0.0272830231094096) and startlat <= (#{startLat}  + 0.0272830231094096)) 
+				and (startlong >= (#{startLong} - 0.0338066260987153) and startlong <= (#{startLong} + 0.0338066260987153))
+			]]>
+			</when>
+			<when test='kmNumS eq "5"'>
+			<![CDATA[
+				where (startlat >= (#{startLat} - 0.0454717051823493) and startlat <= (#{startLat}  + 0.0454717051823493)) 
+				and (startlong >= (#{startLong} - 0.0563443768311922) and startlong <= (#{startLong} + 0.0563443768311922))
+				 ]]>
+			</when>
+			<when test='kmNumS eq "10"'>
+			<![CDATA[
+				where (startlat >= (#{startLat} - 0.0900943410364699) and startlat <= (#{startLat}  + 0.0900943410364699)) 
+				and (startlong >= (#{startLong} - 0.1126887536623845) and startlong <= (#{startLong} + 0.1126887536623845))
+				]]>
+			</when>
+		</choose>
+		<choose>
+			<when test='kmNumE eq "3"'>
+			<![CDATA[
+				and (destlat >= (#{destLat} -  0.0272830231094096) and destlat <= (#{destLat}  +  0.0272830231094096))
+				and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
+			]]>
+			</when>
+			<when test='kmNumE eq "5"'>
+			<![CDATA[
+				and (destlat >= (#{destLat} -  0.0454717051823493) and destlat <= (#{destLat}  +  0.0454717051823493))
+				and (destlong >= (#{destLong} - 0.0563443768311922) and destlong <= (#{destLong} + 0.0563443768311922))
+				 ]]>
+			</when>
+			<when test='kmNumE eq "10"'>
+			<![CDATA[
+				and (destlat >= (#{destLat} -  0.0900943410364699) and destlat <= (#{destLat}  +  0.0900943410364699))
+				and (destlong >= (#{destLong} - 0.1126887536623845) and destlong <= (#{destLong} + 0.1126887536623845))
+				]]>
+			</when>
+		</choose>
+		<if test='animal eq "Y"'>
+			and animal = 'Y'
+		</if>
+		<if test='smoking eq "Y"'>
+			and smoking = 'Y' 
+		</if>
+		<if test='teenage eq "Y"'>
+			and teenage = 'Y' 
+		</if>
+		<if test='talking eq "Y"'>
+			and talking = 'Y' 
+		</if>
+		<if test='music eq "Y"'>
+			and music = 'Y' 
+		</if>
+		<if test='food eq "Y"'>
+			and food = 'Y' 
+		</if>
+		<if test='baggage eq "Y"'>
+			and baggage = 'Y' 
+		</if>
+		<choose>
+			<when test='gender eq "A"'>
+				and o.gender='A' 
+			</when>
+			<when test='gender eq "F"'>
+				and o.gender='F' 
+			</when>
+			<when test='gender eq "M"'>
+				and o.gender='M' 
+			</when>
+		</choose>
+		<if test="seatcount != null">
+			and seatcount <![CDATA[>=]]> #{seatcount} 
+		</if>
+		order by startdate desc
+	</select>
+	<select id="selectCarOneList" parameterType="_int" resultMap="carpool">
+		select * from carpool join caroption using(carpoolnum) join driver using(membernum) join member using(membernum) where carpoolnum=#{carpoolNum}
+	</select>
+	<!-- 동승자 출력  -->
+	<select id="selectPasList" parameterType="_int" resultMap="carpool">
+		select * from passenger join member using(membernum) where carpoolnum=#{carpoolNum} and pstatus='Y'
+	</select>
+	<!-- 차량이미지 출력 -->
+	<select id="selectImageList" parameterType="_int" resultMap="carpool">
+		select * from carimage join driver using(carnum) where membernum=#{mem} order by imageorder
+	</select>
+	<!-- 리뷰 출력 -->
+	<select id="selectReList" parameterType="_int" resultMap="carpool">
+		select * from (select * from review r join member m on(r.writernum=m.membernum)) v join driver d on(v.drivernum=d.membernum) where drivernum=#{dNum} order by rdate desc
 	</select>
 	<insert id="insertCarpool" parameterType="carpool">
 		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})
@@ -12,6 +114,9 @@
 	</insert>
 	<insert id="insertOption" parameterType="option">
 		INSERT INTO CAROPTION VALUES(#{carpoolNum}, #{animal}, #{teenage}, #{talking}, #{music}, #{gender}, #{food}, #{baggage}, #{seatcount}, #{smoking})
+	</insert>
+	<insert id="insertPassenger" parameterType="map">
+		INSERT INTO PASSENGER VALUES(#{carpoolNum}, #{memberNum}, #{payCode}, default, default)
 	</insert>
 	<select id="selectMemberCarpoolList" parameterType="_int" resultType="map">
 		select carpoolnum, pay, startdate, startcity, endcity, startdetail, enddetail, paycode, paystatus, pstatus, m.memberName

@@ -12,9 +12,22 @@ public interface CarpoolDao {
 	int insertCarpool(Carpool carpool);
 
 	int insertOption(CarOption option);
+	
+	List<Map<String, String>> selectCarOptionList(Map<String, String> map);
+	
+	List<Map<String,String>> selectCarOneList(int carpoolNum);
+	
+	List<Map<String,String>> selectPasList(int carpoolNum);
+	
+	List<Map<String,String>> selectImageList(int mem);
+	
+	int insertPassenger(Map<String, Integer> pass);
 
-	List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage);
+	List<Map<String,String>> selectReList(int dNum);
+
+  List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage);
 
 	int selectCarpoolCount(int memberNum);
 
 }
+
