@@ -96,7 +96,7 @@
 	</select>
 	<!-- 동승자 출력  -->
 	<select id="selectPasList" parameterType="_int" resultMap="carpool">
-		select * from passenger where carpoolnum=#{carpoolNum} and pstatus='Y'
+		select * from passenger join member using(membernum) where carpoolnum=#{carpoolNum} and pstatus='Y'
 	</select>
 	<!-- 차량이미지 출력 -->
 	<select id="selectImageList" parameterType="_int" resultMap="carpool">
@@ -104,7 +104,7 @@
 	</select>
 	<!-- 리뷰 출력 -->
 	<select id="selectReList" parameterType="_int" resultMap="carpool">
-		select * from (select * from review r join member m on(r.writernum=m.membernum)) join carpool using(carpoolnum) where carpoolnum=#{carpoolNum} order by rdate desc
+		select * from (select * from review r join member m on(r.writernum=m.membernum)) v join driver d on(v.drivernum=d.membernum) where drivernum=#{dNum} order by rdate desc
 	</select>
 	<insert id="insertCarpool" parameterType="carpool">
 		insert into carpool values(#{memberNum}, seq_carpoolnum.nextval, #{startLong}, #{startLat}, #{destLong}, #{destLat}, #{pay}, #{startDate}, #{startCity}, #{endCity}, #{startDetail}, #{endDetail})

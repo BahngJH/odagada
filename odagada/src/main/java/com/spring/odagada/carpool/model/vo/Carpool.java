@@ -13,13 +13,15 @@ public class Carpool {
 	private String endCity;
 	private String startDetail;
 	private String endDetail;
+	private String status;
 	
 	public Carpool() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Carpool(int memberNum, int carpoolNum, double startLong, double startLat, double destLong, double destLat,
-			int pay, String startDate, String startCity, String endCity, String startDetail, String endDetail) {
+			int pay, String startDate, String startCity, String endCity, String startDetail, String endDetail,
+			String status) {
 		super();
 		this.memberNum = memberNum;
 		this.carpoolNum = carpoolNum;
@@ -33,9 +35,8 @@ public class Carpool {
 		this.endCity = endCity;
 		this.startDetail = startDetail;
 		this.endDetail = endDetail;
+		this.status = status;
 	}
-
-
 
 	public int getMemberNum() {
 		return memberNum;
@@ -133,12 +134,20 @@ public class Carpool {
 		this.endDetail = endDetail;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Carpool [memberNum=" + memberNum + ", carpoolNum=" + carpoolNum + ", startLong=" + startLong
 				+ ", startLat=" + startLat + ", destLong=" + destLong + ", destLat=" + destLat + ", pay=" + pay
 				+ ", startDate=" + startDate + ", startCity=" + startCity + ", endCity=" + endCity + ", startDetail="
-				+ startDetail + ", endDetail=" + endDetail + "]";
+				+ startDetail + ", endDetail=" + endDetail + ", status=" + status + "]";
 	}
 	
 }

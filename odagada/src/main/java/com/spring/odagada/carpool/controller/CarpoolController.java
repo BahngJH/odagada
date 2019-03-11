@@ -177,7 +177,7 @@ public class CarpoolController {
 		//차량 이미지 정보
 		List<Map<String,String>> cList =service.selectImageList(mem);
 		//리뷰 정보
-		List<Map<String,String>> rList =service.selectReList(carpoolNum);
+		List<Map<String,String>> rList =service.selectReList(mem); //membernum이 drivernum과 같음
 		
 		//seat int형으로 변경
 		int count = Integer.parseInt(seat);
@@ -191,7 +191,7 @@ public class CarpoolController {
 		mav.setViewName("carpool/oneSearch");
 		return mav;
 	}
-	
+  
 	@RequestMapping("/carpool/payment")
 	public ModelAndView payment() {
 		ModelAndView mav = new ModelAndView();
@@ -200,7 +200,7 @@ public class CarpoolController {
 		
 		return mav;
 	}
-	
+  
 	//세부검색페이지에서 옵션 검색시
 	@RequestMapping("/carpool/searchOption")
 	public void carpoolSearchOption(HttpServletRequest req,

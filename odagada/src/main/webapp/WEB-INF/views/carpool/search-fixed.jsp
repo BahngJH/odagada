@@ -91,3 +91,24 @@
 		</div>
 	</div>
 </c:if>
+<script>
+function validate(){
+	return true;
+};
+function oneck(){
+	$('#form-onecar').submit();	
+}
+$(function () {
+ 	$('.click').on("click",function(e){
+		var carpoolNum=$(this).find('#carpoolNum').val();
+		var seat=$(this).find('#seat').val();
+		var mem=$(this).find('#mem').val();
+		console.log(carpoolNum+" : "+seat+" : "+mem);
+		document.getElementById("carpoolNum").value=carpoolNum;
+		document.getElementById("seat").value=seat;
+		document.getElementById("mem").value=mem;
+	});
+
+}); 
+
+</script>
