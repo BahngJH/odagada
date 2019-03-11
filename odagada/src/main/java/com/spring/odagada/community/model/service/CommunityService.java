@@ -7,6 +7,9 @@ import com.spring.odagada.community.model.vo.ChatRoomVo;
 import com.spring.odagada.community.model.vo.MessageVo;
 
 public interface CommunityService {
+	int insertRoomId(Map roomIdData);
+	List<Map<String,String>> bringUserInfo(String chatUser);
+	String roomIdCheck(Map<String,String> roomIdData);
 	int jsutCheckMsg(String myId);
 	int saveMessage(MessageVo msg);
 	List<Map<String,String>> bringMsg(String roomId);

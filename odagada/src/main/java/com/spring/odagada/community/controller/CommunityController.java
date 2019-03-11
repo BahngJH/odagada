@@ -1,10 +1,10 @@
 package com.spring.odagada.community.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.community.model.vo.ChatRoomVo;
+import com.spring.odagada.community.model.vo.MessageVo;
 import com.spring.odagada.member.model.vo.Member;
 
 @Controller
@@ -26,6 +28,11 @@ public class CommunityController {
 	CommunityService service;
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
+	
+	@RequestMapping("/community/moveChatting.do")
+	public String test() {
+		return "community/chatView";
+	}
 	
 	//채팅방이 아닌곳에서 안읽은 메시지 확인용
 	@RequestMapping("/community/checkMsg.do")
@@ -37,15 +44,62 @@ public class CommunityController {
 		
 		return mv;
 	}
-	
-	@RequestMapping("/community/createRoomClick")
-	public ModelAndView createRoomClick(ModelAndView mv, String chatUser)
+
+	@RequestMapping("/community/createRoomClick.do")
+	public ModelAndView createRoomClick(ModelAndView mv, String chatUser, HttpServletRequest request)
 	{
+		Member m =(Member)request.getSession().getAttribute("logined");
+		Map<String,String> roomIdData = new HashMap<String, String>();
+		roomIdData.put("myId", m.getMemberId());
+		roomIdData.put("chatUser", chatUser);
+		logger.debug(chatUser+"와 채팅방을 검사합니다");
 		
-		
+		String roomIdCheck = service.roomIdCheck(roomIdData);
+		if(!roomIdCheck.equals(""))
+		{
+			logger.debug(chatUser+"와 채팅방이 이미 존재한다. 채팅방 이름 : "+roomIdCheck);
+			List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
+			for(ChatRoomVo i:chatRooms)
+			{
+				logger.debug("채팅방 정보들"+i);
+				i.setcDate(i.getcDate().substring(0, 14));
+			}
+			mv.addObject("chatRooms", chatRooms);
+			
+			//상대방 정보와 채팅 내역 가져옴
+			List<Map<String,String>> chatContent = service.bringMsg(roomIdCheck);
+
+			if(!(chatContent.isEmpty())) 
+			{
+				logger.debug("방도 있고 메시지도 있다"+chatContent);
+				mv.addObject("chatContent", chatContent);
+			}
+			else 
+			{
+				logger.debug("방은 있지만 메시지가 없다. 상대 정보만 가져옴");
+				List<Map<String,String>> member = service.bringUserInfo(chatUser);
+				mv.addObject("chatContent", member);
+			}
+		}else {
+			logger.debug("채팅방 존재하지 않음");
+			//roomId = 내아이디,상대아이디 로 구성
+			roomIdData.put("roomId", String.join(",",m.getMemberId(), chatUser));
+			int insertRoomId = service.insertRoomId(roomIdData);
+			
+			List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
+			for(ChatRoomVo i:chatRooms)
+			{
+				logger.debug("채팅방 정보들"+i);
+				i.setcDate(i.getcDate().substring(0, 14));
+			}
+			mv.addObject("chatRooms", chatRooms);
+			List<Map<String,String>> member = service.bringUserInfo(chatUser);
+			mv.addObject("chatContent", member);
+		}
+		mv.setViewName("community/chatting");
 		return mv;
 	}
-	
+
 	//채팅방 입장
 	@RequestMapping("/community/chatting.do")
 	public ModelAndView chatting(HttpServletRequest request, ModelAndView mv) 
