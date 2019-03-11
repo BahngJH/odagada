@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.member.model.service.MemberService;
@@ -64,7 +63,6 @@ public class MemberController {
 		}else {
 			result="no";
 		}
-		logger.debug(result);
 		return result;
 	}
 			
@@ -133,16 +131,8 @@ public class MemberController {
 			m.setProfileImageRe(reName);					
 		}
 		service.insertMember(m);
-		
-/*		int result=service.insertMember(m);
-		String msg="";
-		String loc="/";
-		if(result>0) {
-			msg="인증 메일이 전송되었습니다. 확인해주세요.";
-		}else {
-			msg="회원가입 실패";
-		}*/
-		String msg="인증 메일이 전송되었습니다. 확인해주세요.";
+
+		String msg="인증 메일이 전송되었습니다. 인증 후 로그인 하실 수 있습니다.";
 		String loc="/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -152,24 +142,29 @@ public class MemberController {
 	
 	 //이메일 인증 코드 검증
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
-    public String emailConfirm(Member m,Model model,RedirectAttributes rttr) throws Exception { 
-        logger.debug(m.getEmail()+": 메일 인증 됨!");
+    public ModelAndView emailConfirm(String memberId) {
+    	Map<String, String>map=new HashMap();
+    	map.put("isEmailAuth", "Y");
+    	map.put("memberId", memberId);
+               
+        int result=service.updateStatus(map);  
+        logger.debug("결과는?"+result);
+        ModelAndView mv=new ModelAndView();
         
-        m.setIsEmailAuth("Y");//메일 인증 완료되면 Y로 업데이트. 
-        
-        Member nm=new Member();
-        
-        nm=service.updateEmailStatus(m);
         String msg="";
-        
-        if(nm == null) {
-            model.addAttribute("비정상적인 접근입니다.", msg);
-            return "redirect:/";
+		String loc="/";
+        if(result>0) {
+        	msg="회원가입 성공";
+        }else {       	
+        	mv.addObject("비정상적인 접근입니다.", msg);
+        	mv.setViewName("redirect:/");
         }
         //System.out.println("usercontroller vo =" +vo);
-        model.addAttribute("logined",m);
-        model.addAttribute("isEmailAuth", "Y");
-        return "/member/sucessAuth";
+       /* return "member/sucessAuth";*/
+        mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("member/successAuth");
+		return mv;
     }
     
 
@@ -193,21 +188,53 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
-		   
+	   
+	   
+	   
 	   if(result!=null) {
 		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
 			   mv.addObject("logined", m);
-			   mv.setViewName("redirect:/");
-		   }else {
+			   mv.setViewName("redirect:/");		   
+		   }else {	   
 			  mv.addObject("msg", "패스워드가 일치하지 않습니다.");
 			  mv.addObject("loc", "/member/loginForm.do");
 			  mv.setViewName("common/msg");
-		   }	   
-	   }	  
+		   }
+	   }		
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+		   
+	/*   try {
+		   if(result!=null) {
+			   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))&&m.getIsEmailAuth().equals("Y")){
+				   mv.addObject("logined", m);
+				   mv.setViewName("redirect:/");
+			   }if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))&&!m.getIsEmailAuth().equals("Y")){
+				   mv.addObject("msg", "이메일 인증을 완료해주세요.");
+				   mv.setViewName("common/msg");
+			   }else {	   
+				  mv.addObject("msg", "패스워드가 일치하지 않습니다.");
+				  mv.addObject("loc", "/member/loginForm.do");
+				  mv.setViewName("common/msg");
+			   }
+		   }		
+		}catch (NullPointerException e) {
+				mv.addObject("msg", "등록된 정보가 없습니다.");
+				mv.addObject("loc", "/member/loginForm.do");
+				mv.setViewName("common/msg");
+			}*/
+		
 	   logger.debug("로그인 멤버 정보"+m);
 	   logger.debug("관리자 테스트"+m.getIsAdmin());
+	   
 	   return mv;
-   }
+}
+
    
    //로그아웃(세션끊기)
    @RequestMapping("/member/logout.do")
@@ -215,7 +242,7 @@ public class MemberController {
 	   	if(!status.isComplete()) {
 	   		status.setComplete();
 	   	}
-	   	return "redirect:/index.jsp";
+	   	return "redirect:/";
    }
    
    //마이페이지 

@@ -11,6 +11,6 @@ public interface MemberService {
 	int checkEmail(String email);	
 	int checkId(String memberId);
 	int updateMember(Member m);	
-	Member updateEmailStatus(Member m) throws Exception;
+	int updateStatus(Map<String, String>map);
 
 }

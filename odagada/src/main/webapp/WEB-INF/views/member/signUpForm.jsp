@@ -440,7 +440,6 @@ $(function(){
                		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
                </div>
           </div>
-               <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
                <div class="row">
                   <div class="col-4">         
 	                  <select class="tel" name="phone1" id="selectPhone" required>                                                                                           

@@ -19,10 +19,7 @@ public interface MemberDao {
 	void createAuthKey(String email, String mailCode) throws Exception;
 	
 	//이메일 인증상태 업데이트
-	void updateEmailStatus(Member m) throws Exception;
+	int updateStatus(Map<String, String>map);
 	
-	/*Member chkAuth(Member m) throws Exception;
-	
-	void successAuth(Member authMember);
-*/
+
 }

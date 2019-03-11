@@ -65,13 +65,21 @@ public class MemberDaoImpl implements MemberDao {
     public Member chkAuth(Member m) throws Exception {
         return session.selectOne("member.chkCode", m);
     }*/
+
     
-    //4. 인증 후 계정 활성화
+ /*   //4. 인증 후 계정 활성화
     @Override
     public void updateEmailStatus(Member m) throws Exception {
         session.update("member.authStatus", m.getIsEmailAuth());
         System.out.println(m.getIsEmailAuth());
-    }
+    }*/
 
+
+    //E-mail status 변환
+	@Override
+	public int updateStatus(Map<String, String>map) {
+		// TODO Auto-generated method stub
+		return session.update("member.mailStatus", map);
+	}
 	
 }
