@@ -20,7 +20,7 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.spring.odagada">
-		<level value="debug" />
+		<level value="debug"/>
 	</logger>
 
 	<!-- 3rdparty Loggers -->
