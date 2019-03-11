@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +23,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.member.model.service.MemberService;
@@ -87,89 +88,91 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
-/*	//E-mail 인증
-	 @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String RegisterPost(Member nm,Model model,RedirectAttributes rttr) throws Exception{
-    
-        System.out.println("regesterPost 진입 ");
-        service.regist(nm);
-        rttr.addFlashAttribute("msg" , "가입시 사용한 이메일로 인증해주세요");
-        return "redirect:/";
-    }
+	
 
-    //이메일 인증 코드 검증
+	//회원가입
+		@RequestMapping("/member/signUpEnd.do")
+		public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile, RedirectAttributes rttr) {
+			logger.debug("뉴비: "+m);
+			
+			//암호화 전 패스워드
+			String oriPw=m.getMemberPw();
+			logger.debug("암호화 전:"+oriPw);
+			logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
+			m.setMemberPw(pwEncoder.encode(oriPw));		
+			//메일주소
+			String email1=request.getParameter("email1");
+			String email2=request.getParameter("email2");
+			String email=email1+"@"+email2;	
+			m.setEmail(email);			
+			//전화번호
+			String phone1=request.getParameter("phone1");
+			String phone2=request.getParameter("phone2");
+			String phone=phone1+phone2;
+			m.setPhone(phone);		
+			//프로필 사진 저장되는 장소
+			String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+			
+			ModelAndView mv=new ModelAndView();
+			
+			if(!upFile.isEmpty()) {
+				//파일명 생성(ReName)
+				String oriFileName=upFile.getOriginalFilename();
+				String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
+				
+				//rename 규칙
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rdv=(int)(Math.random()*1000);
+				String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+				
+				//profile 사진 저장
+				try {
+					upFile.transferTo(new File(sd+"/"+reName));
+				}catch(IllegalStateException | IOException e){
+					e.printStackTrace();
+				}		
+				m.setProfileImageOri(oriFileName);
+				m.setProfileImageRe(reName);					
+			}
+			
+	/*		int result=service.insertMember(m);
+			String msg="";
+			String loc="/";
+			if(result>0) {
+				msg="인증 메일이 전송되었습니다. 확인해주세요.";
+			}else {
+				msg="회원가입 실패";
+			}
+			model.addAttribute("msg", msg);
+			model.addAttribute("loc", loc);
+			return "common/msg";
+			*/
+			service.insertMember(m);
+		    rttr.addFlashAttribute("msg" , "가입시 사용한 이메일로 인증해주세요");
+	        return "redirect:/";
+		}
+	
+	 //이메일 인증 코드 검증
     @RequestMapping(value = "/emailConfirm", method = RequestMethod.GET)
-    public String emailConfirm(Member nm,Model model,RedirectAttributes rttr) throws Exception { 
+    public String emailConfirm(Member m,Model model,RedirectAttributes rttr) throws Exception { 
+        logger.debug(m.getEmail()+": 메일 인증 됨!");
         
-        System.out.println("can't get user"+user);
-        Member m = new Member();
-        m=service.memberAuth(nm);
-        if(m == null) {
+        m.setIsEmailAuth("Y");//메일 인증 완료되면 Y로 업데이트. 
+        
+        Member nm=new Member();
+        nm=service.updateEmailStatus(m);
+        
+        if(nm == null) {
             rttr.addFlashAttribute("msg" , "비정상적인 접근 입니다. 다시 인증해 주세요");
             return "redirect:/";
         }
         //System.out.println("usercontroller vo =" +vo);
-        model.addAttribute("login",m);
-        return "/user/emailConfirm";
-    }*/
+        model.addAttribute("logined",m);
+        model.addAttribute("isEmailAuth", "Y");
+        return "/member/emailConfirm";
+    }
+    
 
-	
-	//회원가입
-	@RequestMapping("/member/signUpEnd.do")
-	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) {
-		logger.debug("뉴비: "+m);
-		
-		//암호화 전 패스워드
-		String oriPw=m.getMemberPw();
-		logger.debug("암호화 전:"+oriPw);
-		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
-		m.setMemberPw(pwEncoder.encode(oriPw));		
-		//메일주소
-		String email1=request.getParameter("email1");
-		String email2=request.getParameter("email2");
-		String email=email1+"@"+email2;	
-		m.setEmail(email);			
-		//전화번호
-		String phone1=request.getParameter("phone1");
-		String phone2=request.getParameter("phone2");
-		String phone=phone1+phone2;
-		m.setPhone(phone);		
-		//프로필 사진 저장되는 장소
-		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
-		
-		ModelAndView mv=new ModelAndView();
-		
-		if(!upFile.isEmpty()) {
-			//파일명 생성(ReName)
-			String oriFileName=upFile.getOriginalFilename();
-			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
-			
-			//rename 규칙
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-			int rdv=(int)(Math.random()*1000);
-			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
-			
-			//profile 사진 저장
-			try {
-				upFile.transferTo(new File(sd+"/"+reName));
-			}catch(IllegalStateException | IOException e){
-				e.printStackTrace();
-			}		
-			m.setProfileImageOri(oriFileName);
-			m.setProfileImageRe(reName);					
-		}int result=service.insertMember(m);
-		String msg="";
-		String loc="/";
-		if(result>0) {
-			msg="오다가다 환영합니다 *^^*";
-		}else {
-			msg="회원가입 실패";
-		}
-		model.addAttribute("msg", msg);
-		model.addAttribute("loc", loc);
-		return "common/msg";		
-	}
-	
 	//로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
