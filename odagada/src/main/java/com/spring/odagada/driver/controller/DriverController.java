@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.soap.MTOMFeature;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +103,7 @@ public class DriverController {
 		driver.put("carModel", carModel);
 		driver.put("carNum",carNum);
 		driver.put("driver_info", driver_info);
+
 		
 		ArrayList<carImage> files = new ArrayList();
 		

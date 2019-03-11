@@ -229,6 +229,7 @@
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="driver_info" id="driver_info" placeholder="드라이버 자기소개 입력해주세요."required/>
+
             </div>
 	       	 <div class="custom-file form-group row">
 	               <input multiple="multiple" type="file" class="custom-file-input" accept="image/*" name="upFile" id="upFile1" onchange="fileCheck(this)" required>

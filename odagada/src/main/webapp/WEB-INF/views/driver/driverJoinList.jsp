@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+<<<<<<< HEAD
 <style>
 	table td input#enrollResult{
 		border: 1px solid rgba(0,0,0,0);

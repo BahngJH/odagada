@@ -16,6 +16,7 @@
 	</select>
 	<select id="selectDriverList" resultType="map">
 		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM
+
 	</select>
 
 </mapper>
