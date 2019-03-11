@@ -65,8 +65,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		List<ChatRoomVo> chatRoomList =  session.selectList("community.bringChatRooms",loginId);
 		for(ChatRoomVo room:chatRoomList)
 		{
-			room.setIsReadCount(session.selectOne("community.isReadCount", room));
+			room.setIsReadCount(room.getAllMsg()-room.getyMsg());
 		}
+		/*for(ChatRoomVo room:chatRoomList)
+		{
+			room.setIsReadCount(session.selectOne("community.isReadCount", room));
+		}*/
 		return chatRoomList;
 	}
 	
