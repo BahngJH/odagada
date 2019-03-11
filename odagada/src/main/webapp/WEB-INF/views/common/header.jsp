@@ -58,7 +58,7 @@
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>          
                 <li class="nav-item">
-                  <a class="nav-link" href="#">드라이버등록</a>
+                  <a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
                 </li><li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
