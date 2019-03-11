@@ -10,7 +10,7 @@
   </insert>
 
   <select id="bringUserInfo" parameterType="map" resultType="map">
-  	select roomid,membername,memberid from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
+  	select roomid,membername,memberid,PROFILEIMAGERE from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
   </select>
 
   <select id="roomIdCheck" parameterType="map" resultType="string">
@@ -26,7 +26,7 @@
   </insert>
   
   <select id="bringMsg" parameterType="string" resultType="map">
-  	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate
+  	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (sender=memberid) where roomId=#{roomId} order by cDate
   </select>
   
   <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">

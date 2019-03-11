@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<jsp:include page="/WEB-INF/views/common/headerWS.jsp">
 	<jsp:param value="채팅하기" name="pageTitle"/>
 </jsp:include>
 <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
@@ -155,14 +155,31 @@
 		
         <div id="chattingView" class="col-6 col-xs-12" >
             <div id="selectUserInfo">
-            	<c:if test="${chatMember.size()>0}">
-            		<c:forEach items="${chatMember }" var="member">
-	                	<span id="selectImage"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
-	                	<span id="selectName">${member.MEMBERNAME }</span>
+           	<c:if test="${chatMember.size()>0}">
+           		<c:forEach items="${chatMember }" var="member">
 	                	<c:set var="receiver" value="${member.MEMBERID }"/>
 	                	<c:set var="roomId" value="${member.ROOMID }"/>
-	                </c:forEach>
-                </c:if>
+	                	<c:set var="memberName" value="${member.MEMBERNAME }"/>
+	                	<c:set var="imageUrl" value="${member.PROFILEIMAGERE }"/>
+                </c:forEach>
+                
+                
+                <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
+	        	<span id="selectName">${memberName}</span>
+               </c:if>
+               <c:if test="${chatContent.size()>0}">
+	                	<c:forEach items="${chatContent }" var="chatCon">
+		                	<c:if test="${chatCon.SENDER!=logined.memberId }">
+			                	<c:set var="receiver" value="${chatCon.SENDER}"/>
+			                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
+			                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
+		                		
+		                	</c:if>
+	                	</c:forEach>
+	                <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
+	        		<span id="selectName">${memberName}</span>
+                	</c:if>                	
+               	
             </div>
             <div id="chatContent">
                 <div id="insertContent">
@@ -171,14 +188,18 @@
 	                		<c:if test="${chatCon.SENDER==logined.memberId }">
 	                			<div>
 	        						<p class="right" style="clear:both">${chatCon.CCONTENT }</p>
+	        						
+							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
 	   							</div>
 	                		</c:if>
 		                	<c:if test="${chatCon.SENDER!=logined.memberId }">
+		                	<c:set var="receiver" value="${chatCon.SENDER}"/>
+		                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
+		                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
 		                		<div class="msgDivLeft">
-							        <img class="left" style="clear:both" width="40px" height="40px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진">
+							        <img class="left" style="clear:both" width="40px" height="40px" src="${path}/resources/upload/profile/${imageUrl}" alt="회원사진">
 							        <p class="left" style="clear:both">${chatCon.CCONTENT }</p>
-							       	<c:set var="receiver" value="${chatCon.SENDER}"/>
-							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
+							       	
 							    </div>
 		                	</c:if>
 	                	</c:forEach>
@@ -192,8 +213,8 @@
         </div>
         <div id="profile" class="col col-xs-12 ">
             <div id="myInfo">
-                <img width="120px" height="120px" src="http://img.etnews.com/news/article/2017/08/16/cms_temp_article_16215301717720.jpg" alt="내 사진"><br>
-                <span id="myName"><%-- ${logined.memberName } --%>류준열</span>
+                <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
+                <span id="myName">${logined.memberName }</span>
             </div>
         </div>
     </div>
@@ -246,14 +267,24 @@
 			console.log(event);
 		}
 
-		if(${chatMember.size()>0}){
+		if(${chatMember.size()>0})
+		{
 			jsonData.receiver='${receiver}';
 			jsonData.roomId='${roomId}';
+			$('#selectName').html('${memberName}');
+			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
+			$('#selectImage').html(img);
+			jsonData.imagUrl = "${imageUrl}";
 		}
 		
-		if(${chatContent.size()>0}){
-		jsonData.receiver='${receiver}';
-		jsonData.roomId='${roomId}';
+		if(${chatContent.size()>0})
+		{
+			jsonData.receiver='${receiver}';
+			jsonData.roomId='${roomId}';
+			$('#selectName').html('${memberName}');
+			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
+			$('#selectImage').html(img);
+			jsonData.imagUrl = "${imageUrl}";
 		}
 		
 		//엔터로 전송하는 코드
@@ -298,33 +329,42 @@
     		data:{"roomId":$(e).children('#roomId').val()},
     		success:function(data)
     		{
+    			console.log(data);
     			var name="";
     			//여기해야함
     			var imageUrl="";
+    			var nameImg="";
     			for(var i=0;i<data.chatList.length;i++)
     			{
     				                                                      
     				if(data.chatList[i].SENDER=='${logined.memberId}')
         			{
-    					name = data.chatList[i].MEMBERNAME;
+    					/* name = data.chatList[i].MEMBERNAME;
+    					imageUrl = data.chatList[i].PROFILEIMAGERE; */
+    					
 						var right ="<div >";
 						right +="<p class='right' style='clear:both'>"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
 						right +="</div>";
     					allMsg +=right;
+    					jsonData.imageUrl =data.chatList[i].PROFILEIMAGERE;
     					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
         			}
         			else{
-        				
+        				name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatList[i].PROFILEIMAGERE+'" alt="상대방사진"></span>';
+    		        	nameImg ='<span id="selectName">'+data.chatList[i].MEMBERNAME+'</span>';
         				var left = "<div class='msgDivLeft'>";
-        				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
+        				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+data.chatList[i].PROFILEIMAGERE+"' alt='회원사진'/>";
         				left +="<p class='left' >"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
         				left +="</div>";
     					allMsg +=left;
+    					
         				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
         			}
     				
     			}
-    			$('#selectName').html(name);
+    			
+    			name +=nameImg;
+    			$('#selectUserInfo').html(name);
     			$('#insertContent').html(allMsg);
     			allMsg="";
     			updateChatRoom();
@@ -439,7 +479,10 @@
 			else
 			{
 				var left = "<div class='msgDiv'>";
-				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
+				
+				src='${path}/resources/upload/profile/"+data.chatList[i].PROFILEIMAGERE+"'
+				
+				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+json.imageUrl+"' alt='회원사진'/>";
 				left +="<p class='left' >"+json.text+"</p>";
 				left +="</div>";
 				
@@ -453,8 +496,8 @@
 	        $("#chatContent").scrollTop(maxScroll);
 	        
     	}
-    }
     
+    }
     
 </script>
 
