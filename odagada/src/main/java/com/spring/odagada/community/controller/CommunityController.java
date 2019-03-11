@@ -38,6 +38,14 @@ public class CommunityController {
 		return mv;
 	}
 	
+	@RequestMapping("/community/createRoomClick")
+	public ModelAndView createRoomClick(ModelAndView mv, String chatUser)
+	{
+		
+		
+		return mv;
+	}
+	
 	//채팅방 입장
 	@RequestMapping("/community/chatting.do")
 	public ModelAndView chatting(HttpServletRequest request, ModelAndView mv) 
