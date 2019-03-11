@@ -74,17 +74,10 @@ public class MemberController {
 		Map map=new HashMap();
 		boolean isId=service.checkId(memberId)==0?false:true;
 		map.put("isId", isId);
-		List<String> list=new ArrayList();
-		
-		list.add("Yoo");
-		list.add("Lee");
-		list.add("Kim");
-		list.add("Joo");
 		
 		mv.addAllObjects(map);
 		mv.addObject("char",URLEncoder.encode("문자열","UTF-8"));
 		mv.addObject("num",1);
-		mv.addObject("list",list);
 		mv.setViewName("jsonView");
 		return mv;	
 	}
@@ -94,6 +87,9 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
+/*	//E-mail 인증
+	@RequestMapping()
+	*/
 	
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
@@ -104,20 +100,17 @@ public class MemberController {
 		String oriPw=m.getMemberPw();
 		logger.debug("암호화 전:"+oriPw);
 		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
-		m.setMemberPw(pwEncoder.encode(oriPw));
-		
+		m.setMemberPw(pwEncoder.encode(oriPw));		
 		//메일주소
 		String email1=request.getParameter("email1");
 		String email2=request.getParameter("email2");
 		String email=email1+"@"+email2;	
-		m.setEmail(email);
-			
+		m.setEmail(email);			
 		//전화번호
 		String phone1=request.getParameter("phone1");
 		String phone2=request.getParameter("phone2");
 		String phone=phone1+phone2;
-		m.setPhone(phone);
-		
+		m.setPhone(phone);		
 		//프로필 사진 저장되는 장소
 		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
 		
