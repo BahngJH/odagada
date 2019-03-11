@@ -52,7 +52,7 @@ public class MemberDaoImpl implements MemberDao {
 		session.insert("member.insertMember", m);
 	}
 
-    //2. 해당 email에 인증 키 업데이트
+    //2. 해당 email에 인증 키 생성 후 업데이트
     @Override
     public void createAuthKey(String email, String mailCode) throws Exception {
         Member m = new Member();
@@ -64,18 +64,14 @@ public class MemberDaoImpl implements MemberDao {
     /* @Override
     public Member chkAuth(Member m) throws Exception {
         return session.selectOne("member.chkCode", m);
-    }
+    }*/
+    
     //4. 인증 후 계정 활성화
     @Override
     public void updateEmailStatus(Member m) throws Exception {
-        session.update("member.authMail", m);
+        session.update("member.authStatus", m.getIsEmailAuth());
         System.out.println(m.getIsEmailAuth());
     }
 
-	@Override
-	public void successAuth(Member authMember) {
-		// TODO Auto-generated method stub
-		
-	}*/
 	
 }

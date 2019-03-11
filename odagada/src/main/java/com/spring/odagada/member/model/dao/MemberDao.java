@@ -17,10 +17,11 @@ public interface MemberDao {
 	
 	//인증키생성
 	void createAuthKey(String email, String mailCode) throws Exception;
-/*	//이메일 인증상태 업데이트
+	
+	//이메일 인증상태 업데이트
 	void updateEmailStatus(Member m) throws Exception;
 	
-	Member chkAuth(Member m) throws Exception;
+	/*Member chkAuth(Member m) throws Exception;
 	
 	void successAuth(Member authMember);
 */

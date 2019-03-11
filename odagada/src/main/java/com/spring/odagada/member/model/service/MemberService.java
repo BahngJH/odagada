@@ -10,9 +10,7 @@ public interface MemberService {
 	void insertMember(Member m) throws Exception;
 	int checkEmail(String email);	
 	int checkId(String memberId);
-	int updateMember(Member m);
-	
-	
-	/*Member updateEmailStatus(Member m) throws Exception;*/
+	int updateMember(Member m);	
+	Member updateEmailStatus(Member m) throws Exception;
 
 }

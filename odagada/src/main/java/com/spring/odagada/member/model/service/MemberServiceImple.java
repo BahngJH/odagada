@@ -78,7 +78,7 @@ public class MemberServiceImple implements MemberService {
         sendMail.setText(
                 new StringBuffer().append("<h1>메일인증</h1>")
                 .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-                .append("<a href='http://localhost:9090/member/emailConfirm?memberId=")
+                .append("<a href='http://localhost:9090/member/emailConfirm.do?memberId=")
                 .append(m.getMemberId())
 				.append("&email=")
 				.append(m.getEmail())
@@ -87,41 +87,33 @@ public class MemberServiceImple implements MemberService {
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
         sendMail.send();
+        
+        
+        
+        
     }
+/*
+	    //이메일 인증 키 검증
+    @Override
+    public void updateEmailStatus(Member m) throws Exception {
+        Member authMember =new Member();
+        System.out.println(m+"뉴비의 결말은?");
+        
+        authMember= dao.updateEmailStatus(m);
+   
+        if(authMember!=null){
+            try{
+                System.out.println(authMember+"authMember");            
+                dao.successAuth(authMember);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }}
+    }*/
 
-/*	    //이메일 인증 키 검증
-	    @Override
-	    public Member updateEmailStatus(Member m) throws Exception {
-	        Member authMember =new Member();
-	        System.out.println(m+"뉴비의 결말은?");
-	        
-	        authMember=dao.chkAuth(m);
-	   
-	        if(authMember!=null){
-	            try{
-	                System.out.println(authMember+"authMember");
-	                dao.updateEmailStatus(m);
-	                dao.successAuth(authMember);
-	            }catch (Exception e) {
-	                e.printStackTrace();
-	            }}
-	        return authMember;
-	    }*/
-
-
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
+@Override
+public Member updateEmailStatus(Member m) throws Exception {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 }

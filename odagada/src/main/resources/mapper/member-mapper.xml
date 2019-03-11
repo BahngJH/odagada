@@ -22,6 +22,11 @@
 	UPDATE MEMBER SET MAILCODE=#{mailCode} where email=#{email}
 	</update>
 	
+ 	<!-- 메일 인증상태 업데이트 -->
+	<!--<update id="mailStatus" parameterType="member">
+	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where membernum=#{memberNum}
+	</update> -->
+	
 	<!--ID중복 체크 -->
 	<select id="checkId" parameterType="string" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBERID=#{memberId}

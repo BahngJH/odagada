@@ -150,25 +150,27 @@ public class MemberController {
 		
 	}
 	
-/*	 //이메일 인증 코드 검증
-    @RequestMapping(value = "/emailConfirm", method = RequestMethod.GET)
+	 //이메일 인증 코드 검증
+    @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public String emailConfirm(Member m,Model model,RedirectAttributes rttr) throws Exception { 
         logger.debug(m.getEmail()+": 메일 인증 됨!");
         
         m.setIsEmailAuth("Y");//메일 인증 완료되면 Y로 업데이트. 
         
         Member nm=new Member();
+        
         nm=service.updateEmailStatus(m);
+        String msg="";
         
         if(nm == null) {
-            rttr.addFlashAttribute("msg" , "비정상적인 접근 입니다. 다시 인증해 주세요");
+            model.addAttribute("비정상적인 접근입니다.", msg);
             return "redirect:/";
         }
         //System.out.println("usercontroller vo =" +vo);
         model.addAttribute("logined",m);
         model.addAttribute("isEmailAuth", "Y");
-        return "/member/emailConfirm";
-    }*/
+        return "/member/sucessAuth";
+    }
     
 
 	//로그인 페이지
