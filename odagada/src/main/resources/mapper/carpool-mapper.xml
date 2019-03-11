@@ -115,4 +115,7 @@
 	<insert id="insertOption" parameterType="option">
 		INSERT INTO CAROPTION VALUES(#{carpoolNum}, #{animal}, #{teenage}, #{talking}, #{music}, #{gender}, #{food}, #{baggage}, #{seatcount}, #{smoking})
 	</insert>
+	<insert id="insertPassenger" parameterType="map">
+		INSERT INTO PASSENGER VALUES(#{carpoolNum}, #{memberNum}, #{payCode}, default, default)
+	</insert>
 </mapper>

@@ -66,6 +66,11 @@ public class CarpoolServiceImpl implements CarpoolService {
 	public List<Map<String, String>> selectReList(int carpoolNum) {
 		return dao.selectReList(carpoolNum);
 	}
+
+	@Override
+	public int insertPassenger(Map<String, Integer> pass) {
+		return dao.insertPassenger(pass);
+	}
 	
 	
 	
