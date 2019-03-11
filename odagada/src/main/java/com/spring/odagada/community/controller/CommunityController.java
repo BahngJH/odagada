@@ -53,9 +53,9 @@ public class CommunityController {
 		roomIdData.put("myId", m.getMemberId());
 		roomIdData.put("chatUser", chatUser);
 		logger.debug(chatUser+"와 채팅방을 검사합니다");
-		
+				
 		String roomIdCheck = service.roomIdCheck(roomIdData);
-		if(!roomIdCheck.equals(""))
+		if(roomIdCheck!=null)
 		{
 			logger.debug(chatUser+"와 채팅방이 이미 존재한다. 채팅방 이름 : "+roomIdCheck);
 			List<ChatRoomVo> chatRooms = service.bringChatRooms(m.getMemberId());
@@ -73,12 +73,16 @@ public class CommunityController {
 			{
 				logger.debug("방도 있고 메시지도 있다"+chatContent);
 				mv.addObject("chatContent", chatContent);
+				for(int i=0;i<chatContent.size();i++) {
+					logger.debug("MAP데이터22"+chatContent.get(i));
+				}
 			}
 			else 
 			{
 				logger.debug("방은 있지만 메시지가 없다. 상대 정보만 가져옴");
-				List<Map<String,String>> member = service.bringUserInfo(chatUser);
-				mv.addObject("chatContent", member);
+				List<Map<String,String>> member = service.bringUserInfo(roomIdData);
+				logger.debug(member+"");
+				mv.addObject("chatMember", member);
 			}
 		}else {
 			logger.debug("채팅방 존재하지 않음");
@@ -93,8 +97,8 @@ public class CommunityController {
 				i.setcDate(i.getcDate().substring(0, 14));
 			}
 			mv.addObject("chatRooms", chatRooms);
-			List<Map<String,String>> member = service.bringUserInfo(chatUser);
-			mv.addObject("chatContent", member);
+			List<Map<String,String>> member = service.bringUserInfo(roomIdData);
+			mv.addObject("chatMember", member);
 		}
 		mv.setViewName("community/chatting");
 		return mv;
@@ -165,6 +169,7 @@ public class CommunityController {
 		{
 			logger.debug("MAP데이터 : "+i);
 		}
+		
 		
 		mv.addObject("chatList",chatContent);
 		mv.setViewName("jsonView");

@@ -22,7 +22,7 @@
 
 <div id="message"></div>
 
-<button onclick="moveChatting('test4')">채팅방 생성하기</button>
+<button onclick="moveChatting('1212')">채팅방 생성하기</button>
 
 
 
@@ -33,7 +33,6 @@
 	{
 		location.href="${path}/community/createRoomClick.do?chatUser="+chatUser;	
 	}
-
 
 	var ws;
 	var url="http://localhost:9090/odagada/echo";

@@ -24,9 +24,9 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public List<Map<String, String>> bringUserInfo(String chatUser) {
+	public List<Map<String, String>> bringUserInfo(Map<String,String> roomIdData) {
 		// TODO Auto-generated method stub
-		return dao.bringUserInfo(chatUser);
+		return dao.bringUserInfo(roomIdData);
 	}
 
 	@Override

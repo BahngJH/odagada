@@ -24,9 +24,9 @@ public class CommunityDaoImpl implements CommunityDao {
 		return rs;
 	}
 	@Override
-	public List<Map<String, String>> bringUserInfo(String chatUser) {
+	public List<Map<String, String>> bringUserInfo(Map<String,String> roomIdData) {
 		// TODO Auto-generated method stub
-		return session.selectList("community.bringUserInfo", chatUser);
+		return session.selectList("community.bringUserInfo", roomIdData);
 	}
 	@Override
 	public String roomIdCheck(Map<String,String> roomIdData) {

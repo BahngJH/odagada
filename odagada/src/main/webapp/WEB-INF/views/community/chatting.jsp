@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -152,17 +152,37 @@
 	    
             </div>                                                           
         </div>
-		<c:forEach items="${chatContent }" var="chatCon">
-			<c:set var="name" value="${chatCon.MEMBERNAME}"/>
-		</c:forEach>
+		
         <div id="chattingView" class="col-6 col-xs-12" >
             <div id="selectUserInfo">
-                <span id="selectImage"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
-                <span id="selectName">${name }</span>
+            	<c:if test="${chatMember.size()>0}">
+            		<c:forEach items="${chatMember }" var="member">
+	                	<span id="selectImage"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
+	                	<span id="selectName">${member.MEMBERNAME }</span>
+	                	<c:set var="receiver" value="${member.MEMBERID }"/>
+	                	<c:set var="roomId" value="${member.ROOMID }"/>
+	                </c:forEach>
+                </c:if>
             </div>
             <div id="chatContent">
                 <div id="insertContent">
-                	
+               		<c:if test="${chatContent.size()>0}">
+	                	<c:forEach items="${chatContent }" var="chatCon">
+	                		<c:if test="${chatCon.SENDER==logined.memberId }">
+	                			<div>
+	        						<p class="right" style="clear:both">${chatCon.CCONTENT }</p>
+	   							</div>
+	                		</c:if>
+		                	<c:if test="${chatCon.SENDER!=logined.memberId }">
+		                		<div class="msgDivLeft">
+							        <img class="left" style="clear:both" width="40px" height="40px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진">
+							        <p class="left" style="clear:both">${chatCon.CCONTENT }</p>
+							       	<c:set var="receiver" value="${chatCon.SENDER}"/>
+							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
+							    </div>
+		                	</c:if>
+	                	</c:forEach>
+                	</c:if>
                 </div>
             </div>
             
@@ -184,7 +204,7 @@
     var ws;
     
     //메시지 보낼 json객체
-    var jsonData ={};
+    var jsonData ={}; 
     
     //채팅 데이터 합칠 거
     var allMsg="";
@@ -193,6 +213,9 @@
     //처음 창에 들어오면 웹소켓 자동 연결
     $(function()
     {
+    	//
+    	jsonData.sender ="${logined.memberId}";
+    	
     	var url="http://localhost:9090/odagada/echo";
 		ws = new SockJS(url);
 		
@@ -222,6 +245,16 @@
 		{
 			console.log(event);
 		}
+
+		if(${chatMember.size()>0}){
+			jsonData.receiver='${receiver}';
+			jsonData.roomId='${roomId}';
+		}
+		
+		if(${chatContent.size()>0}){
+		jsonData.receiver='${receiver}';
+		jsonData.roomId='${roomId}';
+		}
 		
 		//엔터로 전송하는 코드
 		$("#messageInput").keypress(function(e){ 
@@ -248,7 +281,6 @@
     	}
     	
 		jsonData.text = $('#messageInput').val();
-		jsonData.sender ="${logined.memberId}";
 		ws.send(JSON.stringify(jsonData));
 		$('#messageInput').val("");
 		$('#messageInput').focus();	
@@ -266,11 +298,15 @@
     		data:{"roomId":$(e).children('#roomId').val()},
     		success:function(data)
     		{
-    			for(var i=0;i<data.chatList.length;i++){
-    				//console.log(data.chatList[i]);
+    			var name="";
+    			//여기해야함
+    			var imageUrl="";
+    			for(var i=0;i<data.chatList.length;i++)
+    			{
     				                                                      
     				if(data.chatList[i].SENDER=='${logined.memberId}')
         			{
+    					name = data.chatList[i].MEMBERNAME;
 						var right ="<div >";
 						right +="<p class='right' style='clear:both'>"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
 						right +="</div>";
@@ -278,6 +314,7 @@
     					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
         			}
         			else{
+        				
         				var left = "<div class='msgDivLeft'>";
         				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
         				left +="<p class='left' >"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
@@ -285,7 +322,9 @@
     					allMsg +=left;
         				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
         			}
+    				
     			}
+    			$('#selectName').html(name);
     			$('#insertContent').html(allMsg);
     			allMsg="";
     			updateChatRoom();
