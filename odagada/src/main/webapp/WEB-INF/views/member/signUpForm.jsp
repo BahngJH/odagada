@@ -241,7 +241,7 @@ $(function(){
    //핸드폰 숫자만 입력받게 하는 함수    
    $('#phone2').on('keyup', function() {
       if (/\D/.test(this.value)) {
-         this.value = this.value.replace(/\D/g, '')
+         this.value = this.value.replace(/\D/g, '')        
          alert('숫자만 입력가능합니다.');
       }
    });
@@ -290,6 +290,14 @@ $(function(){
         alert('e-mail 중복확인 해주세요.')
         return false;
         }
+        
+        //생년월일 받기
+        var birth=$('#birth').val().trim();
+        if(birth==''){
+        	alert('생일을 입력해주세요.')
+        	return false;
+        }
+        
   
    }
  

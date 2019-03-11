@@ -88,8 +88,31 @@ public class MemberController {
 		return "member/signUpForm";
 	}
 /*	//E-mail 인증
-	@RequestMapping()
-	*/
+	 @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String RegisterPost(Member nm,Model model,RedirectAttributes rttr) throws Exception{
+    
+        System.out.println("regesterPost 진입 ");
+        service.regist(nm);
+        rttr.addFlashAttribute("msg" , "가입시 사용한 이메일로 인증해주세요");
+        return "redirect:/";
+    }
+
+    //이메일 인증 코드 검증
+    @RequestMapping(value = "/emailConfirm", method = RequestMethod.GET)
+    public String emailConfirm(Member nm,Model model,RedirectAttributes rttr) throws Exception { 
+        
+        System.out.println("can't get user"+user);
+        Member m = new Member();
+        m=service.memberAuth(nm);
+        if(m == null) {
+            rttr.addFlashAttribute("msg" , "비정상적인 접근 입니다. 다시 인증해 주세요");
+            return "redirect:/";
+        }
+        //System.out.println("usercontroller vo =" +vo);
+        model.addAttribute("login",m);
+        return "/user/emailConfirm";
+    }*/
+
 	
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
