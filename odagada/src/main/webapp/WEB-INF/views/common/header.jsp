@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +17,31 @@
 <meta charset="UTF-8">
 <title>ODA-GADA</title>
 <style>
+	body{
+		min-width: 350px;
+	}
+
+	footer>div.row{
+		margin-right: 0px;
+	}
+
     header button.btn.btn-success{
       background-color: rgb(0, 175, 76);
       float: right;
       margin-bottom: 5px;
     }
+    
+    div.menu_list>a.active{
+	  	background-color: #70A9A1AA;
+	  	color: #FFFFFF;
+  	    border-color: #FFFFFF;
+	}
+	
+	div.menu_list>a:not(.active):hover{
+		background-color: #70A9A1;
+		color: #FFFFFF;
+	}
+    
 </style>
 </head>
 
@@ -56,21 +76,24 @@
 	                </li> 
 	                <li class="nav-item">
 	                  <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
+	                </li>          
+                </c:if> 
+               <c:set var="isAdmin" value="${logined.isAdmin}"/>
+               <c:if test="${isAdmin eq '1'}">
+                	<li class="nav-item dropdown">
+	                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                 		  관리자메뉴
+	                  </a>
+	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
+	                    <a class="dropdown-item" href="#">회원 관리</a>
+	                    <a class="dropdown-item" href="#">드라이버 관리</a>
+	                    <a class="dropdown-item" href="#">질의응답</a>
+	                  </div>
 	                </li>
-                </c:if>            
+               </c:if>      
+   
 
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 		  관리자메뉴
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
-                    <a class="dropdown-item" href="#">회원 관리</a>
-                    <a class="dropdown-item" href="#">드라이버 관리</a>
-                    <a class="dropdown-item" href="#">질의응답</a>
-                  </div>
-                </li>
-              
               </ul>
             </div>
           </nav>

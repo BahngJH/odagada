@@ -8,7 +8,11 @@
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <section id="notice-container" class="container">
-	<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/boardForm';" >글쓰기</button>
+
+<c:set var="isAdmin" value="${logined.isAdmin}"/>
+	<c:if test="${isAdmin eq '1'}">
+		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/boardForm';" >글쓰기</button>
+	</c:if>      
 	<table id="tbl-board" class="table table-hover">
 	    <tr>
 	        <th>번호</th>

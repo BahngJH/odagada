@@ -10,5 +10,6 @@ public interface BoardService {
 	Map<String,String> selectBoard(int boardNo);
 	int updateBoardCount(int boardNo);
 	int insertBoard(Map<String,String> board);
-
+	int updateBoard(Map<String,Object> board);
+	int deleteBoard(int boardNo);
 }

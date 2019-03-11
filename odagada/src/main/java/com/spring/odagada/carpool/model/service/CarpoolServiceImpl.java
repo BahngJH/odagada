@@ -72,6 +72,12 @@ public class CarpoolServiceImpl implements CarpoolService {
 		return dao.insertPassenger(pass);
 	}
 	
-	
-	
+	public List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage) {
+		return dao.selectCarpoolList(memberNum, cPage, numPerPage);
+	}
+
+	@Override
+	public int selectCarpoolCount(int memberNum) {
+		return dao.selectCarpoolCount(memberNum);
+	}
 }

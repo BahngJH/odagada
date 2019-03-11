@@ -141,13 +141,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/board/boardForm")
-	public String BoardForm()
+	public String boardForm()
 	{
 		return "board/boardForm";
 	}
 	
 	@RequestMapping("/board/boardFormEnd")
-	public String BoardFormEnd(String bTitle, String bContent,MultipartFile upFile,
+	public String boardFormEnd(String bTitle, String bContent,MultipartFile upFile,
 			HttpServletRequest request,HttpServletResponse response)
 	{
 		Map<String,String> board = new HashMap();
@@ -181,8 +181,75 @@ public class BoardController {
 		}
 		int result = service.insertBoard(board);
 		
+		logger.info("게시판"+board);
+		
 		return "redirect:/board/boardList";
-
+	}
+	
+	@RequestMapping("/board/boardModify")
+	public ModelAndView boardModify(int boardNo,HttpServletRequest request,HttpServletResponse response) 
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String,String> map = service.selectBoard(boardNo);
+		mv.addObject("board",map);
+		mv.setViewName("board/boardModify");
+		
+		logger.info("게시판번호"+boardNo);
+		
+		return mv;
+	}	
+	
+	@RequestMapping("/board/boardModifyEnd")
+	public String boardModifyEnd(String bTitle, String bContent,int boardNo,MultipartFile upFile,
+			HttpServletRequest request,HttpServletResponse response)
+	{
+		Map<String,String> map = service.selectBoard(boardNo);
+	
+		Map<String,Object> board= new HashMap();
+		
+		board.put("title", bTitle);
+		board.put("content", bContent);
+		board.put("boardNo", boardNo);
+			
+		String savDir=request.getSession().getServletContext().getRealPath("/resources/upload/board");
+		
+		if(!upFile.isEmpty())
+		{
+			//파일명을 생성(Rename)
+			String oriFileName = upFile.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+			
+			//rename 규칙
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv = (int)(Math.random()*1000);
+			String reName = sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+			
+			//첨부파일 저장
+			try {
+				upFile.transferTo(new File(savDir+"/"+reName));
+			}catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			board.put("oriFileName", oriFileName);
+			board.put("reFileName", reName);			
+		}
+		
+		logger.info("게시판"+board);
+		logger.info("게시판번호"+boardNo);
+		int result = service.updateBoard(board);
+		
+		return "redirect:/board/boardList";
+	}
+	
+	@RequestMapping("/board/boardDelete")
+	public String boardDelete(int boardNo)
+	{
+		int result = service.deleteBoard(boardNo);
+		
+		return "redirect:/board/boardList";
 	}
 	
 
