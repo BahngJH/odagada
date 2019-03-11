@@ -38,8 +38,8 @@ public class MemberServiceImple implements MemberService {
 	/*@Override
 	public int insertMember(Member m) {
 		// TODO Auto-generated method stub
-		return dao.insertMember(m);*/
-	}
+		return dao.insertMember(m);
+	}*/
 
 	@Override
 	public int checkId(String memberId) {
@@ -59,8 +59,7 @@ public class MemberServiceImple implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.checkEmail(email);
 	}
-
-		
+	
 	   @Transactional
 	   @Override
 	    public void insertMember(Member m) throws Exception {	

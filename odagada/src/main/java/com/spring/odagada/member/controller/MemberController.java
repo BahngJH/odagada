@@ -92,7 +92,7 @@ public class MemberController {
 
 	//회원가입
 		@RequestMapping("/member/signUpEnd.do")
-		public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile, RedirectAttributes rttr) {
+		public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile, RedirectAttributes rttr) throws Exception {
 			logger.debug("뉴비: "+m);
 			
 			//암호화 전 패스워드
@@ -152,7 +152,7 @@ public class MemberController {
 	        return "redirect:/";
 		}
 	
-	 //이메일 인증 코드 검증
+/*	 //이메일 인증 코드 검증
     @RequestMapping(value = "/emailConfirm", method = RequestMethod.GET)
     public String emailConfirm(Member m,Model model,RedirectAttributes rttr) throws Exception { 
         logger.debug(m.getEmail()+": 메일 인증 됨!");
@@ -170,7 +170,7 @@ public class MemberController {
         model.addAttribute("logined",m);
         model.addAttribute("isEmailAuth", "Y");
         return "/member/emailConfirm";
-    }
+    }*/
     
 
 	//로그인 페이지

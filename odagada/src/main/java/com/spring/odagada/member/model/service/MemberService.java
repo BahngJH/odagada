@@ -13,6 +13,6 @@ public interface MemberService {
 	int updateMember(Member m);
 	
 	
-	Member updateEmailStatus(Member m) throws Exception;
+	/*Member updateEmailStatus(Member m) throws Exception;*/
 
 }

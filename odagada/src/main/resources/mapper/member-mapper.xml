@@ -17,6 +17,11 @@
 	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId},#{memberPw}, #{memberName}, #{birth}, #{phone}, #{email}, sysdate, #{gender}, default,#{profileImageOri}, #{profileImageRe}, default, default)
 	</insert>
 	
+	<!--메일 인증 코드 생성 -->
+	<update id="updateCode" parameterType="member">
+	UPDATE MEMBER SET VALUE MAILCODE=#{mailCode} where email=#{email}
+	</update>
+	
 	<!--ID중복 체크 -->
 	<select id="checkId" parameterType="string" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBERID=#{memberId}
