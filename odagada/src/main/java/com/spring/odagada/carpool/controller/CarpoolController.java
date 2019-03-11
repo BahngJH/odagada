@@ -188,7 +188,6 @@ public class CarpoolController {
 		mav.setViewName("carpool/oneSearch");
 		return mav;
 	}
-	
 	//세부검색페이지에서 옵션 검색시
 	@RequestMapping("/carpool/searchOption")
 	public void carpoolSearchOption(HttpServletRequest req,
@@ -286,4 +285,5 @@ public class CarpoolController {
 		req.setAttribute("coList", cList);
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
 	}
+	
 }
