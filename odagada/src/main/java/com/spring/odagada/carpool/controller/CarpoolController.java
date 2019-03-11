@@ -2,6 +2,8 @@ package com.spring.odagada.carpool.controller;
 
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
@@ -188,6 +191,16 @@ public class CarpoolController {
 		mav.setViewName("carpool/oneSearch");
 		return mav;
 	}
+  
+	@RequestMapping("/carpool/payment")
+	public ModelAndView payment() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("carpool/payment");
+		
+		return mav;
+	}
+  
 	//세부검색페이지에서 옵션 검색시
 	@RequestMapping("/carpool/searchOption")
 	public void carpoolSearchOption(HttpServletRequest req,
@@ -286,4 +299,31 @@ public class CarpoolController {
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/carpool/paymentEnd")
+	public String paymentEnd(int carpoolNum, int memberNum) {
+		l.debug("카풀 넘: " + carpoolNum + " 멤버 넘 : "+ memberNum);
+		
+		Calendar cal = Calendar.getInstance();
+		int rand = (int)(cal.getTimeInMillis()/((Math.random()*999999)+999999));
+		
+		if(rand < 1000000) {
+			rand *= 10;
+		}
+		
+		l.debug("랜덤 넘버:" + rand);
+		
+		Map<String, Integer> pass = new HashMap<>();
+		pass.put("carpoolNum", carpoolNum);
+		pass.put("memberNum", memberNum);
+		pass.put("payCode", rand);
+		
+		int result = service.insertPassenger(pass);
+		
+		if(result > 0) {
+			return "ok";
+		}else {
+			return "no";
+		}
+	}
 }

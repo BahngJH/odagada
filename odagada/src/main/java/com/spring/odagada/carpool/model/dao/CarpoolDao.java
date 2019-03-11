@@ -21,5 +21,8 @@ public interface CarpoolDao {
 	
 	List<Map<String,String>> selectImageList(int mem);
 	
+	int insertPassenger(Map<String, Integer> pass);
+
 	List<Map<String,String>> selectReList(int dNum);
+
 }

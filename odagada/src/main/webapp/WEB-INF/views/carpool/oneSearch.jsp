@@ -4,10 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
 <%
 	int seat = (int)request.getAttribute("seat");
@@ -274,8 +274,63 @@
 						  					</span>
 					  					</div>
 					  					<div class="col-3">
-					  						<span class="line-div"></span>
-					  						<button class="btn btn-success ride-btn">탑승 신청</button>
+					  					  <span class="line-div"></span>
+					  						<button class="btn btn-success ride-btn" onclick="ridePayment();">탑승 신청</button>
+					  						<script>
+					  							function ridePayment(){
+					  								if(${logined == null}){
+					  									return alert("로그인 필요");
+					  								}
+
+					  								$.ajax({
+		  												url: "${path}/carpool/paymentEnd",
+		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+		  														"memberNum": "${logined.memberNum}"	
+		  												},
+		  												type: "post",
+		  											 	success:function(result){
+		  													if(result==="ok"){
+		  														alert("신청 완료");
+		  													}else if(result ==="no"){
+		  														alert("신청 실패");
+		  													}
+		  													
+															location.reload();
+		  											 	}
+		  											});
+					  								
+					  								/* 
+				  									var imp = window.IMP;
+				  									imp.init('imp87992639');
+				  									
+				  									imp.request_pay({
+				  										pg : 'inicis',
+				  										amount : '${oList.get(0).PAY}',
+				  										pay_method : 'card',
+				  										merchant_uid : 'merchant_' + new Date().getTime(),
+				  										name : '주문명: 결제테스트',
+				  										buyer_email : '${logined.email}',
+				  										buyer_name : '${logined.memberName}',
+				  										buyer_tel : '${logined.phone}',
+				  										m_redirect_url : '${path}/'
+				  									}, function(rsp){
+				  										if(rsp.success){
+				  											$.ajax({
+				  												url: "/carpool/paymentEnd",
+				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+				  														"memberNum": "${logined.memberNum}"	
+				  												},
+				  												type: "post",
+				  											 	success:function(result){
+				  													console.log(result);
+				  											 	}
+				  											});
+				  										}else{
+				  											console.log(rsp);
+				  										}
+				  									}) */
+			  									};
+					  						</script>
 					  					</div>
 					  				</div>
 					  				<hr>

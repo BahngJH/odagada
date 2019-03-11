@@ -55,6 +55,11 @@ public class CarpoolDaoImpl implements CarpoolDao {
 		return session.selectList("carpool.selectReList",dNum);
 	}
 
+	@Override
+	public int insertPassenger(Map<String, Integer> pass) {
+		return session.insert("carpool.insertPassenger", pass);
+	}
+
 	
 	
 }
