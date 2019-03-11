@@ -304,7 +304,62 @@
 							  					
 					  						</c:if>
 											<c:if test="${logined == null or flag == false}">
-	  											<button class="btn btn-success ride-btn">탑승신청</button>
+	  											<button class="btn btn-success ride-btn" onclick="ridePayment()">탑승신청</button>
+	  											<script>
+					  							function ridePayment(){
+					  								if(${logined == null}){
+					  									return alert("로그인 필요");
+					  								}
+
+					  								$.ajax({
+		  												url: "${path}/carpool/paymentEnd",
+		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+		  														"memberNum": "${logined.memberNum}"	
+		  												},
+		  												type: "post",
+		  											 	success:function(result){
+		  													if(result==="ok"){
+		  														alert("신청 완료");
+		  													}else if(result ==="no"){
+		  														alert("신청 실패");
+		  													}
+		  													
+															location.reload();
+		  											 	}
+		  											});
+					  								
+					  								/* 
+				  									var imp = window.IMP;
+				  									imp.init('imp87992639');
+				  									
+				  									imp.request_pay({
+				  										pg : 'inicis',
+				  										amount : '${oList.get(0).PAY}',
+				  										pay_method : 'card',
+				  										merchant_uid : 'merchant_' + new Date().getTime(),
+				  										name : '주문명: 결제테스트',
+				  										buyer_email : '${logined.email}',
+				  										buyer_name : '${logined.memberName}',
+				  										buyer_tel : '${logined.phone}',
+				  										m_redirect_url : '${path}/'
+				  									}, function(rsp){
+				  										if(rsp.success){
+				  											$.ajax({
+				  												url: "/carpool/paymentEnd",
+				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+				  														"memberNum": "${logined.memberNum}"	
+				  												},
+				  												type: "post",
+				  											 	success:function(result){
+				  													console.log(result);
+				  											 	}
+				  											});
+				  										}else{
+				  											console.log(rsp);
+				  										}
+				  									}) */
+			  									};
+					  						</script>
 											</c:if>
 					  					</div>
 					  				</div>
@@ -628,6 +683,4 @@
 	// 맵 생성 실행
 	initTmap();
 </script>
-
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
