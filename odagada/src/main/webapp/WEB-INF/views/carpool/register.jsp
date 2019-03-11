@@ -205,7 +205,7 @@ function carpoolValidate(){
 		return false;
 	}
 	
-	var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] (0[0-9]|1[0-2]):([0-5][0-9])$/; 
+	var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] ([0-9]|1[0-2]):([0-5][0-9])$/; 
 	
 	if(!exp.test($("#startDate").val())){
 		alert("날짜를 확인해주세요.");
@@ -213,6 +213,7 @@ function carpoolValidate(){
 	}
 
 	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
+	console.log($("#startDate").val());
 	
 	if(!($("#startDate").val() > nowDate)){
 		alert("날짜를 확인해주세요.");

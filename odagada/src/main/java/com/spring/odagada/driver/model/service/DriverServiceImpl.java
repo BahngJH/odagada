@@ -17,11 +17,6 @@ public class DriverServiceImpl implements DriverService {
 	public Driver selectOne(int memberNum) {
 		return dao.selectOne(memberNum);
 	}
-
-	@Override
-	public List selectDriverList() {
-		return dao.selectDriverList();
-	}
 	
 	
 }
