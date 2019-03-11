@@ -206,6 +206,7 @@
 						  				</div>
 						  				<div class="row">
 						  					<div class="col-12">
+						  						<c:set var="driverId" value="${o.MEMBERID }"/>
 						  						<span>${o.MEMBERNAME }</span>
 					  						</div>
 					  					</div>
@@ -252,7 +253,14 @@
 					  	<div class="row">
 					  		<div class="col-8">
 					  			<span class="badge badge-pill badge-warning">이용 좌석 </span>
-					  			<span>&nbsp;| &nbsp;(${fn:length(pList)}/${seat })</span>
+					  			<c:set var='size' value='0'/>
+					  			<fmt:parseNumber value="${size}" type="number" var="si"/>
+					  			<c:forEach begin="1" end="${fn:length(pList) }"  varStatus="count">
+						  				<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
+						  					<c:set var="si" value='${si+1 }'/>
+				  						</c:if>
+			  					</c:forEach>
+				  				<span>&nbsp;| &nbsp;(${si}/${seat })</span>
 					  		</div>
 					  	</div>
 					  	<div class="row">
@@ -261,11 +269,13 @@
 					  				<div class="row">
 					  					<div class="col-9">
 					  						<span>
-										  		<c:forEach begin="1" end="${seat }"  varStatus="count">
+										  		<c:forEach begin="0" end="${seat }"  varStatus="count">
 										  			<c:choose>
-											  			<c:when test="${count.index <= fn:length(pList)}">
+											  			<%-- <c:when test="${count.index <= fn:length(pList)}"> --%>
+											  				<c:when test='${pList[count.index].PSTATUS eq "Y" }'>
 										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
-								  						</c:when>
+									  						</c:when>
+								  						<%-- </c:when> --%>
 								  						<c:otherwise>
 								  							<img src="${path }/resources/images/option-icon/empty.png" class="seat-img"/>
 							  							</c:otherwise>
@@ -275,7 +285,27 @@
 					  					</div>
 					  					<div class="col-3">
 					  						<span class="line-div"></span>
-					  						<button class="btn btn-success ride-btn">탑승 신청</button>
+					  						<c:if test="${logined != null }">
+					  							<c:set var="flag" value="false"/>
+						  						<c:forEach items='${pList }' var='p' varStatus="count">
+						  							<c:if test="${not flag }">
+					  									<c:choose>
+					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
+					  											<button class="btn btn-success ride-btn" >탑승중</button>
+					  											<c:set var="flag" value="true"/>
+					  										</c:when>
+					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "N" }'>
+					  											<button class="btn btn-success ride-btn">탑승승인중</button>
+					  											<c:set var="flag" value="true"/>
+					  										</c:when>
+					  									</c:choose>
+						  							</c:if>
+							  					</c:forEach>
+							  					
+					  						</c:if>
+											<c:if test="${logined == null or flag == false}">
+	  											<button class="btn btn-success ride-btn">탑승신청</button>
+											</c:if>
 					  					</div>
 					  				</div>
 					  				<hr>
@@ -284,12 +314,14 @@
 								  		<div class="col-12">
 								  			<c:choose>
 								  				<c:when test='${fn:length(pList) != 0 }'>
-								  					<c:forEach items='${pList }' var='p'>
-								  						<span class="card pas-span">
-								  							<%-- <img src="${path }/resources/images/${p.PROFILEIMAGERE}" class="pas-img"><br> --%>
-								  							<img src="${path }/resources/images/ilhoon.jpg" class="pas-img"><br>
-								  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
-							  							</span>
+								  					<c:forEach items='${pList }' var='p' varStatus="count">
+									  					<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
+									  						<span class="card pas-span">
+									  							<%-- <img src="${path }/resources/images/${p.PROFILEIMAGERE}" class="pas-img"><br> --%>
+									  							<img src="${path }/resources/images/ilhoon.jpg" class="pas-img"><br>
+									  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
+								  							</span>
+							  							</c:if>
 								  					</c:forEach>
 								  				</c:when>
 								  				<c:otherwise>
@@ -359,7 +391,7 @@
 				  <div class="row">
 				  	<div class="col-3"></div>
 				  	<div class="col-6">
-				  		<button class="btn btn-success search-div btn-chat">드라이버와 채팅</button>
+				  		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
 				  	</div>
 				  	<div class="col-3"></div>
 				  </div>
@@ -492,6 +524,16 @@
 		</div>
 	</div>
 </section>
+
+<!-- 채팅방 -->
+<script>
+
+   function moveChatting(chatUser)
+   {
+	   console.log(chatUser);
+       location.href="${path}/community/createRoomClick.do?chatUser="+chatUser;
+   }
+</script>
 <script>
 	//더보기
 	$('.plus-content').on('click',function(){
@@ -537,11 +579,10 @@
 	var map, routeSearchLayer, styleMap, point_vector_layer;
 	//페이지가 로딩이 된 후 호출하는 함수입니다.
 	function initTmap(){
-		console.log(startLat+" : "+startLong+":"+endLat+":"+endLong)
 		//map 생성
 		//Tmap.map을 이용하여, 지도가 들어갈 div, 넓이, 높이를 설정합니다.
-		map = new Tmap.Map({div:'map_div', width:'100%', height:'380px'});
-		map.setCenter(new Tmap.LonLat("126.9850380932383", "37.566567545861645").transform("EPSG:4326", "EPSG:3857"), 15); //설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 즁심점으로 설정합니다.
+		map = new Tmap.Map({div:'map_div', width:'570px', height:'380px'});
+		/* map.setCenter(new Tmap.LonLat("126.9850380932383", "37.566567545861645").transform("EPSG:4326", "EPSG:3857"), 15); */ //설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 즁심점으로 설정합니다.
 		var tData = new Tmap.TData(); //REST API 에서 제공되는 경로, 교통정보, POI 데이터를 쉽게 처리할 수 있는 클래스입니다.
 		
 		var s_lonLat = new Tmap.LonLat(startLong, startLat); //김포 시작 좌표입니다.
