@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.odagada.carpool.model.vo.Carpool;
 import com.spring.odagada.carpool.model.vo.CarOption;
 
+
 @Repository
 public class CarpoolDaoImpl implements CarpoolDao {
 	@Autowired
@@ -32,16 +33,6 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	}
 
 	@Override
-	public List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage) {
-		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
-		return session.selectList("carpool.selectMemberCarpoolList", memberNum, rb);
-	}
-
-	@Override
-	public int selectCarpoolCount(int memberNum) {
-		return session.selectOne("carpool.selectCarpoolCount", memberNum);
-	}
-
 	public List<Map<String,String>> selectCarOptionList(Map<String,String> map) {
 		return session.selectList("carpool.selectCarOptionList",map);
 	}
@@ -62,10 +53,22 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	}
 
 	@Override
-	public List<Map<String, String>> selectReList(int carpoolNum) {
-		return session.selectList("carpool.selectReList",carpoolNum);
+	public List<Map<String, String>> selectReList(int dNum) {
+		return session.selectList("carpool.selectReList",dNum);
 	}
 
-	
-	
+	@Override
+	public int insertPassenger(Map<String, Integer> pass) {
+		return session.insert("carpool.insertPassenger", pass);
+	}
+
+	public List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage) {
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("carpool.selectMemberCarpoolList", memberNum, rb);
+	}
+
+	@Override
+	public int selectCarpoolCount(int memberNum) {
+		return session.selectOne("carpool.selectCarpoolCount", memberNum);
+  }	
 }
