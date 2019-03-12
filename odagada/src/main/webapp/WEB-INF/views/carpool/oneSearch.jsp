@@ -27,7 +27,7 @@
 	img.option-icon{
 		width:50px;height:50px;
 		float:left;
-		margin:12px;
+		margin:14px;
 	}
 	button.btn-chat{
 		font-size: 13px;
@@ -71,19 +71,22 @@
 	div.seat-div{
 		margin-top:12px;
 	}
+	p.dhead-p{
+		margin-top:10px;
+	}
 	img.car-img{
-		width:120px; height:120px;
+		/* width:165px; height:165px; */
 		border:1px;
 		border-radius:3px;
-		margin-left:22px;
-		margin-bottom: 10px;
+		/* margin-left:22px;
+		margin-bottom: 10px; */
+		padding:10px;
 	}
 	span.car-span{
 		margin-left:10px;
 	}
 	img.re-img{
-		margin-top:20px;
-		margin-left:4px;
+		margin:10px;
 		max-width:100%;height:70px;
 		border-radius: 30px;
 	}
@@ -291,7 +294,7 @@
 							  					</c:forEach>
 						  					</span>
 					  					</div>
-					  					<div class="col-3">
+					  					<div class="col-3 col-md-12 col-lg-3">
 					  						<span class="line-div"></span>
 					  						<c:if test="${logined != null }">
 					  							<c:set var="flag" value="false"/>
@@ -406,7 +409,16 @@
 		<!-- 왼쪽바 : 드라이버 정보창 -->
 		<div class="col-12 col-md-3">
 			<div class="card bg-light mb-3">
-			  <div class="card-header">드라이버 정보</div>
+			  <div class="card-header">
+				 <div class="row">
+				 	<div class="col-12 col-xl-6">
+				 		<p class='dhead-p'>드라이버 정보</p>
+				 	</div>
+				 	<div class='col-12 col-xl-5 offset-xl-1'>
+				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
+				 	</div>
+				 </div> 
+			  </div>
 			  <div class="card-body">
 			     <div class="row">
 				  	<div class="col-12">
@@ -452,11 +464,9 @@
 				  </div>
 				  <!-- 채팅창 연결 버튼 -->
 				  <div class="row">
-				  	<div class="col-3"></div>
-				  	<div class="col-6">
-				  		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
+				  	<div class="col-6 offset-4">
+				  		
 				  	</div>
-				  	<div class="col-3"></div>
 				  </div>
 				  <div class="row">
 				  	<div class="col-12">
@@ -473,14 +483,13 @@
 				  				</div>
 			  				</div>
 				  			<hr>
-				  			<span>
-					  			<c:forEach items="${cList }" var="c" varStatus="count">
-				  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="car-img"/>
-				  					<c:if test="${count.index==1}">
-				  						<br/>
-				  					</c:if>
-					  			</c:forEach>
-				  			</span>
+				  			<c:forEach items="${cList }" var="c" varStatus="count">
+				  				<div class='row'>
+					  				<div class='col-12'>
+					  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="img-fluid car-img "/>
+						  			</div>
+		  						</div>
+				  			</c:forEach>
 				  		</div>
 				  	</div>
 				  </div>
@@ -493,12 +502,11 @@
 						  			<div class="row">
 						  				<c:forEach items="${rList }" var="r" varStatus="count">
 						  					<c:if test="${count.index <2}">
-								  				<div class="col-4">
+								  				<div class="col-4 col-sm-4 col-md-12 col-lg-4">
 								  					<%-- <img src="${path }/resources/images/${r.PROFILEIMAGERE}" class="re-img"/> --%>
 								  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
 								  				</div>
-								  					<span class="line-div" ></span>
-								  				<div class="col-7 re-size">
+								  				<div class="col-8 col-sm-8 col-md-12 col-lg-8 re-size">
 								  					<div class="star-div">
 								  						<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg"/>
 								  						<c:choose>
@@ -577,11 +585,9 @@
 				  </div>
 				   <!-- 드라이버 신고 버튼 -->
 				  <div class="row">
-				  	<div class="col-3"></div>
-				  	<div class="col-6">
+				  	<div class="col-6 offset-4">
 				  		<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
 				  	</div>
-				  	<div class="col-3"></div>
 				  </div>
 			  </div>
 			</div>
@@ -658,18 +664,7 @@
 		
 		map = new Tmap.Map({div:'map_div'});
 		
-		//var tData = new Tmap.TData(); //REST API 에서 제공되는 경로, 교통정보, POI 데이터를 쉽게 처리할 수 있는 클래스입니다.
-		
 		$("#map_div").css("width", "100%");
-		
-		/* var s_lonLat = new Tmap.LonLat(startLong, startLat); //김포 시작 좌표입니다.
-		var e_lonLat = new Tmap.LonLat(endLong, endLat); //도착 서울 좌표입니다.
-		 */
-		/* var optionObj = {
-			reqCoordType:"WGS84GEO", //요청 좌표계 옵셥 설정입니다.
-			resCoordType:"EPSG3857", //응답 좌표계 옵션 설정입니다.
-			trafficInfo:"N" //교통정보 표출 옵션 설정입니다.
-         } */
 		
          markerLayer = new Tmap.Layer.Markers();
      	map.addLayer(markerLayer);
@@ -677,13 +672,6 @@
          setMarker(startLong, startLat);
 		 setMarker(endLong, endLat);
 		apiRequest();
-		
-		/*
-		tData.getRoutePlan(s_lonLat, e_lonLat, optionObj);//경로 탐색 데이터를 콜백 함수를 통해 XML로 리턴합니다.
-		
-		tData.events.register("onComplete", tData, onComplete);//데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트를 등록합니다.
-		tData.events.register("onError", tData, onError);//데이터 로드가 실패했을 떄 발생하는 이벤트를 등록합니다.
-		*/
 	}
 	//데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트 함수 입니다. 
 	var count = 0;
