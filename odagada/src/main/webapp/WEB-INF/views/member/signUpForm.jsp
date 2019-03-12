@@ -135,6 +135,7 @@
   	height:40px;
   	}
   	.eck{padding-right:0; padding-left:0; font-size:15px;}
+  	.upFile-div{margin-bottom:10px;}
     </style>
     
      
@@ -401,7 +402,13 @@ $(function(){
        			<div class="col-7">      	
           				<p>숫자/영문자/특수문자 조합 6~15자</p>
           		</div> 		
-            </div>           
+            </div>
+             <div class="row">                     
+                  <div class="upFile-div custom-file col-12">
+                      <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
+                      <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
+                  </div>                      
+             </div>           
             <div class="row">
                <div class="col-6">
                   <div>
@@ -456,12 +463,7 @@ $(function(){
                     <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>         
                   </div>
                </div>
-               <div class="row">                     
-                  <div class="custom-file col-12">
-                      <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-                      <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
-                  </div>                      
-               </div>
+              
                <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">성별 : &nbsp; 
 	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;

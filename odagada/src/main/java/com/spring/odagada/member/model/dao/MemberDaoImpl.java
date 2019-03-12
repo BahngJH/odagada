@@ -81,5 +81,11 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.update("member.mailStatus", map);
 	}
+
+	//회원삭제
+	@Override
+	public int deleteMember(int memberNum) {
+		return session.delete("member.memberDelete",memberNum);
+	}
 	
 }

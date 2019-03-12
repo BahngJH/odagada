@@ -21,5 +21,8 @@ public interface MemberDao {
 	//이메일 인증상태 업데이트
 	int updateStatus(Map<String, String>map);
 	
+	//회원 삭제
+	int deleteMember(int memberNum);
+	
 
 }

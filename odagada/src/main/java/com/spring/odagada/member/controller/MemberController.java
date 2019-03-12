@@ -231,18 +231,30 @@ public class MemberController {
 	   return "member/myInfo";
    }
    
-   //비밀번호 체크
+   //비밀번호 체크(ajax ...)
    @ResponseBody
    @RequestMapping("/member/checkPw.do")
-   public String checkPw(HttpServletResponse response, String answer, HttpSession session) {
-	   logger.debug("받아오는 pw 값: "+answer);
+   public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session) {
+	   logger.debug("받아오는 pw 값: "+password);
 	   
 	   Member m = (Member)session.getAttribute("logined");
 	   String result="";
   
-	   if(pwEncoder.matches(answer, m.getMemberPw())) {
-		   logger.debug("ok");
-		   result = "ok";
+	   if(pwEncoder.matches(password, m.getMemberPw())) {
+		   if(answer.equals("delete")) {
+			   //delete 실행
+			   int rs=service.deleteMember(m.getMemberNum());
+			   
+			   if(rs!=0) {
+				   result="delete";
+			   }
+			   else {
+				   result="noDelete";
+			   }
+		   }else {
+			   logger.debug("ok");
+			   result = "ok";
+		   }
 	   }else {
 		   logger.debug("no");
 		   result = "no";
@@ -322,6 +334,11 @@ public class MemberController {
 		mv.addObject("loc", loc);
 		return "common/msg";
 	}
+   
+  /* //회원 탈퇴
+   @RequestMapping("/member/deleteMember.do")
+   public 
+   */
 
    
 

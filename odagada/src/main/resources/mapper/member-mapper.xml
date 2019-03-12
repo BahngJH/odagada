@@ -47,6 +47,10 @@
 	                        #{isPhoneAuth},
 	                        #{isEmailAuth}
 	                        where memberNum=#{memberNum}                      
-	</update>  
+	</update> 
+	
+	<delete id="memberDelete" parameterType="int">
+	DELETE FROM MEMBER WHERE MEMBERNUM=#{memberNum} 	
+	</delete> 
 	
 </mapper>

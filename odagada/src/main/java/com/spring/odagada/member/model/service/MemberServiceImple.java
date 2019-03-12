@@ -89,4 +89,9 @@ public class MemberServiceImple implements MemberService {
 		return dao.updateStatus(map);
 	}
 
+	@Override
+	public int deleteMember(int memberNum) {
+		return dao.deleteMember(memberNum);
+	}
+
 }

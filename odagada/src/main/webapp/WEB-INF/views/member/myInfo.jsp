@@ -138,7 +138,7 @@
 			       		<label for="answer" class="form-control-label" id="ttQ">탈퇴하시겠습니까?</label>					      	
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" id="tt" onclick="updateCheck('delete');">탈퇴하기</button>					        
+					        <button type="button" class="btn btn-primary" id="delete" onclick="updateCheck('delete');">탈퇴하기</button>					        
 					      </div>
 					    </div>
 					  </div>
@@ -195,64 +195,77 @@
 </section>
 
 <script>
-function updateCheck(answer) {
-	var tt;
-	if(answer==='change'){
-		tt=$('#answer1').val();
-	}
-	else if(answer==='delete'){
-		tt=$('#answer2').val();
-	}
-    $.ajax({
-    	url:"${path}/member/checkPw.do",
-    	data:{"answer":tt},
-    	success:function(data){
-    		if(data =='no'){
-				alert("비밀번호가 올바르지 않습니다.");
-				return;
-    		}else{
-    			if(answer==='change'){
+/* 	function updateCheck(){
+		var answer = $('#answer1').val();
+		
+		console.log(answer);
+	     $.ajax({
+	    	url:"${path}/member/checkPw.do",
+	    	data:{"answer":answer},
+	    	success:function(data){
+	    		if(data =='no'){
+					alert("비밀번호가 올바르지 않습니다.");
+					return;
+	    		}else{
+	    				location.href="${path}/member/updateInfo.do";
+	    			}
+	    		
+	    		}
+	    	}); 
+	    }      
+
+
+ function deleteCheck(){
+	var answer=$('#answer2').val();	
+	console.log(answer);
+	$.ajax({
+		url:"{path}/member/deleteMember.do",
+		data:{"answer", answer},
+		success:function(data){
+			if(data=='no'){
+				alert("비밀번호가 일치하지 않습니다.")
+			}
+		}
+	}])
+	
+	
+} 
+ */
+ function updateCheck(answer) {
+		var tt2="";
+		if(answer==='change'){
+			tt2=$('#answer1').val();
+			console.log('1번:'+tt2);
+		}
+		else if(answer==='delete'){
+			tt2=$('#answer2').val();
+			console.log('2번:'+tt2);
+		}
+		console.log("last:"+tt2);
+	    $.ajax({
+	    	url:"${path}/member/checkPw.do",
+	    	data:{"password":tt2, //입력받은 비밀번호
+					"answer":answer}, //delete인지 아닌지
+	    	success:function(data){
+	    		console.log("이건데이타:"+data);
+	    		if(data =='no'){
+					alert("비밀번호가 올바르지 않습니다.");
+					return;
+	    		}
+				else if(data=='ok'){
     				location.href="${path}/member/updateInfo.do";
-    			}
-    			else if(answer==='delete'){
+				}		    			
+				else if(data==='delete'){
     				alert('탈퇴되었습니다.');
     				location.href="${path}/";
     			}
-    		}
-    	}
-    });      
-}
-function withdrawal(){
-	var answer=$('#answer').val();
-	
-	
-}
-
-/* 
-$(function(){
-	
-	$(document).ready(function(){
-		$("#pw-modal-div").hide();
-		
-	})
-	 $('#tt-btn').on('click', function(){
-		$('#ttMessage-div').hide();
-	})
-	
-	$('#tt').on('click', function(){
-		$('#pw-modal-div').show();
-	   $('#ttMessage-div').hide(); 
-		
-		
-	})
-	
-})
- */
-	
-	
-
-
-
+    			else if(data==='noDelete'){
+    				alert('탈퇴실패! 다시 시도해 주세요');
+    				location.href="${path}/member/myInfo.do"
+    			}
+	    	}
+	    });      
+	}
 
 </script>
 

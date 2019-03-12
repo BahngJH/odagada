@@ -12,5 +12,5 @@ public interface MemberService {
 	int checkId(String memberId);
 	int updateMember(Member m);	
 	int updateStatus(Map<String, String>map);
-
+	int deleteMember(int memberNum);
 }
