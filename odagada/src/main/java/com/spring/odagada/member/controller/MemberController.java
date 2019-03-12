@@ -198,13 +198,14 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 
 			if (result != null) {
-				if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && m.getIsEmailAuth().equals("Y")) {
+				/*if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && m.getIsEmailAuth().equals("Y")) {*/
+				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
 					mv.addObject("logined", m);
 					mv.setViewName("redirect:/");
-				}
+				/*}
 				else if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && !m.getIsEmailAuth().equals("Y")) {
 					mv.addObject("msg", "이메일 인증을 완료해주세요.");
-					mv.setViewName("common/msg");
+					mv.setViewName("common/msg");*/
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
 					mv.addObject("loc", "/member/loginForm.do");
@@ -234,7 +235,7 @@ public class MemberController {
    //비밀번호 체크(ajax ...)
    @ResponseBody
    @RequestMapping("/member/checkPw.do")
-   public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session) {
+   public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session, SessionStatus status) {
 	   logger.debug("받아오는 pw 값: "+password);
 	   
 	   Member m = (Member)session.getAttribute("logined");
@@ -245,21 +246,21 @@ public class MemberController {
 			   //delete 실행
 			   int rs=service.deleteMember(m.getMemberNum());
 			   
-			   if(rs!=0) {
-				   result="delete";
-			   }
-			   else {
-				   result="noDelete";
-			   }
-		   }else {
-			   logger.debug("ok");
-			   result = "ok";
-		   }
-	   }else {
-		   logger.debug("no");
-		   result = "no";
-	   }	 
-	   return result;
+				if (rs != 0) {
+					status.setComplete();
+					result = "delete";
+				} else {
+					result = "noDelete";
+				}
+			} else {
+				logger.debug("ok");
+				result = "ok";
+			}
+		} else {
+			logger.debug("no");
+			result = "no";
+		}
+		return result;
 	/*   try {
 		   if(pwEncoder.matches(answer, m.getMemberPw()))
 		      {
