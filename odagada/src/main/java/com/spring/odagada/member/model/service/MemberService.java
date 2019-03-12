@@ -13,4 +13,7 @@ public interface MemberService {
 	int updateMember(Member m);	
 	int updateStatus(Map<String, String>map);
 	int deleteMember(int memberNum);
+	
+	//아이디 찾기
+	 Map<String, String> findId(Map findId);
 }

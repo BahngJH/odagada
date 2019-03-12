@@ -94,4 +94,10 @@ public class MemberServiceImple implements MemberService {
 		return dao.deleteMember(memberNum);
 	}
 
+	@Override
+	public Map<String, String> findId(Map findId) {
+		// TODO Auto-generated method stub
+		return dao.findId(findId);
+	}
+
 }

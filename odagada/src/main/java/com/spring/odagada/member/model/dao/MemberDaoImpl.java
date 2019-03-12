@@ -87,5 +87,11 @@ public class MemberDaoImpl implements MemberDao {
 	public int deleteMember(int memberNum) {
 		return session.delete("member.memberDelete",memberNum);
 	}
+
+	@Override
+	public Map<String, String> findId(Map findId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.findId", findId);
+	}
 	
 }

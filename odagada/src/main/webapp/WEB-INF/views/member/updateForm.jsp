@@ -265,7 +265,7 @@
 		          		</div> 		
 		           		 </div>
 	           		 <!--기존 Email 정보  -->
-	           		  <div class="row passwordInfo" id="oriEmailDiv">    	
+           		     <div class="row passwordInfo" id="oriEmailDiv">    	
 		           		<div class="ptext col-6">
 		           			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
 		       			</div>  

@@ -245,9 +245,9 @@ $(function(){
          this.value = this.value.replace(/\D/g, '')        
          alert('숫자만 입력가능합니다.');
       }
-   });
-   
+   });   
  });
+ 
  function validate() {
   	 //ID 4자리~12자리 소문자, 숫자 가능 확인하기 
       var idReg =/^[A-Za-z0-9]{4,12}$/;
@@ -352,26 +352,6 @@ $(function(){
            }
         });  
       };
-      
-   
-
-   
-/*    //메일 선택 함수
-   function selectMail(){
-	   var mailList=document.getElementById("mailList");
-	   var selectMail=mailList.options[mailList.selected].value;
-	  // var self=document.getElementById("email2").value;
-	   
-	   if(selectMail === 'self'){
-		   $('#email2').show();
-		   $('#mailList').hide()=false;
-		   
-	   }else{
-		   $('#email2').hide()=true;
-		   $('#mailList').show();
-	   }
-	   
-   } */
 </script>
       
       <div id="enroll-container">

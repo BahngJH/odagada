@@ -24,5 +24,8 @@ public interface MemberDao {
 	//회원 삭제
 	int deleteMember(int memberNum);
 	
+	//아이디 찾기
+	 Map<String, String>findId(Map findId);
+	
 
 }

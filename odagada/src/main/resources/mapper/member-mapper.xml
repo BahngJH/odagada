@@ -49,8 +49,14 @@
 	                        where memberNum=#{memberNum}                      
 	</update> 
 	
+	<!-- 회원삭제  -->
 	<delete id="memberDelete" parameterType="int">
 	DELETE FROM MEMBER WHERE MEMBERNUM=#{memberNum} 	
 	</delete> 
+	
+	<!-- 아이디 찾기  -->
+	<select id="findId" parameterType="map" resultMap="memberMap">
+	SELECT MEMBERID FROM MEMBER WHERE MEMBERNAME=#{memberName} AND EMAIL=#{email}	
+	</select>
 	
 </mapper>

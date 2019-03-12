@@ -336,14 +336,58 @@ public class MemberController {
 		return "common/msg";
 	}
    
-  /* //회원 탈퇴
-   @RequestMapping("/member/deleteMember.do")
-   public 
-   */
+    //ID 찾기 화면
+   @RequestMapping("/member/findId")
+   public String findId() {
+	   return "member/findId";
+   }
+   //ID 찾기
+   @RequestMapping("/member/findId.do")
+   public ModelAndView findIdEnd(String memberName, String email, Model model) {
+	   logger.debug("받아오는 값 이름?"+memberName+"이멜주소?"+email);
+	   
+	   ModelAndView mv=new ModelAndView();
+	  
+	   Map<String, String>findId=new HashMap();
+	   findId.put("memberName", memberName);
+	   findId.put("email", email);
+	   
+	   Map<String, String> id=service.findId(findId);
+	   	
+	   logger.debug("디비 결과는? "+id);
+
+			if (id != null) {
+				String resultId=id.get("MEMBERID");
+				mv.addObject("memberId", resultId);
+				mv.setViewName("member/resultId");
+			} else {
+				mv.addObject("msg", "회원 정보가 없습니다.");
+				mv.addObject("loc", "/member/findId");
+				mv.setViewName("common/msg");
+			}
+
+			return mv;
+		}
 
    
+	// 비밀번호 찾기
+	@RequestMapping("/member/findPw")
+	public String findPassword() {
+		return "member/findPw";
+	}
+	
+	// 비밀번호 찾기
+	@RequestMapping("/member/findPw.do")
+	public String findPassword(String memberId, String email, String name) {
 
-   
+		ModelAndView mv = new ModelAndView();
+		Member m = service.selectMember(memberId);
+
+		return "member/findPw";
+	}
+	
+	
+
    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
