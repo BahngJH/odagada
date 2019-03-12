@@ -8,12 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -159,8 +161,54 @@ public class DriverController {
 		      mv.addObject("list",list);
 		      mv.setViewName("driver/driverJoinList");	      
 		      
-		      return mv;
-	      
+		      return mv;	      
 	   }
-	
+	 
+	 @RequestMapping("/driver/driverForm")
+	 public ModelAndView driverForm(int memberNum,String carNum)
+	 {
+		 System.out.println("여깅하ㅏ하하하하ㅏㅎ"+memberNum+" :"+carNum);
+		 ModelAndView mv = new ModelAndView();
+		 Map<String,String> map = service.selectDriverOne(memberNum);
+		 List<Map<String,String>> carImg = service.selectCarImg(carNum);
+		carImg.get(0).put("active", "active");
+		 
+		 mv.addObject("driver",map);
+		 mv.addObject("carImg", carImg);
+		 mv.setViewName("driver/driverForm");
+		 
+		 logger.info("리턴 전"+map);
+		 
+		 return mv;
+	 }
+	@RequestMapping("/driver/driverFormEnd")
+	public String driverFormEnd(Driver d,HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
+	{
+		
+		logger.debug("넘버= "+memberNum);
+		logger.debug("상황 = "+driverStatus);
+		
+		//d = service.selectOne(memberNum);
+		/*String driverStatus = request.getParameter("driverStatus");*/
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		if(driverStatus.equals("Y"))
+		{
+			driverStatus = "N";
+			//d.setDriverStatus(driverStatus);
+		}
+		else {
+			driverStatus = "Y";
+			/*d.setDriverStatus(driverStatus);*/
+		}
+		//map.put("driver", d);
+		map.put("driverStatus", driverStatus);
+		map.put("memberNum", memberNum);
+		
+		int result = service.updateStatus(map);
+		
+		return "redirect: driverList";
+		
+	}
 }

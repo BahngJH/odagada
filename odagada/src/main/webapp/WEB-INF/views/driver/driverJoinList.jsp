@@ -7,7 +7,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
-<<<<<<< HEAD
 <style>
 	table td input#enrollResult{
 		border: 1px solid rgba(0,0,0,0);
@@ -34,7 +33,11 @@
 			<td>${d.MEMBERNAME}</td>
 			<td>${d.ENROLLDATE}</td>
 			<td>
-				<button class="btn btn-outline-success" onclick="location.href='${path}/driver/driverForm?memberNum=${d.MEMBERNUM}';">신청서 확인</button>
+				<form id='submit-frm' method='post' action='${path}/driver/driverForm' onsubmit='return validate()'>
+					<button class="btn btn-outline-success" onclick="submitck();">신청서 확인</button>
+					<input type='hidden' value='${d.MEMBERNUM }' id='memberNum' name='memberNum'/>
+					<input type='hidden' value='${d.CARNUM }' id='carNum' name='carNum'/>
+				</form>
 			</td>
 			<td>
 				<c:if test="${d.DRIVERSTATUS == 'N'}">
@@ -51,5 +54,13 @@
 	</table>
 	${pageBar}   
 </section>
+<script>
+	function validate(){
+		return true;
+	}
+	function submitck(){
+		$('#submit-frm').submit();
+	}
+</script>
 ​
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>​

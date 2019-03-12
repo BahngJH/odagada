@@ -54,6 +54,24 @@ public class DriverServiceImpl implements DriverService {
 	public List<Map<String, String>> selectDriverList(int cPage, int numPerPage) {
 		return dao.selectDriverList(cPage,numPerPage);
 	}
+
+	@Override
+	public Map<String, String> selectDriverOne(int memberNum) {
+		return dao.selectDriverOne(memberNum);
+	}
+
+	@Override
+	public List<Map<String, String>> selectCarImg(String carNum) {
+		return dao.selectCarImg(carNum);
+	}
+
+	@Override
+	public int updateStatus(Map<String, Object> map) {
+		return dao.updateStatus(map);
+	}
+	
+	
+	
 	
 	
 	

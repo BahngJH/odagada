@@ -13,6 +13,8 @@ public interface DriverDao {
 	int insertCarImage(carImage cImg);
 	int selectJoinCount();
 	List<Map<String,String>> selectDriverList(int cPage,int numPerPage);
-
+	Map<String,String> selectDriverOne(int memberNum);
+	List<Map<String,String>> selectCarImg(String carNum);
+	int updateStatus(Map<String,Object> map);
 	
 }

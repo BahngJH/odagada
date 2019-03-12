@@ -13,7 +13,9 @@ public interface DriverService {
 	int selectJoinCount();
 	List<Map<String,String>> selectDriverList(int cPage,int numPerPage);	
 	int enrollDriver(Map<String,Object> driver,List<carImage> files) throws BoardException;
-	
+	Map<String,String> selectDriverOne(int memberNum);
+	List<Map<String,String>> selectCarImg(String carNum);
+	int updateStatus(Map<String,Object> map);
 	
 	
 	

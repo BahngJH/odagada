@@ -22,6 +22,7 @@
   <delete id="deleteBoard">
   	DELETE FROM BOARD WHERE BOARDNO=#{boardNo}
   </delete>
+
   
   
 </mapper>

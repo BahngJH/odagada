@@ -15,8 +15,18 @@
 		SELECT count(*) FROM DRIVER
 	</select>
 	<select id="selectDriverList" resultType="map">
-		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM
-
+		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM
 	</select>
+	
+	<select id="selectDriverOne" resultType="map" parameterType="_int">
+		SELECT MEMBERNUM,M.MEMBERID, M.MEMBERNAME, M.BIRTH, M.PHONE, D.LICENSENUM, D.CARMODEL, D.CARNUM , D.ENROLLDATE, D.INTRODUCE, D.DRIVERSTATUS 
+		FROM MEMBER M JOIN DRIVER D USING(MEMBERNUM) WHERE MEMBERNUM = #{memberNum}
+	</select>
+	<select id="selectCarImg" resultType="map" parameterType="String">
+		SELECT * FROM CARIMAGE WHERE CARNUM = #{carNum} ORDER BY IMAGEORDER
+	</select>
+	<update id="updateStatus" parameterType="map">
+		UPDATE DRIVER SET DRIVERSTATUS=#{driverStatus} WHERE MEMBERNUM=#{memberNum}
+	</update>
 
 </mapper>
