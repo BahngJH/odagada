@@ -58,6 +58,7 @@ public class EchoHandler extends TextWebSocketHandler {
 			//vo객체에 데이터 담고 DB에 채팅 내용 저장 
 			MessageVo msg = new MessageVo((String)json.get("roomId"),(String)json.get("receiver"),(String)json.get("sender"),(String)json.get("text"));
 			logger.debug(msg+"");
+			
 			int rs = service.saveMessage(msg);
 			
 			Map<String,Object> isreadData = new HashMap();

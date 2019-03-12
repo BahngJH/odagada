@@ -64,6 +64,7 @@ public class CommunityController {
 				logger.debug("채팅방 정보들"+i);
 				i.setcDate(i.getcDate().substring(0, 14));
 			}
+			
 			mv.addObject("chatRooms", chatRooms);
 			
 			//상대방 정보와 채팅 내역 가져옴
@@ -85,7 +86,7 @@ public class CommunityController {
 				mv.addObject("chatMember", member);
 			}
 		}else {
-			logger.debug("채팅방 존재하지 않음");
+			logger.info("채팅방 존재하지 않음");
 			//roomId = 내아이디,상대아이디 로 구성
 			roomIdData.put("roomId", String.join(",",m.getMemberId(), chatUser));
 			int insertRoomId = service.insertRoomId(roomIdData);
