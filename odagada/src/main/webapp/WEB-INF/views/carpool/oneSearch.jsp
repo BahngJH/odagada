@@ -224,10 +224,11 @@
 						  				<p class="intro-p">${o.INTRODUCE }</p>
 						  				<input type="hidden" id="intro" name="intro" value="${o.INTRODUCE }"/>
 						  				<div class="row">
-						  					<div class="col-9"></div>
-						  					<div class="col-3">
-						  						<p class="plus-content">더보기</p>
-						  					</div>
+						  					<c:if test="${fn:length(o.INTRODUCE) >= 65 }">
+						  						<div class="col-2 offset-9 plus-content">
+				  									<i class="fas fa-angle-down"></i>
+						  						</div>
+						  					</c:if>
 						  				</div>
 						  			</div>
 						  		</div>
@@ -608,24 +609,24 @@
    }
 </script>
 <script>
+var introFlag=true;
 	//더보기
 	$('.plus-content').on('click',function(){
 		var length=65;
-		var text = $('.intro-p');
-		var textL = $('.intro-p').text().trim().length;//공백 제거한 길이
-		var rtext = $('#intro').val();//원래 길이(hidden으로 숨겨짐)
-		if(textL < rtext.length){
-			text.text(rtext);
-			return;
-		}
-		else if(textL = rtext.length){
-			if(text.val()==rtext){
-				console.log("DD")
-				text.text(text.text().trim().substr(0,length)+'...');
-			}
+		var textL = $('.intro-p').text().trim().length;
+		if(introFlag){
+			$('div.plus-content>i').removeClass('fa-angle-down');
+			$('div.plus-content>i').addClass('fa-angle-up');
+			introFlag=false;
+			$('.intro-p').text($('#intro').val());
 		}
 		else{
-			text.text(text.text().trim().substr(0,length)+'...');
+			$('div.plus-content>i').removeClass('fa-angle-up');
+			$('div.plus-content>i').addClass('fa-angle-down');
+			introFlag=true;
+			if(textL>length){
+				$('.intro-p').text($('.intro-p').text().trim().substr(0,length)+'...');
+			}
 		}
 	});
 	//인트로 
@@ -636,7 +637,7 @@
 				$(this).text($(this).text().trim().substr(0,length)+'...');
 			}
 		});
-	});
+	}); 
 	//리뷰 콘텐츠
 	$('.rcontent-div').each(function(){
 		var length=20;
