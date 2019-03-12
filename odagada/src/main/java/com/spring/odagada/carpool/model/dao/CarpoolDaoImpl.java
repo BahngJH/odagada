@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.odagada.carpool.model.vo.Carpool;
 import com.spring.odagada.carpool.model.vo.CarOption;
 
+
 @Repository
 public class CarpoolDaoImpl implements CarpoolDao {
 	@Autowired

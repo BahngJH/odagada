@@ -16,6 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- 웹소켓 연결에 필요한 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>ODA-GADA</title>
 <style>
 	body{
@@ -42,6 +44,18 @@
 		background-color: #70A9A1;
 		color: #FFFFFF;
 	}
+	/* 채팅에 사용될 css */
+   .msgCount{
+  		margin-top:5px;
+     	float:left;
+     	border:1px solid red;
+     	background-color:red;
+     	border-radius: 100%;
+     	width: 30px;
+       text-align: center;
+       color:white;
+     }
+     
     
 </style>
 </head>
@@ -59,7 +73,7 @@
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>          
                 <li class="nav-item">
-                  <a class="nav-link" href="#">드라이버등록</a>
+                  <a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
                 </li><li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
@@ -88,14 +102,75 @@
 	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
 	                    <a class="dropdown-item" href="#">회원 관리</a>
-	                    <a class="dropdown-item" href="#">드라이버 관리</a>
+	                    <a class="dropdown-item" href="${path}/driver/driverList">드라이버 관리</a>
 	                    <a class="dropdown-item" href="#">질의응답</a>
 	                  </div>
 	                </li>
-               </c:if>      
+               </c:if>
+               <!-- 채팅 부분 추가함  -->
+               <c:if test="${sessionScope.logined!=null }">   
+	                <li class="nav-item" id="communityDiv">
+	                  <a class="nav-link" href="${path }/community/chatting.do">소통해요</a>
+	            	</li>
+	            	<li><div id="msgDiv"></div></li>          
+                </c:if>       
    
 
               </ul>
             </div>
           </nav>
+<script>
+	$(function(){
+		if(<%=request.getSession().getAttribute("logined")!=null && !request.getSession().getAttribute("logined").equals("")%>){
+			//로그인 되어 있을 때만 실행
+			var url="http://localhost:9090/odagada/echo";
+			ws = new SockJS(url);
+			
+			//메세지를 받았을 때
+			ws.onmessage = function(event)
+			{
+				var myId='${logined.memberId}';
+				checkMsg(myId);
+			};
+			
+			ws.onopen = function(event)
+			{
+				var myid = {"myId" : "${logined.memberId}"};
+				ws.send(JSON.stringify(myid));
+				
+				var myId='${logined.memberId}';
+				checkMsg(myId);
+				
+			};
+			
+			//소켓이 닫히고 실행되는 함수, 즉 이 메소드가 실행될 땐 이미 소켓이 닫힌 상태
+			ws.onclose = function()
+			{
+				console.log("Connection Closed");
+			};
 
+			ws.error=function(event)
+			{
+				console.log(event);
+			}
+		}
+	});
+	
+	function checkMsg(myId)
+	{
+		$.ajax({
+			url:"${path}/community/checkMsg.do",
+			data:{"myId":myId},
+			success:function(data)
+			{
+				console.log(data.unIsReadMsg);
+				if(data.unIsReadMsg>0)
+				{
+					
+					var unCheckMsg="<a href='${path }/community/chatting.do'><span class='msgCount'>"+data.unIsReadMsg+"</span></a>";
+					$("#msgDiv").html(unCheckMsg);
+				}
+			}		
+		});		
+	}
+</script>

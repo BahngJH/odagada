@@ -10,6 +10,8 @@ public class ChatRoomVo {
 	private String cContent;
 	private String receiver;
 	private int isReadCount;
+	private int allMsg;
+	private int yMsg;
 	
 	public ChatRoomVo() {}
 	
@@ -80,11 +82,30 @@ public class ChatRoomVo {
 		this.receiver = receiver;
 	}
 
+	public int getAllMsg() {
+		return allMsg;
+	}
+
+	public void setAllMsg(int allMsg) {
+		this.allMsg = allMsg;
+	}
+
+	public int getyMsg() {
+		return yMsg;
+	}
+
+	public void setyMsg(int yMsg) {
+		this.yMsg = yMsg;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatRoomVo [roomId=" + roomId + ", memberId=" + memberId + ", memberName=" + memberName + ", cDate="
-				+ cDate + ", cContent=" + cContent + ", receiver=" + receiver + ", isReadCount=" + isReadCount + "]";
+				+ cDate + ", cContent=" + cContent + ", receiver=" + receiver + ", isReadCount=" + isReadCount
+				+ ", allMsg=" + allMsg + ", yMsg=" + yMsg + "]";
 	}
+
+	
 
 	
 

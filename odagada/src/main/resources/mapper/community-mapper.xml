@@ -10,7 +10,7 @@
   </insert>
 
   <select id="bringUserInfo" parameterType="map" resultType="map">
-  	select roomid,membername,memberid from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
+  	select roomid,membername,memberid,PROFILEIMAGERE from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
   </select>
 
   <select id="roomIdCheck" parameterType="map" resultType="string">
@@ -26,11 +26,14 @@
   </insert>
   
   <select id="bringMsg" parameterType="string" resultType="map">
-  	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate
+  	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (sender=memberid) where roomId=#{roomId} order by cDate
   </select>
   
-  <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">
+  <!-- <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">
 	select roomid,member1 as receiver,memberid,membername,TO_CHAR(cDate+9/24,'yy.MM.dd HH24:mi:ss') as cDate,ccontent from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId} order by cdate desc
+  </select> -->
+  <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">
+select * from (select * from (select roomid,member1 as receiver,memberid,membername,TO_CHAR(cDate+9/24,'yy.MM.dd HH24:mi:ss') as cDate,ccontent from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId} order by cdate desc) join (select roomid, count(*) as allMsg from chattingview where receiver=#{loginId} group by roomid) using(roomid))join (select roomid, count(*) as yMsg from chattingview where receiver=#{loginId} and isread='Y' group by roomid) using(roomid)
   </select>
   
   <select id="isReadCount" parameterType="com.spring.odagada.community.model.vo.ChatRoomVo" resultType="int">
