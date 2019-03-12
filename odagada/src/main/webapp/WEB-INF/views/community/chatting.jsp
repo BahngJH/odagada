@@ -15,6 +15,10 @@
     		margin-top: 30px;
     		margin-bottom:60px;
     	}
+    	#profile{
+    		margin-top: 30px;
+    		
+    	}
         #chattingRoom, #profile{
             display: inline-block;
             width:23%;
@@ -23,6 +27,7 @@
             overflow: auto;
             height: 600px;
         }
+        
         #chattingView{
             display: inline-block;
             width: 50%;
@@ -53,7 +58,7 @@
         #userInfoBottom{
             margin-top: 10px;
         }
-       
+       	
         #selectUserInfo{
             border-bottom: 1px solid black;
         }
@@ -61,8 +66,11 @@
         	font-size: 180%;
         }
         #chatContent{
-            
             background-color:#EAEAEA;
+        }
+        #selectImage{
+        	position:relative;
+        	bottom:10px;
         }
         #messageInput{
         	
@@ -126,13 +134,12 @@
     </style>
 <div id="container" class="container-fluid">
       <div class="row">
-        <div id="chattingRoom" class="col col-xs-12 " >
-        
+        <div id="chattingRoom" class="col-md-3 col-sm-12 " >
             <div id="roomTitle">
                 <h3>채팅방 목록</h3>
             </div>
+            <!-- 채팅방 목록을 불러오는 로직(왼쪽) -->
             <div id="chatRooms">
-            
               <c:forEach items="${chatRooms }"  var="rooms">
             		<div id="chatRoom" onclick="bringMessage(this)">
             			<input type="hidden" id="roomId" value="${rooms.roomId }">
@@ -149,11 +156,12 @@
             			</div>
 	            	</div>
 	            </c:forEach>
-	    
             </div>                                                           
         </div>
 		
-        <div id="chattingView" class="col-6 col-xs-12" >
+		
+		<!-- 대화 상대에 대한 정보 (가운데)-->
+        <div id="chattingView" class="col-md-6 col-sm-12" >
             <div id="selectUserInfo">
            	<c:if test="${chatMember.size()>0}">
            		<c:forEach items="${chatMember }" var="member">
@@ -162,25 +170,26 @@
 	                	<c:set var="memberName" value="${member.MEMBERNAME }"/>
 	                	<c:set var="imageUrl" value="${member.PROFILEIMAGERE }"/>
                 </c:forEach>
-                
-                
                 <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
 	        	<span id="selectName">${memberName}</span>
                </c:if>
                <c:if test="${chatContent.size()>0}">
-	                	<c:forEach items="${chatContent }" var="chatCon">
-		                	<c:if test="${chatCon.SENDER!=logined.memberId }">
-			                	<c:set var="receiver" value="${chatCon.SENDER}"/>
-			                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
-			                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
-		                		
-		                	</c:if>
-	                	</c:forEach>
+                	<c:forEach items="${chatContent }" var="chatCon">
+	                	<c:if test="${chatCon.SENDER!=logined.memberId }">
+		                	<c:set var="receiver" value="${chatCon.SENDER}"/>
+		                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
+		                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
+	                	</c:if>
+                	</c:forEach>
 	                <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
 	        		<span id="selectName">${memberName}</span>
-                	</c:if>                	
-               	
+               </c:if>
+               <c:if test="${imageUrl==null }">
+               		<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/images/odagadaLogo.png" alt="회사 로고"></span>
+	        		<span id="selectName">방을 선택하세요</span>
+               </c:if>                	
             </div>
+            <!-- 채팅 내용이 들어갈 자리 -->
             <div id="chatContent">
                 <div id="insertContent">
                		<c:if test="${chatContent.size()>0}">
@@ -206,12 +215,15 @@
                 	</c:if>
                 </div>
             </div>
-            
+            <!-- 메시지 입력창 -->
             <div id="sendForm">
                 <input type="text" id="messageInput" placeholder="메시지를 입력하고 Enter를 눌러주세요.">
             </div>
         </div>
-        <div id="profile" class="col col-xs-12 ">
+        
+        
+        <!-- 로그인 한 유저 정보(오른쪽) -->
+        <div id="profile" class="col-md-3 col-sm-12 ">
             <div id="myInfo">
                 <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
                 <span id="myName">${logined.memberName }</span>
@@ -391,7 +403,7 @@
     			{
             		var roomId = data.chatRooms[i].roomId;
             		var memberId = data.chatRooms[i].memberId;
-					var cDate = (data.chatRooms[i].cDate).substring(0,14);	
+					var cDate = (data.chatRooms[i].cDate).substring(9,14);	
             		
      				updateRoom +='<div id="chatRoom" onclick="bringMessage(this)">';
      				updateRoom +='<input type="hidden" id="roomId" value="'+roomId+'">';
@@ -430,7 +442,7 @@
     			{
             		var roomId = data.chatRooms[i].roomId;
             		var memberId = data.chatRooms[i].memberId;
-					var cDate = (data.chatRooms[i].cDate).substring(0,14);	
+					var cDate = (data.chatRooms[i].cDate).substring(9,14);	
             		
      				updateRoom +='<div id="chatRoom" onclick="bringMessage(this)">';
      				updateRoom +='<input type="hidden" id="roomId" value="'+roomId+'">';
