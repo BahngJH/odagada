@@ -23,18 +23,16 @@ public class Member implements Serializable {
 	private String profileImageRe;
 	private String isPhoneAuth;
 	private String isEmailAuth;
+	private String mailCode;
 
 
 	public Member() {
 		super();
 	}
 
-	
-
-
 	public Member(int memberNum, String memberId, String memberPw, String memberName, String birth, String phone,
 			String email, String enrollDate, int isAdmin, String gender, String profileImageOri, String profileImageRe,
-			String isPhoneAuth, String isEmailAuth) {
+			String isPhoneAuth, String isEmailAuth, String mailCode) {
 		super();
 		this.memberNum = memberNum;
 		this.memberId = memberId;
@@ -50,10 +48,8 @@ public class Member implements Serializable {
 		this.profileImageRe = profileImageRe;
 		this.isPhoneAuth = isPhoneAuth;
 		this.isEmailAuth = isEmailAuth;
+		this.mailCode = mailCode;
 	}
-
-
-
 
 	public int getMemberNum() {
 		return memberNum;
@@ -145,7 +141,14 @@ public class Member implements Serializable {
 	}
 
 
-	
+	public String getGender() {
+		return gender;
+	}
+
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 
 	public String getProfileImageOri() {
@@ -168,28 +171,9 @@ public class Member implements Serializable {
 	}
 
 
-	
-
-
-	public String getGender() {
-		return gender;
-	}
-
-
-
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-
-
-
 	public String getIsPhoneAuth() {
 		return isPhoneAuth;
 	}
-
-
 
 
 	public void setIsPhoneAuth(String isPhoneAuth) {
@@ -197,13 +181,9 @@ public class Member implements Serializable {
 	}
 
 
-
-
 	public String getIsEmailAuth() {
 		return isEmailAuth;
 	}
-
-
 
 
 	public void setIsEmailAuth(String isEmailAuth) {
@@ -211,11 +191,20 @@ public class Member implements Serializable {
 	}
 
 
+	public String getMailCode() {
+		return mailCode;
+	}
+
+
+	public void setMailCode(String mailCode) {
+		this.mailCode = mailCode;
+	}
 
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 
 
 	@Override
@@ -224,8 +213,13 @@ public class Member implements Serializable {
 				+ memberName + ", birth=" + birth + ", phone=" + phone + ", email=" + email + ", enrollDate="
 				+ enrollDate + ", isAdmin=" + isAdmin + ", gender=" + gender + ", profileImageOri=" + profileImageOri
 				+ ", profileImageRe=" + profileImageRe + ", isPhoneAuth=" + isPhoneAuth + ", isEmailAuth=" + isEmailAuth
-				+ "]";
+				+ ", mailCode=" + mailCode + "]";
 	}
+
+	
+
+
+	
 
 	
 

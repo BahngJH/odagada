@@ -241,7 +241,7 @@ $(function(){
    //핸드폰 숫자만 입력받게 하는 함수    
    $('#phone2').on('keyup', function() {
       if (/\D/.test(this.value)) {
-         this.value = this.value.replace(/\D/g, '')
+         this.value = this.value.replace(/\D/g, '')        
          alert('숫자만 입력가능합니다.');
       }
    });
@@ -262,7 +262,8 @@ $(function(){
          }
       //이름 유효성 검사
       //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-       if(($("input[name=memberName]").val().length>7)){
+      var name=$('#memberName').val().trim();
+       if(name.length>7){
           alert("정확한 이름을 입력해주세요.");
           return false;
     	  }
@@ -290,6 +291,14 @@ $(function(){
         alert('e-mail 중복확인 해주세요.')
         return false;
         }
+        
+        //생년월일 받기
+        var birth=$('#birth').val().trim();
+        if(birth==''){
+        	alert('생일을 입력해주세요.')
+        	return false;
+        }
+        
   
    }
  
@@ -431,7 +440,6 @@ $(function(){
                		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
                </div>
           </div>
-               <input type="number" class="form-control" placeholder="이메일 인증번호 3분이내 입력하세요." name="emailCk" required>          
                <div class="row">
                   <div class="col-4">         
 	                  <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
