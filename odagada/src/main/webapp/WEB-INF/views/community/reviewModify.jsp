@@ -7,26 +7,37 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
-
 <style>
-div#review-container {
-	text-align: center;
+	div#review-container {
 	width: 500px;
 	margin: 0 auto;
-}
-
-div#review-container input {
-	margin-bottom: 10px;
-}
-
-#review-container {
-	height: 500px;
-}
-div#review-container textarea {
-	height: 150px;
-}
-
-
+	}
+	div#review-container ul{
+	list-style:none;
+	padding-left:0px;
+	}
+	div#review-container h3{
+	text-align:center;
+	}
+	div#review-context{
+	border: 1px solid #DDD;
+    border-radius: 16px;
+    height: 180px;
+    margin-bottom: 10px;
+    padding:10px;
+    height: auto;
+	}
+	div#writerNum{
+	text-align: left;
+	margin-bottom:5px;
+	}
+	span#review-content{
+	text-align: Left;
+	}
+	#rContent{
+	width:460px;
+	}
+	
 .star-input>.input, .star-input>.input>label:hover, .star-input>.input>input:focus+label,
 	.star-input>.input>input:checked+label {
 	display: inline-block;
@@ -142,35 +153,40 @@ div#review-container textarea {
 	vertical-align: middle;
 }
 </style>
+
 <div id="review-container">
-	<form name="reviewFrm" action="${path}/community/reviewFormEnd.do" method="post" onsubmit="return validate();"> 
-	<h1>리뷰</h1>
-	<br/>
-	<input type="button" value="내가 작성한 리뷰" id='btn-reviewView' class='btn btn-outline-success' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}"'/>
-	<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-outline-success' onclick='location.href="${path}/community/reviewView.do?memberNum=${logined.memberNum}"'/>
-	<%-- <input type="text" class="form-control" name="writerNum" id="writerNum" value="${logined.memberId}" readonly required> --%>
-	<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>
-	<br/>
-	<span class="star-input">
-	<span class="input">
-		<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5"><label for="p1">0.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
-		<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
-		<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
-		<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
-		<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
-	</span>
-	<output for="star-input"><b>0</b>점</output>
-	</span>
-	<br/>
-	<br/>
-	<input type="hidden" name="memberNum" value="${logined.memberNum}">
-	<input type="submit" class="btn btn-outline-success" value="등록" >
-	<input type="button" class="btn btn-outline-success" value="취소" onclick="javascript:location.href='${path}/';">
+	<form name="reviewFrm" action="${path}/community/reviewModifyEnd.do" method="post" onsubmit="return validate();"> 
+	<h3>내가 작성한 리뷰</h3>
+		<div style="overflow:scroll; height:500px;">
+			<%-- <c:forEach items="${list}" var="r"> --%>
+			<ul id="review-list">
+				<div id="review-context">
+					<div class="review-content" id="writerNum">아이디</div>
+						 <span class="star-input">
+						<span class="input">
+							<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5"><label for="p1">0.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
+							<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
+							<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
+							<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
+							<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
+						</span>
+						<!-- <output for="star-input"><b>0</b>점</output> -->
+						</span>
+						<div id="review-content">
+							<textarea id="rContent" name="rContent"><c:out value="${review.RCONTENT}"/></textarea>
+							<br/>
+							<input type="submit" class="btn btn-outline-success" value="수정" style="margin-left:340px;">
+							<input type="reset" class="btn btn-outline-success" value="취소" onclick="javascript:location.href='${path}/community/myReviewView';">
+						</div>
+					</div>
+			</ul>
+		<%-- </c:forEach> --%>
+		</div>
 	</form>
 </div>
 <script>
@@ -222,4 +238,5 @@ div#review-container textarea {
 		return true;
 	}
 </script>
+	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

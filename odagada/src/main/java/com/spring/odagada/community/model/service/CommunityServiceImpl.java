@@ -39,7 +39,7 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	//신고 글쓰기
 	@Override
-	public int insertNotify(Map<String, String> map) {
+	public int insertNotify(Map<String, Object> map) {
 		return dao.insertNotify(map);
 	}
 
@@ -47,10 +47,30 @@ public class CommunityServiceImpl implements CommunityService {
 	public int insertReview(Map<String, Object> map) {
 		return dao.insertReview(map);
 	}
+	
+	@Override
+	public Map<String, Object> selectReview(int carpoolNum) {
+		return dao.selectReview(carpoolNum);
+	}
 
 	@Override
-	public Map<String, String> selectMyReview(int writerNum) {
-		return dao.selectMyReview(writerNum);
+	public List<Map<String,Object>> selectMyReviewList(int memberNum) {
+		return dao.selectMyReviewList(memberNum);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectReviewList(int memberNum) {
+		return dao.selectReviewList(memberNum);
+	}
+
+	@Override
+	public int updateReview(Map<String, Object> map) {
+		return dao.updateReview(map);
+	}
+
+	@Override
+	public int deleteReview(int carpoolNum) {
+		return dao.deleteReview(carpoolNum);
 	}
 	
 	

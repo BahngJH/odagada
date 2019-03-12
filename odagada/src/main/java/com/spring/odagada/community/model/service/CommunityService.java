@@ -12,8 +12,12 @@ public interface CommunityService {
 	List<Map<String,String>> bringMsg(String roomId);
 	List<ChatRoomVo> bringChatRooms(String loginId);
 	
-	int insertNotify(Map<String,String>map);
-	int insertReview(Map<String,Object> map);	
-	Map<String,String> selectMyReview(int writerNum);
+	int insertNotify(Map<String,Object>map);
+	int insertReview(Map<String,Object>map);
+	Map<String,Object> selectReview(int carpoolNum);
+	List<Map<String,Object>> selectMyReviewList(int memberNum);
+	List<Map<String,Object>> selectReviewList(int memberNum);
+	int updateReview(Map<String,Object>map);
+	int deleteReview(int carpoolNum);
 	
 }
