@@ -188,51 +188,31 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
-	   
-	   
-	   
-	   if(result!=null) {
-		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
-			   mv.addObject("logined", m);
-			   mv.setViewName("redirect:/");		   
-		   }else {	   
-			  mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-			  mv.addObject("loc", "/member/loginForm.do");
-			  mv.setViewName("common/msg");
-		   }
-	   }		
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-		   
-	/*   try {
-		   if(result!=null) {
-			   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))&&m.getIsEmailAuth().equals("Y")){
-				   mv.addObject("logined", m);
-				   mv.setViewName("redirect:/");
-			   }if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))&&!m.getIsEmailAuth().equals("Y")){
-				   mv.addObject("msg", "이메일 인증을 완료해주세요.");
-				   mv.setViewName("common/msg");
-			   }else {	   
-				  mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-				  mv.addObject("loc", "/member/loginForm.do");
-				  mv.setViewName("common/msg");
-			   }
-		   }		
-		}catch (NullPointerException e) {
-				mv.addObject("msg", "등록된 정보가 없습니다.");
-				mv.addObject("loc", "/member/loginForm.do");
-				mv.setViewName("common/msg");
-			}*/
-		
-	   logger.debug("로그인 멤버 정보"+m);
-	   logger.debug("관리자 테스트"+m.getIsAdmin());
-	   
-	   return mv;
+	         
+		if (m == null) {
+			mv.addObject("msg", "등록된 정보가 없습니다.");
+			mv.addObject("loc", "/member/loginForm.do");
+			mv.setViewName("common/msg");
+		} else {
+			logger.debug("로그인 멤버 정보" + m);
+			logger.debug("관리자 테스트" + m.getIsAdmin());
+
+			if (result != null) {
+				if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && m.getIsEmailAuth().equals("Y")) {
+					mv.addObject("logined", m);
+					mv.setViewName("redirect:/");
+				}
+				else if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && !m.getIsEmailAuth().equals("Y")) {
+					mv.addObject("msg", "이메일 인증을 완료해주세요.");
+					mv.setViewName("common/msg");
+				} else {
+					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
+					mv.addObject("loc", "/member/loginForm.do");
+					mv.setViewName("common/msg");
+				}
+			}
+		}
+		return mv;
 }
 
    
