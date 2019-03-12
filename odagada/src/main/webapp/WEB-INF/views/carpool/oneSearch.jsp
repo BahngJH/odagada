@@ -27,7 +27,7 @@
 	img.option-icon{
 		width:50px;height:50px;
 		float:left;
-		margin:7px;
+		margin:12px;
 	}
 	button.btn-chat{
 		font-size: 13px;
@@ -45,7 +45,7 @@
 		border:1px solid rgb(230,230,230);
 		height:auto;
 		position:relative;
-		float:left;
+		float:left; 
 		border-style: dashed;
 		margin-top:10px;
 	}
@@ -84,11 +84,12 @@
 	img.re-img{
 		margin-top:20px;
 		margin-left:4px;
-		width:70px;height:70px;
+		max-width:100%;height:70px;
 		border-radius: 30px;
 	}
 	div.re-div{
 		margin-top:12px;
+		position:relative;
 	}
 	img.pas-img{
 		width:70px; height:70px;
@@ -107,6 +108,9 @@
 		margin-top:20px;
 		margin-left:25px;
 	}
+/* 	.re-size{
+		overflow:scroll;
+	} */
 	/* 별점 css 테스트 */
 	.star-rating { width:150px; }
 	.star-rating,.star-rating span { display:inline-block; height:21px; overflow:hidden; background:url(${pageContext.request.contextPath}/resources/images/option-icon/star.png)no-repeat; }
@@ -130,7 +134,6 @@
 	    border-style: solid;
 	    text-align:left;
 	}
-	
 </style>
 <section id="container">
 	<div class="row">
@@ -230,14 +233,14 @@
 					  </div>
 				  </div>
 					<!-- 경로보기 tab -->
-					<div class="tab-pane fade" id="road" role="tabpanel" aria-labelledby="road-tab">
+					<div class="tab-pane fade" id="road" role="tabpanel" aria-labelledby="road-tab" >
 						<div class="card-body"  >
 							<c:forEach items="${oList }" var="o">
-								<div class="row">
-									<div class="col-12">
-										<div id="map_div"></div>
-									</div>
-								</div>
+								<!-- <div class="row">
+									<div class="col-12"> -->
+										<div id="map_div" style="width:600px; height:400px;"></div>
+									<!-- </div>
+								</div> -->
 								<input type="hidden" value="${o.STARTLAT }" id="startLat" name="startLat">
 								<input type="hidden" value="${o.STARTLONG }" id="startLong" name="startLong">
 								<input type="hidden" value="${o.DESTLAT }" id="endLat" name="endLat">
@@ -258,11 +261,13 @@
 					  			<span class="badge badge-pill badge-warning">이용 좌석 </span>
 					  			<c:set var='size' value='0'/>
 					  			<fmt:parseNumber value="${size}" type="number" var="si"/>
-					  			<c:forEach begin="0" end="${fn:length(pList)-1 }"  varStatus="count">
-						  				<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
-						  					<c:set var="si" value='${si+1 }'/>
-				  						</c:if>
-			  					</c:forEach>
+					  			<c:if test='${fn:length(pList)!=0 }'>
+						  			<c:forEach begin="0" end="${fn:length(pList)-1 }"  varStatus="count">
+							  				<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
+							  					<c:set var="si" value='${si+1 }'/>
+					  						</c:if>
+				  					</c:forEach>
+			  					</c:if>
 				  				<span>&nbsp;| &nbsp;(${si}/${seat })</span>
 					  		</div>
 					  	</div>
@@ -493,7 +498,7 @@
 								  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
 								  				</div>
 								  					<span class="line-div" ></span>
-								  				<div class="col-7">
+								  				<div class="col-7 re-size">
 								  					<div class="star-div">
 								  						<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg"/>
 								  						<c:choose>
@@ -584,6 +589,7 @@
 		<div class="col-12 col-md-2">
 		</div>
 	</div>
+
 </section>
 
 <!-- 채팅방 -->
@@ -600,11 +606,17 @@
 	$('.plus-content').on('click',function(){
 		var length=65;
 		var text = $('.intro-p');
-		var textL = $('.intro-p').text().trim().length;
-		var rtext = $('#intro').val();
+		var textL = $('.intro-p').text().trim().length;//공백 제거한 길이
+		var rtext = $('#intro').val();//원래 길이(hidden으로 숨겨짐)
 		if(textL < rtext.length){
 			text.text(rtext);
 			return;
+		}
+		else if(textL = rtext.length){
+			if(text.val()==rtext){
+				console.log("DD")
+				text.text(text.text().trim().substr(0,length)+'...');
+			}
 		}
 		else{
 			text.text(text.text().trim().substr(0,length)+'...');
@@ -642,49 +654,119 @@
 	function initTmap(){
 		//map 생성
 		//Tmap.map을 이용하여, 지도가 들어갈 div, 넓이, 높이를 설정합니다.
-		map = new Tmap.Map({div:'map_div', width:'570px', height:'380px'});
-		/* map.setCenter(new Tmap.LonLat("126.9850380932383", "37.566567545861645").transform("EPSG:4326", "EPSG:3857"), 15); */ //설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 즁심점으로 설정합니다.
-		var tData = new Tmap.TData(); //REST API 에서 제공되는 경로, 교통정보, POI 데이터를 쉽게 처리할 수 있는 클래스입니다.
+		$("#map_div").empty();
 		
-		var s_lonLat = new Tmap.LonLat(startLong, startLat); //김포 시작 좌표입니다.
+		map = new Tmap.Map({div:'map_div'});
+		
+		//var tData = new Tmap.TData(); //REST API 에서 제공되는 경로, 교통정보, POI 데이터를 쉽게 처리할 수 있는 클래스입니다.
+		
+		$("#map_div").css("width", "100%");
+		
+		/* var s_lonLat = new Tmap.LonLat(startLong, startLat); //김포 시작 좌표입니다.
 		var e_lonLat = new Tmap.LonLat(endLong, endLat); //도착 서울 좌표입니다.
-		
-		var optionObj = {
+		 */
+		/* var optionObj = {
 			reqCoordType:"WGS84GEO", //요청 좌표계 옵셥 설정입니다.
 			resCoordType:"EPSG3857", //응답 좌표계 옵션 설정입니다.
-			trafficInfo:"Y" //교통정보 표출 옵션 설정입니다.
-	         }
+			trafficInfo:"N" //교통정보 표출 옵션 설정입니다.
+         } */
 		
+         markerLayer = new Tmap.Layer.Markers();
+     	map.addLayer(markerLayer);
+         
+         setMarker(startLong, startLat);
+		 setMarker(endLong, endLat);
+		apiRequest();
+		
+		/*
 		tData.getRoutePlan(s_lonLat, e_lonLat, optionObj);//경로 탐색 데이터를 콜백 함수를 통해 XML로 리턴합니다.
 		
 		tData.events.register("onComplete", tData, onComplete);//데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트를 등록합니다.
 		tData.events.register("onError", tData, onError);//데이터 로드가 실패했을 떄 발생하는 이벤트를 등록합니다.
+		*/
 	}
 	//데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트 함수 입니다. 
-	function onComplete(){		  
-		//교통정보 표출시 생성되는 LineColor 입니다.      
-		var trafficColors = {
-			extractStyles:true,
-			
-			// 사용자가 임의로 색상을 설정할 수 있습니다.
-			// 교통정보 옵션 - 라인색상
-			trafficDefaultColor:"#000000", //교통 정보가 없을 때
-			trafficType1Color:"#009900", //원할
-			trafficType2Color:"#8E8111", //지체
-			trafficType3Color:"#FF0000"  //정체
-			
-		};    
-		var kmlForm = new Tmap.Format.KML(trafficColors).readTraffic(this.responseXML);
-		var vectorLayer = new Tmap.Layer.Vector("vectorLayerID");
-		vectorLayer.addFeatures(kmlForm);    
+	var count = 0;
+	function setMarker(lon, lat){
+		var size = new Tmap.Size(24,38);
+		var offset = new Tmap.Pixel(-(size.w/2), -(size.h));
 		
-		map.addLayer(vectorLayer);
-		//경로 그리기 후 해당영역으로 줌  
-		map.zoomToExtent(vectorLayer.getDataExtent());
+		//출발지와 목적지 마커 분류
+		if(count === 0){
+			var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',size, offset);		
+		}else if(count === 1){
+			var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',size, offset);
+		}
+		
+		count++;
+		
+		var lonlat = new Tmap.LonLat(lon, lat);
+		
+		var m = new Tmap.Marker(lonlat.transform("EPSG:4326", "EPSG:3857"), icon);
+		
+		markerLayer.addMarker(m);
 	}
-	//데이터 로드시 에러가 발생시 발생하는 이벤트 함수입니다.
-	function onError(){
-		alert("onError");
+		function apiRequest(){
+		var prtcl;
+		var headers = {};
+		headers["appKey"] = "8ea84df6-f96e-4f9a-9429-44cee22ab70f";
+			
+		$.ajax({
+			method: "POST",
+			headers : headers,
+			url : "https://api2.sktelecom.com/tmap/routes?version=1&format=xml",
+			async: false,
+			data:{
+				startX: startLong,
+				startY: startLat,
+				endX: endLong,
+				endY: endLat,
+				reqCoordType : "WGS84GEO",
+				resCoordType : "EPSG3857",
+				angle: "172",
+				searchOption: "0",
+				trafficInfo : "N"
+			}, success:function(response){
+				prtcl = response;
+				
+				var xmlDoc = $.parseXML(new XMLSerializer().serializeToString(prtcl));
+				$xml = $(xmlDoc);
+				$xmlData = $xml.find("Document");
+							
+				routeLayer = new Tmap.Layer.Vector("route");
+				
+				var prtclLine = new Tmap.Format.KML({extractStyles:true, extractAttributes:true}).read(prtcl);
+			
+				routeLayer.events.register("beforefeatureadded", routeLayer, onBeforeFeatureAdded);
+				function onBeforeFeatureAdded(e){
+					var style={};
+					
+					switch (e.feature.attributes.styleUrl) {
+		        	case "#pointStyle":
+			        	style.externalGraphic = "http://topopen.tmap.co.kr/imgs/point.png"; //렌더링 포인트에 사용될 외부 이미지 파일의 url입니다.
+						style.graphicHeight = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 높이입니다.
+						style.graphicOpacity = 1; //외부 이미지 파일의 투명도 (0-1)입니다.
+						style.graphicWidth = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 폭입니다.
+		        	break;
+		        	default:
+						style.strokeColor = "#ff0000";//stroke에 적용될 16진수 color
+						style.strokeOpacity = "1";//stroke의 투명도(0~1)
+						style.strokeWidth = "5";//stroke의 넓이(pixel 단위)
+		        	};
+				
+					e.feature.style = style;
+				};
+				
+				routeLayer.addFeatures(prtclLine);			
+				
+				map.addLayer(routeLayer);
+				
+				map.zoomToExtent(routeLayer.getDataExtent());
+				
+			}, error:function(request, status, error){
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
 	}
 	// 맵 생성 실행
 	initTmap();
