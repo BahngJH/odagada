@@ -21,6 +21,10 @@
   .menu{text-align:center; font-weight:bold;}
   .info{margin-top:50px; margin-bottom: 50px;}
   #answer{height:50%;}
+  .alert-div{size:10px;}
+  #ttMessage-div{padding-bottom:0px;}
+  #pw-modal-div{padding-bottom:0px; padding-top:0px;}
+  #ttQ{margin-left:60%;}
   
 </style>
 
@@ -63,7 +67,7 @@
 		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail" data-whatever="@mdo">인증하기</button>
 		      				</c:when>
 				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
-				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
+				      			<div class="ck badge badge-success" role="alert">인증완료</div>
 			      			</c:when>
 				      	</c:choose> 
 				      </td>				       
@@ -77,7 +81,7 @@
 				      			<a href="#" class="ck badge badge-danger">인증하기</a>
 				      		</c:when>
 				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
-				      			<div class="alertS alert alert-success text-success" role="alert">인증완료</div>
+				      			<div class="ck badge badge-success" role="alert">인증완료</div>
 				      		</c:when>
 			      		</c:choose>   
 				      </td>
@@ -85,13 +89,14 @@
 				</table>
 				<a href="${path }/member/updateInfo.do" class="btn btn-primary" >정보변경하자좀</a>		
 			  <div class="menu card-body">		 	   
-			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">정보 변경</button>
-				 <button type="button" class="btn btn-outline-success" onclick="withdrawal();"data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">회원 탈퇴</button>	
-					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#changeInfo">정보 변경</button>
+				 <button type="button" class="btn btn-outline-success" id="tt-btn" data-toggle="modal" data-target="#delete">회원 탈퇴</button>						
+					<!--회원정보 변경  -->
+					<div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="changeInfoModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalLabel">정보변경</h5>				        
+					        <h5 class="modal-title">정보변경</h5>				        
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
@@ -99,16 +104,55 @@
 					      <div class="modal-body">
 					          <div class="form-group">
 					            <label for="answer" class="form-control-label">보안을 위해 비밀번호를 한 번 더 입력해주세요.</label>
-					            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
+					            <input type="password" class="form-control" id="answer1" name="answer1" style="resize: none;">
 					          </div>
 					      </div>
 					      <div class="modal-footer">					      	
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" onclick="updateCheck();">정보변경 하러가기</button>					        
+					        <button type="button" class="btn btn-primary" onclick="updateCheck('change');">정보변경 하러가기</button>					        
+					      </div>
+					    </div>
+					  </div>
+					</div>										
+					<!--탈퇴하기  -->
+					<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">회원 탈퇴</h5>				        
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body" id="ttMessage-div">
+					          <div class="form-group">
+					            <label for="answer" class="form-control-label">탈퇴하시면 2주 동안 가입이 제한됩니다.</label>
+					            <label for="answer" class="form-control-label">보안을 위해 비밀번호를 한 번 더 입력해주세요.</label>
+					          </div>
+				              <div class="modal-body" id="pw-modal-div">
+						          <div class="form-group">
+						            <input type="password" class="form-control" id="answer2" name="answer2" style="resize: none;">
+						          </div>
+						      </div>
+					      </div>
+			       		<label for="answer" class="form-control-label" id="ttQ">탈퇴하시겠습니까?</label>					      	
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" id="tt" onclick="updateCheck('delete');">탈퇴하기</button>					        
 					      </div>
 					    </div>
 					  </div>
 					</div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 					
 					
@@ -135,6 +179,13 @@
 						    </div>
 						  </div>
 						</div>
+						
+						
+						
+						
+						
+					
+						
 					  </div>
 					</div>
 				</div>		
@@ -144,24 +195,62 @@
 </section>
 
 <script>
-function updateCheck() {
-    var answer = $("#answer").val();
-    console.log("anwer : "+answer);
+function updateCheck(answer) {
+	var tt;
+	if(answer==='change'){
+		tt=$('#answer1').val();
+	}
+	else if(answer==='delete'){
+		tt=$('#answer2').val();
+	}
     $.ajax({
     	url:"${path}/member/checkPw.do",
-    	data:{"answer":answer},
+    	data:{"answer":tt},
     	success:function(data){
     		if(data =='no'){
 				alert("비밀번호가 올바르지 않습니다.");
 				return;
-    		}else{   			
-    			location.href="${path}/member/updateInfo.do";
+    		}else{
+    			if(answer==='change'){
+    				location.href="${path}/member/updateInfo.do";
+    			}
+    			else if(answer==='delete'){
+    				alert('탈퇴되었습니다.');
+    				location.href="${path}/";
+    			}
     		}
     	}
     });      
 }
-function  emailCheck() {  	
+function withdrawal(){
+	var answer=$('#answer').val();
+	
+	
 }
+
+/* 
+$(function(){
+	
+	$(document).ready(function(){
+		$("#pw-modal-div").hide();
+		
+	})
+	 $('#tt-btn').on('click', function(){
+		$('#ttMessage-div').hide();
+	})
+	
+	$('#tt').on('click', function(){
+		$('#pw-modal-div').show();
+	   $('#ttMessage-div').hide(); 
+		
+		
+	})
+	
+})
+ */
+	
+	
+
 
 
 
