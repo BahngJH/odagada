@@ -17,294 +17,298 @@
 
 
   <style>
-     div#enroll-container{width:400px; margin:0 auto; text-align:center;}
+     div#enroll-container{width:850px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-
-    /*중복아이디체크관련*/
-    div#enroll-container{position:relative; padding:0px;}
-    div#enroll-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-    div#enroll-container span.ok{color:green;}
-    div#enroll-container span.error{color:red;}
-    
-    div#board-continer{width:400px;margin:0 auto; text-align:center}
-    div#board-continer input{margin-bottom:15px;} 
-    
-    
+  
     /*비밀번호 체크 */
-    div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
+    div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:58px; right:10px;}
     div#enroll-container span.ckOk{color:green;}
     div#enroll-container span.ckNo{color:red;}
     
-    .ckOk, .ckNo{
-    padding-right:13px;
-    }
+    .ckOk, .ckNo{padding-right:13px; }
+    .phone{margin-left:0; margin-right:0;}
+    #pro_img{width: 180px; height: auto;}
+    .profileDiv{padding-right:0; width:100px;}
+    .pPassword{font-size:13px; margin-top:1px;}
+  	.passwordInfo{height:40px; align:left;}
+  	.oriEmail{font-size:20px; text-align:left;}
+  	.alert{padding:0; }
+  	.cg {font-size:13px;}
+  	.btns{padding-top:3px; padding-right:0; padding-left:0;}
+  	#chgMailInfoP{margin-top:10px; margin-bottom:15px;}
+    .chgBtnDiv{padding-right:15px;}
+    #chgEmailBtn{width:117px;}
        
-  .emailC{     
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;   
-    }
-    
-    .tel{
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
-    width: 100%; 
-    }
-   
-   .div-email{
-   padding : 0px;
-   }
-   .row-email{
-      padding: 0px;
-      margin-left: 0px;
-      margin-right: 0px;
-   }
-    
-   .addon-email{
-      margin-bottom: 10px;
-   }
-   
-   .profile{
-   margin-left:13px;
-   margin-right:13px;
-   }
-   
-   .gender{
-   padding-left:28%;
-   }
-   
-   .genderRow{
-   margin-top: 10px;
-   }
-   
-   .submitB{
-   margin-top:5%;
-   margin-left:30%;
-   margin-bottom: 10%;
-   }
-   
-   #enrollBtn{
-   margin-right:15%; 
-   }
-    #memberId_, #memberName{
-   margin-top:20%;
-   }
-   /*
-    .genderC{
-   padding-left:0;
-   }
-   
-   #gender1{
-   margin-left:20px;
-   } 
-   .dR{
-   padding-left:2%;
-   }
-   .dL{
-   padding-right:2%;
-   }
-   .phone2C{
-   padding-left:0px;
-   } */ 
-  
     </style>
     
      
 <script>
+
  $(function(){
+	 //파일 업로드 함수
    $('[name=upFile]').on('change',function(){
-      //var filename=$(this).val();
-      var filename=this.files[0].name;
-      //var filename=$(this).prop('files')[0].name;
+        var filename=this.files[0].name;
+   		var fileReader = new FileReader();
+ 	
+ 		fileReader.readAsDataURL(this.files[0]);
+ 		fileReader.onload = function(e){
+	 		var result = e.target.result;	
+	 		$('#pro_img').attr('src',result); 		
+ 		};
+
       $(this).next('.custom-file-label').html(filename);
    });  
- }); 
- 
-    //비밀번호 유효성 검사
-   function passwordCheck(password){
-       var pw=$(password).val();      
-      var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
-        if(!ckPw.test(pw)){        
-           alert('숫자,영문자,특수문자 조합으로 6~15자');
-           $('#password_').val('').focus();
-           return false;
-       }                     
-       return true;
-   }
+  
+   //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
+	$('#pro_img').on('click', function() {
+			$('#upFile').trigger('click');			
+		})	 
+});
 
-$(function(){
-    //비밀번호 일치 확인
-         $('#password2').keyup(function(){
-            var password2=$("#password2").val().trim();
-            if(password2.length<6){
-               $(".ck").hide();
-               return;
-            }
-            var pw1=$("#password_").val().trim();
-            var pw2=$("#password2").val().trim();
-            if(pw1==pw2){
-               $(".ck.ckOk").show();
-               $(".ck.ckNo").hide();
-            }else{
-               $(".ck.ckOk").hide();
-               $(".ck.ckNo").show(); 
-            }
-         });
-    
+	//비밀번호 유효성 검사
+	function passwordCheck(password) {
+		var pw = $(password).val();
+		var ckPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
+		if (!ckPw.test(pw)) {
+			alert('숫자,영문자,특수문자 조합으로 6~15자');
+			$('#password_').val('').focus();
+			return false;
+		}
+		return true;
+	}
 
-   
-              
-   //이메일(아이디부분) 알파벳만 입력 받게 하기    
-   $("#email1").keyup(function(event) {
-      if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-         var inputVal = $(this).val();
-         $(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
-      }
-   });
-   
-/*    //핸드폰 숫자만 입력받게 하는 함수    
-   $('#phone2').on('keyup', function() {
-      if (/\D/.test(this.value)) {
-         this.value = this.value.replace(/\D/g, '')
-         alert('숫자만 입력가능합니다.');
-      }
-   });
-    */
- });
+	$(function() {	
+	    //비밀번호 일치 확인
+        $('#password2').keyup(function(){
+           var pw1=$("#password1").val().trim();
+           var pw2=$("#password2").val().trim();
+           if(pw2.length<1){
+              $(".ck").hide();
+              return;
+           }
+           if(pw1==pw2){
+              $(".ck.ckOk").show();
+              $(".ck.ckNo").hide();
+           }else{
+              $(".ck.ckOk").hide();
+              $(".ck.ckNo").show(); 
+           }
+        });
+		
 
- function validate() { 	  
-      //핸드폰 유효성 검사 
-      var regExp = /([0-9]{7,8})$/;
-      if (!regExp.test($("input[name=phone2]").val())) {
-            alert("정확한 휴대폰 번호를 입력해주세요.");
-            return false;
-         }
-     	//이메일 도메인 정규식 받기    
-        var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
-        if(!mC.test($("input[name=email2]").val())){
-          alert("정확한 이메일 형식을 입력해주세요.");
-          return false;
-       }  
-        //비밀번호 체크 
-        var pw1=$("#password_").val().trim();
-        var pw2=$("#password2").val().trim();
-        if(pw1!=pw2){
-           alert("정확한 비밀번호 입력하세요.");
-          return false;       
-       }                  
-      return true;
-   }
- 
+		//이메일(아이디부분) 알파벳만 입력 받게 하기    
+		$("#email1").keyup(function(event) {
+			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+			}
+		});
+		
+		$(document).ready(function(){
+			$("#chgEmailInfo").hide();
+			$("#chgMailInfoP").hide();
+			$("#sentEmailDiv").hide();
+			$("#alertEmail").hide();
+			$("#inputPhone").hide();
+			$("#sentPhoneDiv").hide();
+			$("#alertPhone").hide();
+		})
+		
+		//이메일 변경 버튼 
+		$("#chgEmailBtn").on("click",function(){
+			$("#oriEmailDiv").hide();
+			$("#chgEmailInfo").show();
+			$("#chgMailInfoP").show();
+			
+		});
+		
+		//이메일 변경 취소 버튼 
+		$("#backEmail").on("click", function(){
+			$("#oriEmailDiv").show();
+			$("#chgEmailInfo").hide();
+			$("#chgMailInfoP").hide();
+		});
+		
+		//핸드폰 번호 변경 버튼
+		$("#chgPhoneBtn").on("click", function(){
+			$("#inputPhone").show();
+		    $("#oriPhoneDiv").hide(); 
+		});
+		
+		//핸드폰 번호 변경 취소 버튼
+		$("#backPhone").on("click", function(){
+			$("#inputPhone").hide();
+     	    $("#oriPhoneDiv").show();
+		})
+		
+		//인증 번호 발송 버튼
+		$("#sentTxtBtn").on("click", function(){
+			$("#sentPhoneDiv").show();
+			$("#sentTxtDiv").hide();
+		})
+		
+		//인증 번호 취소 버튼
+		$("#backOriPhone").on("click", function(){
+			$("#sentPhoneDiv").hide();
+			$("#sentTxtDiv").show();
+		})
 
-   //프로필 사진을 이미지 타입 파일로만 받기
-   function fileCheck(obj){
-      var fileKind=obj.value.lastIndexOf('.');
-      var fileName=obj.value.substring(fileKind+1, obj.length);
-      var fileType=fileName.toLowerCase();
-      
-      var ckFileType=new Array();
-      ckFileType=['jpg','gif','png','jpeg','jpeg','bmp'];
-      
-      if(ckFileType.indexOf(fileType)==-1){
-         alert("이미지 파일만 선택할 수 있습니다.");
-         var parentObj=obj.parentNode;
-         var node=parentObj.replaceChild(obj.cloneNode(true), obj);
-         return false;      
-         }   
-      }
+	});
+
+	function validate() {
+		//핸드폰 유효성 검사 
+		var regExp = /([0-9]{7,8})$/;
+		var ck = /^\d{3}-\d{3,4}-\d{4}$/;
+
+		if (!regExp.test($("input[name=phone2]").val())) {
+			alert("정확한 휴대폰 번호를 입력해주세요.");
+			return false;
+		}
+		
+		//이메일 유효성 검사
+		var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		if(!ckMail.test($("input[name=email]").val())){
+			alert("정확한 이메일 형식을 입력해주세요.");	
+			return false;
+		}		
+		//비밀번호 체크 
+		var pw1 = $("#password1").val().trim();
+		var pw2 = $("#password2").val().trim();
+		if (pw1 != pw2) {
+			alert("정확한 비밀번호 입력하세요.");
+			return false;
+		}
+		return true;
+	}
+
+	//프로필 사진을 이미지 타입 파일로만 받기
+	function fileCheck(obj) {
+		var fileKind = obj.value.lastIndexOf('.');
+		var fileName = obj.value.substring(fileKind + 1, obj.length);
+		var fileType = fileName.toLowerCase();
+
+		var ckFileType = new Array();
+		ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
+
+		if (ckFileType.indexOf(fileType) == -1) {
+			alert("이미지 파일만 선택할 수 있습니다.");
+			var parentObj = obj.parentNode;
+			var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+			return false;
+		}
+	}
+	
+
+	
+	
 </script>
-      
       <div id="enroll-container">
-         <form name="memberEnrollFrm" action="${path }/member/updateInfo.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
-            <div class="row">
-               <div class="col-6">
-                  <div>                   
-                   	<input type="text" class="form-control" value="ID : ${logined.memberId }" name="memberId" id="memberId_" readonly required>
-                  </div>                       
-               </div>
-               <div class="col-6">
-                  <div>
-                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" value="이름 : ${logined.memberName }" readonly required>
-                  </div>                       
-               </div>           
-            </div> 
-            <div class="row"> 
-	          	<div class="col-6">
-	          		<input type="text" class="form-control" value="생년월일 : ${logined.birth }" name="birth" id="birth" readonly required>                                    
-	       		</div>
-	       		<div class="col-6">
-	          		 <input type="text" class="form-control" value="가입 날짜: <%=eDate[0] %>" readonly required>     		                               
-	       		</div>
-           </div>                         
-            <!--  <div class="row">
-               <div class="col-6 dL">
-                  <div>
-                     <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                
-                  </div>                       
-               </div>
-               <div class="col-6 dR">
-                  <div>
-                     <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-                     <span class="ck ckOk">비밀번호 일치</span>
-                     <span class="ck ckNo">비밀번호 불일치</span>                      
-                  </div>                       
-               </div>           
-            </div> -->
-            <div class="row">            
-               <div class="col-6 dR">
-                  <div>
-                    <input type="text" class="form-control" value="핸드폰  : ${logined.phone }" name="phone2" id="phone2"  readonly required>         
-                  </div>                       
-               </div>
-               <div class="col-6 dR">
-                  <div>
-                    <input type="text" class="emailC form-control" value="${logined.email }" name="email" id="email" maxlength="20" readonly required>          
-                  </div>                       
-               </div>             
-            </div>   
-       
-          <div class="row">                     
-             <div class="custom-file col-12">
-             	 <%-- <img src="${path }/resources/upload/profile/${logined.profileImageOri}" width="500" height="500"> --%>
-                 <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-                 <label class="custom-file-label profile" for="upFile">프로필 사진 변경</label>
-             </div>                      
-           </div>          
-                <div class="row submitB">  
-                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
-                  <input type="reset" class="btn btn-outline-success" value="취소">
-               </div> 
-            </form>
-         </div>
+         <form name="memberEnrollFrm" id="memberEnrollFrm" action="${path }/member/updateInfoEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
+       		<div class="row">
+       			<div class="profileDiv col-6">
+		           <div class="custom-file" >
+		           		<img class="card-img-top" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+	   		    	    <input type="file" class="custom-file-input"  accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
+		           </div>
+		         </div> 
+	         	  <div class="col-6">           			                                
+	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
+	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+	                  <span class="ck ckOk">비밀번호 일치</span>
+	                  <span class="ck ckNo">비밀번호 불일치</span>
+	                 <div class="row passwordInfo">    	
+		           		<div class="ptext col-5">
+		           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
+		       			</div>  
+		       			<div class="col-7">      	
+		          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
+		          		</div> 		
+		           		 </div>
+	           		 <!--기존 Email 정보  -->
+	           		  <div class="row passwordInfo" id="oriEmailDiv">    	
+		           		<div class="ptext col-6">
+		           			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
+		       			</div>  
+		       			<div class="col-6 chgBtnDiv">
+		       				<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
+		          		</div> 		
+	           		 </div>
+	           		 <!--Email 변경 버튼 클릭시  -->
+	           		 <div class="row passwordInfo" id="chgEmailInfo">    	
+		           		<div class="ptext col-7">
+		       			  <input type="email" class="form-control" value="${logined.email }" name="email" maxlength="30" required>
+		       			</div>  
+		       			<div class="btns col-5">
+		       			  <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 발송</button>
+		       			  <button type="button" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
+		          		</div> 		
+	           		 </div>
+     			     <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
+       			 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
+	           		  <!--Email 변경 인증 메일 전송 후  -->      			  
+	       			  <div id="sentEmailDiv">
+		    			  <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
+		    			  <p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
+		    			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
+		       			  <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
+	       			  </div>
+       			  
+       			  
+			  
+	       			   <!--기존 Phone 정보  -->
+	           		  <div class="row passwordInfo" id="oriPhoneDiv">    	
+		           		<div class="ptext col-6">
+		           			<p class="oriEmail font-weight-bold"><%=m.getPhone() %></p>
+		       			</div>  
+		       			<div class="col-6">
+		       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+		          		</div> 		
+	           		 </div>
+	           		 <!--핸드폰번호 변경 버튼 클릭시  -->
+	           		 <div id="inputPhone">
+		       		      <div class="row phone">
+			               	  <c:set var="phone" value="${logined.phone}"/>
+			                     <select class="tel form-control col-sm-5" name="phone1" id="selectPhone" required>                                                                                        
+			                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>>010</option>
+			                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
+			                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
+			                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
+			                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
+			                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
+			                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
+			                     </select>
+			                   
+			                     <c:if test="${fn:length(phone) eq 11}">
+			                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}"required>
+			           			 </c:if>
+			           			 <c:if test="${fn:length(phone) eq 10}">
+			                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
+			           			</c:if>
+		         		 </div>	       			
+	       			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
+		   			     <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
+		   			    <div id="sentTxtDiv">
+		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn">인증 번호 발송</button>
+		       			  <button type="button" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
+		       			</div>   
+	       			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
+		       			  <div id="sentPhoneDiv">
+			    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
+				           	  <input type="number" class="form-control" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
+		    			      <button type="button" class="cg btn btn-secondary btn-sm">인증 문자 재발송</button>
+		    			      <button type="button" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
+		       			  </div>	          				
+		       	   	</div>	
+	                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="정보변경" >&nbsp;
+	                  <input type="reset" class="btn btn-outline-success" value="취소">
+           	 	</div>       			   			
+              </div>
+          </form>
+       </div> 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
 

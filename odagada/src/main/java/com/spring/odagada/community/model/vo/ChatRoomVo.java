@@ -8,20 +8,22 @@ public class ChatRoomVo {
 	private String memberName;
 	private String cDate;
 	private String cContent;
+	private String receiver;
 	private int isReadCount;
+	private int allMsg;
+	private int yMsg;
 	
 	public ChatRoomVo() {}
 	
-	public ChatRoomVo(String roomId, String memberId, String memberName, String cDate, String cContent, int isReadCount) {
+	public ChatRoomVo(String roomId, String memberId, String memberName, String cDate, String cContent, int isReadCount, String receiver) {
 		this.roomId = roomId;
 		this.memberId = memberId;
 		this.memberName = memberName;
 		this.cDate = cDate;
 		this.cContent = cContent;
 		this.isReadCount = isReadCount;
+		this.receiver = receiver;
 	}
-
-
 
 	public String getRoomId() {
 		return roomId;
@@ -72,11 +74,40 @@ public class ChatRoomVo {
 		this.isReadCount = isReadCount;
 	}
 
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+	public int getAllMsg() {
+		return allMsg;
+	}
+
+	public void setAllMsg(int allMsg) {
+		this.allMsg = allMsg;
+	}
+
+	public int getyMsg() {
+		return yMsg;
+	}
+
+	public void setyMsg(int yMsg) {
+		this.yMsg = yMsg;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatRoomVo [roomId=" + roomId + ", memberId=" + memberId + ", memberName=" + memberName + ", cDate="
-				+ cDate + ", cContent=" + cContent + ", isReadCount=" + isReadCount + "]";
+				+ cDate + ", cContent=" + cContent + ", receiver=" + receiver + ", isReadCount=" + isReadCount
+				+ ", allMsg=" + allMsg + ", yMsg=" + yMsg + "]";
 	}
+
+	
+
+	
 
 	
 	

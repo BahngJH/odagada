@@ -9,5 +9,7 @@ public interface MemberDao {
 	Member selectMember(String memberId);
 	int insertMember(Member m);
 	int checkId(String memberId);
+	int updateMember(Member m);
+	int checkEmail(String email);
 
 }

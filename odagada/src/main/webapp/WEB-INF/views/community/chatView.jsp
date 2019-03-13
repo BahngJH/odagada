@@ -21,7 +21,19 @@
 </div>
 
 <div id="message"></div>
+
+<button onclick="moveChatting('zlglml2')">채팅방 생성하기</button>
+
+
+
+
 <script>
+
+	function moveChatting(chatUser)
+	{
+		location.href="${path}/community/createRoomClick.do?chatUser="+chatUser;	
+	}
+
 	var ws;
 	var url="http://localhost:9090/odagada/echo";
 	

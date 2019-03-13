@@ -64,7 +64,7 @@ public class PageFactory {
 		//paging 처리 script작성
 		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
-		pageBar+="location.href="+url+"?cPage='cPage";
+		pageBar+="location.href='"+url+"?cPage='+cPage";
 		pageBar+="}";
 		pageBar+="</script>";
 		

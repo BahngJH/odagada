@@ -11,6 +11,7 @@
 <!-- 제이쿼리 --> 	
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
  
 <style>
@@ -83,7 +84,7 @@
 					<div class="col-12">
 						<div class="form-group">
 			                <div class="input-group date div-search" id="datetimepicker1" data-target-input="nearest">
-			                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="startDate" id="startDate"/>
+			                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="startDate" id="startDate" />
 			                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
 			                        <div class="input-group-text div-icon"><i class="fa fa-calendar"></i></div>
 			                    </div>
@@ -164,7 +165,7 @@
 <script>
 
 /* 날짜/시간 입력 달력 */
-$(function () {
+$(function () {	
 	$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
 		icons: {
             time: 'far fa-clock',
@@ -177,7 +178,10 @@ $(function () {
             clear: 'far fa-trash',
             close: 'far fa-times'
         } });
+	
+		
     $('#datetimepicker1').datetimepicker(); 
+	
 });
 
 // 클릭 이벤트 > 주소 가져오기 > 마커 생성 > 경로 생성
@@ -200,6 +204,22 @@ function carpoolValidate(){
 		alert("시작 날짜를 지정해주세요.");
 		return false;
 	}
+	
+	var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] ([0-9]|1[0-2]):([0-5][0-9])$/; 
+	
+	if(!exp.test($("#startDate").val())){
+		alert("날짜를 확인해주세요.");
+		return false;
+	}
+
+	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
+	console.log($("#startDate").val());
+	
+	if(!($("#startDate").val() > nowDate)){
+		alert("날짜를 확인해주세요.");
+		return false;
+	}
+	
 	return true;
 };
 
