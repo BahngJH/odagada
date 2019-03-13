@@ -78,68 +78,72 @@ a#pay{
 		<div class="col-12 col-md-10" id="enroll-container">	
 			<div class="info col-12 col-sm-12 col-md-10">
 				<!-- 조건만큼 검색 결과 출력 -->
-				<c:forEach items="${carpoolList }" var="list">
-				   <form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
-				      <div id="div-pick" class="card border-success mb-3">
-				        <div class="card-body text-success">
-				          <div class="row">
-				             <div class="col-12">
-					             <span class="span_city">${list.STARTDATE }</span>
-								 <span class="span-option col-text">${list.PAY }원</span><br/>
-					             <span class="badge badge-primary">출발</span>
-					             <span class="span_city">${list.STARTCITY} ${list.STARTDETAIL }</span> <br/>
-					             <span class="badge badge-success">도착</span>
-					             <span class="span_city">${list.ENDCITY} ${list.ENDDETAIL }</span> <br>
-				             </div>
-				             <div class="col-12">
-				                <div class="row">
-				                	<div class="col driver">
-				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
-				                   </div>
-				                   <div class="col status_option">
-				                   		<c:if test='${list.PAYSTATUS == "N" }'>
-					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
-					                        <!-- Modal -->
-											<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-											  <div class="modal-dialog" role="document">
-											    <div class="modal-content">
-											      <div class="modal-header">
-											        <h5 class="modal-title" id="exampleModalLabel">결제 코드</h5>
-											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											          <span aria-hidden="true">&times;</span>
-											        </button>
-											      </div>
-											      <div class="modal-body">
-											        ${list.PAYCODE }
-											      </div>
-											      <div class="modal-footer">
-											        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-											      </div>
-											    </div>
-											  </div>
-											</div>
-				                   		</c:if>
-				                   		<c:if test='${list.PAYSTATUS == "Y"}'>
-											<span class="badge badge-success">결제 완료</span>
-										</c:if>
-										<span>
-										&nbsp;&nbsp;
-										</span>
-				                   		<c:if test='${list.PSTATUS == "N" }'>
-					                        <span class="badge badge-danger">미승인</span>
-				                   		</c:if>
-				                   		<c:if test='${list.PSTATUS == "Y"}'>
-											<span class="badge badge-success">승인</span>
-										</c:if>
-				                   </div>
-				                </div>
-				             </div>
-				          </div>
-				        </div>
-				      </div>
-				      
-				   </form>
-				</c:forEach>
+				<c:if test="${carpoolList == [] }">
+					<h3>조회 결과가 없습니다.</h3>
+				</c:if>
+				<c:if test="${carpoolList != [] }">
+					<c:forEach items="${carpoolList }" var="list">
+					   <form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+					      <div id="div-pick" class="card border-success mb-3">
+					        <div class="card-body text-success">
+					          <div class="row">
+					             <div class="col-12">
+						             <span class="span_city">${list.STARTDATE }</span>
+									 <span class="span-option col-text">${list.PAY }원</span><br/>
+						             <span class="badge badge-primary">출발</span>
+						             <span class="span_city">${list.STARTCITY} ${list.STARTDETAIL }</span> <br/>
+						             <span class="badge badge-success">도착</span>
+						             <span class="span_city">${list.ENDCITY} ${list.ENDDETAIL }</span> <br>
+					             </div>
+					             <div class="col-12">
+					                <div class="row">
+					                	<div class="col driver">
+					                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
+					                   </div>
+					                   <div class="col status_option">
+					                   		<c:if test='${list.PAYSTATUS == "N" }'>
+						                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
+						                        <!-- Modal -->
+												<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												  <div class="modal-dialog" role="document">
+												    <div class="modal-content">
+												      <div class="modal-header">
+												        <h5 class="modal-title" id="exampleModalLabel">결제 코드</h5>
+												        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												          <span aria-hidden="true">&times;</span>
+												        </button>
+												      </div>
+												      <div class="modal-body">
+												        ${list.PAYCODE }
+												      </div>
+												      <div class="modal-footer">
+												        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												      </div>
+												    </div>
+												  </div>
+												</div>
+					                   		</c:if>
+					                   		<c:if test='${list.PAYSTATUS == "Y"}'>
+												<span class="badge badge-success">결제 완료</span>
+											</c:if>
+											<span>
+											&nbsp;&nbsp;
+											</span>
+					                   		<c:if test='${list.PSTATUS == "N" }'>
+						                        <span class="badge badge-danger">미승인</span>
+					                   		</c:if>
+					                   		<c:if test='${list.PSTATUS == "Y"}'>
+												<span class="badge badge-success">승인</span>
+											</c:if>
+					                   </div>
+					                </div>
+					             </div>
+					          </div>
+					        </div>
+					      </div>
+					   </form>
+					</c:forEach>
+				</c:if>
 		     </div>
 
 		</div>
