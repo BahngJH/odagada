@@ -158,9 +158,12 @@ public class MemberController {
 	
 	 //이메일 인증 코드 검증
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
-    public ModelAndView emailConfirm(String memberId) {
+    public ModelAndView emailConfirm(String email, String memberId) {
     	Map<String, String>map=new HashMap();
+    	
+    	//컨트롤러 실행되므로 Y 값 넣어서 보내줘도 되고, 쿼리문으로 Y 업데이트 시켜도 된다.
     	map.put("isEmailAuth", "Y");
+    	map.put("email", email);
     	map.put("memberId", memberId);
                
         int result=service.updateStatus(map);  

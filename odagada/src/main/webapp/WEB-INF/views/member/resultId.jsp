@@ -14,14 +14,10 @@ String resultId=(String)request.getAttribute("memberId");
 
 
 <style>
-/* div#enroll-container{width:400px; margin:0 auto; text-align:center;} */
-/* div#enroll-container input, div#enroll-container select {margin-bottom:10px;} */
-/* #title{margin-top:30px; margin-bottom:20px;} */
-/* .info{margin:20%; margin-top:10%;}*/
 .btn-g{margin:3px;} 
 .out-div{text-align:center; margin:5%;}
 #findId-h{margin-bottom:5%;}
-
+h3{margin-bottom:2%;}
 </style>
 
 
@@ -32,9 +28,9 @@ String resultId=(String)request.getAttribute("memberId");
      			<h3>ID 찾기 결과</h3>
    				<h5 id="findId-h">아이디: <%=resultId %></h5>
 				<span>
-					<button class="btn btn-success btn-sm btn-g" onclick="location.href='${path}/member/login.do'">로그인</button>
-					<button class="btn btn-success btn-sm btn-g">비밀번호 찾기</button>
-					<input type="reset" class="btn btn-outline-success btn-sm btn-g" value="취소">
+					<button class="btn btn-success btn-sm btn-g" onclick="location.href='${path}/member/loginForm.do'">로그인</button>
+					<button class="btn btn-success btn-sm btn-g"onclick="location.href='${path}/member/findPw'">패스워드 찾기</button>
+					<button class="btn btn-outline-success btn-sm btn-g" onclick="location.href='${path}/'">홈으로</button>
 				</span>
 			</div> 
 		</div>
@@ -42,25 +38,5 @@ String resultId=(String)request.getAttribute("memberId");
 </div>
          
          
-
-
-
-
-
-
-<script></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
