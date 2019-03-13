@@ -32,7 +32,7 @@ String resultId=(String)request.getAttribute("memberId");
 	           			<p class="oriEmail font-weight-bold"><%=resultId %></p>
 	       			</div>  
 	       			<div class="col-6 chgBtnDiv">
-	       				<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
+	       				<button type="button" id="chgEmailBtn" onclick="location.href='${path}/member/loginForm.do'" class="cg btn btn-secondary btn-sm">로그인 하러가기</button>      	
 	          		</div> 		
           		 </div>           		
                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="정보변경" >&nbsp;
@@ -43,7 +43,7 @@ String resultId=(String)request.getAttribute("memberId");
 </div> 
 
 
-
+<script></script>
 
 
 
