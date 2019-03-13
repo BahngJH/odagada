@@ -130,7 +130,7 @@
 		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
 		where passenger.memberNum = #{memberNum}
 	</select>
-	<select id="selectPopList" resultMap="">
+	<select id="selectPopList" resultMap="carpool">
 		select startcity,endcity, count(startcity), count(endcity) from carpool group by startcity, endcity order by count(startdate) desc
 	</select>
 </mapper>
