@@ -130,7 +130,7 @@
 					<span id="rDate" name="rDate"><c:out value="${r.RDATE }"/></span>
 					<br/>
 					<input type="button" class="btn btn-outline-success" value="수정" onclick="javascript:location.href='${path}/community/reviewModify.do?carpoolnum=${review.CARPOOLNUM }';" style="margin-left:340px;">
-					<input type="button" class="btn btn-outline-success" value="삭제" onclick="javascript:location.href='${path}/community/reviewDelete.do?carpoolnum=${r.CARPOOLNUM }';">
+					<input type="button" class="btn btn-outline-success" value="삭제" onclick="javascript:location.href='${path}/community/reviewDelete.do?carpoolnum=${review.CARPOOLNUM }';">
 				</div>
 			</div>
 			</ul>
