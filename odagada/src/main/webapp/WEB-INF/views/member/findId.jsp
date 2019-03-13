@@ -11,18 +11,18 @@
 </jsp:include>
 
  
-   <style>
-      div#enroll-container{width:400px; margin:0 auto; text-align:center;}
-      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-      #enroll-form{margin-top:20%;}
-      .submitB{margin:0 auto;}
-      .find-div{padding-right:0%;}
-      .cancle-div{padding-left:0%;}
-      #memberId_{margin-top:5%;} 
-   	  p{font-size:13px; margin-bottom:7px;}
-  	 .info{margin:1%; margin-top:10%;}
-  	 #mail-a{font-size:13px; text-align:left;}
-    </style>
+<style>
+  div#enroll-container{width:400px; margin:0 auto; text-align:center;}
+  div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
+  #enroll-form{margin-top:20%;}
+  .submitB{margin:0 auto;}
+  .find-div{padding-right:0%;}
+  .cancle-div{padding-left:0%;}
+  #memberId_{margin-top:5%;} 
+  p{font-size:13px; margin-bottom:7px;}
+.info{margin:1%; margin-top:10%;}
+#mail-a{font-size:13px; text-align:left;}
+</style>
     
 <script>
 

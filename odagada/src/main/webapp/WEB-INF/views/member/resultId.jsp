@@ -13,34 +13,39 @@ String resultId=(String)request.getAttribute("memberId");
 </jsp:include>
 
 
+<style>
+/* div#enroll-container{width:400px; margin:0 auto; text-align:center;} */
+/* div#enroll-container input, div#enroll-container select {margin-bottom:10px;} */
+/* #title{margin-top:30px; margin-bottom:20px;} */
+/* .info{margin:20%; margin-top:10%;}*/
+.btn-g{margin:3px;} 
+.out-div{text-align:center; margin:5%;}
+#findId-h{margin-bottom:5%;}
 
- <div id="enroll-container">
-   	<form name="memberEnrollFrm" id="memberEnrollFrm" action="${path }/member/updateInfoEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">         
-   		<div class="row">    		
-         	  <div class="col-6">           			                                	       			
-                 <div class="row passwordInfo">    	
-	           		<div class="ptext col-5">
-	           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
-	       			</div>  
-	       			<div class="col-7">      	
-         					<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
-	          		</div> 		
-           		 </div>
-	           		 <!--기존 Email 정보  -->
-       		     <div class="row passwordInfo" id="oriEmailDiv">    	
-	           		<div class="ptext col-6">
-	           			<p class="oriEmail font-weight-bold"><%=resultId %></p>
-	       			</div>  
-	       			<div class="col-6 chgBtnDiv">
-	       				<button type="button" id="chgEmailBtn" onclick="location.href='${path}/member/loginForm.do'" class="cg btn btn-secondary btn-sm">로그인 하러가기</button>      	
-	          		</div> 		
-          		 </div>           		
-                 <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="정보변경" >&nbsp;
-                 <input type="reset" class="btn btn-outline-success" value="취소">
-      	 	</div>       			   			
-       </div>
-   </form>
-</div> 
+</style>
+
+
+<div class="row out-div">
+	<div class="col-12">
+     	<div class="row">
+     		<div class="col-12">
+     			<h3>ID 찾기 결과</h3>
+   				<h5 id="findId-h">아이디: <%=resultId %></h5>
+				<span>
+					<button class="btn btn-success btn-sm btn-g" onclick="location.href='${path}/member/login.do'">로그인</button>
+					<button class="btn btn-success btn-sm btn-g">비밀번호 찾기</button>
+					<input type="reset" class="btn btn-outline-success btn-sm btn-g" value="취소">
+				</span>
+			</div> 
+		</div>
+ 	 </div>    
+</div>
+         
+         
+
+
+
+
 
 
 <script></script>

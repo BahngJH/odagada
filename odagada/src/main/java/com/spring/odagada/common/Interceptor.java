@@ -25,7 +25,7 @@ public class Interceptor extends HandlerInterceptorAdapter {
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 			return false;
-		}
+		}				
 		return super.preHandle(request, response, handler);
 	}
 }
