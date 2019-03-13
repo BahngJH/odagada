@@ -134,7 +134,7 @@
     </style>
 <div id="container" class="container-fluid">
       <div class="row">
-        <div id="chattingRoom" class="col-md-3 col-sm-12 " >
+        <div id="chattingRoom" class="col-md-3 col-sm-12 col-xs-12" >
             <div id="roomTitle">
                 <h3>채팅방 목록</h3>
             </div>
@@ -159,9 +159,8 @@
             </div>                                                           
         </div>
 		
-		
 		<!-- 대화 상대에 대한 정보 (가운데)-->
-        <div id="chattingView" class="col-md-6 col-sm-12" >
+        <div id="chattingView" class="col-md-6 col-sm-12 col-xs-12">
             <div id="selectUserInfo">
            	<c:if test="${chatMember.size()>0}">
            		<c:forEach items="${chatMember }" var="member">
@@ -221,12 +220,14 @@
             </div>
         </div>
         
-        
         <!-- 로그인 한 유저 정보(오른쪽) -->
-        <div id="profile" class="col-md-3 col-sm-12 ">
+        <div id="profile" class="col-md-3 col-sm-12 col-xs-12">
             <div id="myInfo">
                 <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
                 <span id="myName">${logined.memberName }</span>
+            </div>
+            <div id="searchMember">
+            	
             </div>
         </div>
     </div>
@@ -246,7 +247,7 @@
     //처음 창에 들어오면 웹소켓 자동 연결
     $(function()
     {
-    	//
+    	jsonData.imageUrl = "${logined.profileImageRe}";
     	jsonData.sender ="${logined.memberId}";
     	
     	var url="http://localhost:9090/odagada/echo";
@@ -286,7 +287,8 @@
 			$('#selectName').html('${memberName}');
 			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
 			$('#selectImage').html(img);
-			jsonData.imagUrl = "${imageUrl}";
+			/* jsonData.imageUrl = "${imageUrl}"; */
+			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
 		if(${chatContent.size()>0})
@@ -296,7 +298,8 @@
 			$('#selectName').html('${memberName}');
 			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
 			$('#selectImage').html(img);
-			jsonData.imagUrl = "${imageUrl}";
+			/* jsonData.imageUrl = "${imageUrl}"; */
+			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
 		//엔터로 전송하는 코드
@@ -343,25 +346,24 @@
     		{
     			console.log(data);
     			var name="";
-    			//여기해야함
     			var imageUrl="";
     			var nameImg="";
     			for(var i=0;i<data.chatList.length;i++)
     			{
     				                                                      
     				if(data.chatList[i].SENDER=='${logined.memberId}')
-        			{
-    					/* name = data.chatList[i].MEMBERNAME;
-    					imageUrl = data.chatList[i].PROFILEIMAGERE; */
-    					
-						var right ="<div >";
+        			{	
+    					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
+    					var right ="<div >";
 						right +="<p class='right' style='clear:both'>"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
 						right +="</div>";
     					allMsg +=right;
-    					jsonData.imageUrl =data.chatList[i].PROFILEIMAGERE;
-    					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
+    					//상대 프로필 주소가 여기 있어서 가져와서 셋팅
+    					jsonData.imageUrl = data.chatList[i].PROFILEIMAGERE;
+    					
         			}
         			else{
+        				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
         				name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatList[i].PROFILEIMAGERE+'" alt="상대방사진"></span>';
     		        	nameImg ='<span id="selectName">'+data.chatList[i].MEMBERNAME+'</span>';
         				var left = "<div class='msgDivLeft'>";
@@ -369,8 +371,6 @@
         				left +="<p class='left' >"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
         				left +="</div>";
     					allMsg +=left;
-    					
-        				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
         			}
     				
     			}
@@ -473,7 +473,7 @@
     	 //JSON파싱처리
     	var json = JSON.parse(jsonText);
     	
-    	//넘어온 데이터의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
+    	//수신된 메시지의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
     	if(json.roomId==jsonData.roomId)
     	{
     		updateChatRoomCK(json.roomId);
@@ -491,9 +491,7 @@
 			else
 			{
 				var left = "<div class='msgDiv'>";
-				
 				src='${path}/resources/upload/profile/"+data.chatList[i].PROFILEIMAGERE+"'
-				
 				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+json.imageUrl+"' alt='회원사진'/>";
 				left +="<p class='left' >"+json.text+"</p>";
 				left +="</div>";
@@ -506,11 +504,8 @@
 	    	var chatAreaHeight = $("#chatContent").height();
 	        var maxScroll = $("#insertContent").height() - chatAreaHeight;
 	        $("#chatContent").scrollTop(maxScroll);
-	        
     	}
-    
     }
-    
 </script>
 
 
