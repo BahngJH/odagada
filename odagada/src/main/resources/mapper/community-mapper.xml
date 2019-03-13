@@ -43,13 +43,26 @@
   </update>
 
   <insert id="insertNotify" parameterType="map">
-  	insert into notify values(6,19,#{nContent},sysdate)
+  	INSERT INTO NOTIFY VALUES(#{memberNum},19,#{nContent},sysdate)
   </insert>
   <insert id="insertReview" parameterType="map">
-  	insert into review values(9,19,#{rContent},sysdate,#{rGrade})
+  	INSERT INTO REVIEW VALUES(#{memberNum},19,20,#{rContent},sysdate,#{rGrade})
   </insert>
-  <select id="selectMyReview" parameterType="_int" resultType="map">
-  	select * from review where writerNum=#{writerNum}
+  <select id="selectReview" resultType="map" parameterType="_int">
+	SELECT * FROM REVIEW WHERE CARPOOLNUM=#{carpoolNum}  
   </select>
+  <select id="selectMyReviewList" resultType="map">
+  	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} order by rDate desc
+  </select>
+  <select id="selectReviewList" resultType="map">
+  	SELECT * FROM REVIEW WHERE DRIVERNUM=#{memberNum} order by rDate desc
+  </select>
+  <update id="updateReview">
+ 	UPDATE REVIEW SET WRITERNUM=#{memberNum},19,RCONTENT=#{rContent},sysdate,RGRADE=#{rGarde} WHERE CARPOOLNUM=#{carpoolNum}
+  </update>
+  <delete id="deleteReview">
+  	DELETE FROM REVIEW WHERE CARPOOLNUM=#{carpoolNum}
+  </delete>
+  
 
 </mapper>

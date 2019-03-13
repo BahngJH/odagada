@@ -77,6 +77,12 @@
                 </li><li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="${path }/community/reviewForm.do">리뷰</a>
+                </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
@@ -148,7 +154,6 @@
 			{
 				console.log("Connection Closed");
 			};
-
 			ws.error=function(event)
 			{
 				console.log(event);
