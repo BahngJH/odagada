@@ -56,5 +56,20 @@
 				</beans:list>
 			</beans:property>
 		</beans:bean>
+		
+		<!--interceptor 가로챌 경로, 설정 지정  -->
+	<interceptors>
+		<interceptor>
+			<!--**경로 마지막 전체 다-->
+			<!-- <mapping path="/**"/> -->
+			
+			<!--member로 들어가는 모든것 이면서 .do로 끝나는 것 -->
+			<!-- <mapping path="/member/*.do"/> -->			
+		    <!--빼고 전부  -->
+			<!-- <exclude-mapping path="/board/*"/> -->
+			<mapping path="/driver/*"/>
+			<beans:bean id="Interceptor" class="com.spring.odagada.common.Interceptor"/>		
+		</interceptor>	
+	</interceptors>
 	
 </beans:beans>
