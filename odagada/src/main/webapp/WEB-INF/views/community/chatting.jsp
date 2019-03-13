@@ -82,6 +82,9 @@
         #myInfo{
             text-align: center;
         }
+        #searchList{
+        	overflow:auto;
+        }
         img{
             border-radius: 100%;
         }
@@ -129,6 +132,13 @@
         	width: 30px;
             text-align: center;
             color:white;
+        }
+        #selectListOne{
+        	border-top: 1px solid black;
+        }
+        #selectListOne:hover{
+            background-color: #D9E5FF;
+        
         }
         
     </style>
@@ -225,9 +235,12 @@
             <div id="myInfo">
                 <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
                 <span id="myName">${logined.memberName }</span>
+                <div id="searchMember">
+            	<input id="searchId" type="text" placeholder="아이디를 입력 후 Enter">
+            	<div id="searchList">
+            		
+            	</div>
             </div>
-            <div id="searchMember">
-            	
             </div>
         </div>
     </div>
@@ -302,7 +315,7 @@
 			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
-		//엔터로 전송하는 코드
+		//엔터로 메시지 전송
 		$("#messageInput").keypress(function(e){ 
 		    if (e.keyCode == 13)
 		    {
@@ -310,6 +323,13 @@
 		    }    
 		});
 		
+		//엔터로 멤버 검색
+		$("#searchId").keypress(function(e){ 
+		    if (e.keyCode == 13)
+		    {
+		        searchMember();
+		    }    
+		});
     });
     
     //메시지 보내는 기능
@@ -505,6 +525,31 @@
 	        var maxScroll = $("#insertContent").height() - chatAreaHeight;
 	        $("#chatContent").scrollTop(maxScroll);
     	}
+    }
+     
+    function searchMember()
+    {
+    	$.ajax({
+    		url:"${path}/community/searchId.do",
+    		data:{"searchId":$('#searchId').val()},
+    		success:function(data){
+    			var searchList="";
+    			console.log(data.searchList);
+    			for(var i=0;i<data.searchList.length;i++)
+    			{
+    				searchList +='<div id="selectListOne" onclick="clickMember('+data.searchList[i].MEMBERID+')">';
+    				searchList +='<p>'+data.searchList[i].MEMBERID+'<br>';
+    				searchList +=data.searchList[i].MEMBERNAME+'</p>';
+    				searchList +='</div>';
+    			}
+    			$('#searchList').html(searchList);
+    		}
+    	});	
+    }
+    
+    function clickMember(userId)
+    {
+    	console.log('userId');	
     }
 </script>
 

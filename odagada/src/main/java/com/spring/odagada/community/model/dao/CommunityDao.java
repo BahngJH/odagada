@@ -7,6 +7,7 @@ import com.spring.odagada.community.model.vo.ChatRoomVo;
 import com.spring.odagada.community.model.vo.MessageVo;
 
 public interface CommunityDao {
+	List<Map<String,String>> searchId(String searchId);
 	int insertRoomId(Map roomIdData);
 	List<Map<String,String>> bringUserInfo(Map<String,String> roomIdData);
 	String roomIdCheck(Map<String,String> roomIdData);

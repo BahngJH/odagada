@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.community.model.service.CommunityService;
@@ -45,6 +46,16 @@ public class CommunityController {
 		mv.addObject("unIsReadMsg", unIsReadMsg);
 		mv.setViewName("jsonView");
 		
+		return mv;
+	}
+	
+	@RequestMapping("/community/searchId.do")
+	public ModelAndView searchId(String searchId,ModelAndView mv) 
+	{
+		logger.debug("찾을 아이디 : "+searchId);
+		List<Map<String,String>> searchList = service.searchId(searchId);
+		mv.addObject("searchList",searchList);
+		mv.setViewName("jsonView");
 		return mv;
 	}
 
