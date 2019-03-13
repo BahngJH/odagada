@@ -23,9 +23,15 @@
 	</update>
 	
  	<!-- 메일 인증상태 업데이트 -->
+	<!-- <update id="mailStatus" parameterType="map">
+	UPDATE MEMBER SET ISPHONEAUTH ='Y' WHERE MEMBERID=${memberId} AND EMAIL=${email} 
+	</update> -->
+	
 	<update id="mailStatus" parameterType="map">
-	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where memberId=#{memberId}
+	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where email=#{email} and memberId=#{memberId}
 	</update>
+	
+	
 	
 	<!--ID중복 체크 -->
 	<select id="checkId" parameterType="string" resultType="_int">
