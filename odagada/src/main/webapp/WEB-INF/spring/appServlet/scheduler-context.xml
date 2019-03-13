@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
 
-	<bean id="testTask" class="com.spring.odagada.HomeController"/>
-	<task:scheduler id="testScheduler" pool-size="10"/>
-	<task:annotation-driven scheduler="testScheduler"/>
+	<bean id="carpoolTask" class="com.spring.odagada.carpool.controller.CarpoolScheduler"/>
+	<task:scheduler id="carpoolScheduler" pool-size="10"/>
+	<task:annotation-driven scheduler="carpoolScheduler"/>
 </beans>

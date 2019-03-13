@@ -17,4 +17,5 @@ public interface CarpoolService {
 	List<Map<String,String>> selectReList(int dNum);
 	List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage);
 	int selectCarpoolCount(int memberNum);
+	void setCarpoolStatus(String nowDate);
 }

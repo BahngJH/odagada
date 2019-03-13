@@ -128,4 +128,7 @@
 		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
 		where passenger.memberNum = #{memberNum}
 	</select>
+	<update id="setCarpoolStatus" parameterType="string">
+		UPDATE CARPOOL SET STATUS = 'Y' WHERE STARTDATE <![CDATA[<]]> #{nowDate} 
+	</update>
 </mapper>

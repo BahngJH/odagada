@@ -29,5 +29,7 @@ public interface CarpoolDao {
 
 	int selectCarpoolCount(int memberNum);
 
+	void setCarpoolStatus(String nowDate);
+
 }
 
