@@ -69,5 +69,11 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	@Override
 	public int selectCarpoolCount(int memberNum) {
 		return session.selectOne("carpool.selectCarpoolCount", memberNum);
-  }	
+  }
+
+	@Override
+	public List<Map<String, String>> selectPopList() {
+		return session.selectList("carpool.selectPopList");
+	}	
+	
 }

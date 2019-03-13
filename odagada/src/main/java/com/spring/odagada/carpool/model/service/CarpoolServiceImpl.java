@@ -80,4 +80,10 @@ public class CarpoolServiceImpl implements CarpoolService {
 	public int selectCarpoolCount(int memberNum) {
 		return dao.selectCarpoolCount(memberNum);
 	}
+
+	@Override
+	public List<Map<String, String>> selectPopList() {
+		return dao.selectPopList();
+	}
+	
 }

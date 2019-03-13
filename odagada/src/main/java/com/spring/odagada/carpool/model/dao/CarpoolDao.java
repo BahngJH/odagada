@@ -29,5 +29,6 @@ public interface CarpoolDao {
 
 	int selectCarpoolCount(int memberNum);
 
+	List<Map<String,String>> selectPopList();
 }
 
