@@ -63,14 +63,11 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		
 		List<ChatRoomVo> chatRoomList =  session.selectList("community.bringChatRooms",loginId);
+		
 		for(ChatRoomVo room:chatRoomList)
 		{
-			room.setIsReadCount(room.getAllMsg()-room.getyMsg());
-		}
-		/*for(ChatRoomVo room:chatRoomList)
-		{
 			room.setIsReadCount(session.selectOne("community.isReadCount", room));
-		}*/
+		}
 		return chatRoomList;
 	}
 	

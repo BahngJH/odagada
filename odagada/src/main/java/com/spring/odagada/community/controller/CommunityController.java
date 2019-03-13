@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.community.model.vo.ChatRoomVo;
-import com.spring.odagada.community.model.vo.MessageVo;
 import com.spring.odagada.member.model.vo.Member;
 
 @Controller
@@ -29,6 +29,7 @@ public class CommunityController {
 	
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
+	//채팅 테스트페이지로 이동, 마지막에 지울 메소드
 	@RequestMapping("/community/moveChatting.do")
 	public String test() {
 		return "community/chatView";
@@ -45,6 +46,7 @@ public class CommunityController {
 		return mv;
 	}
 
+	//드라이버창에서 채팅하기 눌렀을 때 동작하는 메소드
 	@RequestMapping("/community/createRoomClick.do")
 	public ModelAndView createRoomClick(ModelAndView mv, String chatUser, HttpServletRequest request)
 	{
@@ -74,7 +76,8 @@ public class CommunityController {
 			{
 				logger.debug("방도 있고 메시지도 있다"+chatContent);
 				mv.addObject("chatContent", chatContent);
-				for(int i=0;i<chatContent.size();i++) {
+				for(int i=0;i<chatContent.size();i++) 
+				{
 					logger.debug("MAP데이터22"+chatContent.get(i));
 				}
 			}
@@ -105,7 +108,7 @@ public class CommunityController {
 		return mv;
 	}
 
-	//채팅방 입장
+	//헤더에 있는 소통하기 누르면 실행됨
 	@RequestMapping("/community/chatting.do")
 	public ModelAndView chatting(HttpServletRequest request, ModelAndView mv) 
 	{
@@ -152,7 +155,7 @@ public class CommunityController {
 		return mv;
 	}
 	
-	//채팅방 클릭 했을 때
+	//채팅방 클릭 했을 때 해당 메시지를 가져옴
 	@RequestMapping("/community/bringMessage.do")
 	public ModelAndView bringMsg(String roomId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
 	{
