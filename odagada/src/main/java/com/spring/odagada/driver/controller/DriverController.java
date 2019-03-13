@@ -27,7 +27,7 @@ import com.spring.odagada.common.PageFactory;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.driver.model.vo.Driver;
-import com.spring.odagada.driver.model.vo.carImage;
+import com.spring.odagada.driver.model.vo.CarImage;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -46,26 +46,39 @@ public class DriverController {
 	public ModelAndView driverEnroll(HttpSession session) {
 		
 		Member m = (Member) session.getAttribute("logined");
-		ModelAndView mv = new ModelAndView();
-		
+		ModelAndView mv = new ModelAndView();		
+		int memberNum = m.getMemberNum();		
+		Driver driver = service.selectOne(memberNum);	
 		
 		if(m!=null)
 		{
-			
-			logger.debug("회원정보"+m);
-			logger.debug("앞자리 테스트"+m.getPhone().substring(0,3));
-			if(m.getPhone().length()==11)
+			if(driver!=null)
 			{
-				logger.debug("나머지테스트"+m.getPhone().substring(3,11));
+				mv.setViewName("/common/msg");
+				mv.addObject("msg","드라이버 등록되어있습니다.");
+				mv.addObject("loc","/");
+				
+				return mv;
 			}
-			else if(m.getPhone().length()==10)
-			{
-				logger.debug("나머지테스트"+m.getPhone().substring(3,10));
-			}
-			
-			mv.setViewName("driver/driverEnroll");
-			
-			return mv;
+			else {
+				logger.debug("회원정보"+m);
+				logger.debug("앞자리 테스트"+m.getPhone().substring(0,3));
+				if(m.getPhone().length()==11)
+				{
+					logger.debug("나머지테스트"+m.getPhone().substring(3,11));
+				}
+				else if(m.getPhone().length()==10)
+				{
+					logger.debug("나머지테스트"+m.getPhone().substring(3,10));
+				}
+				mv.addObject("driver",driver);
+				mv.setViewName("driver/driverEnroll");
+				
+				
+				logger.debug("드라이버 있나요"+driver);
+				return mv;
+
+			}			
 		}
 		else {
 			mv.setViewName("/common/msg");
@@ -107,7 +120,7 @@ public class DriverController {
 		driver.put("driver_info", driver_info);
 
 		
-		ArrayList<carImage> files = new ArrayList();
+		ArrayList<CarImage> files = new ArrayList();
 		
 		String savDir = request.getSession().getServletContext().getRealPath("/resources/upload/car");
 		
@@ -128,7 +141,7 @@ public class DriverController {
 				e.printStackTrace();
 			}
 			imgOrder = imgOrder+1;
-			carImage cImg = new carImage();
+			CarImage cImg = new CarImage();
 			cImg.setCarImageOri(oriFileName);
 			cImg.setCarImageRe(reName);
 			logger.debug("자동차 번호 "+carNum);
@@ -171,6 +184,7 @@ public class DriverController {
 		 ModelAndView mv = new ModelAndView();
 		 Map<String,String> map = service.selectDriverOne(memberNum);
 		 List<Map<String,String>> carImg = service.selectCarImg(carNum);
+	
 		carImg.get(0).put("active", "active");
 		 
 		 mv.addObject("driver",map);
@@ -182,33 +196,37 @@ public class DriverController {
 		 return mv;
 	 }
 	@RequestMapping("/driver/driverFormEnd")
-	public String driverFormEnd(Driver d,HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
+	public String driverFormEnd(Driver driver,HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
 	{
+		Driver d = service.selectOne(memberNum);
+		String licenseNum = d.getLicenseNum();
 		
 		logger.debug("넘버= "+memberNum);
-		logger.debug("상황 = "+driverStatus);
-		
-		//d = service.selectOne(memberNum);
-		/*String driverStatus = request.getParameter("driverStatus");*/
+		logger.debug("드라이버수락여부 = "+driverStatus);
+		logger.debug("면허 확인"+licenseNum);
+		logger.debug("멤버 = "+driver);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		
-		if(driverStatus.equals("Y"))
+			map.put("memberNum", memberNum);
+			
+		if(driverStatus.equals("N"))
 		{
-			driverStatus = "N";
-			//d.setDriverStatus(driverStatus);
-		}
-		else {
 			driverStatus = "Y";
-			/*d.setDriverStatus(driverStatus);*/
+			map.put("driverStatus", driverStatus);
+			int result = service.updateStatus(map);
 		}
-		//map.put("driver", d);
-		map.put("driverStatus", driverStatus);
-		map.put("memberNum", memberNum);
-		
-		int result = service.updateStatus(map);
 		
 		return "redirect: driverList";
 		
 	}
+	
+	@RequestMapping("drvier/driverRefuse")
+	public String deleteDriver(@RequestParam(value="memberNum") int memberNum)
+	{
+		int result = service.deleteDriver(memberNum);
+		
+		return "redirect: driverList";
+	}
+	
+	
 }

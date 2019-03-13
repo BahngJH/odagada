@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -46,6 +47,9 @@ public class MemberController {
 	
 	@Autowired
 	CarpoolService cService;
+	
+	@Autowired
+	DriverService dService;
 	
 	//비밀번호 암호화 처리
 	@Autowired
@@ -342,6 +346,47 @@ public class MemberController {
 	   mav.addObject("pageBar", getpageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;
+   }
+   
+   @RequestMapping("/member/myDriver")
+   public ModelAndView myDriver(HttpSession session) {
+	   
+	   
+	   ModelAndView mv = new ModelAndView();
+	   
+	   Member m = (Member)session.getAttribute("logined");	   
+	   int memberNum = m.getMemberNum();	   
+	   Map<String, String> driver = dService.selectDriverOne(memberNum);
+	   
+	   if(driver!=null)
+	   {
+		   logger.debug("차 넘버"+driver.get("CARNUM"));
+
+		   String carNum = driver.get("CARNUM");
+		   List<Map<String,String>> carImg = dService.selectCarImg(carNum);
+		   
+		   String a = driver.get("LICENSENUM").substring(0,3);
+		   String b = "**-******";
+		   String c = driver.get("LICENSENUM").substring(12);
+		   
+		   String licenseNum = a+b+c;
+		   
+		   logger.debug("차번호"+carNum);
+		   logger.debug("차 이미지"+carImg);
+		   logger.debug("번호판 길이"+carNum.length());
+		   carImg.get(0).put("active", "active");
+		   
+		   mv.addObject("carImg",carImg);
+		   mv.addObject("licenseNum",licenseNum);
+	   }
+	     
+
+
+	   logger.debug("테스트"+driver);
+	   mv.addObject("driver", driver);
+	   mv.setViewName("member/myDriver");
+	   
+	   return mv;
    }
    
    
