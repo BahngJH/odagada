@@ -14,6 +14,10 @@ public interface MemberService {
 	int updateStatus(Map<String, String>map);
 	int deleteMember(int memberNum);
 	
-	//아이디 찾기
+	 //아이디 찾기
 	 Map<String, String> findId(Map findId);
+	 //패스워드 찾기
+	 Map<String,String>findPw(Map info);
+	 //임시 비밀번호 발급
+	/* void sendPw(Map info)throws Exception;*/
 }

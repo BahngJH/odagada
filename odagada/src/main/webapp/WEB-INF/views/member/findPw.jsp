@@ -70,10 +70,10 @@ function validate(){
                 <br/>
             <div class="row submitB">
             	<div class="col-6 find-div"> 
-              		<input type="submit" class="btn btn-success" role="group" "enrollBtn" value="찾기 " >
+              		<input type="submit" class="btn btn-success" value="임시비밀번호 발급" >
               	</div>
               	<div class="col-6 cancle-div">	
-              		<input type="reset" class="btn btn-outline-success" role="group" value="취소 ">
+              		<input type="reset" class="btn btn-outline-success" value="취소 ">
            		</div> 
            </div>
          </form>

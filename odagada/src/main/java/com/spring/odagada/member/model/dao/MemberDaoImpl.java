@@ -93,5 +93,11 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.findId", findId);
 	}
+
+	@Override
+	public Map<String, String> findPw(Map info) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.findPw", info);
+	}
 	
 }

@@ -2,6 +2,9 @@ package com.spring.odagada.member.model.dao;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spring.odagada.member.model.vo.Member;
 
 public interface MemberDao {
@@ -26,6 +29,9 @@ public interface MemberDao {
 	
 	//아이디 찾기
 	 Map<String, String>findId(Map findId);
+	 
+	 //패스워드 찾기
+	 Map<String,String>findPw(Map info);
 	
 
 }

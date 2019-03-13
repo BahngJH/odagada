@@ -22,13 +22,9 @@
 	UPDATE MEMBER SET MAILCODE=#{mailCode} where email=#{email}
 	</update>
 	
- 	<!-- 메일 인증상태 업데이트 -->
-	<!-- <update id="mailStatus" parameterType="map">
-	UPDATE MEMBER SET ISPHONEAUTH ='Y' WHERE MEMBERID=${memberId} AND EMAIL=${email} 
-	</update> -->
-	
+ 	<!-- 메일 인증상태 업데이트 -->	
 	<update id="mailStatus" parameterType="map">
-	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where email=#{email} and memberId=#{memberId}
+	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where memberId=#{memberId}
 	</update>
 	
 	
@@ -63,6 +59,11 @@
 	<!-- 아이디 찾기  -->
 	<select id="findId" parameterType="map" resultMap="memberMap">
 	SELECT MEMBERID FROM MEMBER WHERE MEMBERNAME=#{memberName} AND EMAIL=#{email}	
+	</select>
+	
+	<!--패스워드 찾기 -->
+	<select id="findPw" parameterType="map" resultMap="memberMap">
+	SELECT MEMBERPW FROM MEMBER WHERE MEMBERID=#{memberId} AND EMAIL=#{email} AND  MEMBERNAME=#{memberName} 
 	</select>
 	
 </mapper>

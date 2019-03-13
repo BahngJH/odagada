@@ -79,8 +79,7 @@ public class MemberServiceImple implements MemberService {
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
-        sendMail.send();
-       
+        sendMail.send();     
     }
 
    //메일 인증상태 업데이트
@@ -98,6 +97,12 @@ public class MemberServiceImple implements MemberService {
 	public Map<String, String> findId(Map findId) {
 		// TODO Auto-generated method stub
 		return dao.findId(findId);
+	}
+
+	@Override
+	public Map<String, String> findPw(Map info) {
+		// TODO Auto-generated method stub
+		return dao.findPw(info);
 	}
 
 }

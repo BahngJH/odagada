@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -132,7 +133,7 @@ public class MemberController {
 		}
 		service.insertMember(m);
 
-		String msg="인증 메일이 전송되었습니다. 인증 후 로그인 하실 수 있습니다.";
+		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -179,9 +180,7 @@ public class MemberController {
 	
 	//로그인
    @RequestMapping("/member/login.do")
-   public ModelAndView login(String memberId, String memberPw, Model model) {
-	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);
-	   
+   public ModelAndView login(String memberId, String memberPw, Model model) {	   
 	   Map<String, String>login=new HashMap();
 	   login.put("memberId", memberId);
 	   login.put("memberPw", memberPw);
@@ -199,16 +198,10 @@ public class MemberController {
 		} else {
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
-
 			if (result != null) {
-				/*if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && m.getIsEmailAuth().equals("Y")) {*/
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
 					mv.addObject("logined", m);
 					mv.setViewName("redirect:/");
-				/*}
-				else if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && !m.getIsEmailAuth().equals("Y")) {
-					mv.addObject("msg", "이메일 인증을 완료해주세요.");
-					mv.setViewName("common/msg");*/
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
 					mv.addObject("loc", "/member/loginForm.do");
@@ -217,7 +210,7 @@ public class MemberController {
 			}
 		}
 		return mv;
-}
+	}
 
    
    //로그아웃(세션끊기)
@@ -347,8 +340,6 @@ public class MemberController {
    //ID 찾기
    @RequestMapping("/member/findId.do")
    public ModelAndView findIdEnd(String memberName, String email, Model model) {
-	   logger.debug("받아오는 값 이름?"+memberName+"이멜주소?"+email);
-	   
 	   ModelAndView mv=new ModelAndView();
 	  
 	   Map<String, String>findId=new HashMap();
@@ -356,8 +347,6 @@ public class MemberController {
 	   findId.put("email", email);
 	   
 	   Map<String, String> id=service.findId(findId);
-	   	
-	   logger.debug("디비 결과는? "+id);
 
 			if (id != null) {
 				String resultId=id.get("MEMBERID");
@@ -368,27 +357,51 @@ public class MemberController {
 				mv.addObject("loc", "/member/findId");
 				mv.setViewName("common/msg");
 			}
-
 			return mv;
 		}
-
-   
-	// 비밀번호 찾기
+ 
+	// 비밀번호 찾기 뷰
 	@RequestMapping("/member/findPw")
 	public String findPassword() {
 		return "member/findPw";
 	}
 	
-	// 비밀번호 찾기
+/*	// 비밀번호 찾기
 	@RequestMapping("/member/findPw.do")
-	public String findPassword(String memberId, String email, String name) {
-
+	public ModelAndView findPassword(String memberId, String email, String memberName) {
+		Map<String, String>info=new HashMap();
+		info.put("memberId", memberId);
+		info.put("email", email);
+		info.put("memberName", memberName);
+		
+		Map<String, String>findPw=service.findPw(info);
 		ModelAndView mv = new ModelAndView();
-		Member m = service.selectMember(memberId);
-
-		return "member/findPw";
+		
+		String msg="";
+		String loc="/";
+		if(findPw!=null) {
+			int ran=new Random().nextInt(100000)+1000;
+			String sendPw=String.valueOf(ran);
+			String upPw=pwEncoder.encode(newOriPw);
+			info.put("memberPw", upPw);
+			info.put("sendPw", sendPw);
+			
+			
+			
+			
+			service.sendPw(info);
+			msg="등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
+			mv.addObject("msg",msg);
+			mv.addObject("loc",loc);
+			mv.setViewName("common/msg");		
+		}else {
+			msg="일치하는 정보가 없습니다.";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", "/member/findPw");		
+		}	
+		return mv;
 	}
-	
+	*/
 	
 
    @RequestMapping("/member/myCarpool")
