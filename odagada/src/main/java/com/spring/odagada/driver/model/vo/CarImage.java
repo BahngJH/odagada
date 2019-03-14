@@ -1,17 +1,17 @@
 package com.spring.odagada.driver.model.vo;
 
-public class carImage {
+public class CarImage {
 	
 	private String carImageOri;
 	private String carImageRe;
 	private String carNum;
 	private int imageOrder;
 	
-	public carImage() {
+	public CarImage() {
 		super();
 	}
 
-	public carImage(String carImageOri, String carImageRe, String carNum, int imageOrder) {
+	public CarImage(String carImageOri, String carImageRe, String carNum, int imageOrder) {
 		super();
 		this.carImageOri = carImageOri;
 		this.carImageRe = carImageRe;
