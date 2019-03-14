@@ -15,6 +15,12 @@ public class BoardServiceImpl implements BoardService {
 	BoardDao dao;
 
 	@Override
+	public List<Map<String, String>> memberList() {
+		// TODO Auto-generated method stub
+		return dao.memberList();
+	}
+
+	@Override
 	public int selectBoardCount() {
 		return dao.selectBoardCount();
 	}

@@ -15,6 +15,12 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public List<Map<String, String>> memberList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.memberList");
+	}
+
+	@Override
 	public int selectBoardCount() {
 		return sqlSession.selectOne("board.selectBoardCount");
 	}

@@ -174,7 +174,7 @@ public class DriverController {
 	      mv.addObject("list",list);
 	      mv.setViewName("driver/driverJoinList");	      
 		      
-		      return mv;	      
+	      return mv;	      
 	   }
 	 
 	 @RequestMapping("/driver/driverForm")

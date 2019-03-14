@@ -37,6 +37,16 @@ public class BoardController {
    @Autowired
    BoardService service;
    
+   @RequestMapping("/admin/memberList.do")
+   public ModelAndView memberList(ModelAndView mv)
+   {
+	   List<Map<String,String>> memberList = service.memberList();
+	   logger.debug("전체회원 정보"+memberList);
+	   mv.addObject("memberList", memberList);
+	   mv.setViewName("board/memberManagement");
+	   return mv;
+   }
+   
    @RequestMapping("/board/boardList")
    public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
    {
