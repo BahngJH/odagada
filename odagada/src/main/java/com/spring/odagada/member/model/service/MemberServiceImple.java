@@ -15,8 +15,7 @@ import com.spring.odagada.member.sendmail.MailHandler;
 import com.spring.odagada.member.sendmail.TemKey;
 
 @Service
-public class MemberServiceImple implements MemberService {
-	
+public class MemberServiceImple implements MemberService {	
 	@Autowired
 	MemberDao dao;	
 	
@@ -61,7 +60,6 @@ public class MemberServiceImple implements MemberService {
             
         // 인증키 생성
         String key = new TemKey().getKey(50,false); 
-        System.out.println(key);
         //인증키 db 저장        
         dao.createAuthKey(m.getEmail(),key);
         
@@ -106,9 +104,9 @@ public class MemberServiceImple implements MemberService {
 		return dao.findPw(info);
 	}
 
+	//임시 비밀번호 발급
 	@Override
 	public void sendPw(Map info) throws Exception {
-		     System.out.println("서비스레지스");
 		     dao.updateTempPw(info);//임시 비밀번호로 업데이트.
 		     
 		     //만들어놓은 임시 비밀번호
@@ -132,17 +130,13 @@ public class MemberServiceImple implements MemberService {
 	//메일 코드 만들어서 업데이트 시키기. 
 	@Override
 	public void mailAuth(Member m) throws Exception {
-        System.out.println("메일인증 service");
-            
-        // 인증키 생성
-        String key = new TemKey().getKey(50,false); 
-        System.out.println(key);
-        //인증키 db 저장        
-        dao.createAuthKey(m.getEmail(),key);
-        
+		 //인증키 생성
+	    String key = new TemKey().getKey(50,false); 
+		//인증키 db 저장        
+        dao.createAuthKey(m.getEmail(),key);      
         //메일 전송
         MailHandler sendMail = new MailHandler(mailSender);
-        sendMail.setSubject("[odagada] 가입 인증 메일");
+        sendMail.setSubject("[odagada] 메일 인증하기 입니다.");
         sendMail.setText(
                 new StringBuffer().append("<h1>메일인증</h1>")
                 .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")

@@ -431,7 +431,7 @@ $(function(){
             <div class="row row-email">
                <div class="col-5 div-email">
                   <div class="input-group div-email">
-                     <input type="text" class="emailC form-control" placeholder="이메일 아이디" name="email1" id="email1" maxlength="20" required>
+                     <input type="text" class="emailC form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
                      <span class="input-group-addon addon-email" id="basic-addon1">@</span>
                   </div>
                </div>

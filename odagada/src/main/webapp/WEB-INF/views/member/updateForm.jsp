@@ -206,11 +206,11 @@
 		}
 	}
 	
- 	function changeEmail(){		    
+ 	function sendEmail(){		    
 	    //이전 이메일과 중복여부 확인
-	    	var reMail=$('#reMail').val().trim();
-	   	    var oriMail=$('.oriEmail').text();
-	   	    /* var sendMailBtn=document.getElementById('sendMailBtn'); */
+	    	var reMail=$('#reMail').val().trim();//변경할 이메일
+	   	    var oriMail=$('.oriEmail').text();//기존 이메일
+	   	    
 	   		//이메일 유효성 검사
 			var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			
@@ -219,27 +219,29 @@
 				return false;
 			}
 	   	    
-
 	     	if(reMail===oriMail){
 	    		$("#alertEmail").show();
-	    		$("#sentEmailDiv").hide();
-	    		/* sendMailBtn=$('#sendMailBtn').attr('disalbed',true); */
-	    		
-	    		 return false;
-	    		
+	    		$("#sentEmailDiv").hide();	    		
+	    		 return false;	    		
 	    	}else{
 	    		$("#alertEmail").hide();
 	    		$("#sentEmailDiv").show();
+	    		
+	    		$.ajax({
+	    		url:"${path}/member/"	
+	    		})
+	    		
+	    		
+	    		
+	    		
 	    	} 
+	     	
+	     	
 	    
 	} 
  	
  	
 
-	    
-	    
-
-	
 	
 </script>
       <div id="enroll-container">
@@ -279,7 +281,7 @@
 		       			  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
 		       			</div>  
 		       			<div class="btns col-5">
-		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMailBtn" onclick="changeEmail();">인증 메일 발송</button>
+		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
 		       			  <button type="button" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
 		          		</div> 		
 	           		 </div>
@@ -287,7 +289,7 @@
      			     <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
 	           		  <!--Email 변경 인증 메일 전송 후  -->      			  
 	       			  <div id="sentEmailDiv">
-		    			  <div class="alert alert-success text-success" id="sendEmail" role="alert">인증메일이 발송되었습니다.</div>
+		    			  <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
 		    			  <p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
 		    			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
 		       			  <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>

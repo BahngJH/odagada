@@ -157,7 +157,7 @@ public class MemberController {
 		
 	}
 	
-	 //이메일 인증 코드 검증
+	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public ModelAndView emailConfirm(String email, String memberId) {
     	Map<String, String>map=new HashMap();
@@ -168,19 +168,18 @@ public class MemberController {
     	map.put("memberId", memberId);
                
         int result=service.updateStatus(map);  
-        logger.debug("결과는?"+result);
         ModelAndView mv=new ModelAndView();
         
         String msg="";
 		String loc="/";
+		
+		logger.debug("이메일 상태 업데이트의 결과??"+result);
         if(result>0) {
-        	msg="이메일 인증 성공";
+        	msg="이메일 인증이 완료되었습니다.";
         }else {       	
         	mv.addObject("비정상적인 접근입니다.", msg);
         	mv.setViewName("redirect:/");
-        }
-        //System.out.println("usercontroller vo =" +vo);
-       /* return "member/sucessAuth";*/
+        }       
         mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("member/successAuth");
@@ -428,10 +427,16 @@ public class MemberController {
 	
 	//메일 인증하기
 	@RequestMapping("/member/mailAuth")
-	public String mailAuth(HttpSession session) throws Exception {
+	public  ModelAndView mailAuth(HttpSession session) throws Exception {
 		Member m=(Member)session.getAttribute("logined");
+		Map<String, String>mailAuth=new HashMap();
 		service.mailAuth(m);
-		return "redirect:/";
+		
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("msg", "이메일 전송이 완료되었습니다.");
+		mv.addObject("loc", "/");
+		mv.setViewName("common/msg");
+		return mv;
 	}
 		
    @RequestMapping("/member/myCarpool")
@@ -535,6 +540,7 @@ public class MemberController {
     	}
     }
     
+    //핸드폰 중복 확인
     @ResponseBody
     @RequestMapping("/member/phoneCheck.do")
     public String phoneCheck(String phone){
