@@ -26,6 +26,7 @@ public interface MemberDao {
 	
 	//아이디 찾기
 	 Map<String, String>findId(Map findId);
+	int updatePhoneCode(Member m);
 	
 
 }

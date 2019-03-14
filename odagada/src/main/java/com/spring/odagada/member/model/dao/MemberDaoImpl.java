@@ -93,5 +93,10 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.findId", findId);
 	}
+
+	@Override
+	public int updatePhoneCode(Member m) {
+		return session.update("member.updatePhoneCode", m);
+	}
 	
 }

@@ -425,48 +425,67 @@ public class MemberController {
 	   return mav;
    }
    
-   @RequestMapping("/member/sendSms")
-	public void test() {
-		String hostname = "api.bluehouselab.com";
-		String url = "https://"+hostname+"/smscenter/v1.0/sendsms";
-		
-		CredentialsProvider credsProvider = new BasicCredentialsProvider();
-		credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM), 
-				new UsernamePasswordCredentials("odagada", "9c9ca1e0454b11e9acbb0cc47a1fcfae"));
-		
-		AuthCache authCache = new BasicAuthCache();
-		authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
-		
-		HttpClientContext context = HttpClientContext.create();
-       context.setCredentialsProvider(credsProvider);
-       context.setAuthCache(authCache);
+    @ResponseBody
+	@RequestMapping("/member/sendSms")
+	public String test(HttpSession session, String receiver) {
+		// 인증 코드 생성
 
-       DefaultHttpClient client = new DefaultHttpClient();
+		int rand = (int) (Math.random() * 899999) + 100000;
 
-       try {
-           HttpPost httpPost = new HttpPost(url);
-           httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-           String json = "{\"sender\":\"01028257863\",\"receivers\":[\"01028257863\"],\"content\":\"testset\"}";
+		logger.debug(rand + "");
 
-           StringEntity se = new StringEntity(json, "UTF-8");
-           httpPost.setEntity(se);
+		String phoneCode = pwEncoder.encode(rand + "");
+		Member m = (Member) session.getAttribute("logined");
+		m.setPhoneCode(phoneCode);
+		int result = service.updatePhoneCode(m);
 
-           HttpResponse httpResponse = client.execute(httpPost, context);
-           System.out.println(httpResponse.getStatusLine().getStatusCode());
+		if (result > 0) {
+			// 문자 보내기 (청기와랩 api 사용)
+			String hostname = "api.bluehouselab.com";
+			String url = "https://" + hostname + "/smscenter/v1.0/sendsms";
 
-           InputStream inputStream = httpResponse.getEntity().getContent();
-           if(inputStream != null) {
-               BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-               String line = "";
-               while((line = bufferedReader.readLine()) != null)
-                   System.out.println(line);
-               inputStream.close();
-           }
-       } catch (Exception e) {
-           System.err.println("Error: "+e.getLocalizedMessage());
-       } finally {
-           client.getConnectionManager().shutdown();
-       }
+			CredentialsProvider credsProvider = new BasicCredentialsProvider();
+			credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
+					new UsernamePasswordCredentials("odagada", "9c9ca1e0454b11e9acbb0cc47a1fcfae"));
+
+			AuthCache authCache = new BasicAuthCache();
+			authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
+
+			HttpClientContext context = HttpClientContext.create();
+			context.setCredentialsProvider(credsProvider);
+			context.setAuthCache(authCache);
+
+			DefaultHttpClient client = new DefaultHttpClient();
+
+			try {
+				HttpPost httpPost = new HttpPost(url);
+				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
+						+ "\"],\"content\":\"testset\"}";
+
+				StringEntity se = new StringEntity(json, "UTF-8");
+				httpPost.setEntity(se);
+
+				HttpResponse httpResponse = client.execute(httpPost, context);
+				System.out.println(httpResponse.getStatusLine().getStatusCode());
+
+				InputStream inputStream = httpResponse.getEntity().getContent();
+				if (inputStream != null) {
+					BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+					String line = "";
+					while ((line = bufferedReader.readLine()) != null)
+						System.out.println(line);
+					inputStream.close();
+				}
+			} catch (Exception e) {
+				System.err.println("Error: " + e.getLocalizedMessage());
+			} finally {
+				client.getConnectionManager().shutdown();
+			}
+			return "true";
+		} else {
+			return "false";
+		}
 	}
 
 }

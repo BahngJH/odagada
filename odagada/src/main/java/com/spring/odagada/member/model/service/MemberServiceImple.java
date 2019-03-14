@@ -100,4 +100,10 @@ public class MemberServiceImple implements MemberService {
 		return dao.findId(findId);
 	}
 
+	@Override
+	public int updatePhoneCode(Member m) {
+		return dao.updatePhoneCode(m);
+		
+	}
+
 }

@@ -65,4 +65,8 @@
 	SELECT MEMBERID FROM MEMBER WHERE MEMBERNAME=#{memberName} AND EMAIL=#{email}	
 	</select>
 	
+	<update id="updatePhoneCode" parameterType="member">
+		UPDATE MEMBER SET PHONECODE = #{phoneCode} WHERE MEMBERNUM = #{memberNum}
+	</update>
+	
 </mapper>
