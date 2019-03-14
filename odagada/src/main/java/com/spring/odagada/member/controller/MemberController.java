@@ -174,7 +174,7 @@ public class MemberController {
         String msg="";
 		String loc="/";
         if(result>0) {
-        	msg="회원가입 성공";
+        	msg="이메일 인증 성공";
         }else {       	
         	mv.addObject("비정상적인 접근입니다.", msg);
         	mv.setViewName("redirect:/");
@@ -419,16 +419,14 @@ public class MemberController {
 		return mv;
 	}
 	
-/*	//메일 인증하기
+	//메일 인증하기
 	@RequestMapping("/member/mailAuth")
-	public String mailAuth(HttpSession session) {
+	public String mailAuth(HttpSession session) throws Exception {
 		Member m=(Member)session.getAttribute("logined");
 		service.mailAuth(m);
 		return "redirect:/";
-	}*/
-	
-	
-
+	}
+		
    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   

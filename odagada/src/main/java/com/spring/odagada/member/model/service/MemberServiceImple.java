@@ -129,10 +129,32 @@ public class MemberServiceImple implements MemberService {
 	        sendMail.send();     
 	    }
 
-
+	//메일 코드 만들어서 업데이트 시키기. 
 	@Override
 	public void mailAuth(Member m) throws Exception {
-		
+        System.out.println("메일인증 service");
+            
+        // 인증키 생성
+        String key = new TemKey().getKey(50,false); 
+        System.out.println(key);
+        //인증키 db 저장        
+        dao.createAuthKey(m.getEmail(),key);
+        
+        //메일 전송
+        MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("[odagada] 가입 인증 메일");
+        sendMail.setText(
+                new StringBuffer().append("<h1>메일인증</h1>")
+                .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+                .append("<a href='http://localhost:9090/odagada/emailConfirm.do?memberId=")
+                .append(m.getMemberId())
+				.append("&email=")
+				.append(m.getEmail())
+				.append("&mailCode=").append(key)
+				.append("' target='_blank'>이메일 인증 확인</a>").toString());
+        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
+        sendMail.setTo(m.getEmail());
+        sendMail.send(); 
 	}
 		
 
