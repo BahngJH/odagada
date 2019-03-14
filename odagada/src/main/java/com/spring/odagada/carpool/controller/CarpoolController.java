@@ -54,7 +54,9 @@ public class CarpoolController {
 			
 			if(d == null) {
 				l.debug("드라이버 등록 필요");
-				mav.setViewName("/");
+				mav.setViewName("/common/msg");
+				mav.addObject("msg", "드라이버만 등록 가능합니다. 드라이버 등록해주세요.");
+				mav.addObject("loc", "/driver/driverEnroll");
 				return mav;
 			}else {
 				mav.setViewName("/carpool/register");
