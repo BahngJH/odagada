@@ -17,6 +17,11 @@ public class CommunityDaoImpl implements CommunityDao {
 	SqlSessionTemplate session;
 	
 	@Override
+	public List<Map<String, String>> searchId(String searchId) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.searchId", searchId);
+	}
+	@Override
 	public int insertRoomId(Map roomIdData) {
 		// TODO Auto-generated method stub
 		int rs = session.insert("community.insertRoomId",roomIdData);
