@@ -488,5 +488,24 @@ public class MemberController {
 			return "false";
 		}
 	}
+    
+    @ResponseBody
+    @RequestMapping("/member/smsCheck")
+    public String smsCheck(HttpSession session, String code) {
+    	Member m = (Member)session.getAttribute("logined");
+    	
+    	String saveCode = service.getPhoneCode(m.getMemberNum());
+    	
+    	if(pwEncoder.matches(code, saveCode)) {
+    		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		if(result > 0) {
+    			return "ok";
+    		}else {
+    			return "no";
+    		}
+    	}else {
+    		return "no";
+    	}
+    }
 
 }

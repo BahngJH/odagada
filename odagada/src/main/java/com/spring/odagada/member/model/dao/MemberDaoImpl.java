@@ -98,5 +98,15 @@ public class MemberDaoImpl implements MemberDao {
 	public int updatePhoneCode(Member m) {
 		return session.update("member.updatePhoneCode", m);
 	}
+
+	@Override
+	public String getPhoneCode(int memberNum) {
+		return session.selectOne("member.selectPhoneCode", memberNum);
+	}
+
+	@Override
+	public int updateYPhoneStatus(int memberNum) {
+		return session.update("member.updateYPhoneStatus", memberNum);
+	}
 	
 }

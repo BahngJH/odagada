@@ -106,4 +106,14 @@ public class MemberServiceImple implements MemberService {
 		
 	}
 
+	@Override
+	public String getPhoneCode(int memberNum) {
+		return dao.getPhoneCode(memberNum);
+	}
+
+	@Override
+	public int updateYPhoneStatus(int memberNum) {
+		return dao.updateYPhoneStatus(memberNum);
+	}
+
 }

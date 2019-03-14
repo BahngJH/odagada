@@ -69,4 +69,11 @@
 		UPDATE MEMBER SET PHONECODE = #{phoneCode} WHERE MEMBERNUM = #{memberNum}
 	</update>
 	
+	<select id="selectPhoneCode" parameterType="_int" resultType="string">
+		SELECT PHONECODE FROM MEMBER WHERE MEMBERNUM = #{memberNum}
+	</select>
+	
+	<update id="updateYPhoneStatus" parameterType="_int">
+		UPDATE MEMBER SET ISPHONEAUTH = 'Y' WHERE MEMBERNUM=#{memberNum}
+	</update>
 </mapper>
