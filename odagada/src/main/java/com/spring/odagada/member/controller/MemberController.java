@@ -3,19 +3,36 @@ package com.spring.odagada.member.controller;
 
 import static com.spring.odagada.common.PageFactory.getPageBar;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +153,7 @@ public class MemberController {
 		}
 		service.insertMember(m);
 
-		String msg="인증 메일이 전송되었습니다. 인증 후 로그인 하실 수 있습니다.";
+		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -146,9 +163,12 @@ public class MemberController {
 	
 	 //이메일 인증 코드 검증
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
-    public ModelAndView emailConfirm(String memberId) {
+    public ModelAndView emailConfirm(String email, String memberId) {
     	Map<String, String>map=new HashMap();
+    	
+    	//컨트롤러 실행되므로 Y 값 넣어서 보내줘도 되고, 쿼리문으로 Y 업데이트 시켜도 된다.
     	map.put("isEmailAuth", "Y");
+    	map.put("email", email);
     	map.put("memberId", memberId);
                
         int result=service.updateStatus(map);  
@@ -158,7 +178,7 @@ public class MemberController {
         String msg="";
 		String loc="/";
         if(result>0) {
-        	msg="회원가입 성공";
+        	msg="이메일 인증 성공";
         }else {       	
         	mv.addObject("비정상적인 접근입니다.", msg);
         	mv.setViewName("redirect:/");
@@ -180,9 +200,7 @@ public class MemberController {
 	
 	//로그인
    @RequestMapping("/member/login.do")
-   public ModelAndView login(String memberId, String memberPw, Model model) {
-	   logger.debug("로그인 확인 memberId:"+memberId+"password:"+memberPw);
-	   
+   public ModelAndView login(String memberId, String memberPw, Model model) {	   
 	   Map<String, String>login=new HashMap();
 	   login.put("memberId", memberId);
 	   login.put("memberPw", memberPw);
@@ -200,15 +218,10 @@ public class MemberController {
 		} else {
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
-
 			if (result != null) {
-				if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && m.getIsEmailAuth().equals("Y")) {
+				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
 					mv.addObject("logined", m);
 					mv.setViewName("redirect:/");
-				}
-				else if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && !m.getIsEmailAuth().equals("Y")) {
-					mv.addObject("msg", "이메일 인증을 완료해주세요.");
-					mv.setViewName("common/msg");
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
 					mv.addObject("loc", "/member/loginForm.do");
@@ -217,7 +230,7 @@ public class MemberController {
 			}
 		}
 		return mv;
-}
+	}
 
    
    //로그아웃(세션끊기)
@@ -231,27 +244,46 @@ public class MemberController {
    
    //마이페이지 
    @RequestMapping("/member/myInfo.do")
-   public String myInfo() {
-	   return "member/myInfo";
+   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
+	   mav.setViewName("member/myInfo");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   m = service.selectMember(m.getMemberId()); 
+	   
+	   mav.addObject("logined", m);
+	   return mav;
    }
    
-   //비밀번호 체크
+   //비밀번호 체크(ajax ...)
    @ResponseBody
    @RequestMapping("/member/checkPw.do")
-   public String checkPw(HttpServletResponse response, String answer, HttpSession session) {
-	   logger.debug("받아오는 pw 값: "+answer);
+   public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session, SessionStatus status) {
+	   logger.debug("받아오는 pw 값: "+password);
 	   
 	   Member m = (Member)session.getAttribute("logined");
 	   String result="";
   
-	   if(pwEncoder.matches(answer, m.getMemberPw())) {
-		   logger.debug("ok");
-		   result = "ok";
-	   }else {
-		   logger.debug("no");
-		   result = "no";
-	   }	 
-	   return result;
+	   if(pwEncoder.matches(password, m.getMemberPw())) {
+		   if(answer.equals("delete")) {
+			   //delete 실행
+			   int rs=service.deleteMember(m.getMemberNum());
+			   
+				if (rs != 0) {
+					status.setComplete();
+					result = "delete";
+				} else {
+					result = "noDelete";
+				}
+			} else {
+				logger.debug("ok");
+				result = "ok";
+			}
+		} else {
+			logger.debug("no");
+			result = "no";
+		}
+		return result;
 	/*   try {
 		   if(pwEncoder.matches(answer, m.getMemberPw()))
 		      {
@@ -271,6 +303,10 @@ public class MemberController {
 		   e.printStackTrace();
 	   }*/
    }
+   
+/*   //비밀번호 변경
+   @RequestMapping("/member/changePass")*/
+   
  
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
@@ -326,10 +362,82 @@ public class MemberController {
 		mv.addObject("loc", loc);
 		return "common/msg";
 	}
-
    
+    //ID 찾기 화면
+   @RequestMapping("/member/findId")
+   public String findId() {
+	   return "member/findId";
+   }
+   //ID 찾기
+   @RequestMapping("/member/findId.do")
+   public ModelAndView findIdEnd(String memberName, String email, Model model) {
+	   ModelAndView mv=new ModelAndView();
+	  
+	   Map<String, String>findId=new HashMap();
+	   findId.put("memberName", memberName);
+	   findId.put("email", email);
+	   
+	   Map<String, String> id=service.findId(findId);
 
-   
+			if (id != null) {
+				String resultId=id.get("MEMBERID");
+				mv.addObject("memberId", resultId);
+				mv.setViewName("member/resultId");
+			} else {
+				mv.addObject("msg", "회원 정보가 없습니다.");
+				mv.addObject("loc", "/member/findId");
+				mv.setViewName("common/msg");
+			}
+			return mv;
+		}
+ 
+	// 비밀번호 찾기 뷰
+	@RequestMapping("/member/findPw")
+	public String findPassword() {
+		return "member/findPw";
+	}
+	
+	// 비밀번호 찾기
+	@RequestMapping("/member/findPw.do")
+	public ModelAndView findPassword(String memberId, String email, String memberName) throws Exception {
+		Map<String, String>info=new HashMap();
+		info.put("memberId", memberId);
+		info.put("email", email);
+		info.put("memberName", memberName);
+		
+		Map<String, String>findPw=service.findPw(info);
+		ModelAndView mv = new ModelAndView();
+		
+		String msg="";
+		String loc="/";
+		if(findPw!=null) {
+			int ran=new Random().nextInt(100000)+1000;
+			String sendPw=String.valueOf(ran);
+			String dbPw=pwEncoder.encode(sendPw);
+			info.put("memberPw", dbPw);
+			info.put("sendPw", sendPw);
+						
+			service.sendPw(info);
+			msg="등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
+			mv.addObject("msg",msg);
+			mv.addObject("loc",loc);
+			mv.setViewName("common/msg");		
+		}else {
+			msg="일치하는 정보가 없습니다.";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", "/member/findPw");		
+		}	
+		return mv;
+	}
+	
+	//메일 인증하기
+	@RequestMapping("/member/mailAuth")
+	public String mailAuth(HttpSession session) throws Exception {
+		Member m=(Member)session.getAttribute("logined");
+		service.mailAuth(m);
+		return "redirect:/";
+	}
+		
    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
@@ -348,6 +456,103 @@ public class MemberController {
 	   return mav;
    }
    
+    @ResponseBody
+	@RequestMapping("/member/sendSms")
+	public String test(HttpSession session, String receiver) {
+		// 인증 코드 생성
+
+		int rand = (int) (Math.random() * 899999) + 100000;
+
+		logger.debug(receiver);
+		logger.debug(rand + "");
+
+		String phoneCode = pwEncoder.encode(rand + "");
+		Member m = (Member) session.getAttribute("logined");
+		m.setPhoneCode(phoneCode);
+		int result = service.updatePhoneCode(m);
+
+		if (result > 0) {
+			// 문자 보내기 (청기와랩 api 사용)
+			String hostname = "api.bluehouselab.com";
+			String url = "https://" + hostname + "/smscenter/v1.0/sendsms";
+
+			CredentialsProvider credsProvider = new BasicCredentialsProvider();
+			credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
+					new UsernamePasswordCredentials("odagada", "9c9ca1e0454b11e9acbb0cc47a1fcfae"));
+
+			AuthCache authCache = new BasicAuthCache();
+			authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
+
+			HttpClientContext context = HttpClientContext.create();
+			context.setCredentialsProvider(credsProvider);
+			context.setAuthCache(authCache);
+
+			DefaultHttpClient client = new DefaultHttpClient();
+
+			try {
+				HttpPost httpPost = new HttpPost(url);
+				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
+						+ "\"],\"content\":\"오다가다 핸드폰 번호 인증 코드 : " + rand + "\"}";
+
+				StringEntity se = new StringEntity(json, "UTF-8");
+				httpPost.setEntity(se);
+
+				HttpResponse httpResponse = client.execute(httpPost, context);
+				System.out.println(httpResponse.getStatusLine().getStatusCode());
+
+				InputStream inputStream = httpResponse.getEntity().getContent();
+				if (inputStream != null) {
+					BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+					String line = "";
+					while ((line = bufferedReader.readLine()) != null)
+						System.out.println(line);
+					inputStream.close();
+				}
+			} catch (Exception e) {
+				System.err.println("Error: " + e.getLocalizedMessage());
+			} finally {
+				client.getConnectionManager().shutdown();
+			}
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+    
+    @ResponseBody
+    @RequestMapping("/member/smsCheck")
+    public String smsCheck(HttpSession session, String code) {
+    	Member m = (Member)session.getAttribute("logined");
+    	
+    	String saveCode = service.getPhoneCode(m.getMemberNum());
+    	
+    	if(pwEncoder.matches(code, saveCode)) {
+    		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		if(result > 0) {
+    			return "ok";
+    		}else {
+    			return "no";
+    		}
+    	}else {
+    		return "no";
+    	}
+    }
+    
+    @ResponseBody
+    @RequestMapping("/member/phoneCheck.do")
+    public String phoneCheck(String phone){
+    	int result=service.checkPhone(phone);
+    	String isPhone="";
+    	if(result>0) {
+    		isPhone="N";
+    	}else {
+    		isPhone="Y";
+    	}  	
+    	return isPhone;  			
+    } 
+
+
    @RequestMapping("/member/myDriver")
    public ModelAndView myDriver(HttpSession session) {
 	   
@@ -390,5 +595,6 @@ public class MemberController {
    }
    
    
+
 
 }

@@ -16,7 +16,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
    <style>
-     div#enroll-container{width:400px; margin:0 auto; text-align:center;}
+     div#enroll-container{width:350px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
     /*중복아이디체크관련*/
     div#enroll-container{position:relative; padding:0px;}
@@ -24,7 +24,7 @@
     div#enroll-container span.ok{color:green;}
     div#enroll-container span.error{color:red;}
     
-    div#board-continer{width:400px;margin:0 auto; text-align:center}
+    div#board-continer{width:350px;margin:0 auto; text-align:center}
     div#board-continer input{margin-bottom:15px;} 
     
     
@@ -129,12 +129,15 @@
   		margin-left:-10px;
   	}
   	p{
-  	font-size:13px;
+  	font-size:12px;
   	}
   	.passwordInfo{
   	height:40px;
   	}
   	.eck{padding-right:0; padding-left:0; font-size:15px;}
+  	.upFile-div{margin-bottom:10px;}
+  	.select-div, .phone-div, .phone-btn{padding:0;} 
+  	.p-div{margin-top:4px;}
     </style>
     
      
@@ -146,10 +149,6 @@
       //var filename=$(this).prop('files')[0].name;
       $(this).next('.custom-file-label').html(filename);
    });
-   
-   
-   
-   
    
     //ID 중복확인
    $("#memberId_").keyup(function(){
@@ -177,7 +176,7 @@
              }
          }
       }); 
-   });
+   }); 
  }); 
  
     //비밀번호 유효성 검사
@@ -230,11 +229,11 @@ $(function(){
        changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
      });
               
-   //이메일(아이디부분) 알파벳만 입력 받게 하기    
+   //이메일(아이디부분)    
    $("#email1").keyup(function(event) {
       if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
          var inputVal = $(this).val();
-         $(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+         $(this).val(inputVal.replace(/[^a-z0-9_+.-]/gi, ''));
       }
    });
    
@@ -244,9 +243,9 @@ $(function(){
          this.value = this.value.replace(/\D/g, '')        
          alert('숫자만 입력가능합니다.');
       }
-   });
-   
+   });   
  });
+ 
  function validate() {
   	 //ID 4자리~12자리 소문자, 숫자 가능 확인하기 
       var idReg =/^[A-Za-z0-9]{4,12}$/;
@@ -254,12 +253,7 @@ $(function(){
          alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
          return false;
       	}   
-      //핸드폰 유효성 검사 
-      var regExp = /([0-9]{7,8})$/;
-      if (!regExp.test($("input[name=phone2]").val())) {
-            alert("정확한 휴대폰 번호를 입력해주세요.");
-            return false;
-         }
+     
       //이름 유효성 검사
       //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
       var name=$('#memberName').val().trim();
@@ -284,13 +278,17 @@ $(function(){
         if($('#checkStatus').val()==0){
            alert('ID 중복확인해주세요.');
            return false;
-         } 
-        
+         }         
         //E-mail 중복확인 체크
         if($('#emailStatus').val()==0){
         alert('e-mail 중복확인 해주세요.')
         return false;
         }
+        //핸드폰 중복체크 
+        if ($('#phoneStatus').val()==0) {
+              alert("핸드폰 중복확인해주세요.");
+              return false;
+           }
         
         //생년월일 받기
         var birth=$('#birth').val().trim();
@@ -321,8 +319,7 @@ $(function(){
    
    
  //E-mail 중복 확인
-   function checkEmail(){
-   	
+   function checkEmail(){ 	
      	//이메일 도메인 정규식 받기    
        var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
        if(!mC.test($("input[name=email2]").val())){
@@ -339,8 +336,9 @@ $(function(){
            url:"${path}/member/checkEmail.do",
            data:{"email":email},
            success:function(data){                                                        
-               if(data =='no')
+               if(data == 'no')
                {
+            	  console.log(data);
               	  alert('이미 사용중인 이메일 입니다. 사용하실 수 없습니다.');          
                   document.getElementById('emailStatus').value='0';
                   return false;
@@ -352,25 +350,35 @@ $(function(){
         });  
       };
       
-   
-
-   
-/*    //메일 선택 함수
-   function selectMail(){
-	   var mailList=document.getElementById("mailList");
-	   var selectMail=mailList.options[mailList.selected].value;
-	  // var self=document.getElementById("email2").value;
-	   
-	   if(selectMail === 'self'){
-		   $('#email2').show();
-		   $('#mailList').hide()=false;
-		   
-	   }else{
-		   $('#email2').hide()=true;
-		   $('#mailList').show();
-	   }
-	   
-   } */
+      //핸드폰 중복확인
+      function checkPhone(){
+    	    var phone1=$('#selectPhone option:selected').val();
+    	    var phone2=$('#phone2').val();
+    	    var phone=phone1+phone2;
+    	    console.log(phone);
+    	  //핸드폰 유효성 검사 
+          var regExp = /([0-9]{7,8})$/;
+          if (!regExp.test($("input[name=phone2]").val())) {
+                alert("정확한 휴대폰 번호를 입력해주세요.");
+                return false;
+             }
+   	    
+    	    $.ajax({
+    	    	url:"${path}/member/phoneCheck.do",
+    	    	data:{"phone": phone},
+    	    	success:function(data){
+    	    		if(data == 'Y'){
+    	    			alert('사용하셔도 좋습니다.');
+    	    			document.getElementById('phoneStatus').val=='1';
+    	    		}else{
+    	    			alert('이미 사용중인 번호입니다. 사용하실 수 없습니다.');
+    	    			documnet.getElementById('phoneStatus').val=='0';
+    	    		}
+    	    	}
+    	    }) ;   	  
+      };
+      
+      
 </script>
       
       <div id="enroll-container">
@@ -398,10 +406,16 @@ $(function(){
            		<div class="ptext col-5">
            			<p class="badge badge-secondary p_pass">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
        			</div>  
-       			<div class="col-7">      	
+       			<div class="col-7 p-div">      	
           				<p>숫자/영문자/특수문자 조합 6~15자</p>
           		</div> 		
-            </div>           
+            </div>
+             <div class="row">                     
+                  <div class="upFile-div custom-file col-12">
+                      <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
+                      <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
+                  </div>                      
+             </div>           
             <div class="row">
                <div class="col-6">
                   <div>
@@ -423,45 +437,33 @@ $(function(){
                </div>
                <input type="hidden" id="emailStatus" value="0"/>
                <div class="col-5 div-email">
-                  <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                   
-                 <!--  <select class="select-C form-control" name="selectEmail" id="mailList" onchange="javascript:selectMail(this.options[this.selectedIndex].value)">
-                     <option selected>선택</option>
-                     <option value="hanmail.net">hanmail.net</option>
-                     <option value="hotmail.com">hotmail.com</option>
-                     <option value="naver.com">naver.com</option>
-                     <option value="yahoo.co.kr">yahoo.co.kr</option>
-                     <option value="paran.com">paran.com</option>
-                     <option value="gmail.com">gmail.com</option>
-                     <option value="nate.com">nate.com</option>
-                     <option value="self">직접입력</option>
-                  </select> --> 
+                  <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
                		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
                </div>
           </div>
-               <div class="row">
-                  <div class="col-4">         
-	                  <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
-	                     <option  value="010" selected>010</option>
-	                     <option  value="011">011</option>
-	                     <option  value="016">016</option>
-	                     <option  value="017">017</option>
-	                     <option  value="018">018</option>
-	                     <option  value="019">019</option>         
-	                     <option  value="070">070</option> 
-	                  </select>
-                  </div>          
-                  <div class="col-8 phone2C">
-                    <input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="전화번호 뒷자리입력 ( ' - ' 제외)" required>         
-                  </div>
-               </div>
-               <div class="row">                     
-                  <div class="custom-file col-12">
-                      <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-                      <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
-                  </div>                      
-               </div>
+           <input type="hidden" id="phoneStatus" value="0"/>
+          <div class="row row-email">
+             <div class="col-3 select-div">         
+	              <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
+	                 <option  value="010" selected>010</option>
+	                 <option  value="011">011</option>
+	                 <option  value="016">016</option>
+	                 <option  value="017">017</option>
+	                 <option  value="018">018</option>
+	                 <option  value="019">019</option>         
+	                 <option  value="070">070</option> 
+	              </select>
+             </div>          
+             <div class="col-7 phone-div">
+          		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
+             </div>
+             <div class="col-2 phone-btn">
+             	<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">	
+             </div>
+          </div>
+              
                <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">성별 : &nbsp; 
 	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;

@@ -14,7 +14,7 @@
 	
 	<!--회원 등록 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default)
 	</insert>
 	
 	<!--메일 인증 코드 생성 -->
@@ -22,7 +22,7 @@
 	UPDATE MEMBER SET MAILCODE=#{mailCode} where email=#{email}
 	</update>
 	
- 	<!-- 메일 인증상태 업데이트 -->
+ 	<!-- 메일 인증상태 업데이트 -->	
 	<update id="mailStatus" parameterType="map">
 	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where memberId=#{memberId}
 	</update>
@@ -36,6 +36,11 @@
 	<select id="checkEmail" parameterType="string" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE EMAIL=#{email}
 	</select>
+	
+	<!--핸드폰 중복 체크  -->
+	<select id="checkPhone" parameterType="string" resultType="_int">
+	SELECT COUNT(*) FROM MEMBER WHERE PHONE=#{phone}
+	</select>
  	
  <!-- 회원 정보 수정  -->
 	<update id="updateMember" parameterType="member">
@@ -47,6 +52,37 @@
 	                        #{isPhoneAuth},
 	                        #{isEmailAuth}
 	                        where memberNum=#{memberNum}                      
-	</update>  
+	</update> 
 	
+	<!-- 회원삭제  -->
+	<delete id="memberDelete" parameterType="int">
+	DELETE FROM MEMBER WHERE MEMBERNUM=#{memberNum} 	
+	</delete> 
+	
+	<!-- 아이디 찾기  -->
+	<select id="findId" parameterType="map" resultMap="memberMap">
+	SELECT MEMBERID FROM MEMBER WHERE MEMBERNAME=#{memberName} AND EMAIL=#{email}	
+	</select>
+	
+	<!--패스워드 찾기 -->
+	<select id="findPw" parameterType="map" resultMap="memberMap">
+	SELECT MEMBERPW FROM MEMBER WHERE MEMBERID=#{memberId} AND EMAIL=#{email} AND  MEMBERNAME=#{memberName} 
+	</select>
+	
+	<!--임시 비밀번호로 업데이트 -->
+	<update id="tempPassword" parameterType="map">
+	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+	</update>
+	
+	<update id="updatePhoneCode" parameterType="member">
+		UPDATE MEMBER SET PHONECODE = #{phoneCode} WHERE MEMBERNUM = #{memberNum}
+	</update>
+	
+	<select id="selectPhoneCode" parameterType="_int" resultType="string">
+		SELECT PHONECODE FROM MEMBER WHERE MEMBERNUM = #{memberNum}
+	</select>
+	
+	<update id="updateYPhoneStatus" parameterType="_int">
+		UPDATE MEMBER SET ISPHONEAUTH = 'Y' WHERE MEMBERNUM=#{memberNum}
+	</update>
 </mapper>

@@ -43,6 +43,8 @@
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
+	
+	
 	<!-- E-mail 전송(인증관련) -->	
    	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
       <property name="host" value="smtp.gmail.com" />

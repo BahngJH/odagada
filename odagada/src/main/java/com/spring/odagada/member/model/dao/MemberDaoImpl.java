@@ -81,5 +81,48 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.update("member.mailStatus", map);
 	}
+
+	//회원삭제
+	@Override
+	public int deleteMember(int memberNum) {
+		return session.delete("member.memberDelete",memberNum);
+	}
+
+	@Override
+	public Map<String, String> findId(Map findId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.findId", findId);
+	}
+
+	@Override
+	public Map<String, String> findPw(Map info) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.findPw", info);
+	}
+
+	//임시 비밀번호 발급
+	@Override
+	public void updateTempPw(Map info) {
+		session.update("member.tempPassword", info);
+	}
+	public int updatePhoneCode(Member m) {
+		return session.update("member.updatePhoneCode", m);
+	}
+
+	@Override
+	public String getPhoneCode(int memberNum) {
+		return session.selectOne("member.selectPhoneCode", memberNum);
+	}
+
+	@Override
+	public int updateYPhoneStatus(int memberNum) {
+		return session.update("member.updateYPhoneStatus", memberNum);
+	}
+
+	//핸드폰 중복체크
+	@Override
+	public int checkPhone(String phone) {
+		return session.selectOne("member.checkPhone", phone);
+	}
 	
 }
