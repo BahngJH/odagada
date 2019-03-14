@@ -240,8 +240,15 @@ public class MemberController {
    
    //마이페이지 
    @RequestMapping("/member/myInfo.do")
-   public String myInfo() {
-	   return "member/myInfo";
+   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
+	   mav.setViewName("member/myInfo");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   m = service.selectMember(m.getMemberId()); 
+	   
+	   mav.addObject("logined", m);
+	   return mav;
    }
    
    //비밀번호 체크(ajax ...)
@@ -452,6 +459,7 @@ public class MemberController {
 
 		int rand = (int) (Math.random() * 899999) + 100000;
 
+		logger.debug(receiver);
 		logger.debug(rand + "");
 
 		String phoneCode = pwEncoder.encode(rand + "");
@@ -481,7 +489,7 @@ public class MemberController {
 				HttpPost httpPost = new HttpPost(url);
 				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
 				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
-						+ "\"],\"content\":\"testset\"}";
+						+ "\"],\"content\":\"오다가다 핸드폰 번호 인증 코드 : " + rand + "\"}";
 
 				StringEntity se = new StringEntity(json, "UTF-8");
 				httpPost.setEntity(se);
@@ -507,5 +515,24 @@ public class MemberController {
 			return "false";
 		}
 	}
+    
+    @ResponseBody
+    @RequestMapping("/member/smsCheck")
+    public String smsCheck(HttpSession session, String code) {
+    	Member m = (Member)session.getAttribute("logined");
+    	
+    	String saveCode = service.getPhoneCode(m.getMemberNum());
+    	
+    	if(pwEncoder.matches(code, saveCode)) {
+    		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		if(result > 0) {
+    			return "ok";
+    		}else {
+    			return "no";
+    		}
+    	}else {
+    		return "no";
+    	}
+    }
 
 }
