@@ -768,7 +768,7 @@ function checkIng(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myInfo.do";
+		location.href="${path}/member/myCarpool";
 	}
 }
 function checkSubmit(){
@@ -776,7 +776,7 @@ function checkSubmit(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myInfo.do";
+		location.href="${path}/member/myCarpool";
 	}
 }
 </script>
