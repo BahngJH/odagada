@@ -276,6 +276,10 @@ public class MemberController {
 		   e.printStackTrace();
 	   }*/
    }
+   
+/*   //비밀번호 변경
+   @RequestMapping("/member/changePass")*/
+   
  
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
@@ -366,9 +370,9 @@ public class MemberController {
 		return "member/findPw";
 	}
 	
-/*	// 비밀번호 찾기
+	// 비밀번호 찾기
 	@RequestMapping("/member/findPw.do")
-	public ModelAndView findPassword(String memberId, String email, String memberName) {
+	public ModelAndView findPassword(String memberId, String email, String memberName) throws Exception {
 		Map<String, String>info=new HashMap();
 		info.put("memberId", memberId);
 		info.put("email", email);
@@ -382,13 +386,10 @@ public class MemberController {
 		if(findPw!=null) {
 			int ran=new Random().nextInt(100000)+1000;
 			String sendPw=String.valueOf(ran);
-			String upPw=pwEncoder.encode(newOriPw);
-			info.put("memberPw", upPw);
+			String dbPw=pwEncoder.encode(sendPw);
+			info.put("memberPw", dbPw);
 			info.put("sendPw", sendPw);
-			
-			
-			
-			
+						
 			service.sendPw(info);
 			msg="등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
 			mv.addObject("msg",msg);
@@ -401,7 +402,15 @@ public class MemberController {
 		}	
 		return mv;
 	}
-	*/
+	
+/*	//메일 인증하기
+	@RequestMapping("/member/mailAuth")
+	public String mailAuth(HttpSession session) {
+		Member m=(Member)session.getAttribute("logined");
+		service.mailAuth(m);
+		return "redirect:/";
+	}*/
+	
 	
 
    @RequestMapping("/member/myCarpool")

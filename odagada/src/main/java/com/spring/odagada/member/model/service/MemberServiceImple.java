@@ -105,4 +105,33 @@ public class MemberServiceImple implements MemberService {
 		return dao.findPw(info);
 	}
 
+	@Override
+	public void sendPw(Map info) throws Exception {
+		     System.out.println("서비스레지스");
+		     dao.updateTempPw(info);//임시 비밀번호로 업데이트.
+		     
+		     //만들어놓은 임시 비밀번호
+		     String newPw=(String)info.get("sendPw");
+		            	        
+	        //메일 전송
+	        MailHandler sendMail = new MailHandler(mailSender);
+	        sendMail.setSubject("[odagada] 임시 비밀번호 발송");
+	        sendMail.setText(
+	                new StringBuffer().append("<h2>임시 비밀번호 안내입니다.</h2>")
+	                .append("<h2>임시 비밀번호를 발송해드립니다.</h2>")
+	                .append("<h2>임시 비밀번호는 "+newPw+"입니다</h2>")
+	                .append("<a href='http://localhost:9090/odagada/member/loginForm.do")
+	                .append("' target='_blank'>로그인 하러가기</a>")
+					.toString());
+	        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
+	        sendMail.setTo((String)info.get("email"));
+	        sendMail.send();     
+	    }
+
+
+	@Override
+	public void mailAuth(Member m) throws Exception {
+		
+	}
+		
 }

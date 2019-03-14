@@ -66,4 +66,9 @@
 	SELECT MEMBERPW FROM MEMBER WHERE MEMBERID=#{memberId} AND EMAIL=#{email} AND  MEMBERNAME=#{memberName} 
 	</select>
 	
+	<!--임시 비밀번호로 업데이트 -->
+	<update id="tempPassword" parameterType="map">
+	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+	</update>
+	
 </mapper>

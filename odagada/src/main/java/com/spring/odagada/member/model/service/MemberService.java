@@ -19,5 +19,7 @@ public interface MemberService {
 	 //패스워드 찾기
 	 Map<String,String>findPw(Map info);
 	 //임시 비밀번호 발급
-	/* void sendPw(Map info)throws Exception;*/
+	 void sendPw(Map info)throws Exception;
+	 //메일 인증
+	 void mailAuth(Member m)throws Exception;
 }

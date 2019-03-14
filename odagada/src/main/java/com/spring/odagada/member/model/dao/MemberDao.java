@@ -32,6 +32,9 @@ public interface MemberDao {
 	 
 	 //패스워드 찾기
 	 Map<String,String>findPw(Map info);
+	 
+	 //임시비밀번호로 업데이트
+	 void updateTempPw(Map info);
 	
 
 }

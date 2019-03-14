@@ -63,8 +63,7 @@
 				      <td>
 				      	<c:choose>
 				      		<c:when test="${logined.isEmailAuth eq 'N'}">
-				      			<a href="#" class="ck badge badge-danger">인증하기</a>
-		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail" data-whatever="@mdo">인증하기</button>
+				      			<a href="#" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail">인증하기</a>
 		      				</c:when>
 				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
 				      			<div class="ck badge badge-success" role="alert">인증완료</div>
@@ -78,7 +77,7 @@
 				      <td>		
 			       	 	<c:choose>
 			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
-				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+				      			<a href="#" class="ck badge badge-danger" data-toggle="modal" data-target="#sendPhone">인증하기</a>
 				      		</c:when>
 				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
 				      			<div class="ck badge badge-success" role="alert">인증완료</div>
@@ -168,17 +167,18 @@
 						      </div>
 						      <div class="modal-body">
 						          <div class="form-group">
-						            <label for="answer" class="form-control-label">E-mail로 전송된 인증번호를 입력해주세요.</label>
-						            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
-						          </div>
+						          	 <div class="row"></div>
+						           		 <label for="answer" class="form-control-label">E-mail을 확인해주세요</label>
+				           		 </div>
+					           		 <div>
+								        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+								        <button type="button" class="btn btn-primary" onclick="location.href='${path}/member/mailAuth'">인증하기</button>
+							        </div>					        
+					          </div>
 						      </div>
-						      <div class="modal-footer">					      	
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-						        <button type="button" class="btn btn-primary" onclick="emailCheck();">인증하기</button>					        
-						      </div>
-						    </div>
-						  </div>
-						</div>
+					    </div>
+					  </div>
+					</div>
 						
 						
 						
@@ -191,7 +191,6 @@
 				</div>		
 			</div>
 		</div>
-	</div>
 </section>
 
 <script>
