@@ -15,9 +15,16 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<Map<String, String>> searchList(Map<String, String> searchData) {
+	public int searchListAll(Map<String, String> searchData) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("board.searchList",searchData);
+		return sqlSession.selectOne("board.searchListAll", searchData);
+	}
+
+	@Override
+	public List<Map<String, String>> searchList(Map<String, String> searchData,int cPage,int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
+		return sqlSession.selectList("board.searchList",searchData,rb);
 	}
 
 	@Override
@@ -31,6 +38,7 @@ public class BoardDaoImpl implements BoardDao {
 		// TODO Auto-generated method stub
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
 		return sqlSession.selectList("board.memberList",null,rb);
+		
 	}
 
 	@Override

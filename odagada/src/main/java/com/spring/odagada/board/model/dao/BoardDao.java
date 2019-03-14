@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 
 
 public interface BoardDao {
-	List<Map<String,String>>searchList(Map<String,String> searchData);
+	int searchListAll(Map<String, String> searchData);
+	List<Map<String,String>>searchList(Map<String,String> searchData,int cPage,int numPerPage);
 	int selectAllMemberCount();
 	List<Map<String,String>> memberList(int cPage, int numPerPage);
 	int selectBoardCount();
