@@ -17,6 +17,11 @@ public class CommunityDaoImpl implements CommunityDao {
 	SqlSessionTemplate session;
 	
 	@Override
+	public List<Map<String, String>> searchId(String searchId) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.searchId", searchId);
+	}
+	@Override
 	public int insertRoomId(Map roomIdData) {
 		// TODO Auto-generated method stub
 		int rs = session.insert("community.insertRoomId",roomIdData);
@@ -63,6 +68,7 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		
 		List<ChatRoomVo> chatRoomList =  session.selectList("community.bringChatRooms",loginId);
+		
 		for(ChatRoomVo room:chatRoomList)
 		{
 			room.setIsReadCount(session.selectOne("community.isReadCount", room));
@@ -72,7 +78,7 @@ public class CommunityDaoImpl implements CommunityDao {
 	
 	//신고 글쓰기
 	@Override
-	public int insertNotify(Map<String, String> map) {
+	public int insertNotify(Map<String, Object> map) {
 		return session.insert("community.insertNotify",map);
 	}
 
@@ -82,9 +88,34 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	@Override
-	public Map<String, String> selectMyReview(int writerNum) {
-		return session.selectOne("community.selectReview",writerNum);
+	public Map<String, Object> selectReview(int carpoolNum) {
+		return session.selectOne("community.selectReview", carpoolNum);
 	}
+
+	@Override
+	public List<Map<String,Object>> selectMyReviewList(int memberNum) {
+		return session.selectList("community.selectMyReviewList",memberNum);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectReviewList(int memberNum) {
+		return session.selectList("community.selectReviewList",memberNum);
+	}
+
+	@Override
+	public int updateReview(Map<String, Object> map) {
+		return session.update("community.updateReview",map);
+	}
+
+	@Override
+	public int deleteReview(int carpoolNum) {
+		return session.delete("community.deleteReview",carpoolNum);
+	}
+	
+	
+	
+	
+	
 	
 	
 

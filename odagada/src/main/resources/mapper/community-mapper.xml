@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="community">
 
+  <select id="searchId" parameterType="string" resultType="map">
+  	select * from member where memberid like '%' || #{searchId} || '%'
+  </select>
+
   <insert id="insertRoomId">
   	insert into chattingroom values(#{myId},#{chatUser},#{roomId})
   </insert>
@@ -10,7 +14,7 @@
   </insert>
 
   <select id="bringUserInfo" parameterType="map" resultType="map">
-  	select roomid,membername,memberid from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
+  	select roomid,membername,memberid,PROFILEIMAGERE from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
   </select>
 
   <select id="roomIdCheck" parameterType="map" resultType="string">
@@ -26,11 +30,12 @@
   </insert>
   
   <select id="bringMsg" parameterType="string" resultType="map">
-  	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (receiver=memberid) where roomId=#{roomId} order by cDate
+  	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (sender=memberid) where roomId=#{roomId} order by cDate
   </select>
   
+  
   <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">
-	select roomid,member1 as receiver,memberid,membername,TO_CHAR(cDate+9/24,'yy.MM.dd HH24:mi:ss') as cDate,ccontent from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId} order by cdate desc
+	select roomid,member1 as receiver,memberid,membername,TO_CHAR(cDate+9/24,'yy.MM.dd HH24:mi:ss') as cDate,ccontent,profileimagere from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId} order by cdate desc
   </select>
   
   <select id="isReadCount" parameterType="com.spring.odagada.community.model.vo.ChatRoomVo" resultType="int">
@@ -42,13 +47,26 @@
   </update>
 
   <insert id="insertNotify" parameterType="map">
-  	insert into notify values(6,19,#{nContent},sysdate)
+  	INSERT INTO NOTIFY VALUES(#{memberNum},19,#{nContent},sysdate)
   </insert>
   <insert id="insertReview" parameterType="map">
-  	insert into review values(9,19,#{rContent},sysdate,#{rGrade})
+  	INSERT INTO REVIEW VALUES(#{memberNum},19,20,#{rContent},sysdate,#{rGrade})
   </insert>
-  <select id="selectMyReview" parameterType="_int" resultType="map">
-  	select * from review where writerNum=#{writerNum}
+  <select id="selectReview" resultType="map" parameterType="_int">
+	SELECT * FROM REVIEW WHERE CARPOOLNUM=#{carpoolNum}  
   </select>
+  <select id="selectMyReviewList" resultType="map">
+  	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} order by rDate desc
+  </select>
+  <select id="selectReviewList" resultType="map">
+  	SELECT * FROM REVIEW WHERE DRIVERNUM=#{memberNum} order by rDate desc
+  </select>
+  <update id="updateReview">
+ 	UPDATE REVIEW SET WRITERNUM=#{memberNum},19,RCONTENT=#{rContent},sysdate,RGRADE=#{rGarde} WHERE CARPOOLNUM=#{carpoolNum}
+  </update>
+  <delete id="deleteReview">
+  	DELETE FROM REVIEW WHERE CARPOOLNUM=#{carpoolNum}
+  </delete>
+  
 
 </mapper>

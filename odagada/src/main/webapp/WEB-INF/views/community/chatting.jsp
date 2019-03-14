@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<jsp:include page="/WEB-INF/views/common/headerWS.jsp">
 	<jsp:param value="채팅하기" name="pageTitle"/>
 </jsp:include>
 <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
@@ -15,6 +15,10 @@
     		margin-top: 30px;
     		margin-bottom:60px;
     	}
+    	#profile{
+    		margin-top: 30px;
+    		
+    	}
         #chattingRoom, #profile{
             display: inline-block;
             width:23%;
@@ -23,6 +27,7 @@
             overflow: auto;
             height: 600px;
         }
+        
         #chattingView{
             display: inline-block;
             width: 50%;
@@ -53,7 +58,7 @@
         #userInfoBottom{
             margin-top: 10px;
         }
-       
+       	
         #selectUserInfo{
             border-bottom: 1px solid black;
         }
@@ -61,11 +66,13 @@
         	font-size: 180%;
         }
         #chatContent{
-            
             background-color:#EAEAEA;
         }
+        #selectImage{
+        	position:relative;
+        	bottom:10px;
+        }
         #messageInput{
-        	
             width: 100%;
         }
         #myName{
@@ -73,6 +80,9 @@
         }
         #myInfo{
             text-align: center;
+        }
+        #searchList{
+        	overflow:auto;
         }
         img{
             border-radius: 100%;
@@ -122,17 +132,28 @@
             text-align: center;
             color:white;
         }
-        
+       	#searchList{
+       		margin-top:30px;
+       	}
+        #selectListOne{
+        	border-top: 1px solid black;
+        }
+        #selectListOne:hover{
+            background-color: #D9E5FF;
+        }
+        p.searchId-p{
+        	margin-bottom:0px;
+        	padding:7px;
+        }
     </style>
 <div id="container" class="container-fluid">
       <div class="row">
-        <div id="chattingRoom" class="col col-xs-12 " >
-        
+        <div id="chattingRoom" class="col-md-3 col-sm-12 col-12" >
             <div id="roomTitle">
                 <h3>채팅방 목록</h3>
             </div>
+            <!-- 채팅방 목록을 불러오는 로직(왼쪽) -->
             <div id="chatRooms">
-            
               <c:forEach items="${chatRooms }"  var="rooms">
             		<div id="chatRoom" onclick="bringMessage(this)">
             			<input type="hidden" id="roomId" value="${rooms.roomId }">
@@ -149,21 +170,39 @@
             			</div>
 	            	</div>
 	            </c:forEach>
-	    
             </div>                                                           
         </div>
 		
-        <div id="chattingView" class="col-6 col-xs-12" >
+		<!-- 대화 상대에 대한 정보 (가운데)-->
+        <div id="chattingView" class="col-md-6 col-sm-12 col-12">
             <div id="selectUserInfo">
-            	<c:if test="${chatMember.size()>0}">
-            		<c:forEach items="${chatMember }" var="member">
-	                	<span id="selectImage"><img width="80px" height="80px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진"></span>
-	                	<span id="selectName">${member.MEMBERNAME }</span>
+           	<c:if test="${chatMember.size()>0}">
+           		<c:forEach items="${chatMember }" var="member">
 	                	<c:set var="receiver" value="${member.MEMBERID }"/>
 	                	<c:set var="roomId" value="${member.ROOMID }"/>
-	                </c:forEach>
-                </c:if>
+	                	<c:set var="memberName" value="${member.MEMBERNAME }"/>
+	                	<c:set var="imageUrl" value="${member.PROFILEIMAGERE }"/>
+                </c:forEach>
+                <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
+	        	<span id="selectName">${memberName}</span>
+               </c:if>
+               <c:if test="${chatContent.size()>0}">
+                	<c:forEach items="${chatContent }" var="chatCon">
+	                	<c:if test="${chatCon.SENDER!=logined.memberId }">
+		                	<c:set var="receiver" value="${chatCon.SENDER}"/>
+		                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
+		                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
+	                	</c:if>
+                	</c:forEach>
+	                <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
+	        		<span id="selectName">${memberName}</span>
+               </c:if>
+               <c:if test="${imageUrl==null }">
+               		<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/images/odagadaLogo.png" alt="회사 로고"></span>
+	        		<span id="selectName">방을 선택하세요</span>
+               </c:if>                	
             </div>
+            <!-- 채팅 내용이 들어갈 자리 -->
             <div id="chatContent">
                 <div id="insertContent">
                		<c:if test="${chatContent.size()>0}">
@@ -171,29 +210,42 @@
 	                		<c:if test="${chatCon.SENDER==logined.memberId }">
 	                			<div>
 	        						<p class="right" style="clear:both">${chatCon.CCONTENT }</p>
+	        						
+							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
 	   							</div>
 	                		</c:if>
 		                	<c:if test="${chatCon.SENDER!=logined.memberId }">
+		                	<c:set var="receiver" value="${chatCon.SENDER}"/>
+		                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
+		                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
 		                		<div class="msgDivLeft">
-							        <img class="left" style="clear:both" width="40px" height="40px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ" alt="회원사진">
+							        <img class="left" style="clear:both" width="40px" height="40px" src="${path}/resources/upload/profile/${imageUrl}" alt="회원사진">
 							        <p class="left" style="clear:both">${chatCon.CCONTENT }</p>
-							       	<c:set var="receiver" value="${chatCon.SENDER}"/>
-							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
+							       	
 							    </div>
 		                	</c:if>
 	                	</c:forEach>
                 	</c:if>
                 </div>
             </div>
-            
+            <!-- 메시지 입력창 -->
             <div id="sendForm">
                 <input type="text" id="messageInput" placeholder="메시지를 입력하고 Enter를 눌러주세요.">
             </div>
         </div>
-        <div id="profile" class="col col-xs-12 ">
+        
+        <!-- 로그인 한 유저 정보(오른쪽) -->
+        <div id="profile" class="col-md-3 col-sm-12 col-12">
             <div id="myInfo">
-                <img width="120px" height="120px" src="http://img.etnews.com/news/article/2017/08/16/cms_temp_article_16215301717720.jpg" alt="내 사진"><br>
-                <span id="myName"><%-- ${logined.memberName } --%>류준열</span>
+                <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
+                <span id="myName">${logined.memberName }</span>
+                <div id="searchMember"><br>
+                <span>채팅할 회원</span><br>
+            	<input id="searchId" type="text" placeholder="아이디를 입력 후 Enter">
+            	<div id="searchList">
+       
+            	</div>
+            </div>
             </div>
         </div>
     </div>
@@ -213,7 +265,7 @@
     //처음 창에 들어오면 웹소켓 자동 연결
     $(function()
     {
-    	//
+    	jsonData.imageUrl = "${logined.profileImageRe}";
     	jsonData.sender ="${logined.memberId}";
     	
     	var url="http://localhost:9090/odagada/echo";
@@ -246,17 +298,29 @@
 			console.log(event);
 		}
 
-		if(${chatMember.size()>0}){
+		if(${chatMember.size()>0})
+		{
 			jsonData.receiver='${receiver}';
 			jsonData.roomId='${roomId}';
+			$('#selectName').html('${memberName}');
+			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
+			$('#selectImage').html(img);
+			/* jsonData.imageUrl = "${imageUrl}"; */
+			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
-		if(${chatContent.size()>0}){
-		jsonData.receiver='${receiver}';
-		jsonData.roomId='${roomId}';
+		if(${chatContent.size()>0})
+		{
+			jsonData.receiver='${receiver}';
+			jsonData.roomId='${roomId}';
+			$('#selectName').html('${memberName}');
+			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
+			$('#selectImage').html(img);
+			/* jsonData.imageUrl = "${imageUrl}"; */
+			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
-		//엔터로 전송하는 코드
+		//엔터로 메시지 전송
 		$("#messageInput").keypress(function(e){ 
 		    if (e.keyCode == 13)
 		    {
@@ -264,6 +328,19 @@
 		    }    
 		});
 		
+		//엔터로 멤버 검색
+		$("#searchId").keypress(function(e){
+			
+		    if (e.keyCode == 13)
+		    {
+		    	if($('#searchId').val().length==0){
+					alert("아이디를 입력하세요");
+					return;
+				}
+				
+		        searchMember();
+		    }    
+		});
     });
     
     //메시지 보내는 기능
@@ -298,33 +375,39 @@
     		data:{"roomId":$(e).children('#roomId').val()},
     		success:function(data)
     		{
+    			console.log(data);
     			var name="";
-    			//여기해야함
     			var imageUrl="";
+    			var nameImg="";
     			for(var i=0;i<data.chatList.length;i++)
     			{
     				                                                      
     				if(data.chatList[i].SENDER=='${logined.memberId}')
-        			{
-    					name = data.chatList[i].MEMBERNAME;
-						var right ="<div >";
+        			{	
+    					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
+    					var right ="<div >";
 						right +="<p class='right' style='clear:both'>"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
 						right +="</div>";
     					allMsg +=right;
-    					//스타일 주고 오른쪽으로 붙임,내가 보낸 메시지
+    					//상대 프로필 주소가 여기 있어서 가져와서 셋팅
+    					jsonData.imageUrl = data.chatList[i].PROFILEIMAGERE;
+    					
         			}
         			else{
-        				
+        				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
+        				name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatList[i].PROFILEIMAGERE+'" alt="상대방사진"></span>';
+    		        	nameImg ='<span id="selectName">'+data.chatList[i].MEMBERNAME+'</span>';
         				var left = "<div class='msgDivLeft'>";
-        				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
+        				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+data.chatList[i].PROFILEIMAGERE+"' alt='회원사진'/>";
         				left +="<p class='left' >"+(decodeURIComponent(data.chatList[i].CCONTENT)).replace(/\+/g," ")+"</p>";
         				left +="</div>";
     					allMsg +=left;
-        				//스타일 주고 왼쪽에 이미지와 함께 붙임,상대방 메시지
         			}
     				
     			}
-    			$('#selectName').html(name);
+    			
+    			name +=nameImg;
+    			$('#selectUserInfo').html(name);
     			$('#insertContent').html(allMsg);
     			allMsg="";
     			updateChatRoom();
@@ -351,7 +434,7 @@
     			{
             		var roomId = data.chatRooms[i].roomId;
             		var memberId = data.chatRooms[i].memberId;
-					var cDate = (data.chatRooms[i].cDate).substring(0,14);	
+					var cDate = (data.chatRooms[i].cDate).substring(9,14);	
             		
      				updateRoom +='<div id="chatRoom" onclick="bringMessage(this)">';
      				updateRoom +='<input type="hidden" id="roomId" value="'+roomId+'">';
@@ -390,7 +473,7 @@
     			{
             		var roomId = data.chatRooms[i].roomId;
             		var memberId = data.chatRooms[i].memberId;
-					var cDate = (data.chatRooms[i].cDate).substring(0,14);	
+					var cDate = (data.chatRooms[i].cDate).substring(9,14);	
             		
      				updateRoom +='<div id="chatRoom" onclick="bringMessage(this)">';
      				updateRoom +='<input type="hidden" id="roomId" value="'+roomId+'">';
@@ -421,7 +504,7 @@
     	 //JSON파싱처리
     	var json = JSON.parse(jsonText);
     	
-    	//넘어온 데이터의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
+    	//수신된 메시지의 roomid와 현재 보고 있는 roomid가 같으면 채팅창에 추가 아니면 놉
     	if(json.roomId==jsonData.roomId)
     	{
     		updateChatRoomCK(json.roomId);
@@ -439,7 +522,8 @@
 			else
 			{
 				var left = "<div class='msgDiv'>";
-				left +="<img class='left' style='clear:both' width='40px' height='40px' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxxKiKaDBtz-L7KGPFFhMxUpQ6XjWrws0jIqfZYn3NY76zAspLQ' alt='회원사진'/>";
+				src='${path}/resources/upload/profile/"+data.chatList[i].PROFILEIMAGERE+"'
+				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+json.imageUrl+"' alt='회원사진'/>";
 				left +="<p class='left' >"+json.text+"</p>";
 				left +="</div>";
 				
@@ -451,10 +535,97 @@
 	    	var chatAreaHeight = $("#chatContent").height();
 	        var maxScroll = $("#insertContent").height() - chatAreaHeight;
 	        $("#chatContent").scrollTop(maxScroll);
-	        
     	}
     }
+     
+    function searchMember()
+    {
+    	$.ajax({
+    		url:"${path}/community/searchId.do",
+    		data:{"searchId":$('#searchId').val()},
+    		success:function(data){
+    			var searchList="";
+    			for(var i=0;i<data.searchList.length;i++)
+    			{
+    				searchList +='<div id="selectListOne" onclick="clickMember(this)">';
+    				searchList +='<input id="selectListOneId" type="hidden" value="'+data.searchList[i].MEMBERID+'">';
+    				searchList +='<p class="searchId-p">'+data.searchList[i].MEMBERID+'<br>';
+    				searchList +=data.searchList[i].MEMBERNAME+'</p>';
+    				searchList +='</div>';
+    			}
+    			$('#searchList').html(searchList);
+    		}
+    	});	
+    }
     
+    function clickMember(e)
+    {
+    	console.log($(e).children('#selectListOneId').val());
+    	var clickedUser =$(e).children('#selectListOneId').val();
+    	var allMsg="";
+    	$.ajax({
+    		url:"${path}/community/clickedUser",
+    		data:{"clickedUser":clickedUser},
+    		success:function(data){
+    			
+    			if(data.chatMember!=null)
+    			{
+    				console.log("메시지가 없다");
+    				for(var i=0;i<data.chatMember.length;i++)
+    				{
+    					var img = '<img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatMember[i].PROFILEIMAGERE+'" alt="회사 로고">';
+	    				var name = data.chatMember[i].MEMBERNAME;
+	    				var receiver = data.chatMember[i].MEMBERID;
+	    				var roomId = data.chatMember[i].ROOMID;
+	    			}
+    				jsonData.receiver = receiver;
+    				jsonData.roomId = roomId;
+    				
+    				$('#selectName').html(name);
+    				$('#selectImage').html(img);
+    				
+    			}
+    			if(data.chatContent!=null)
+    			{
+    				console.log("메시지가 있다.");
+    				for(var i=0;i<data.chatContent.length;i++)
+    				{
+    					console.log(data.chatContent[i]);
+    					if(data.chatContent[i].SENDER=='${logined.memberId}')
+    					{
+    						var right ="<div >";
+    						right +="<p class='right' style='clear:both'>"+data.chatContent[i].CCONTENT+"</p>";
+    						right +="</div>";
+        					allMsg +=right;
+    						
+    					}else{
+    						jsonData.receiver = data.chatContent[i].MEMBERID;
+    						jsonData.roomId = data.chatContent[i].ROOMID;
+    						name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatContent[i].PROFILEIMAGERE+'" alt="상대방사진"></span>';
+        		        	nameImg ='<span id="selectName">'+data.chatContent[i].MEMBERNAME+'</span>';
+            				var left = "<div class='msgDivLeft'>";
+            				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+data.chatContent[i].PROFILEIMAGERE+"' alt='회원사진'/>";
+            				left +="<p class='left' >"+data.chatContent[i].CCONTENT+"</p>";
+            				left +="</div>";
+        					allMsg +=left;
+    					}
+    				}
+    				name +=nameImg;
+        			$('#selectUserInfo').html(name);
+        			$('#insertContent').html(allMsg);
+        			allMsg="";
+        			updateChatRoom();
+        			
+        			//스크롤 자동 최신화
+        			var chatAreaHeight = $("#chatContent").height();
+        	        var maxScroll = $("#insertContent").height() - chatAreaHeight;
+        	        $("#chatContent").scrollTop(maxScroll);
+    				
+    			}
+    		}
+    		
+    	});
+    };
     
 </script>
 

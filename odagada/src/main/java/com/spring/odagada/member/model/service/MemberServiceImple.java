@@ -25,41 +25,34 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public Map<String, String> login(Map<String, String> login) {
-		// TODO Auto-generated method stub
 		return dao.login(login);
 	}
 
+	//멤버 정보 갖고오기 
 	@Override
 	public Member selectMember(String memberId) {
-		// TODO Auto-generated method stub
 		return dao.selectMember(memberId);
 	}
 
-	/*@Override
-	public int insertMember(Member m) {
-		// TODO Auto-generated method stub
-		return dao.insertMember(m);
-	}*/
-
+	//아이디 중복체크
 	@Override
 	public int checkId(String memberId) {
-		// TODO Auto-generated method stub
 		return dao.checkId(memberId);
 	}
 
+	//회원정보 수정
 	@Override
 	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
 		return dao.updateMember(m);
 	}
 
 	//이메일 중복확인
 	@Override
 	public int checkEmail(String email) {
-		// TODO Auto-generated method stub
 		return dao.checkEmail(email);
 	}
 	
+	//회원가입&회원가입 인증메일 전송(트랜잭션처리)
    @Transactional
    @Override
     public void insertMember(Member m) throws Exception {	
@@ -82,20 +75,6 @@ public class MemberServiceImple implements MemberService {
                 .append(m.getMemberId())
 				.append("&email=")
 				.append(m.getEmail())
-				/*.append("&memberPw=")
-				.append(m.getMemberPw())
-				.append("&memberName=")
-				.append(m.getMemberName())
-				.append("&birth=")
-				.append(m.getBirth())
-				.append("&phone=")
-				.append(m.getPhone())
-				.append("&gender=")
-				.append(m.getGender())
-				.append("&profileImageOri=")
-				.append(m.getProfileImageOri())
-				.append("&profileImageRe=")
-				.append(m.getProfileImageRe())*/
 				.append("&mailCode=").append(key)
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
@@ -104,11 +83,10 @@ public class MemberServiceImple implements MemberService {
        
     }
 
-@Override
-public int updateStatus(Map<String, String>map) {
-	// TODO Auto-generated method stub
-	return dao.updateStatus(map);
-}
-
+   //메일 인증상태 업데이트
+	@Override
+	public int updateStatus(Map<String, String> map) {
+		return dao.updateStatus(map);
+	}
 
 }
