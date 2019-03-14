@@ -23,43 +23,7 @@
     
     div#board-continer{width:400px;margin:0 auto; text-align:center}
     div#board-continer input{margin-bottom:15px;} 
-    
-    
-    /*비밀번호 체크 */
-    div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-    div#enroll-container span.ckOk{color:green;}
-    div#enroll-container span.ckNo{color:red;}
-    
-    .ckOk, .ckNo{
-    padding-right:13px;
-    }
-       
-  .emailC{     
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;   
-    }
-    
-    .tel{
-    display: block;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; 
-    width: 100%; 
-    }
+
 
    .profile{
    margin-left:13px;
@@ -145,7 +109,6 @@
          alert('숫자만 입력가능합니다.');
       }
    });
-   
  });
  function validate() {
       //핸드폰 유효성 검사 
@@ -160,6 +123,29 @@
     	  alert('자동차 사진을 첨부해주세요.');
     	  return false;
       }
+      
+      var licenseNum = $('#licenseNum').val();
+      var licen = /([가-힣]|[0-9]){2}-{1}([0-9]{2})-{1}([0-9]){6}-{1}([0-9]){2}$/
+      console.log("licenseNum");
+      console.log($("input[name=licenseNum]").val());
+      console.log(licen.test($("input[name=licenseNum]").val()));
+      if(!licen.test($("input[name=licenseNum]").val())){
+    	  alert("정확한 면허번호를 입력해주세요.");
+    	  
+    	  return false;
+      }
+      
+      var carNum = $('#carNum').val();
+      var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
+      
+      if(!carNumTest.test($("input[name=carNum]").val()))
+    	  {
+    	  	alert("정확한 자동차번호를 입력해주세요");
+    	  	return false;
+    	  }
+      
+      console.log(carNumTest.test($("input[name=carNum]").val()));
+
    }
    //프로필 사진을 이미지 타입 파일로만 받기
    function fileCheck(obj){
@@ -177,7 +163,7 @@
          return false;      
          }   
       }
-   
+
 </script>
    	<div class="col-6 col-md-6 offset-md-3" style="text-align: center; font-weight: bold;">
 		<br><br>
@@ -219,7 +205,7 @@
                     </c:if>
             </div>
             <div class="form-group row">            		
-           		<input type="text" class="form-control" name="licenseNum" id="licenseNum" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
+           		<input type="text" class="form-control" name="licenseNum" id="licenseNum" onchange="licenseCheck(this)" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="carModel" id="carModel" placeholder="자동차 모델(ex.페라리)" required/>
