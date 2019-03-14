@@ -430,7 +430,8 @@ $(function(){
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
              <div class="col-3 phone-btn">
-           		<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">
+
+
              </div>
           </div>
               
