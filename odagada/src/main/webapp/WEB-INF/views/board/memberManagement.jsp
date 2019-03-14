@@ -17,6 +17,17 @@
 ​<section id="container">
 	<div>
 		<h2>회원관리</h2>
+		<div id="searchMember">
+			<form method='get' action='${path }/admin/searchMember.do'>
+			<select name="searchType">
+				<option value="" disabled selected>검색타입</option>
+				<option value="memberid" <c:if test="${searchType eq 'memberid'}">selected</c:if>>아이디</option>
+				<option value="membername"<c:if test="${searchType eq 'membername'}">selected</c:if>>이름</option>
+			</select>
+			<input type="text" name="keyword" value="${keyword!=null?keyword:''}"/>
+			<input type="submit" value="검색">
+			</form>
+		</div>
 	</div>
 	<table class="table table-hover">
 		<tr>
@@ -42,7 +53,7 @@
 			</tr>
 		</c:forEach>
 	</table>
-
+	${pageBar }
 </section>
 
 ​
