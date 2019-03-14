@@ -13,6 +13,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 <style>
+/* 섹션 패딩 삭제 */
+section.section-st{
+font-family:'a시나브로L';
+padding:0px;
+}
 /* 메인 상단부 */
 div.main-div{
 	/* box-shadow: inset -60px 0 100px #fff;  */
@@ -58,28 +63,77 @@ div.date-icon{
 	border-top-right-radius: 40px;
     border-bottom-right-radius: 40px;
 }
+div.date-icon:hover{
+
+	box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
+}
 button.btn-search{
 	height:50px;
 	border-radius:40px;
 }
 h1.text-h1{
+	font-family:'Segoe UI Black';
 	color:white;
 	text-shadow: 2px 2px 2px rgb(0,175,76),-2px -2px 2px rgb(0,175,76);
-	font-size:80px;
+	font-size:70px;
 }
 h3.text-h3{
 	color:white;
-	font-size: 50px;
+	font-size: 40px;
 	margin-bottom:20px;
+	font-family: 'a시나브로L';
 }
 
 /* 같이탈래..? 추천~ */
-
+div#text-div{
+	margin:30px;
+}
+div.pop-div{
+	background-color:rgb(240,240,240,0.8);
+}
+div.pop-toggle{
+	padding-left:10%;
+	padding-right:10%;
+}
+div#pop-toggle{
+	display: none;
+	
+}
+div.pop-size{
+   	margin-left: 50px;
+    margin-right: 50px;
+}
+h3.best-text{
+	text-align: center;
+}
+h3.best-text::before{
+    /* p를 쓰기전에 어떤 값을 입력하고 싶을때!! */
+    position: absolute;
+    left: -300px;
+    top: 50%;
+    margin-top: -1px;
+    height: 2px;
+    width: 350px;
+    content: "";
+    border-top: 2px solid #28A745;
+}
+h3.best-text::after{
+    left: auto;
+    right: -300px;
+    position: absolute;
+    top: 50%;
+    margin-top: -1px;
+    height: 2px;
+    width: 350px;
+    content: "";
+    border-top: 2px solid #28A745;
+}
+}
 </style>
-<section class="container-fluid">
+<section class="container-fluid section-st">
 <!-- 배경이미지 -->
 	<div class="row">
-		<div class="col-12">
+		<div class="col-12 tt">
 			<div class="main-div">
 				<%-- <img class="main-img" src="${path }/resources/images/main_img.jpg"> --%>
 				<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
@@ -149,31 +203,49 @@ h3.text-h3{
 	</div>
 <!-- 자주가는 경로 -->
 	<div class="row">
-		<div class="col-12 ">
-			<div class="row">
-				<div class="offset-2 col-8 ">
-					<h3>같이탈래....?</h3>
+		<div class="col-12 pop-div">
+			<div class="row" id="text-div">
+				<div class="offset-4 col-4">
+					<h3 class="best-text">Best way to drive</h3>
 				</div>
 			</div>
 			<div class="row">
+				<div class="offset-10 col-2">
+					<p id="pop-more"><i>show more</i></p>
+				</div>
+			</div>
+			<div class="row pop-toggle" >
 				<c:forEach items="${chList }" var="ch" varStatus="count">
 					<c:if test="${count.index <3 }">
-						<div class="col-12 offset-md-1 col-md-3 ">
-							<div class="card text-white bg-success mb-3 text-center">
-								<span>
-									<span>${ch.STARTCITY}</span>
-									<i class="far fa-arrow-alt-circle-right"></i>
-									<span>${ch.ENDCITY }</span>
-								</span>
+						<div class="col-12 col-md-4 ">
+							<div class="card text-white bg-success mb-5 text-center pop-size">
+								<span>${ch.STARTCITY}</span>
+								<i class="far fa-arrow-alt-circle-down"></i>
+								<span>${ch.ENDCITY }</span>
 							</div>
 						</div>
 					</c:if>
 				</c:forEach>
 			</div>
+			<div class="row pop-toggle" id="pop-toggle">
+				<div class="row">
+					<c:forEach items="${chList }" var="ch" varStatus="count">
+						<c:if test="${count.index >=3 && count.index <12 }">
+							<div class="col-12 col-md-4 ">
+								<div class="card text-white bg-success mb-5 text-center pop-size">
+									<span>${ch.STARTCITY}</span>
+									<i class="far fa-arrow-alt-circle-down"></i>
+									<span>${ch.ENDCITY }</span>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
+			</div>
 		</div>
 	</div>
 <!-- 우리 카풀 장점 -->
-	<div class="row">
+	<%-- <div class="row".>
 		<div class="col-md-12 card-group">
 			<div class="card">
 				<img class="card-img-top img-size" src="${path}/resources/images/map.png" alt="Card image cap">
@@ -200,9 +272,28 @@ h3.text-h3{
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 </section>
-
+<!-- 추천 경로 더보기 -->
+    <script>
+        $(function()
+		{
+            var flag=true;
+            $('#pop-more').click(function(){
+                if(flag)
+                {
+                    $('#pop-toggle').slideDown();
+                    flag=false;
+                }
+                else{
+                    $('#pop-toggle').slideUp();
+                    flag=true;
+                }
+                //$(this).next().toggle();
+            });
+            
+        })
+    </script>
 <!-- t-map 지도 key -->
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
 <script type="text/javascript">
