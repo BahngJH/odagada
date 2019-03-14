@@ -322,5 +322,15 @@ public class CarpoolController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping("/carpool/paymentCancel")
+	public String paymentCancel(int carpoolNum) {
+		
+		
+		
+		
+		return "A";
+	}
+	
 	
 }

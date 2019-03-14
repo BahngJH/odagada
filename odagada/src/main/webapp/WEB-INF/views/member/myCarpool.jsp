@@ -104,12 +104,12 @@ a#pay{
 					                   		<c:if test='${list.PAYSTATUS == "N" }'>
 						                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
 						                        <!-- Modal -->
-												<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
 												  <div class="modal-dialog" role="document">
 												    <div class="modal-content">
 												      <div class="modal-header">
-												        <h5 class="modal-title" id="exampleModalLabel">결제 코드</h5>
-												        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												        <h5 class="modal-title" id="payModalLabel">결제 코드</h5>
+												        <button type="button" class="close" data-dismiss="payModal" aria-label="Close">
 												          <span aria-hidden="true">&times;</span>
 												        </button>
 												      </div>
@@ -117,11 +117,30 @@ a#pay{
 												        ${list.PAYCODE }
 												      </div>
 												      <div class="modal-footer">
+												      	<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="payCancel();">결제 취소</button>
 												        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 												      </div>
 												    </div>
 												  </div>
 												</div>
+												<script>
+													function payCancel(){
+														var isCancel = confirm("정말 취소하시겠습니까?");
+														if(isCancel){
+															console.log("취소 시작");
+															$.ajax({
+																url:"${path}/carpool/paymentCancel",
+																type:"post",
+																data:{
+																	"carpoolNum" : "#{list.CARPOOLNUM}",																	
+																},
+																success:function(response){
+																	console.log(response);
+																}
+															});
+														}
+													}
+												</script>
 					                   		</c:if>
 					                   		<c:if test='${list.PAYSTATUS == "Y"}'>
 												<span class="badge badge-success">결제 완료</span>
