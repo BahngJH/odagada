@@ -121,7 +121,7 @@
 						<form action="${path}/driver/driverFormEnd?memberNum=${driver.MEMBERNUM}&&driverStatus=${driver.DRIVERSTATUS}" method="post">
 							<input type="submit" class="btn btn-outline-success" value="드라이버 승인">
 						</form>
-						<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/drvier/driverRefuse?memberNum=${driver.MEMBERNUM}';">드라이버 승인 거절</button>
+						<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverRefuse?memberNum=${driver.MEMBERNUM}';">드라이버 승인 거절</button>
 					</c:if>
 					<c:if test="${driver.DRIVERSTATUS eq 'Y'}">
 						<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverList';">목록</button>

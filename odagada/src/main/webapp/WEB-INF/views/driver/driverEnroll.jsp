@@ -134,6 +134,17 @@
     	  
     	  return false;
       }
+      
+      var carNum = $('#carNum').val();
+      var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
+      
+      if(!carNumTest.test($("input[name=carNum]").val()))
+    	  {
+    	  	alert("정확한 자동차번호를 입력해주세요");
+    	  	return false;
+    	  }
+      
+      console.log(carNumTest.test($("input[name=carNum]").val()));
 
    }
    //프로필 사진을 이미지 타입 파일로만 받기

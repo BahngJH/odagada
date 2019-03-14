@@ -47,11 +47,13 @@ public class DriverController {
 		
 		Member m = (Member) session.getAttribute("logined");
 		ModelAndView mv = new ModelAndView();		
-		int memberNum = m.getMemberNum();		
-		Driver driver = service.selectOne(memberNum);	
+		
 		
 		if(m!=null)
 		{
+			int memberNum = m.getMemberNum();		
+			Driver driver = service.selectOne(memberNum);	
+			
 			if(driver!=null)
 			{
 				mv.setViewName("/common/msg");
@@ -77,12 +79,11 @@ public class DriverController {
 				
 				logger.debug("드라이버 있나요"+driver);
 				return mv;
-
 			}			
 		}
 		else {
 			mv.setViewName("/common/msg");
-			mv.addObject("msg","로그인 후 이용해주세요");
+			mv.addObject("msg","회원가입 후 이용해주세요.");
 			mv.addObject("loc","/member/loginForm.do");
 			
 			return mv;
@@ -164,15 +165,14 @@ public class DriverController {
 		   
 		  Member m = (Member) session.getAttribute("logined");
 		  ModelAndView mv = new ModelAndView();
-		 
-	  
-			  int contentCount = service.selectJoinCount();
-		      int numPerPage = 5;   
+		  int numPerPage = 5;   
+		  int contentCount = service.selectJoinCount();	  
 		      
-		      List<Map<String,String>> list = service.selectDriverList(cPage,numPerPage);
-		      mv.addObject("pageBar",PageFactory.getpageBar(contentCount, cPage, numPerPage,"/odagada/driver/driverJoinList"));
-		      mv.addObject("list",list);
-		      mv.setViewName("driver/driverJoinList");	      
+	      List<Map<String,String>> list = service.selectDriverList(cPage,numPerPage);
+	      mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/driver/driverList"));
+	     
+	      mv.addObject("list",list);
+	      mv.setViewName("driver/driverJoinList");	      
 		      
 		      return mv;	      
 	   }
@@ -220,7 +220,7 @@ public class DriverController {
 		
 	}
 	
-	@RequestMapping("drvier/driverRefuse")
+	@RequestMapping("driver/driverRefuse")
 	public String deleteDriver(@RequestParam(value="memberNum") int memberNum)
 	{
 		int result = service.deleteDriver(memberNum);

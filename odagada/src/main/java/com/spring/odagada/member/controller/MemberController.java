@@ -1,7 +1,7 @@
 package com.spring.odagada.member.controller;
 
 
-import static com.spring.odagada.common.PageFactory.getpageBar;
+import static com.spring.odagada.common.PageFactory.getPageBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -343,7 +343,7 @@ public class MemberController {
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
 	   
 	   mav.addObject("carpoolList", list);
-	   mav.addObject("pageBar", getpageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
+	   mav.addObject("pageBar", getPageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;
    }

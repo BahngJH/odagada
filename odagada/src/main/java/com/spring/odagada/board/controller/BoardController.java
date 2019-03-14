@@ -41,11 +41,12 @@ public class BoardController {
    public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
    {
       ModelAndView mv = new ModelAndView();
-      int contentCount = service.selectBoardCount();
       int numPerPage = 5;   
+      int contentCount = service.selectBoardCount();
+      
       
       List<Map<String,String>> list = service.selectBoardList(cPage,numPerPage);
-      mv.addObject("pageBar",PageFactory.getpageBar(contentCount, cPage, numPerPage,"/odagada/board/boardList"));
+      mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/boardList"));
       mv.addObject("list",list);
       mv.setViewName("board/boardList");
       
