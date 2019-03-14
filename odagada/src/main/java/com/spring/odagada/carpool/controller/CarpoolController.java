@@ -2,6 +2,7 @@ package com.spring.odagada.carpool.controller;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -137,19 +139,7 @@ public class CarpoolController {
 		m.put("destLong",endLon);
 		m.put("destLat",endLat);
 		m.put("kmNum", kmNum);
-		
-		//지나간 날짜 비교해야함 
-/*		l.debug("날짜 확인이요: "+ startDate.trim());
-		
-		String[] mm=startDate.split("\\.");
-		for(int i=0;i<mm.length;i++) {
-			l.debug("split: "+ mm[i]);
-		}
-		
-		String day=mm[0]+mm[1]+mm[2];
-		l.debug("day: "+day);
-		m.put("day", "day");*/
-		
+
 		List<Map<String,String>> carlist = service.selectCarpoolList(m);
 		
 		mav.addObject("cList",carlist);
@@ -328,4 +318,6 @@ public class CarpoolController {
 			return "no";
 		}
 	}
+	
+	
 }

@@ -77,4 +77,8 @@ public class CarpoolDaoImpl implements CarpoolDao {
 		return session.selectList("carpool.selectPopList");
 	}	
 	
+	@Override
+	public void setCarpoolStatus(String nowDate) {
+		session.update("carpool.setCarpoolStatus", nowDate);
+	}	
 }

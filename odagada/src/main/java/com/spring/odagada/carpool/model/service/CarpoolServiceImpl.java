@@ -86,4 +86,8 @@ public class CarpoolServiceImpl implements CarpoolService {
 		return dao.selectPopList();
 	}
 	
+	@Override
+	public void setCarpoolStatus(String nowDate) {
+		dao.setCarpoolStatus(nowDate);
+	}
 }

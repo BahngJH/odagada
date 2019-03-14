@@ -133,4 +133,7 @@
 	<select id="selectPopList" resultMap="carpool">
 		select startcity,endcity, count(startcity), count(endcity) from carpool group by startcity, endcity order by count(startdate) desc
 	</select>
+	<update id="setCarpoolStatus" parameterType="string">
+		UPDATE CARPOOL SET STATUS = 'Y' WHERE STARTDATE <![CDATA[<]]> #{nowDate} 
+	</update>
 </mapper>
