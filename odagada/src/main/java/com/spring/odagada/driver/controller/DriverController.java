@@ -184,11 +184,18 @@ public class DriverController {
 		 ModelAndView mv = new ModelAndView();
 		 Map<String,String> map = service.selectDriverOne(memberNum);
 		 List<Map<String,String>> carImg = service.selectCarImg(carNum);
+		 
+		 String a = map.get("LICENSENUM").substring(0, 3);
+		 String b = "**-******";
+		 String c = map.get("LICENSENUM").substring(13);
+		 
+		 String licenseNum = a+b+c;
 	
 		carImg.get(0).put("active", "active");
 		 
 		 mv.addObject("driver",map);
 		 mv.addObject("carImg", carImg);
+		 mv.addObject("licenseNum",licenseNum);
 		 mv.setViewName("driver/driverForm");
 		 
 		 logger.info("리턴 전"+map);

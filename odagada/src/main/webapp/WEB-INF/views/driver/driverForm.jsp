@@ -74,7 +74,7 @@
 			</div>
 			<div class="row">
 				<div class="col form_Title">
-					<span id="d_badge">운전면허번호</span>&nbsp;&nbsp; <span id="cSpan"><c:out value="${driver.LICENSENUM }"/></span>
+					<span id="d_badge">운전면허번호</span>&nbsp;&nbsp; <span id="cSpan"><c:out value="${licenseNum}"/></span>
 				</div>
 			</div>
 			<div class="row">
