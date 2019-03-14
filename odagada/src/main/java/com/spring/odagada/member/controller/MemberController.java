@@ -432,6 +432,7 @@ public class MemberController {
 
 		int rand = (int) (Math.random() * 899999) + 100000;
 
+		logger.debug(receiver);
 		logger.debug(rand + "");
 
 		String phoneCode = pwEncoder.encode(rand + "");
@@ -461,7 +462,7 @@ public class MemberController {
 				HttpPost httpPost = new HttpPost(url);
 				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
 				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
-						+ "\"],\"content\":\"testset\"}";
+						+ "\"],\"content\":\"오다가다 핸드폰 번호 인증 코드 : " + rand + "\"}";
 
 				StringEntity se = new StringEntity(json, "UTF-8");
 				httpPost.setEntity(se);
