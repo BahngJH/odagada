@@ -53,13 +53,16 @@ public class BoardController {
    }
    
    @RequestMapping("/admin/searchMember.do")
-   public ModelAndView searchMember(String searchType, String keyword,ModelAndView mv) 
+   public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
    {
 	   Map<String,String> searchData = new HashMap<String,String>();
 	   searchData.put("searchType", searchType);
 	   searchData.put("keyword", keyword);
 	   
-	   List<Map<String,String>> searchList = service.searchList(searchData);
+	   int searchListAll = service.searchListAll(searchData);
+	   int numPerPage = 10;
+	   List<Map<String,String>> searchList = service.searchList(searchData,cPage,numPerPage);
+	   mv.addObject("pageBar", PageFactory.getPageBar(searchListAll, cPage, numPerPage,"/odagada/admin/memberList.do"));
 	   mv.addObject("memberList", searchList);
 	   mv.addObject("searchType", searchType);
 	   mv.addObject("keyword", keyword);
