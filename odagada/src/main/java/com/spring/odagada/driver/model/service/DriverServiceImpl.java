@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.dao.DriverDao;
-import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.driver.model.vo.Driver;
 
 @Service
 public class DriverServiceImpl implements DriverService {

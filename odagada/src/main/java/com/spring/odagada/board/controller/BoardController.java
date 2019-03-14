@@ -37,6 +37,36 @@ public class BoardController {
    @Autowired
    BoardService service;
    
+   //회원 목록 불러옴
+   @RequestMapping("/admin/memberList.do")
+   public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv)
+   {
+	   int allMemberCount = service.selectAllMemberCount();
+	   int numPerPage = 10;
+	   
+	   List<Map<String,String>> memberList = service.memberList(cPage,numPerPage);
+	   logger.debug("전체회원 정보"+memberList);
+	   mv.addObject("pageBar", PageFactory.getPageBar(allMemberCount, cPage, numPerPage,"/odagada/admin/memberList.do"));
+	   mv.addObject("memberList", memberList);
+	   mv.setViewName("board/memberManagement");
+	   return mv;
+   }
+   
+   @RequestMapping("/admin/searchMember.do")
+   public ModelAndView searchMember(String searchType, String keyword,ModelAndView mv) 
+   {
+	   Map<String,String> searchData = new HashMap<String,String>();
+	   searchData.put("searchType", searchType);
+	   searchData.put("keyword", keyword);
+	   
+	   List<Map<String,String>> searchList = service.searchList(searchData);
+	   mv.addObject("memberList", searchList);
+	   mv.addObject("searchType", searchType);
+	   mv.addObject("keyword", keyword);
+	   mv.setViewName("board/memberManagement");
+	   return mv;
+   }
+   
    @RequestMapping("/board/boardList")
    public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
    {

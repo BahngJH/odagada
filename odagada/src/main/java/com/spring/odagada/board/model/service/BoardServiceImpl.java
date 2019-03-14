@@ -15,6 +15,24 @@ public class BoardServiceImpl implements BoardService {
 	BoardDao dao;
 
 	@Override
+	public List<Map<String, String>> searchList(Map<String, String> searchData) {
+		// TODO Auto-generated method stub
+		return dao.searchList(searchData);
+	}
+
+	@Override
+	public int selectAllMemberCount() {
+		// TODO Auto-generated method stub
+		return dao.selectAllMemberCount();
+	}
+
+	@Override
+	public List<Map<String, String>> memberList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.memberList(cPage,numPerPage);
+	}
+
+	@Override
 	public int selectBoardCount() {
 		return dao.selectBoardCount();
 	}

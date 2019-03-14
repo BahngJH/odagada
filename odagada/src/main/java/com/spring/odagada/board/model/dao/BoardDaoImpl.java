@@ -15,6 +15,25 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public List<Map<String, String>> searchList(Map<String, String> searchData) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.searchList",searchData);
+	}
+
+	@Override
+	public int selectAllMemberCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.selectAllMemberCount");
+	}
+
+	@Override
+	public List<Map<String, String>> memberList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
+		return sqlSession.selectList("board.memberList",null,rb);
+	}
+
+	@Override
 	public int selectBoardCount() {
 		return sqlSession.selectOne("board.selectBoardCount");
 	}
