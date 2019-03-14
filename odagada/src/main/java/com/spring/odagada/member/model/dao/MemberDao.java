@@ -35,6 +35,7 @@ public interface MemberDao {
 	 
 	 //임시비밀번호로 업데이트
 	 void updateTempPw(Map info);
+	int updatePhoneCode(Member m);
 	
 
 }

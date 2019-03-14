@@ -100,6 +100,7 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
+
 	public Map<String, String> findPw(Map info) {
 		// TODO Auto-generated method stub
 		return dao.findPw(info);
@@ -134,4 +135,10 @@ public class MemberServiceImple implements MemberService {
 		
 	}
 		
+
+	public int updatePhoneCode(Member m) {
+		return dao.updatePhoneCode(m);
+		
+	}
+
 }

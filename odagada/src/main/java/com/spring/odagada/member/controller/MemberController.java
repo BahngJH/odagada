@@ -3,8 +3,11 @@ package com.spring.odagada.member.controller;
 
 import static com.spring.odagada.common.PageFactory.getpageBar;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -17,6 +20,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -431,6 +447,67 @@ public class MemberController {
 	   return mav;
    }
    
-   
+    @ResponseBody
+	@RequestMapping("/member/sendSms")
+	public String test(HttpSession session, String receiver) {
+		// 인증 코드 생성
+
+		int rand = (int) (Math.random() * 899999) + 100000;
+
+		logger.debug(rand + "");
+
+		String phoneCode = pwEncoder.encode(rand + "");
+		Member m = (Member) session.getAttribute("logined");
+		m.setPhoneCode(phoneCode);
+		int result = service.updatePhoneCode(m);
+
+		if (result > 0) {
+			// 문자 보내기 (청기와랩 api 사용)
+			String hostname = "api.bluehouselab.com";
+			String url = "https://" + hostname + "/smscenter/v1.0/sendsms";
+
+			CredentialsProvider credsProvider = new BasicCredentialsProvider();
+			credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
+					new UsernamePasswordCredentials("odagada", "9c9ca1e0454b11e9acbb0cc47a1fcfae"));
+
+			AuthCache authCache = new BasicAuthCache();
+			authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
+
+			HttpClientContext context = HttpClientContext.create();
+			context.setCredentialsProvider(credsProvider);
+			context.setAuthCache(authCache);
+
+			DefaultHttpClient client = new DefaultHttpClient();
+
+			try {
+				HttpPost httpPost = new HttpPost(url);
+				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
+						+ "\"],\"content\":\"testset\"}";
+
+				StringEntity se = new StringEntity(json, "UTF-8");
+				httpPost.setEntity(se);
+
+				HttpResponse httpResponse = client.execute(httpPost, context);
+				System.out.println(httpResponse.getStatusLine().getStatusCode());
+
+				InputStream inputStream = httpResponse.getEntity().getContent();
+				if (inputStream != null) {
+					BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+					String line = "";
+					while ((line = bufferedReader.readLine()) != null)
+						System.out.println(line);
+					inputStream.close();
+				}
+			} catch (Exception e) {
+				System.err.println("Error: " + e.getLocalizedMessage());
+			} finally {
+				client.getConnectionManager().shutdown();
+			}
+			return "true";
+		} else {
+			return "false";
+		}
+	}
 
 }

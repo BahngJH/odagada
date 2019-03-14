@@ -14,7 +14,7 @@
 	
 	<!--회원 등록 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default)
 	</insert>
 	
 	<!--메일 인증 코드 생성 -->
@@ -69,6 +69,10 @@
 	<!--임시 비밀번호로 업데이트 -->
 	<update id="tempPassword" parameterType="map">
 	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+	</update>
+	
+	<update id="updatePhoneCode" parameterType="member">
+		UPDATE MEMBER SET PHONECODE = #{phoneCode} WHERE MEMBERNUM = #{memberNum}
 	</update>
 	
 </mapper>

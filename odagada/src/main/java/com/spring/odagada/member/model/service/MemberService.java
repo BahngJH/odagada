@@ -22,4 +22,5 @@ public interface MemberService {
 	 void sendPw(Map info)throws Exception;
 	 //메일 인증
 	 void mailAuth(Member m)throws Exception;
+     int updatePhoneCode(Member m);
 }

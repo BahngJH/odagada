@@ -77,7 +77,24 @@
 				      <td>		
 			       	 	<c:choose>
 			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
-				      			<a href="#" class="ck badge badge-danger" data-toggle="modal" data-target="#sendPhone">인증하기</a>
+				      			<a href="#" class="ck badge badge-danger" onclick="sendSms();">인증하기</a>
+				      			<script>
+				      				$.ajax({
+				      					url:"${path}/member/sendSms",
+				      					data:{
+				      						"receiver": "${logined.phone}"
+				      					}
+				      					type:"post",
+				      					success:function(result){
+				      						if(result == "true"){
+				      							console.log(result);
+				      						}else{
+				      							alert("인증번호 전송 실패");
+				      						}
+				      						
+				      					}
+				      				});
+				      			</script>
 				      		</c:when>
 				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
 				      			<div class="ck badge badge-success" role="alert">인증완료</div>

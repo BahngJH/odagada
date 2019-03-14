@@ -105,5 +105,8 @@ public class MemberDaoImpl implements MemberDao {
 	public void updateTempPw(Map info) {
 		session.update("member.tempPassword", info);
 	}
+	public int updatePhoneCode(Member m) {
+		return session.update("member.updatePhoneCode", m);
+	}
 	
 }
