@@ -34,7 +34,7 @@
       <div class="col-12 col-md-4">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
-            <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
          </div>
       </div>
