@@ -16,7 +16,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
    <style>
-     div#enroll-container{width:400px; margin:0 auto; text-align:center;}
+     div#enroll-container{width:350px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
     /*중복아이디체크관련*/
     div#enroll-container{position:relative; padding:0px;}
@@ -24,7 +24,7 @@
     div#enroll-container span.ok{color:green;}
     div#enroll-container span.error{color:red;}
     
-    div#board-continer{width:400px;margin:0 auto; text-align:center}
+    div#board-continer{width:350px;margin:0 auto; text-align:center}
     div#board-continer input{margin-bottom:15px;} 
     
     
@@ -129,7 +129,7 @@
   		margin-left:-10px;
   	}
   	p{
-  	font-size:13px;
+  	font-size:12px;
   	}
   	.passwordInfo{
   	height:40px;
@@ -137,7 +137,7 @@
   	.eck{padding-right:0; padding-left:0; font-size:15px;}
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
-  	.select-div{margin-left:15px;}
+  	.p-div{margin-top:4px;}
     </style>
     
      
@@ -176,7 +176,7 @@
              }
          }
       }); 
-   });
+   }); 
  }); 
  
     //비밀번호 유효성 검사
@@ -253,12 +253,7 @@ $(function(){
          alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
          return false;
       	}   
-      //핸드폰 유효성 검사 
-      var regExp = /([0-9]{7,8})$/;
-      if (!regExp.test($("input[name=phone2]").val())) {
-            alert("정확한 휴대폰 번호를 입력해주세요.");
-            return false;
-         }
+     
       //이름 유효성 검사
       //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
       var name=$('#memberName').val().trim();
@@ -283,13 +278,17 @@ $(function(){
         if($('#checkStatus').val()==0){
            alert('ID 중복확인해주세요.');
            return false;
-         } 
-        
+         }         
         //E-mail 중복확인 체크
         if($('#emailStatus').val()==0){
         alert('e-mail 중복확인 해주세요.')
         return false;
         }
+        //핸드폰 중복체크 
+        if ($('#phoneStatus').val()==0) {
+              alert("핸드폰 중복확인해주세요.");
+              return false;
+           }
         
         //생년월일 받기
         var birth=$('#birth').val().trim();
@@ -320,8 +319,7 @@ $(function(){
    
    
  //E-mail 중복 확인
-   function checkEmail(){
-   	
+   function checkEmail(){ 	
      	//이메일 도메인 정규식 받기    
        var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
        if(!mC.test($("input[name=email2]").val())){
@@ -338,8 +336,9 @@ $(function(){
            url:"${path}/member/checkEmail.do",
            data:{"email":email},
            success:function(data){                                                        
-               if(data =='no')
+               if(data == 'no')
                {
+            	  console.log(data);
               	  alert('이미 사용중인 이메일 입니다. 사용하실 수 없습니다.');          
                   document.getElementById('emailStatus').value='0';
                   return false;
@@ -350,6 +349,36 @@ $(function(){
            }
         });  
       };
+      
+      //핸드폰 중복확인
+      function checkPhone(){
+    	    var phone1=$('#selectPhone option:selected').val();
+    	    var phone2=$('#phone2').val();
+    	    var phone=phone1+phone2;
+    	    console.log(phone);
+    	  //핸드폰 유효성 검사 
+          var regExp = /([0-9]{7,8})$/;
+          if (!regExp.test($("input[name=phone2]").val())) {
+                alert("정확한 휴대폰 번호를 입력해주세요.");
+                return false;
+             }
+   	    
+    	    $.ajax({
+    	    	url:"${path}/member/phoneCheck.do",
+    	    	data:{"phone": phone},
+    	    	success:function(data){
+    	    		if(data == 'Y'){
+    	    			alert('사용하셔도 좋습니다.');
+    	    			document.getElementById('phoneStatus').val=='1';
+    	    		}else{
+    	    			alert('이미 사용중인 번호입니다. 사용하실 수 없습니다.');
+    	    			documnet.getElementById('phoneStatus').val=='0';
+    	    		}
+    	    	}
+    	    }) ;   	  
+      };
+      
+      
 </script>
       
       <div id="enroll-container">
@@ -377,7 +406,7 @@ $(function(){
            		<div class="ptext col-5">
            			<p class="badge badge-secondary p_pass">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
        			</div>  
-       			<div class="col-7">      	
+       			<div class="col-7 p-div">      	
           				<p>숫자/영문자/특수문자 조합 6~15자</p>
           		</div> 		
             </div>
@@ -414,7 +443,8 @@ $(function(){
                		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
                </div>
           </div>
-          <div class="row">
+           <input type="hidden" id="phoneStatus" value="0"/>
+          <div class="row row-email">
              <div class="col-3 select-div">         
 	              <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
 	                 <option  value="010" selected>010</option>
@@ -426,12 +456,11 @@ $(function(){
 	                 <option  value="070">070</option> 
 	              </select>
              </div>          
-             <div class="col-6 phone-div">
+             <div class="col-7 phone-div">
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
-             <div class="col-3 phone-btn">
-
-
+             <div class="col-2 phone-btn">
+             	<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">	
              </div>
           </div>
               

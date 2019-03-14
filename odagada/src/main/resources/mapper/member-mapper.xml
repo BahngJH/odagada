@@ -27,8 +27,6 @@
 	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where memberId=#{memberId}
 	</update>
 	
-	
-	
 	<!--ID중복 체크 -->
 	<select id="checkId" parameterType="string" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBERID=#{memberId}
@@ -37,6 +35,11 @@
 	<!--Email중복 체크  -->
 	<select id="checkEmail" parameterType="string" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE EMAIL=#{email}
+	</select>
+	
+	<!--핸드폰 중복 체크  -->
+	<select id="checkPhone" parameterType="string" resultType="_int">
+	SELECT COUNT(*) FROM MEMBER WHERE PHONE=#{phone}
 	</select>
  	
  <!-- 회원 정보 수정  -->

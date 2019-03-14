@@ -25,4 +25,6 @@ public interface MemberService {
 	 void sendPw(Map info)throws Exception;
 	 //메일 인증
 	 void mailAuth(Member m)throws Exception;
+	 //핸드폰 중복확인
+	 int checkPhone(String phone);
 }

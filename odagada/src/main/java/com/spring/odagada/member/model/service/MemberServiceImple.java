@@ -173,4 +173,9 @@ public class MemberServiceImple implements MemberService {
 		return dao.updateYPhoneStatus(memberNum);
 	}
 
+	@Override
+	public int checkPhone(String phone) {
+		return dao.checkPhone(phone);
+	}
+
 }

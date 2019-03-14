@@ -534,5 +534,19 @@ public class MemberController {
     		return "no";
     	}
     }
+    
+    @ResponseBody
+    @RequestMapping("/member/phoneCheck.do")
+    public String phoneCheck(String phone){
+    	int result=service.checkPhone(phone);
+    	String isPhone="";
+    	if(result>0) {
+    		isPhone="N";
+    	}else {
+    		isPhone="Y";
+    	}  	
+    	return isPhone;  			
+    } 
+
 
 }

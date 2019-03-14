@@ -92,9 +92,7 @@
 					      							console.log(result);
 					      						}else{
 					      							alert("인증번호 전송 실패");
-					      						}
-					      						
-					      						
+					      						}					      						
 					      					}
 					      				});
 					      			}

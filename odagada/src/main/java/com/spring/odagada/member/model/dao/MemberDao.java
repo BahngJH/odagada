@@ -38,6 +38,8 @@ public interface MemberDao {
 	int updatePhoneCode(Member m);
 	String getPhoneCode(int memberNum);
 	int updateYPhoneStatus(int memberNum);
+	//핸드폰 중복체크
+	int checkPhone(String phone);
 	
 
 }
