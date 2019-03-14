@@ -247,8 +247,15 @@ public class MemberController {
    
    //마이페이지 
    @RequestMapping("/member/myInfo.do")
-   public String myInfo() {
-	   return "member/myInfo";
+   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
+	   mav.setViewName("member/myInfo");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   m = service.selectMember(m.getMemberId()); 
+	   
+	   mav.addObject("logined", m);
+	   return mav;
    }
    
    //비밀번호 체크(ajax ...)
