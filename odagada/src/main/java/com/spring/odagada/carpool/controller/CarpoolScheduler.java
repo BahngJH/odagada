@@ -16,7 +16,7 @@ public class CarpoolScheduler {
 	
 	private Logger l = LoggerFactory.getLogger(CarpoolScheduler.class);
 	
-	@Scheduled(cron="0 0 0/1 1/1 * ? *")
+	@Scheduled(cron="0 0 0/1 1/1 * ?")
 	public void setCarpoolStatus() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd. a h:mm");
 		Calendar cal = Calendar.getInstance();
