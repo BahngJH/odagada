@@ -367,7 +367,7 @@ public class MemberController {
 		   
 		   String a = driver.get("LICENSENUM").substring(0,3);
 		   String b = "**-******";
-		   String c = driver.get("LICENSENUM").substring(12);
+		   String c = driver.get("LICENSENUM").substring(13);
 		   
 		   String licenseNum = a+b+c;
 		   
