@@ -38,6 +38,48 @@ public class CommunityController {
 		return "community/chatView";
 	}
 	
+	@RequestMapping("/community/clickedUser")
+	public ModelAndView clickedUser(String clickedUser, ModelAndView mv, HttpServletRequest request)
+	{
+		Member m = (Member)request.getSession().getAttribute("logined");
+		Map<String,String> roomIdData = new HashMap<String, String>();
+		roomIdData.put("myId", m.getMemberId());
+		roomIdData.put("chatUser", clickedUser);
+		logger.debug(clickedUser+"와 채팅방을 검사합니다");
+		
+		String roomIdCheck = service.roomIdCheck(roomIdData);
+		
+		if(roomIdCheck!=null) {
+			logger.info("채팅방 존재함");
+			//메시지가 있나 검사
+			List<Map<String,String>> chatContent = service.bringMsg(roomIdCheck);
+
+			if(!(chatContent.isEmpty())) 
+			{
+				logger.debug("방도 있고 메시지도 있다"+chatContent);
+				mv.addObject("chatContent", chatContent);
+				for(int i=0;i<chatContent.size();i++) 
+				{
+					logger.debug("MAP데이터 clickedUser"+chatContent.get(i));
+				}
+			}
+			else 
+			{
+				logger.debug("방은 있지만 메시지가 없다. 상대 정보만 가져옴");
+				List<Map<String,String>> member = service.bringUserInfo(roomIdData);
+				logger.debug(member+"");
+				mv.addObject("chatMember", member);
+			}
+		}else {
+			roomIdData.put("roomId", String.join(",",m.getMemberId(), clickedUser));
+			int insertRoomId = service.insertRoomId(roomIdData);
+			List<Map<String,String>> member = service.bringUserInfo(roomIdData);
+			mv.addObject("chatMember", member);
+		}
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
 	//채팅방이 아닌곳에서 안읽은 메시지 확인용
 	@RequestMapping("/community/checkMsg.do")
 	public ModelAndView jsutCheckMsg(ModelAndView mv, String myId) 
