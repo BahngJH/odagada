@@ -359,7 +359,8 @@
 				  											$.ajax({
 				  												url: "/carpool/paymentEnd",
 				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
-				  														"memberNum": "${logined.memberNum}"	
+				  														"memberNum": "${logined.memberNum}",
+				  														"impUid" : rep.imp_uid,
 				  												},
 				  												type: "post",
 				  											 	success:function(result){

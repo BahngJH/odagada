@@ -295,7 +295,7 @@ public class CarpoolController {
 	
 	@ResponseBody
 	@RequestMapping("/carpool/paymentEnd")
-	public String paymentEnd(int carpoolNum, int memberNum) {
+	public String paymentEnd(int carpoolNum, int memberNum, String impUid) {
 		l.debug("카풀 넘: " + carpoolNum + " 멤버 넘 : "+ memberNum);
 		
 		Calendar cal = Calendar.getInstance();
@@ -307,10 +307,11 @@ public class CarpoolController {
 		
 		l.debug("랜덤 넘버:" + rand);
 		
-		Map<String, Integer> pass = new HashMap<>();
+		Map<String, Object> pass = new HashMap<>();
 		pass.put("carpoolNum", carpoolNum);
 		pass.put("memberNum", memberNum);
 		pass.put("payCode", rand);
+		pass.put("impUid", impUid);
 		
 		int result = service.insertPassenger(pass);
 		

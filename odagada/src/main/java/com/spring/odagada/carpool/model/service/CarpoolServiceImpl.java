@@ -68,7 +68,7 @@ public class CarpoolServiceImpl implements CarpoolService {
 	}
 
 	@Override
-	public int insertPassenger(Map<String, Integer> pass) {
+	public int insertPassenger(Map<String, Object> pass) {
 		return dao.insertPassenger(pass);
 	}
 	

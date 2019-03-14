@@ -58,7 +58,7 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	}
 
 	@Override
-	public int insertPassenger(Map<String, Integer> pass) {
+	public int insertPassenger(Map<String, Object> pass) {
 		return session.insert("carpool.insertPassenger", pass);
 	}
 
