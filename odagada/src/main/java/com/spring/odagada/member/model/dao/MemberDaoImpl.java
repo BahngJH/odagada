@@ -95,6 +95,16 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public Map<String, String> findPw(Map info) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.findPw", info);
+	}
+
+	//임시 비밀번호 발급
+	@Override
+	public void updateTempPw(Map info) {
+		session.update("member.tempPassword", info);
+	}
 	public int updatePhoneCode(Member m) {
 		return session.update("member.updatePhoneCode", m);
 	}

@@ -63,8 +63,7 @@
 				      <td>
 				      	<c:choose>
 				      		<c:when test="${logined.isEmailAuth eq 'N'}">
-				      			<a href="#" class="ck badge badge-danger">인증하기</a>
-		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail" data-whatever="@mdo">인증하기</button>
+				      			<a href="#" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail">인증하기</a>
 		      				</c:when>
 				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
 				      			<div class="ck badge badge-success" role="alert">인증완료</div>
@@ -232,7 +231,6 @@
 					</script>
 						
 						
-						
 					
 						
 					  </div>
@@ -240,7 +238,6 @@
 				</div>		
 			</div>
 		</div>
-	</div>
 </section>
 
 <script>
