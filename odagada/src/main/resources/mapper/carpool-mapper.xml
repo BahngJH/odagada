@@ -136,4 +136,7 @@
 	<update id="setCarpoolStatus" parameterType="string">
 		UPDATE CARPOOL SET STATUS = 'Y' WHERE STARTDATE <![CDATA[<]]> #{nowDate} 
 	</update>
+	<select id="selectImpUid" parameterType="map" resultType="string">
+		SELECT IMPUID FROM PASSENGER WHERE CARPOOLNUM = ${carpoolNum} AND MEMBERNUM = ${memberNum}
+	</select>
 </mapper>

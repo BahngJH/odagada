@@ -19,4 +19,5 @@ public interface CarpoolService {
 	int selectCarpoolCount(int memberNum);
 	List<Map<String,String>> selectPopList();
 	void setCarpoolStatus(String nowDate);
+	String getImpUid(Map<String, Integer> map);
 }

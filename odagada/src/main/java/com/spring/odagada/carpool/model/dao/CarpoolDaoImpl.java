@@ -80,5 +80,10 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	@Override
 	public void setCarpoolStatus(String nowDate) {
 		session.update("carpool.setCarpoolStatus", nowDate);
+	}
+
+	@Override
+	public String getImpUid(Map<String, Integer> map) {
+		return session.selectOne("carpool.selectImpUid", map);
 	}	
 }

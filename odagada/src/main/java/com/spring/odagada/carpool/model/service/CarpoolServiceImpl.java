@@ -90,4 +90,9 @@ public class CarpoolServiceImpl implements CarpoolService {
 	public void setCarpoolStatus(String nowDate) {
 		dao.setCarpoolStatus(nowDate);
 	}
+
+	@Override
+	public String getImpUid(Map<String, Integer> map) {
+		return dao.getImpUid(map);
+	}
 }

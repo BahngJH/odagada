@@ -32,5 +32,7 @@ public interface CarpoolDao {
 	List<Map<String,String>> selectPopList();
 	
 	void setCarpoolStatus(String nowDate);
+
+	String getImpUid(Map<String, Integer> map);
 }
 

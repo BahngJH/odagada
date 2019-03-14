@@ -1,7 +1,13 @@
 package com.spring.odagada.carpool.controller;
 
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,15 +20,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.Iamport;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.carpool.model.vo.CarOption;
 import com.spring.odagada.carpool.model.vo.Carpool;
@@ -324,13 +342,52 @@ public class CarpoolController {
 	
 	@ResponseBody
 	@RequestMapping("/carpool/paymentCancel")
-	public String paymentCancel(int carpoolNum) {
+	public String paymentCancel(HttpSession session, int carpoolNum) {
 		
+		Member m = (Member)session.getAttribute("logined");
+		int memberNum = m.getMemberNum();
 		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("memberNum", memberNum);
+		map.put("carpoolNum", carpoolNum);
 		
+		String impUid = service.getImpUid(map);
 		
-		return "A";
+		if(impUid != null) {
+			final String APIKey = "8371442165887262";
+			final String APISecret = "3BcZ8LhZ715zulG8TuZGMBYDoUyGBWBEyNEHzVGGWMgq8Wz1rzIdaHRyBpfcmQRVEvCerjVo6bPe8ogz";
+			
+			IamportClient client = new IamportClient(APIKey, APISecret);
+			String accessToken = null;
+			try {
+				IamportResponse<AccessToken> authResponse = client.getAuth();
+				
+				accessToken = authResponse.getResponse().getToken();
+			}catch (IamportResponseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			CancelData cancelData = new CancelData(impUid, true);
+			
+			try {
+				IamportResponse<Payment> paymentResponse = client.cancelPaymentByImpUid(cancelData);
+				if(paymentResponse == null) {
+					return "no";
+				}else {
+					return "ok";
+				}
+			}catch (IamportResponseException e) {
+				e.printStackTrace();
+				return "no";
+			}catch (IOException e) {
+				e.printStackTrace();
+				return "no";
+			}
+			
+		}else {
+			return "no";
+		}
 	}
-	
-	
 }
