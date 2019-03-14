@@ -322,7 +322,7 @@
 					  								if(${logined == null}){
 					  									return alert("로그인 필요");
 					  								}
-
+													/*
 					  								$.ajax({
 		  												url: "${path}/carpool/paymentEnd",
 		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
@@ -339,8 +339,8 @@
 															location.reload();
 		  											 	}
 		  											});
+					  								*/
 					  								
-					  								/* 
 				  									var imp = window.IMP;
 				  									imp.init('imp87992639');
 				  									
@@ -358,19 +358,25 @@
 				  										if(rsp.success){
 				  											$.ajax({
 				  												url: "/carpool/paymentEnd",
-				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
-				  														"memberNum": "${logined.memberNum}",
-				  														"impUid" : rep.imp_uid,
+				  												data: {
+				  													"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+			  														"memberNum": "${logined.memberNum}",
 				  												},
 				  												type: "post",
 				  											 	success:function(result){
-				  													console.log(result);
+				  											 		if(result==="ok"){
+				  														alert("신청 완료");
+				  													}else if(result ==="no"){
+				  														alert("신청 실패");
+				  													}
+				  													
+																	location.reload();
 				  											 	}
 				  											});
 				  										}else{
 				  											console.log(rsp);
 				  										}
-				  									}) */
+				  									}) 
 			  									};
 					  						</script>
 											</c:if>
