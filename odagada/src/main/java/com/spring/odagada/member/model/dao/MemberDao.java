@@ -1,9 +1,7 @@
 package com.spring.odagada.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.spring.odagada.member.model.vo.Member;
 
@@ -37,5 +35,4 @@ public interface MemberDao {
 	 void updateTempPw(Map info);
 	int updatePhoneCode(Member m);
 	
-
 }

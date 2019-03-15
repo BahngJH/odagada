@@ -1,5 +1,6 @@
 package com.spring.odagada.member.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.spring.odagada.member.model.vo.Member;
@@ -23,4 +24,5 @@ public interface MemberService {
 	 //메일 인증
 	 void mailAuth(Member m)throws Exception;
      int updatePhoneCode(Member m);
+     
 }

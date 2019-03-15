@@ -1,5 +1,6 @@
 package com.spring.odagada.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -108,5 +109,5 @@ public class MemberDaoImpl implements MemberDao {
 	public int updatePhoneCode(Member m) {
 		return session.update("member.updatePhoneCode", m);
 	}
-	
+
 }
