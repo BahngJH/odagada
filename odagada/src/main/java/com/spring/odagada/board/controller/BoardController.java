@@ -14,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.board.model.service.BoardService;
 import com.spring.odagada.common.PageFactory;
+import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -292,6 +294,40 @@ public class BoardController {
       
       return "redirect:/board/boardList";
    }
+   
+   @RequestMapping("/board/qnaList")
+   public ModelAndView qnaList(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage)
+   {
+	   ModelAndView mv = new ModelAndView();
+	   int numPerPage = 5;
+	   int contentCount = service.selectQnaCount();
+	   
+	   List<Map<String,String>> list = service.selectQnaList(cPage,numPerPage);
+
+	   mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaList"));
+	   mv.addObject("list",list);
+	   mv.setViewName("board/qnaList");
+	   
+	   return mv;
+   }
+   
+   @RequestMapping("/board/qnaView.do")
+   public ModelAndView qnaView(int qnaNum,@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,HttpServletRequest request,HttpServletResponse response)
+   {
+	   ModelAndView mv = new ModelAndView();
+	   int numPerPage = 10;
+	  /* int contentCount = service.select*/
+  
+	   Map<String,String> map = service.selectQnaOne(qnaNum);
+	 /*  List<Map<String,String>> com = service.selectComOne(qnaNum);*/
+ 	   mv.addObject("qna",map);
+	   mv.setViewName("board/qnaView");
+	   
+	   return mv;
+
+	   
+   }
+   
    
 
 }

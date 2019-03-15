@@ -10,9 +10,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	<beans:import resource="scheduler-context.xml"/>	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -56,5 +56,20 @@
 				</beans:list>
 			</beans:property>
 		</beans:bean>
+		
+		<!--interceptor 가로챌 경로, 설정 지정  -->
+	<interceptors>
+		<interceptor>
+			<!--**경로 마지막 전체 다-->
+			<!-- <mapping path="/**"/> -->
+			
+			<!--member로 들어가는 모든것 이면서 .do로 끝나는 것 -->
+			<!-- <mapping path="/member/*.do"/> -->			
+		    <!--빼고 전부  -->
+			<!-- <exclude-mapping path="/board/*"/> -->
+			<mapping path="/driver/*"/>
+			<beans:bean id="Interceptor" class="com.spring.odagada.common.Interceptor"/>		
+		</interceptor>	
+	</interceptors>
 	
 </beans:beans>

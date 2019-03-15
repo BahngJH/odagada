@@ -7,8 +7,14 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+<style>
+	h1{
+		text-align: center;
+	}
+</style>
 <section id="notice-container" class="container">
-
+<div class="col-md-6 offset-md-3">
+<h1>공지사항</h1>
 <c:set var="isAdmin" value="${logined.isAdmin}"/>
 	<c:if test="${isAdmin eq '1'}">
 		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/boardForm';" >글쓰기</button>
@@ -25,7 +31,9 @@
 	    <tr>
 			<td>${b.BOARDNO }</td>
 			<td><a href="${path}/board/boardView.do?boardNo=${b.BOARDNO}">${b.BTITLE }</a></td>
-			<td>${b.BDATE}</td>
+			<td>
+			<fmt:formatDate value="${q.QDATE}" pattern="yyyy-MM-dd"/>
+			</td>
 			<td>
 				<c:if test="${b.BREFILENAME !=null}">
 					<img src="${path}/resources/images/file.png"/>
@@ -35,6 +43,7 @@
         </tr>   
 	    </c:forEach>
 	</table>
-	${pageBar}   
+	${pageBar}
+	</div>   
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
