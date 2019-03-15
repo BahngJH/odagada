@@ -25,13 +25,16 @@
   #ttMessage-div{padding-bottom:0px;}
   #pw-modal-div{padding-bottom:0px; padding-top:0px;}
   #ttQ{margin-left:60%;}
-  
+ tr::before,
+tr::after {
+  box-sizing: none; // 1
+}
 </style>
 
 <section class="container">
    <div class="row">
 
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
             <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
@@ -39,12 +42,12 @@
          </div>
       </div>
       
-      <div class="col-12 col-md-8" id="enroll-container">   
+      <div class="col-12 col-md-9" id="enroll-container">   
          <div class="info col-12 col-sm-12 col-md-9">
            <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
             <div class="card-group">
                <div class="card">
-                    <table class="table table-hover">
+                    <table class="table table-hover" >
                       <tr>
                       <th scope="row">아이디</th>
 				      <td colspan="2"><c:out value="${logined.memberId }"></c:out></td>  
@@ -314,6 +317,20 @@
 </script>
 
 
+
+
+<div class="card" style="width: 20rem;">
+  <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
 
 
 

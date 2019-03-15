@@ -80,24 +80,6 @@
  }
 
 	$(function() {	
-	    //비밀번호 일치 확인
-        $('#password2').keyup(function(){
-           var pw1=$("#password1").val().trim();
-           var pw2=$("#password2").val().trim();
-           if(pw2.length<1){
-              $(".ck").hide();
-              return;
-           }
-           if(pw1==pw2){
-              $(".ck.ckOk").show();
-              $(".ck.ckNo").hide();
-           }else{
-              $(".ck.ckOk").hide();
-              $(".ck.ckNo").show(); 
-           }
-        });
-	    
-
 		//이메일(아이디부분) 알파벳만 입력 받게 하기    
 		$("#email1").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
@@ -114,6 +96,12 @@
 			$("#inputPhone").hide();
 			$("#sentPhoneDiv").hide();
 			$("#alertPhone").hide();
+			$("#pass-div").hide();//패스워드 변경 입력창
+		})
+		
+		//패스워드 변경 버튼
+		$("#chgPass-btn").on("click", function(){
+			$("#pass-div").show();//패스워드 변경 입력창
 		})
 		
 		//이메일 변경 버튼 
@@ -157,7 +145,7 @@
 		
 		//인증 번호 취소 버튼
 		$("#backOriPhone").on("click", function(){
-			$("#sentPhoneDiv").hide();
+			$("#sentPhoneDiv").hidFe();
 			$("#sentTxtDiv").show();
 		})
 
@@ -187,6 +175,7 @@
 			return false;
 		}
 		return true;
+		
 	}
 
 	//프로필 사진을 이미지 타입 파일로만 받기
@@ -230,13 +219,8 @@
 	    		$.ajax({
 	    		url:"${path}/member/"	
 	    		})
-	    		
-	    		
-	    		
-	    		
+	    			    		
 	    	} 
-	     	
-	     	
 	    
 	} 
  	
@@ -254,26 +238,21 @@
 		           </div>
 		         </div> 
 	         	  <div class="col-6"> 
-	         	  	 <div class="row passwordInfo" id="oriPhoneDiv">    	
-		           		<div class="ptext col-6">
-		           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
-		       			</div>  
-		       			<div class="col-6">
-		       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
-		          		</div> 		
-	           		 </div>          			                                
-	                 <div class="row passwordInfo">    	
-		           		<div class="ptext col-5">
-		           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
-		       			</div>  
-		       			<div class="col-7">      	
-	          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
-		          		</div> 		
-	           		  </div>
-	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
-	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-	                  <span class="ck ckOk">비밀번호 일치</span>
-	                  <span class="ck ckNo">비밀번호 불일치</span>
+	         	  	 <div class="row">    	
+	       				<button type="button" id="chgPass-btn" class="btn btn-secondary btn-sm btn-block">비밀번호 변경</button>      	
+	           		 </div>
+	           		 <div id="pass-div">          			                                
+		                 <div class="row passwordInfo">    	
+			           		<div class="ptext col-5">
+			           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
+			       			</div>  
+			       			<div class="col-7">      	
+		          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
+			          		</div> 		
+		           		 </div>
+		       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
+		                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>		                 
+	           		 </div>
 	           		 <!--기존 Email 정보  -->
            		     <div class="row passwordInfo" id="oriEmailDiv">    	
 		           		<div class="ptext col-6">
@@ -354,8 +333,52 @@
        </div> 
 
 
+<div class="modal fade" id="chgPass" tabindex="-1" role="dialog" aria-labelledby="chgPassLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">비밀번호 변경하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                         
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">새비밀번호 확인</label>
+            <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary">변경하기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-   
+
+
+
+<div class="card" style="width: 20rem;">
+  <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
+    </li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
 
 
 
