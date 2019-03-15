@@ -67,17 +67,17 @@
 		})	 
 });
 
-	//비밀번호 유효성 검사
-	function passwordCheck(password) {
-		var pw = $(password).val();
-		var ckPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
-		if (!ckPw.test(pw)) {
-			alert('숫자,영문자,특수문자 조합으로 6~15자');
-			$('#password_').val('').focus();
-			return false;
-		}
-		return true;
-	}
+ //비밀번호 유효성 검사
+ function passwordCheck(password){
+    var pw=$(password).val();
+    var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
+      if(!ckPw.test(pw)){        
+         alert('숫자,영문자,특수문자 조합으로 6~15자');
+         $('#password1').val('').focus();
+         return false;
+     }                  
+     return true;
+ }
 
 	$(function() {	
 	    //비밀번호 일치 확인
@@ -253,19 +253,27 @@
 	   		    	    <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" value="${logined.profileImageRe }" onchange="fileCheck(this)" required>
 		           </div>
 		         </div> 
-	         	  <div class="col-6">           			                                
-	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
-	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-	                  <span class="ck ckOk">비밀번호 일치</span>
-	                  <span class="ck ckNo">비밀번호 불일치</span>
+	         	  <div class="col-6"> 
+	         	  	 <div class="row passwordInfo" id="oriPhoneDiv">    	
+		           		<div class="ptext col-6">
+		           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
+		       			</div>  
+		       			<div class="col-6">
+		       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+		          		</div> 		
+	           		 </div>          			                                
 	                 <div class="row passwordInfo">    	
 		           		<div class="ptext col-5">
 		           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
 		       			</div>  
 		       			<div class="col-7">      	
-		          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
+	          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
 		          		</div> 		
-		           		 </div>
+	           		  </div>
+	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
+	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+	                  <span class="ck ckOk">비밀번호 일치</span>
+	                  <span class="ck ckNo">비밀번호 불일치</span>
 	           		 <!--기존 Email 정보  -->
            		     <div class="row passwordInfo" id="oriEmailDiv">    	
 		           		<div class="ptext col-6">
