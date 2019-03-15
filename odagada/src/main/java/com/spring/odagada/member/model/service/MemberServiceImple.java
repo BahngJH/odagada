@@ -171,5 +171,4 @@ public class MemberServiceImple implements MemberService {
 	public int checkPhone(String phone) {
 		return dao.checkPhone(phone);
 	}
-
 }

@@ -468,8 +468,7 @@ public class MemberController {
     	return isPhone;  			
     } 
 
-
-   
+   @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;
