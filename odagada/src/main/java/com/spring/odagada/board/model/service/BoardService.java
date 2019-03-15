@@ -15,4 +15,9 @@ public interface BoardService {
 	int insertBoard(Map<String,String> board);
 	int updateBoard(Map<String,Object> board);
 	int deleteBoard(int boardNo);
+	
+	int selectQnaCount();
+	List<Map<String,String>> selectQnaList(int cPage,int numPerPage);
+	Map<String,String> selectQnaOne(int qnaNum);
+	/*List<Map<String,String>> selectQnaList(int qna)*/
 }

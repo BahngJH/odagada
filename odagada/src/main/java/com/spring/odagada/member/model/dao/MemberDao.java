@@ -1,5 +1,6 @@
 package com.spring.odagada.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.spring.odagada.member.model.vo.Member;
@@ -21,5 +22,21 @@ public interface MemberDao {
 	//이메일 인증상태 업데이트
 	int updateStatus(Map<String, String>map);
 	
-
+	//회원 삭제
+	int deleteMember(int memberNum);
+	
+	//아이디 찾기
+	 Map<String, String>findId(Map findId);
+	 
+	 //패스워드 찾기
+	 Map<String,String>findPw(Map info);
+	 
+	 //임시비밀번호로 업데이트
+	 void updateTempPw(Map info);
+	int updatePhoneCode(Member m);
+	String getPhoneCode(int memberNum);
+	int updateYPhoneStatus(int memberNum);
+	//핸드폰 중복체크
+	int checkPhone(String phone);
+	
 }

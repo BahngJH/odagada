@@ -67,17 +67,17 @@
 		})	 
 });
 
-	//비밀번호 유효성 검사
-	function passwordCheck(password) {
-		var pw = $(password).val();
-		var ckPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
-		if (!ckPw.test(pw)) {
-			alert('숫자,영문자,특수문자 조합으로 6~15자');
-			$('#password_').val('').focus();
-			return false;
-		}
-		return true;
-	}
+ //비밀번호 유효성 검사
+ function passwordCheck(password){
+    var pw=$(password).val();
+    var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
+      if(!ckPw.test(pw)){        
+         alert('숫자,영문자,특수문자 조합으로 6~15자');
+         $('#password1').val('').focus();
+         return false;
+     }                  
+     return true;
+ }
 
 	$(function() {	
 	    //비밀번호 일치 확인
@@ -206,11 +206,11 @@
 		}
 	}
 	
- 	function changeEmail(){		    
+ 	function sendEmail(){		    
 	    //이전 이메일과 중복여부 확인
-	    	var reMail=$('#reMail').val().trim();
-	   	    var oriMail=$('.oriEmail').text();
-	   	    /* var sendMailBtn=document.getElementById('sendMailBtn'); */
+	    	var reMail=$('#reMail').val().trim();//변경할 이메일
+	   	    var oriMail=$('.oriEmail').text();//기존 이메일
+	   	    
 	   		//이메일 유효성 검사
 			var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			
@@ -219,27 +219,29 @@
 				return false;
 			}
 	   	    
-
 	     	if(reMail===oriMail){
 	    		$("#alertEmail").show();
-	    		$("#sentEmailDiv").hide();
-	    		/* sendMailBtn=$('#sendMailBtn').attr('disalbed',true); */
-	    		
-	    		 return false;
-	    		
+	    		$("#sentEmailDiv").hide();	    		
+	    		 return false;	    		
 	    	}else{
 	    		$("#alertEmail").hide();
 	    		$("#sentEmailDiv").show();
+	    		
+	    		$.ajax({
+	    		url:"${path}/member/"	
+	    		})
+	    		
+	    		
+	    		
+	    		
 	    	} 
+	     	
+	     	
 	    
 	} 
  	
  	
 
-	    
-	    
-
-	
 	
 </script>
       <div id="enroll-container">
@@ -248,24 +250,32 @@
        			<div class="profileDiv col-6">
 		           <div class="custom-file" >
 		           		<img class="card-img-top" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-	   		    	    <input type="file" class="custom-file-input"  accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
+	   		    	    <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" value="${logined.profileImageRe }" onchange="fileCheck(this)" required>
 		           </div>
 		         </div> 
-	         	  <div class="col-6">           			                                
-	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
-	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-	                  <span class="ck ckOk">비밀번호 일치</span>
-	                  <span class="ck ckNo">비밀번호 불일치</span>
+	         	  <div class="col-6"> 
+	         	  	 <div class="row passwordInfo" id="oriPhoneDiv">    	
+		           		<div class="ptext col-6">
+		           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
+		       			</div>  
+		       			<div class="col-6">
+		       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+		          		</div> 		
+	           		 </div>          			                                
 	                 <div class="row passwordInfo">    	
 		           		<div class="ptext col-5">
 		           			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
 		       			</div>  
 		       			<div class="col-7">      	
-		          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
+	          				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
 		          		</div> 		
-		           		 </div>
+	           		  </div>
+	       			  <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                              
+	                  <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+	                  <span class="ck ckOk">비밀번호 일치</span>
+	                  <span class="ck ckNo">비밀번호 불일치</span>
 	           		 <!--기존 Email 정보  -->
-	           		  <div class="row passwordInfo" id="oriEmailDiv">    	
+           		     <div class="row passwordInfo" id="oriEmailDiv">    	
 		           		<div class="ptext col-6">
 		           			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
 		       			</div>  
@@ -279,7 +289,7 @@
 		       			  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
 		       			</div>  
 		       			<div class="btns col-5">
-		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMailBtn" onclick="changeEmail();">인증 메일 발송</button>
+		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
 		       			  <button type="button" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
 		          		</div> 		
 	           		 </div>
@@ -287,7 +297,7 @@
      			     <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
 	           		  <!--Email 변경 인증 메일 전송 후  -->      			  
 	       			  <div id="sentEmailDiv">
-		    			  <div class="alert alert-success text-success" id="sendEmail" role="alert">인증메일이 발송되었습니다.</div>
+		    			  <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
 		    			  <p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
 		    			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
 		       			  <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
