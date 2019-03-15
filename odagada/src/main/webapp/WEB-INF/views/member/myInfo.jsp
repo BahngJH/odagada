@@ -34,7 +34,7 @@
       <div class="col-12 col-md-4">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
-            <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
          </div>
@@ -49,7 +49,7 @@
                       <tr>
                       <th scope="row">아이디</th>
 				      <td colspan="2"><c:out value="${logined.memberId }"></c:out></td>  
-				    </tr>
+			    	</tr>
 				    <tr>
 					   <th scope="row">이름</th>
 				       <td colspan="2"><c:out value="${logined.memberName }"></c:out></td>
@@ -78,23 +78,25 @@
 				      <td>		
 			       	 	<c:choose>
 			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
-				      			<a href="#" class="ck badge badge-danger" onclick="sendSms();">인증하기</a>
+				      			<a href="#" class="ck badge badge-danger" onclick="sendSms();"  data-toggle="modal" data-target="#sendPhone" data-whatever="@mdo">인증하기</a>
 				      			<script>
-				      				$.ajax({
-				      					url:"${path}/member/sendSms",
-				      					data:{
-				      						"receiver": "${logined.phone}"
-				      					}
-				      					type:"post",
-				      					success:function(result){
-				      						if(result == "true"){
-				      							console.log(result);
-				      						}else{
-				      							alert("인증번호 전송 실패");
-				      						}
-				      						
-				      					}
-				      				});
+					      			function sendSms(){
+					      				console.log("문자인증");
+					      				$.ajax({
+					      					url:"${path}/member/sendSms",
+					      					data:{
+					      						"receiver": "${logined.phone }",
+					      					},
+					      					type:"post",
+					      					success:function(result){
+					      						if(result == "true"){
+					      							console.log(result);
+					      						}else{
+					      							alert("인증번호 전송 실패");
+					      						}					      						
+					      					}
+					      				});
+					      			}
 				      			</script>
 				      		</c:when>
 				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
@@ -160,21 +162,8 @@
 					    </div>
 					  </div>
 					</div>
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-						<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
+					<!-- 이메일 인증 -->
+											<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
 						  <div class="modal-dialog" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -186,29 +175,68 @@
 						      <div class="modal-body">
 						          <div class="form-group">
 						          	 <div class="row"></div>
-						           		 <label for="answer" class="form-control-label">E-mail을 확인해주세요</label>
+						           		 <label for="answer" class="form-control-label">E-mail을 확인해주세요.</label>
 				           		 </div>
 					           		 <div>
 								        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-								        <button type="button" class="btn btn-primary" onclick="location.href='${path}/member/mailAuth'">인증하기</button>
+								        <button type="button" class="btn btn-primary" onclick="location.href='${path}/member/mailAuth'">인증메일 전송</button>
 							        </div>					        
 					          </div>
 						      </div>
 					    </div>
 					  </div>
 					</div>
-						
-						
-						
-						
-						
-					
-						
+					<!-- 문자인증 -->
+					<div class="modal fade" id="sendPhone" tabindex="-1" role="dialog" aria-labelledby="sendPhoneLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="sendPhoneLabel">번호 인증하기</h5>				        
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					          <div class="form-group">
+					            <label for="answer" class="form-control-label">문자로 전송된 인증번호를 입력해주세요.</label>
+					            <input type="password" class="form-control" id="smsAnswer" name="smsAnswer" style="resize: none;">
+					          </div>
+					      </div>
+					      <div class="modal-footer">					      	
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" onclick="phoneCheck();">인증하기</button>					        
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<script>
+						function phoneCheck(){
+							$.ajax({
+								url:"${path}/member/smsCheck",
+								type:"post",
+								data:{
+									"code":$("#smsAnswer").val()
+								},
+								success:function(result){
+									if(result == "ok"){
+										alert("번호 인증 성공");
+									}else{
+										alert("번호 인증 실패");ㅣ
+									}
+									
+									location.reload();
+								}
+							})							
+						}
+					</script>
+											
 					  </div>
 					</div>
 				</div>		
 			</div>
 		</div>
+		
+		
 </section>
 
 <script>

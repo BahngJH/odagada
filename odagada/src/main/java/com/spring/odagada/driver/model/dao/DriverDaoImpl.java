@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.odagada.driver.model.vo.Driver;
-import com.spring.odagada.driver.model.vo.carImage;
+import com.spring.odagada.driver.model.vo.CarImage;
 
 @Repository
 public class DriverDaoImpl implements DriverDao {
@@ -27,7 +27,7 @@ public class DriverDaoImpl implements DriverDao {
 	}
 
 	@Override
-	public int insertCarImage(carImage cImg) {
+	public int insertCarImage(CarImage cImg) {
 		return session.insert("driver.insertCarImage",cImg);
 	}
 
@@ -61,6 +61,13 @@ public class DriverDaoImpl implements DriverDao {
 		
 		return session.update("driver.updateStatus",map);
 	}
+
+	@Override
+	public int deleteDriver(int memberNum) {
+		return session.delete("driver.deleteDriver",memberNum);
+	}
+	
+	
 	
 	//드라이버가 등록한 카풀리스트 
 	@Override

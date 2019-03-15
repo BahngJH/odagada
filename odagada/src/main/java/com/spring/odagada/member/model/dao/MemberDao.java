@@ -34,5 +34,9 @@ public interface MemberDao {
 	 //임시비밀번호로 업데이트
 	 void updateTempPw(Map info);
 	int updatePhoneCode(Member m);
+	String getPhoneCode(int memberNum);
+	int updateYPhoneStatus(int memberNum);
+	//핸드폰 중복체크
+	int checkPhone(String phone);
 	
 }

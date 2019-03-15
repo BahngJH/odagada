@@ -1,7 +1,7 @@
 package com.spring.odagada.member.controller;
 
 
-import static com.spring.odagada.common.PageFactory.getpageBar;
+import static com.spring.odagada.common.PageFactory.getPageBar;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,6 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -64,10 +65,14 @@ public class MemberController {
 	@Autowired
 	CarpoolService cService;
 	
+	@Autowired
+	DriverService dService;
+	
 	//비밀번호 암호화 처리
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
+
 	//email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
@@ -153,11 +158,11 @@ public class MemberController {
 		String loc="/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
-		return "common/msg";
-		
+		return "common/msg";		
 	}
 	
-	 //이메일 인증 코드 검증
+
+	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public ModelAndView emailConfirm(String email, String memberId) {
     	Map<String, String>map=new HashMap();
@@ -168,26 +173,24 @@ public class MemberController {
     	map.put("memberId", memberId);
                
         int result=service.updateStatus(map);  
-        logger.debug("결과는?"+result);
         ModelAndView mv=new ModelAndView();
         
         String msg="";
 		String loc="/";
+		
+		logger.debug("이메일 상태 업데이트의 결과??"+result);
         if(result>0) {
-        	msg="회원가입 성공";
+        	msg="이메일 인증이 완료되었습니다.";
         }else {       	
         	mv.addObject("비정상적인 접근입니다.", msg);
         	mv.setViewName("redirect:/");
-        }
-        //System.out.println("usercontroller vo =" +vo);
-       /* return "member/sucessAuth";*/
+        }       
         mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("member/successAuth");
 		return mv;
     }
     
-
 	//로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
@@ -240,9 +243,17 @@ public class MemberController {
    
    //마이페이지 
    @RequestMapping("/member/myInfo.do")
-   public String myInfo() {
-	   return "member/myInfo";
+   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
+	   mav.setViewName("member/myInfo");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   m = service.selectMember(m.getMemberId()); 
+	   
+	   mav.addObject("logined", m);
+	   return mav;
    }
+
    
    //비밀번호 체크(ajax ...)
    @ResponseBody
@@ -292,11 +303,7 @@ public class MemberController {
 		   e.printStackTrace();
 	   }*/
    }
-   
-/*   //비밀번호 변경
-   @RequestMapping("/member/changePass")*/
-   
- 
+
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
    public String updateInfo(Model model) {
@@ -419,17 +426,49 @@ public class MemberController {
 		return mv;
 	}
 	
-/*	//메일 인증하기
+	//메일 인증하기
 	@RequestMapping("/member/mailAuth")
-	public String mailAuth(HttpSession session) {
+	public String mailAuth(HttpSession session) throws Exception {
 		Member m=(Member)session.getAttribute("logined");
 		service.mailAuth(m);
 		return "redirect:/";
-	}*/
-	
-	
+	}
+		
 
-   @RequestMapping("/member/myCarpool")
+    @ResponseBody
+    @RequestMapping("/member/smsCheck")
+    public String smsCheck(HttpSession session, String code) {
+    	Member m = (Member)session.getAttribute("logined");
+    	
+    	String saveCode = service.getPhoneCode(m.getMemberNum());
+    	
+    	if(pwEncoder.matches(code, saveCode)) {
+    		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		if(result > 0) {
+    			return "ok";
+    		}else {
+    			return "no";
+    		}
+    	}else {
+    		return "no";
+    	}
+    }
+    
+    //핸드폰 중복 확인
+    @ResponseBody
+    @RequestMapping("/member/phoneCheck.do")
+    public String phoneCheck(String phone){
+    	int result=service.checkPhone(phone);
+    	String isPhone="";
+    	if(result>0) {
+    		isPhone="N";
+    	}else {
+    		isPhone="Y";
+    	}  	
+    	return isPhone;  			
+    } 
+
+
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;
@@ -442,7 +481,7 @@ public class MemberController {
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
 	   
 	   mav.addObject("carpoolList", list);
-	   mav.addObject("pageBar", getpageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
+	   mav.addObject("pageBar", getPageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;
    }
@@ -451,9 +490,9 @@ public class MemberController {
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
-
 		int rand = (int) (Math.random() * 899999) + 100000;
 
+		logger.debug(receiver);
 		logger.debug(rand + "");
 
 		String phoneCode = pwEncoder.encode(rand + "");
@@ -483,7 +522,7 @@ public class MemberController {
 				HttpPost httpPost = new HttpPost(url);
 				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
 				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
-						+ "\"],\"content\":\"testset\"}";
+						+ "\"],\"content\":\"오다가다 핸드폰 번호 인증 코드 : " + rand + "\"}";
 
 				StringEntity se = new StringEntity(json, "UTF-8");
 				httpPost.setEntity(se);
@@ -509,5 +548,48 @@ public class MemberController {
 			return "false";
 		}
 	}
+    
+
+   @RequestMapping("/member/myDriver")
+   public ModelAndView myDriver(HttpSession session) {
+	   
+	   
+	   ModelAndView mv = new ModelAndView();
+	   
+	   Member m = (Member)session.getAttribute("logined");	   
+	   int memberNum = m.getMemberNum();	   
+	   Map<String, String> driver = dService.selectDriverOne(memberNum);
+	   
+	   if(driver!=null)
+	   {
+		   logger.debug("차 넘버"+driver.get("CARNUM"));
+
+		   String carNum = driver.get("CARNUM");
+		   List<Map<String,String>> carImg = dService.selectCarImg(carNum);
+		   
+		   String a = driver.get("LICENSENUM").substring(0,3);
+		   String b = "**-******";
+		   String c = driver.get("LICENSENUM").substring(13);
+		   
+		   String licenseNum = a+b+c;
+		   
+		   logger.debug("차번호"+carNum);
+		   logger.debug("차 이미지"+carImg);
+		   logger.debug("번호판 길이"+carNum.length());
+		   carImg.get(0).put("active", "active");
+		   
+		   mv.addObject("carImg",carImg);
+		   mv.addObject("licenseNum",licenseNum);
+	   }
+	     
+	   logger.debug("테스트"+driver);
+	   mv.addObject("driver", driver);
+	   mv.setViewName("member/myDriver");
+	   
+	   return mv;
+   }
+   
+   
+
 
 }

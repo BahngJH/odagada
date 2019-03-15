@@ -110,4 +110,19 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.updatePhoneCode", m);
 	}
 
+	@Override
+	public String getPhoneCode(int memberNum) {
+		return session.selectOne("member.selectPhoneCode", memberNum);
+	}
+
+	@Override
+	public int updateYPhoneStatus(int memberNum) {
+		return session.update("member.updateYPhoneStatus", memberNum);
+	}
+
+	//핸드폰 중복체크
+	@Override
+	public int checkPhone(String phone) {
+		return session.selectOne("member.checkPhone", phone);
+	}
 }
