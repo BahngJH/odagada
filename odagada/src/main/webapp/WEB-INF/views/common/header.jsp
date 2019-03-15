@@ -78,9 +78,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="${path }/community/reviewForm.do">리뷰</a>
-                </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
