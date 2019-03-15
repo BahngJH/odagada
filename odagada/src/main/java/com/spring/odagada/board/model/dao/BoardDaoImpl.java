@@ -50,6 +50,26 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteBoard(int boardNo) {
 		return sqlSession.delete("board.deleteBoard",boardNo);
 	}
+
+	@Override
+	public int selectQnaCount() {
+		return sqlSession.selectOne("board.selectQnaCount");
+	}
+
+	@Override
+	public List<Map<String, String>> selectQnaList(int cPage, int numPerPage) {
+		
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		
+		return sqlSession.selectList("board.selectQnaList",null,rb);
+	}
+
+	@Override
+	public Map<String, String> selectQnaOne(int qnaNum) {
+		return sqlSession.selectOne("board.selectQnaOne",qnaNum);
+	}
+	
+	
 	
 	
 	

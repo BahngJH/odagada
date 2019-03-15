@@ -22,7 +22,18 @@
   <delete id="deleteBoard">
   	DELETE FROM BOARD WHERE BOARDNO=#{boardNo}
   </delete>
-
+  
+  <select id="selectQnaCount" resultType="_int">
+  	SELECT COUNT(*) FROM QNA
+  </select>
+  <select id="selectQnaList" resultType="map">
+  	SELECT Q.*,(SELECT COUNT(*) FROM QNACOMMENT WHERE QNANUM=Q.QNANUM) AS COMCNT,
+  	(SELECT MEMBERNAME FROM MEMBER WHERE MEMBERNUM=Q.MEMBERNUM) AS QWRITER FROM QNA Q 
+  </select>
+  <select id="selectQnaOne" resultType="map" parameterType="_int">
+  	SELECT Q.*,(SELECT MEMBERNAME FROM MEMBER WHERE MEMBERNUM=Q.MEMBERNUM) AS QWRITER
+  	FROM QNA Q WHERE QNANUM=#{qnaNum}
+  </select>
   
   
 </mapper>
