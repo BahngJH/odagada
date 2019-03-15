@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -47,6 +48,8 @@ public class MemberController {
 	@Autowired
 	CarpoolService cService;
 	
+	@Autowired
+	CommunityService comService;
 	//비밀번호 암호화 처리
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
@@ -311,7 +314,7 @@ public class MemberController {
 	   
 	   List<Map<String, String>> list = cService.selectCarpoolList(m.getMemberNum(), cPage, numPerPage);
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
-	   
+	   logger.debug("여기 확인:   "+list);
 	   mav.addObject("carpoolList", list);
 	   mav.addObject("pageBar", getpageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   

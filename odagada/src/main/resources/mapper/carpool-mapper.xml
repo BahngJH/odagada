@@ -119,9 +119,9 @@
 		INSERT INTO PASSENGER VALUES(#{carpoolNum}, #{memberNum}, #{payCode}, default, default)
 	</insert>
 	<select id="selectMemberCarpoolList" parameterType="_int" resultType="map">
-		select carpoolnum, pay, startdate, startcity, endcity, startdetail, enddetail, paycode, paystatus, pstatus, m.memberName
-		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
-		where passenger.memberNum = #{memberNum} order by startdate desc
+		select r.writernum, c.membernum, c.carpoolnum, pay, startdate, startcity, endcity, startdetail, enddetail, paycode, paystatus, pstatus, m.memberName
+      from carpool c join passenger p on(c.carpoolNum=p.carpoolnum) left join review r on(c.carpoolNum = r.carpoolnum) join member m on(c.memberNum = m.memberNum)
+      where p.memberNum = #{memberNum} order by startdate desc
 	</select>
 	<select id="selectCarpoolCount" parameterType="_int" resultType="_int">
 		select count(*)

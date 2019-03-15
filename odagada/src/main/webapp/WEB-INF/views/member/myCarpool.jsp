@@ -131,13 +131,25 @@ a#pay{
 				                   		<c:if test='${list.PSTATUS == "Y"}'>
 											<span class="badge badge-success">승인</span>
 										</c:if>
+										<span>&nbsp;&nbsp;</span>
+											<c:choose>
+												<c:when test="${list.WRITERNUM != null }">
+													<span>
+														<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-outline-success' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}&carpoolNum=${list.CARPOOLNUM }&driverName=${list.MEMBERNAME }"'/>
+													</span>
+												</c:when>
+												<c:otherwise>
+													<span>
+														<input type="button" class="btn btn-outline-success" value="리뷰작성" onclick="location.href='${path}/community/reviewForm.do?memberNum=${logined.memberNum }&driverNum=${list.MEMBERNUM }&memberName=${list.MEMBERNAME}&carpoolNum=${list.CARPOOLNUM }';">
+													</span>
+												</c:otherwise>
+											</c:choose>
 				                   </div>
 				                </div>
 				             </div>
 				          </div>
 				        </div>
 				      </div>
-				      
 				   </form>
 				</c:forEach>
 		     </div>

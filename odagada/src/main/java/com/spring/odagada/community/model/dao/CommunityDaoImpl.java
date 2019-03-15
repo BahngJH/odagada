@@ -79,35 +79,40 @@ public class CommunityDaoImpl implements CommunityDao {
 	public int insertNotify(Map<String, Object> map) {
 		return session.insert("community.insertNotify",map);
 	}
-
+	//리뷰 글쓰기
 	@Override
-	public int insertReview(Map<String, Object> map) {
+	public int insertReview(Map<String, String> map) {
 		return session.insert("community.insertReview",map);
 	}
-
+	//리뷰 카운트
 	@Override
-	public Map<String, Object> selectReview(int carpoolNum) {
-		return session.selectOne("community.selectReview", carpoolNum);
+	public int selectReviewCount(int memberNum) {
+		return session.selectOne("community.selectReviewCount",memberNum);
 	}
-
+	//리뷰 가져오기
 	@Override
-	public List<Map<String,Object>> selectMyReviewList(int memberNum) {
-		return session.selectList("community.selectMyReviewList",memberNum);
+	public Map<String, Object> selectReview(Map<String,String> m) {
+		return session.selectOne("community.selectReview", m);
 	}
-
+	//내가 쓴 리뷰 리스트
+	@Override
+	public List<Map<String,Object>> selectMyReviewList(Map<String,String> map) {
+		return session.selectList("community.selectMyReviewList",map);
+	}
+	//내게 달린 리뷰 리스트
 	@Override
 	public List<Map<String, Object>> selectReviewList(int memberNum) {
 		return session.selectList("community.selectReviewList",memberNum);
 	}
-
+	//리뷰수정
 	@Override
-	public int updateReview(Map<String, Object> map) {
+	public int updateReview(Map<String, String> map) {
 		return session.update("community.updateReview",map);
 	}
-
+	//리뷰 삭제
 	@Override
-	public int deleteReview(int carpoolNum) {
-		return session.delete("community.deleteReview",carpoolNum);
+	public int deleteReview(Map<String, String> map) {
+		return session.delete("community.deleteReview",map);
 	}
 	
 	
