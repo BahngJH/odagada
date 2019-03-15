@@ -54,6 +54,15 @@ public class BoardController {
 	   return mv;
    }
    
+   @RequestMapping("/admin/notifyList.do")
+   public ModelAndView notifyList(ModelAndView mv) 
+   {
+	   List<Map<String,String>> notifyList = service.notifyList();
+	   mv.addObject("notifyList",notifyList);
+	   mv.setViewName("board/notifyList");
+	   return mv;   
+   }
+   
    @RequestMapping("/admin/searchMember.do")
    public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
    {

@@ -15,6 +15,12 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public List<Map<String, String>> notifyList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.notifyList");
+	}
+
+	@Override
 	public int searchListAll(Map<String, String> searchData) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("board.searchListAll", searchData);

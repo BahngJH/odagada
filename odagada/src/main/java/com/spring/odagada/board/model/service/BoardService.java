@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BoardService {
+	List<Map<String,String>> notifyList();
 	int searchListAll(Map<String, String> searchData);
 	List<Map<String,String>>searchList(Map<String,String> searchData, int cPage,int numPerPage);
 	int selectAllMemberCount();
