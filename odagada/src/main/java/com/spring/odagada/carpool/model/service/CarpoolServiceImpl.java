@@ -95,4 +95,9 @@ public class CarpoolServiceImpl implements CarpoolService {
 	public String getImpUid(Map<String, Integer> map) {
 		return dao.getImpUid(map);
 	}
+
+	@Override
+	public int updateCPayStatus(Map<String, Integer> map) {
+		return dao.updateCPayStatus(map);
+	}
 }

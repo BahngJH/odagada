@@ -85,5 +85,10 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	@Override
 	public String getImpUid(Map<String, Integer> map) {
 		return session.selectOne("carpool.selectImpUid", map);
+	}
+
+	@Override
+	public int updateCPayStatus(Map<String, Integer> map) {
+		return session.update("carpool.updateCPayStatus", map);
 	}	
 }

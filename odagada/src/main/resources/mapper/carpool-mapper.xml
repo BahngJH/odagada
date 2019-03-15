@@ -137,6 +137,9 @@
 		UPDATE CARPOOL SET STATUS = 'Y' WHERE STARTDATE <![CDATA[<]]> #{nowDate} 
 	</update>
 	<select id="selectImpUid" parameterType="map" resultType="string">
-		SELECT IMPUID FROM PASSENGER WHERE CARPOOLNUM = ${carpoolNum} AND MEMBERNUM = ${memberNum}
+		SELECT IMPUID FROM PASSENGER WHERE CARPOOLNUM = #{carpoolNum} AND MEMBERNUM = #{memberNum}
 	</select>
+	<update id="updateCPayStatus" parameterType="map">
+		UPDATE PASSENGER SET PAYSTATUS = 'C', PSTATUS = 'C' WHERE CARPOOLNUM = #{carpoolNum} AND MEMBERNUM = #{memberNum}
+	</update>
 </mapper>

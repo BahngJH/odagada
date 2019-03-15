@@ -34,5 +34,7 @@ public interface CarpoolDao {
 	void setCarpoolStatus(String nowDate);
 
 	String getImpUid(Map<String, Integer> map);
+
+	int updateCPayStatus(Map<String, Integer> map);
 }
 

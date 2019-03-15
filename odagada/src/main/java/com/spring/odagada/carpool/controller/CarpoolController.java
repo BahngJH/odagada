@@ -376,6 +376,8 @@ public class CarpoolController {
 				if(paymentResponse == null) {
 					return "no";
 				}else {
+					int result = service.updateCPayStatus(map);
+					
 					return "ok";
 				}
 			}catch (IamportResponseException e) {

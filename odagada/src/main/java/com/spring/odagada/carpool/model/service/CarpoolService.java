@@ -20,4 +20,5 @@ public interface CarpoolService {
 	List<Map<String,String>> selectPopList();
 	void setCarpoolStatus(String nowDate);
 	String getImpUid(Map<String, Integer> map);
+	int updateCPayStatus(Map<String, Integer> map);
 }
