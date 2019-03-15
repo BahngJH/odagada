@@ -112,10 +112,10 @@
    margin-left:20px;
    } 
    .dR{
-   padding-left:2%;
+   padding-left:1%;
    }
    .dL{
-   padding-right:2%;
+   padding-right:1%;
    }
    .phone2C{
    padding-left:0px;
@@ -138,6 +138,7 @@
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
+  	.name-div{padding-right:3px;}
     </style>
     
      
@@ -209,12 +210,13 @@ $(function(){
          });
     
    //아이디  숫자,영소문자만 입력 가능하게 하는 함수      
-   $("#memberId_").keyup(function(event) {
+   $("#memberId_").keydown(function(event) {
       if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-         var inputVal = $(this).val();
-         $(this).val(inputVal.replace(/[^a-z0-9]{2,6}/gis, ''));
+         var inputVal = $(this).val().trim();
+         $(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
       }
    });
+   
       
    //이름 한글만 입력받게 하는 함수       
    $("#memberName").keyup(function(event) {
@@ -286,6 +288,7 @@ $(function(){
         }
         //핸드폰 중복체크 
         if ($('#phoneStatus').val()==0) {
+        	console.log($('#phoneStatus').val());
               alert("핸드폰 중복확인해주세요.");
               return false;
            }
@@ -331,14 +334,14 @@ $(function(){
        var at='@';
        var email2=$("#email2").val();
        var email=email1+at+email2;
+       var phoneStatus=$('#phoneStatus').val();
         
        $.ajax({
            url:"${path}/member/checkEmail.do",
            data:{"email":email},
-           success:function(data){                                                        
+           success:function(data){                 
                if(data == 'no')
                {
-            	  console.log(data);
               	  alert('이미 사용중인 이메일 입니다. 사용하실 수 없습니다.');          
                   document.getElementById('emailStatus').value='0';
                   return false;
@@ -367,12 +370,14 @@ $(function(){
     	    	url:"${path}/member/phoneCheck.do",
     	    	data:{"phone": phone},
     	    	success:function(data){
+    	    		
     	    		if(data == 'Y'){
     	    			alert('사용하셔도 좋습니다.');
-    	    			document.getElementById('phoneStatus').val=='1';
+    	    			document.getElementById('phoneStatus').value='1';
     	    		}else{
     	    			alert('이미 사용중인 번호입니다. 사용하실 수 없습니다.');
-    	    			documnet.getElementById('phoneStatus').val=='0';
+    	    			 document.getElementById('phoneStatus').value='0';
+    	    			return false;
     	    		}
     	    	}
     	    }) ;   	  
@@ -389,12 +394,12 @@ $(function(){
             <input type="hidden" name="checkId" value="0"/>
             <input type="hidden" id="checkStatus" value="0"/>
             <div class="row">
-               <div class="col-6 dL">
+               <div class="col-5 dL">
                   <div>
                      <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                
                   </div>                       
                </div>
-               <div class="col-6 dR">
+               <div class="col-7 dR">
                   <div>
                      <input type="password" class="form-control" placeholder="비밀번호확인" id="password2" maxlength="15" required>
                      <span class="ck ckOk">비밀번호 일치</span>
@@ -417,7 +422,7 @@ $(function(){
                   </div>                      
              </div>           
             <div class="row">
-               <div class="col-6">
+               <div class="col-6 name-div">
                   <div>
                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
                   </div>                       
@@ -429,21 +434,20 @@ $(function(){
                </div>           
             </div>    
             <div class="row row-email">
-               <div class="col-5 div-email">
+               <div class="col-6 div-email">
                   <div class="input-group div-email">
-                     <input type="text" class="emailC form-control" placeholder="이메일 아이디" name="email1" id="email1" maxlength="20" required>
+                     <input type="text" class="emailC form-control" placeholder="이메일" name="email1" id="email1" maxlength="20" required>
                      <span class="input-group-addon addon-email" id="basic-addon1">@</span>
                   </div>
                </div>
                <input type="hidden" id="emailStatus" value="0"/>
-               <div class="col-5 div-email">
+               <div class="col-4 div-email">
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
                		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
                </div>
           </div>
-           <input type="hidden" id="phoneStatus" value="0"/>
           <div class="row row-email">
              <div class="col-3 select-div">         
 	              <select class="tel" name="phone1" id="selectPhone" required>                                                                                           
@@ -463,7 +467,7 @@ $(function(){
              	<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">	
              </div>
           </div>
-              
+           <input type="hidden" id="phoneStatus" value="0"/>              
                <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">성별 : &nbsp; 
 	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;

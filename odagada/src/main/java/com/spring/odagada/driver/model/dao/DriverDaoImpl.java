@@ -69,11 +69,16 @@ public class DriverDaoImpl implements DriverDao {
 	
 	
 	
-	
-	
-	
-	
-	
+	//드라이버가 등록한 카풀리스트 
+	@Override
+	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
+		return session.selectList("driver.selectDriverCarpool",memberNum);
+	}
+
+	@Override
+	public List<Map<String, String>> selectDriverPas(Map<String, String> m) {
+		return session.selectList("driver.selectDriverPas",m);
+	}
 	
 	
 }

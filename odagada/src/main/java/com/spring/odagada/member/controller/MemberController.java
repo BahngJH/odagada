@@ -72,6 +72,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
+
 	//email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
@@ -157,11 +158,11 @@ public class MemberController {
 		String loc="/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
-		return "common/msg";
-		
+		return "common/msg";		
 	}
 	
-	 //이메일 인증 코드 검증
+
+	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public ModelAndView emailConfirm(String email, String memberId) {
     	Map<String, String>map=new HashMap();
@@ -172,26 +173,24 @@ public class MemberController {
     	map.put("memberId", memberId);
                
         int result=service.updateStatus(map);  
-        logger.debug("결과는?"+result);
         ModelAndView mv=new ModelAndView();
         
         String msg="";
 		String loc="/";
+		
+		logger.debug("이메일 상태 업데이트의 결과??"+result);
         if(result>0) {
-        	msg="이메일 인증 성공";
+        	msg="이메일 인증이 완료되었습니다.";
         }else {       	
         	mv.addObject("비정상적인 접근입니다.", msg);
         	mv.setViewName("redirect:/");
-        }
-        //System.out.println("usercontroller vo =" +vo);
-       /* return "member/sucessAuth";*/
+        }       
         mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("member/successAuth");
 		return mv;
     }
     
-
 	//로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
@@ -254,6 +253,7 @@ public class MemberController {
 	   mav.addObject("logined", m);
 	   return mav;
    }
+
    
    //비밀번호 체크(ajax ...)
    @ResponseBody
@@ -303,11 +303,7 @@ public class MemberController {
 		   e.printStackTrace();
 	   }*/
    }
-   
-/*   //비밀번호 변경
-   @RequestMapping("/member/changePass")*/
-   
- 
+
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
    public String updateInfo(Model model) {
@@ -438,7 +434,41 @@ public class MemberController {
 		return "redirect:/";
 	}
 		
-   @RequestMapping("/member/myCarpool")
+
+    @ResponseBody
+    @RequestMapping("/member/smsCheck")
+    public String smsCheck(HttpSession session, String code) {
+    	Member m = (Member)session.getAttribute("logined");
+    	
+    	String saveCode = service.getPhoneCode(m.getMemberNum());
+    	
+    	if(pwEncoder.matches(code, saveCode)) {
+    		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		if(result > 0) {
+    			return "ok";
+    		}else {
+    			return "no";
+    		}
+    	}else {
+    		return "no";
+    	}
+    }
+    
+    //핸드폰 중복 확인
+    @ResponseBody
+    @RequestMapping("/member/phoneCheck.do")
+    public String phoneCheck(String phone){
+    	int result=service.checkPhone(phone);
+    	String isPhone="";
+    	if(result>0) {
+    		isPhone="N";
+    	}else {
+    		isPhone="Y";
+    	}  	
+    	return isPhone;  			
+    } 
+
+
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;
@@ -460,7 +490,6 @@ public class MemberController {
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
-
 		int rand = (int) (Math.random() * 899999) + 100000;
 
 		logger.debug(receiver);
@@ -520,38 +549,6 @@ public class MemberController {
 		}
 	}
     
-    @ResponseBody
-    @RequestMapping("/member/smsCheck")
-    public String smsCheck(HttpSession session, String code) {
-    	Member m = (Member)session.getAttribute("logined");
-    	
-    	String saveCode = service.getPhoneCode(m.getMemberNum());
-    	
-    	if(pwEncoder.matches(code, saveCode)) {
-    		int result = service.updateYPhoneStatus(m.getMemberNum());
-    		if(result > 0) {
-    			return "ok";
-    		}else {
-    			return "no";
-    		}
-    	}else {
-    		return "no";
-    	}
-    }
-    
-    @ResponseBody
-    @RequestMapping("/member/phoneCheck.do")
-    public String phoneCheck(String phone){
-    	int result=service.checkPhone(phone);
-    	String isPhone="";
-    	if(result>0) {
-    		isPhone="N";
-    	}else {
-    		isPhone="Y";
-    	}  	
-    	return isPhone;  			
-    } 
-
 
    @RequestMapping("/member/myDriver")
    public ModelAndView myDriver(HttpSession session) {
@@ -585,8 +582,6 @@ public class MemberController {
 		   mv.addObject("licenseNum",licenseNum);
 	   }
 	     
-
-
 	   logger.debug("테스트"+driver);
 	   mv.addObject("driver", driver);
 	   mv.setViewName("member/myDriver");

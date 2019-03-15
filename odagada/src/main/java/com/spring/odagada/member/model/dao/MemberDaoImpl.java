@@ -1,5 +1,6 @@
 package com.spring.odagada.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -124,5 +125,4 @@ public class MemberDaoImpl implements MemberDao {
 	public int checkPhone(String phone) {
 		return session.selectOne("member.checkPhone", phone);
 	}
-	
 }
