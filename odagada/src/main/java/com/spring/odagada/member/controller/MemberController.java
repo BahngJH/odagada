@@ -73,6 +73,95 @@ public class MemberController {
 	BCryptPasswordEncoder pwEncoder;
 	
 
+	//email 중복확인
+	@ResponseBody
+	@RequestMapping("/member/checkEmail.do")
+	public String checkEmail(String email) {
+		logger.debug("받아오는 메일:"+email);
+		int emailNum=service.checkEmail(email);
+		String result="";
+		if(emailNum==0) {
+			result="ok";
+		}else {
+			result="no";
+		}
+		return result;
+	}
+			
+	//아이디 중복확인
+	@RequestMapping("/member/checkId.do")
+	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
+	{
+		Map map=new HashMap();
+		boolean isId=service.checkId(memberId)==0?false:true;
+		map.put("isId", isId);
+		
+		mv.addAllObjects(map);
+		mv.addObject("char",URLEncoder.encode("문자열","UTF-8"));
+		mv.addObject("num",1);
+		mv.setViewName("jsonView");
+		return mv;	
+	}
+	
+	//회원가입페이지 전환
+	@RequestMapping("/member/signUp.do")
+	public String signUp() {
+		return "member/signUpForm";
+	}
+
+	//회원가입
+	@RequestMapping("/member/signUpEnd.do")
+	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
+		logger.debug("뉴비: "+m);
+		//암호화 전 패스워드
+		String oriPw=m.getMemberPw();
+		logger.debug("암호화 전:"+oriPw);
+		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
+		m.setMemberPw(pwEncoder.encode(oriPw));		
+		//메일주소
+		String email1=request.getParameter("email1");
+		String email2=request.getParameter("email2");
+		String email=email1+"@"+email2;	
+		m.setEmail(email);			
+		//전화번호
+		String phone1=request.getParameter("phone1");
+		String phone2=request.getParameter("phone2");
+		String phone=phone1+phone2;
+		m.setPhone(phone);		
+		//프로필 사진 저장되는 장소
+		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+
+		ModelAndView mv=new ModelAndView();
+		
+		if(!upFile.isEmpty()) {
+			//파일명 생성(ReName)
+			String oriFileName=upFile.getOriginalFilename();
+			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
+			
+			//rename 규칙
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv=(int)(Math.random()*1000);
+			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+			
+			//profile 사진 저장
+			try {
+				upFile.transferTo(new File(sd+"/"+reName));
+			}catch(IllegalStateException | IOException e){
+				e.printStackTrace();
+			}		
+			m.setProfileImageOri(oriFileName);
+			m.setProfileImageRe(reName);					
+		}
+		service.insertMember(m);
+
+		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
+		String loc="/";
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";		
+	}
+	
+
 	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public ModelAndView emailConfirm(String email, String memberId) {
@@ -101,9 +190,70 @@ public class MemberController {
 		mv.setViewName("member/successAuth");
 		return mv;
     }
+    
+	//로그인 페이지
+	@RequestMapping("/member/loginForm.do")
+	public String loginForm() {
+		return "member/loginForm";
+	}
+	
+	//로그인
+   @RequestMapping("/member/login.do")
+   public ModelAndView login(String memberId, String memberPw, Model model) {	   
+	   Map<String, String>login=new HashMap();
+	   login.put("memberId", memberId);
+	   login.put("memberPw", memberPw);
+	   
+	   Map<String, String>result=service.login(login);
+	   	   
+	   ModelAndView mv=new ModelAndView();
+	   
+	   Member m=service.selectMember(memberId);   
+	         
+		if (m == null) {
+			mv.addObject("msg", "등록된 정보가 없습니다.");
+			mv.addObject("loc", "/member/loginForm.do");
+			mv.setViewName("common/msg");
+		} else {
+			logger.debug("로그인 멤버 정보" + m);
+			logger.debug("관리자 테스트" + m.getIsAdmin());
+			if (result != null) {
+				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
+					mv.addObject("logined", m);
+					mv.setViewName("redirect:/");
+				} else {
+					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
+					mv.addObject("loc", "/member/loginForm.do");
+					mv.setViewName("common/msg");
+				}
+			}
+		}
+		return mv;
+	}
 
+   
+   //로그아웃(세션끊기)
+   @RequestMapping("/member/logout.do")
+   public String logout(SessionStatus status) {
+	   	if(!status.isComplete()) {
+	   		status.setComplete();
+	   	}
+	   	return "redirect:/";
+   }
+   
+   //마이페이지 
+   @RequestMapping("/member/myInfo.do")
+   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
+	   mav.setViewName("member/myInfo");
+	   
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   m = service.selectMember(m.getMemberId()); 
+	   
+	   mav.addObject("logined", m);
+	   return mav;
+   }
 
- 
    
    //비밀번호 체크(ajax ...)
    @ResponseBody
@@ -276,163 +426,6 @@ public class MemberController {
 		return mv;
 	}
 	
-	
-	
-	//email 중복확인
-	@ResponseBody
-	@RequestMapping("/member/checkEmail.do")
-	public String checkEmail(String email) {
-		logger.debug("받아오는 메일:"+email);
-		int emailNum=service.checkEmail(email);
-		String result="";
-		if(emailNum==0) {
-			result="ok";
-		}else {
-			result="no";
-		}
-		return result;
-	}
-			
-	//아이디 중복확인
-	@RequestMapping("/member/checkId.do")
-	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
-	{
-		Map map=new HashMap();
-		boolean isId=service.checkId(memberId)==0?false:true;
-		map.put("isId", isId);
-		
-		mv.addAllObjects(map);
-		mv.addObject("char",URLEncoder.encode("문자열","UTF-8"));
-		mv.addObject("num",1);
-		mv.setViewName("jsonView");
-		return mv;	
-	}
-	
-	//회원가입페이지 전환
-	@RequestMapping("/member/signUp.do")
-	public String signUp() {
-		return "member/signUpForm";
-	}
-
-	//회원가입
-	@RequestMapping("/member/signUpEnd.do")
-	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
-		logger.debug("뉴비: "+m);
-		//암호화 전 패스워드
-		String oriPw=m.getMemberPw();
-		logger.debug("암호화 전:"+oriPw);
-		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
-		m.setMemberPw(pwEncoder.encode(oriPw));		
-		//메일주소
-		String email1=request.getParameter("email1");
-		String email2=request.getParameter("email2");
-		String email=email1+"@"+email2;	
-		m.setEmail(email);			
-		//전화번호
-		String phone1=request.getParameter("phone1");
-		String phone2=request.getParameter("phone2");
-		String phone=phone1+phone2;
-		m.setPhone(phone);		
-		//프로필 사진 저장되는 장소
-		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
-
-		ModelAndView mv=new ModelAndView();
-		
-		if(!upFile.isEmpty()) {
-			//파일명 생성(ReName)
-			String oriFileName=upFile.getOriginalFilename();
-			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
-			
-			//rename 규칙
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-			int rdv=(int)(Math.random()*1000);
-			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
-			
-			//profile 사진 저장
-			try {
-				upFile.transferTo(new File(sd+"/"+reName));
-			}catch(IllegalStateException | IOException e){
-				e.printStackTrace();
-			}		
-			m.setProfileImageOri(oriFileName);
-			m.setProfileImageRe(reName);					
-		}
-		service.insertMember(m);
-
-		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
-		String loc="/";
-		model.addAttribute("msg", msg);
-		model.addAttribute("loc", loc);
-		return "common/msg";
-		
-	}
-
-
-	//로그인 페이지
-	@RequestMapping("/member/loginForm.do")
-	public String loginForm() {
-		return "member/loginForm";
-	}
-	
-	//로그인
-   @RequestMapping("/member/login.do")
-   public ModelAndView login(String memberId, String memberPw, Model model) {	   
-	   Map<String, String>login=new HashMap();
-	   login.put("memberId", memberId);
-	   login.put("memberPw", memberPw);
-	   
-	   Map<String, String>result=service.login(login);
-	   	   
-	   ModelAndView mv=new ModelAndView();
-	   
-	   Member m=service.selectMember(memberId);   
-	         
-		if (m == null) {
-			mv.addObject("msg", "등록된 정보가 없습니다.");
-			mv.addObject("loc", "/member/loginForm.do");
-			mv.setViewName("common/msg");
-		} else {
-			logger.debug("로그인 멤버 정보" + m);
-			logger.debug("관리자 테스트" + m.getIsAdmin());
-			if (result != null) {
-				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					mv.addObject("logined", m);
-					mv.setViewName("redirect:/");
-				} else {
-					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm.do");
-					mv.setViewName("common/msg");
-				}
-			}
-		}
-		return mv;
-	}
-
-   
-   //로그아웃(세션끊기)
-   @RequestMapping("/member/logout.do")
-   public String logout(SessionStatus status) {
-	   	if(!status.isComplete()) {
-	   		status.setComplete();
-	   	}
-	   	return "redirect:/";
-   }
-   
-   //마이페이지 
-   @RequestMapping("/member/myInfo.do")
-   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
-	   mav.setViewName("member/myInfo");
-	   
-	   Member m = (Member)session.getAttribute("logined");
-	   
-	   m = service.selectMember(m.getMemberId()); 
-	   
-	   mav.addObject("logined", m);
-	   return mav;
-   }
-   
-  
-	
 	//메일 인증하기
 	@RequestMapping("/member/mailAuth")
 	public String mailAuth(HttpSession session) throws Exception {
@@ -441,7 +434,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 		
-
 
     @ResponseBody
     @RequestMapping("/member/smsCheck")
@@ -477,7 +469,6 @@ public class MemberController {
     } 
 
 
-
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;
@@ -499,7 +490,6 @@ public class MemberController {
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
-
 		int rand = (int) (Math.random() * 899999) + 100000;
 
 		logger.debug(receiver);
@@ -560,8 +550,6 @@ public class MemberController {
 	}
     
 
-
-
    @RequestMapping("/member/myDriver")
    public ModelAndView myDriver(HttpSession session) {
 	   
@@ -594,8 +582,6 @@ public class MemberController {
 		   mv.addObject("licenseNum",licenseNum);
 	   }
 	     
-
-
 	   logger.debug("테스트"+driver);
 	   mv.addObject("driver", driver);
 	   mv.setViewName("member/myDriver");
