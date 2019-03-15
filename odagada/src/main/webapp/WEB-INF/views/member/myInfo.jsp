@@ -34,7 +34,7 @@
       <div class="col-12 col-md-4">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
-            <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
          </div>
       </div>
@@ -48,7 +48,7 @@
                       <tr>
                       <th scope="row">아이디</th>
 				      <td colspan="2"><c:out value="${logined.memberId }"></c:out></td>  
-				    </tr>
+			    	</tr>
 				    <tr>
 					   <th scope="row">이름</th>
 				       <td colspan="2"><c:out value="${logined.memberName }"></c:out></td>
@@ -63,8 +63,7 @@
 				      <td>
 				      	<c:choose>
 				      		<c:when test="${logined.isEmailAuth eq 'N'}">
-				      			<a href="#" class="ck badge badge-danger">인증하기</a>
-		      					<button type="button" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail" data-whatever="@mdo">인증하기</button>
+				      			<a href="#" class="ck badge badge-danger" data-toggle="modal" data-target="#sendEmail">인증하기</a>
 		      				</c:when>
 				      		<c:when test="${logined.isEmailAuth eq 'Y'}">
 				      			<div class="ck badge badge-success" role="alert">인증완료</div>
@@ -78,7 +77,26 @@
 				      <td>		
 			       	 	<c:choose>
 			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
-				      			<a href="#" class="ck badge badge-danger">인증하기</a>
+				      			<a href="#" class="ck badge badge-danger" onclick="sendSms();"  data-toggle="modal" data-target="#sendPhone" data-whatever="@mdo">인증하기</a>
+				      			<script>
+					      			function sendSms(){
+					      				console.log("문자인증");
+					      				$.ajax({
+					      					url:"${path}/member/sendSms",
+					      					data:{
+					      						"receiver": "${logined.phone }",
+					      					},
+					      					type:"post",
+					      					success:function(result){
+					      						if(result == "true"){
+					      							console.log(result);
+					      						}else{
+					      							alert("인증번호 전송 실패");
+					      						}					      						
+					      					}
+					      				});
+					      			}
+				      			</script>
 				      		</c:when>
 				      		<c:when test="${logined.isPhoneAuth eq 'Y'}">
 				      			<div class="ck badge badge-success" role="alert">인증완료</div>
@@ -138,121 +156,157 @@
 			       		<label for="answer" class="form-control-label" id="ttQ">탈퇴하시겠습니까?</label>					      	
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" id="tt" onclick="updateCheck('delete');">탈퇴하기</button>					        
+					        <button type="button" class="btn btn-primary" id="delete" onclick="updateCheck('delete');">탈퇴하기</button>					        
 					      </div>
 					    </div>
 					  </div>
 					</div>
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-						<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
-						  <div class="modal-dialog" role="document">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="sendEmailLabel">E-mail 인증하기</h5>				        
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						          <div class="form-group">
-						            <label for="answer" class="form-control-label">E-mail로 전송된 인증번호를 입력해주세요.</label>
-						            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
-						          </div>
-						      </div>
-						      <div class="modal-footer">					      	
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-						        <button type="button" class="btn btn-primary" onclick="emailCheck();">인증하기</button>					        
-						      </div>
-						    </div>
-						  </div>
-						</div>
-						
-						
-						
-						
-						
-					
-						
+					<!-- 이메일 인증 -->
+					<div class="modal fade" id="sendEmail" tabindex="-1" role="dialog" aria-labelledby="sendEmailLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="sendEmailLabel">E-mail 인증하기</h5>				        
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					          <div class="form-group">
+					            <label for="answer" class="form-control-label">E-mail로 전송된 인증번호를 입력해주세요.</label>
+					            <input type="password" class="form-control" id="answer" name="answer" style="resize: none;">
+					          </div>
+					      </div>
+					      <div class="modal-footer">					      	
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" onclick="emailCheck();">인증하기</button>					        
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<!-- 문자인증 -->
+					<div class="modal fade" id="sendPhone" tabindex="-1" role="dialog" aria-labelledby="sendPhoneLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="sendPhoneLabel">번호 인증하기</h5>				        
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					          <div class="form-group">
+					            <label for="answer" class="form-control-label">문자로 전송된 인증번호를 입력해주세요.</label>
+					            <input type="password" class="form-control" id="smsAnswer" name="smsAnswer" style="resize: none;">
+					          </div>
+					      </div>
+					      <div class="modal-footer">					      	
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" onclick="phoneCheck();">인증하기</button>					        
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<script>
+						function phoneCheck(){
+							$.ajax({
+								url:"${path}/member/smsCheck",
+								type:"post",
+								data:{
+									"code":$("#smsAnswer").val()
+								},
+								success:function(result){
+									if(result == "ok"){
+										alert("번호 인증 성공");
+									}else{
+										alert("번호 인증 실패");ㅣ
+									}
+									
+									location.reload();
+								}
+							})							
+						}
+					</script>
+											
 					  </div>
 					</div>
 				</div>		
 			</div>
 		</div>
-	</div>
 </section>
 
 <script>
-function updateCheck(answer) {
-	var tt;
-	if(answer==='change'){
-		tt=$('#answer1').val();
-	}
-	else if(answer==='delete'){
-		tt=$('#answer2').val();
-	}
-    $.ajax({
-    	url:"${path}/member/checkPw.do",
-    	data:{"answer":tt},
-    	success:function(data){
-    		if(data =='no'){
-				alert("비밀번호가 올바르지 않습니다.");
-				return;
-    		}else{
-    			if(answer==='change'){
+/* 	function updateCheck(){
+		var answer = $('#answer1').val();
+		
+		console.log(answer);
+	     $.ajax({
+	    	url:"${path}/member/checkPw.do",
+	    	data:{"answer":answer},
+	    	success:function(data){
+	    		if(data =='no'){
+					alert("비밀번호가 올바르지 않습니다.");
+					return;
+	    		}else{
+	    				location.href="${path}/member/updateInfo.do";
+	    			}
+	    		
+	    		}
+	    	}); 
+	    }      
+
+
+ function deleteCheck(){
+	var answer=$('#answer2').val();	
+	console.log(answer);
+	$.ajax({
+		url:"{path}/member/deleteMember.do",
+		data:{"answer", answer},
+		success:function(data){
+			if(data=='no'){
+				alert("비밀번호가 일치하지 않습니다.")
+			}
+		}
+	}])
+	
+	
+} 
+ */
+ function updateCheck(answer) {
+		var tt2="";
+		if(answer==='change'){
+			tt2=$('#answer1').val();
+			console.log('1번:'+tt2);
+		}
+		else if(answer==='delete'){
+			tt2=$('#answer2').val();
+			console.log('2번:'+tt2);
+		}
+		console.log("last:"+tt2);
+	    $.ajax({
+	    	url:"${path}/member/checkPw.do",
+	    	data:{"password":tt2, //입력받은 비밀번호
+					"answer":answer}, //delete인지 아닌지
+	    	success:function(data){
+	    		console.log("이건데이타:"+data);
+	    		if(data =='no'){
+					alert("비밀번호가 올바르지 않습니다.");
+					return;
+	    		}
+				else if(data=='ok'){
     				location.href="${path}/member/updateInfo.do";
-    			}
-    			else if(answer==='delete'){
+				}		    			
+				else if(data==='delete'){
     				alert('탈퇴되었습니다.');
     				location.href="${path}/";
     			}
-    		}
-    	}
-    });      
-}
-function withdrawal(){
-	var answer=$('#answer').val();
-	
-	
-}
-
-/* 
-$(function(){
-	
-	$(document).ready(function(){
-		$("#pw-modal-div").hide();
-		
-	})
-	 $('#tt-btn').on('click', function(){
-		$('#ttMessage-div').hide();
-	})
-	
-	$('#tt').on('click', function(){
-		$('#pw-modal-div').show();
-	   $('#ttMessage-div').hide(); 
-		
-		
-	})
-	
-})
- */
-	
-	
-
-
-
+    			else if(data==='noDelete'){
+    				alert('탈퇴실패! 다시 시도해 주세요');
+    				location.href="${path}/member/myInfo.do"
+    			}
+	    	}
+	    });      
+	}
 
 </script>
 

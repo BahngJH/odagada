@@ -105,9 +105,9 @@
 	                  </a>
 	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
-	                    <a class="dropdown-item" href="#">회원 관리</a>
+	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/memberList.do">회원 관리</a>
 	                    <a class="dropdown-item" href="${path}/driver/driverList">드라이버 관리</a>
-	                    <a class="dropdown-item" href="#">질의응답</a>
+	                    <a class="dropdown-item" href="${path}/board/qnaList">Q&A</a>
 	                  </div>
 	                </li>
                </c:if>

@@ -79,14 +79,103 @@ public class MemberServiceImple implements MemberService {
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
-        sendMail.send();
-       
+        sendMail.send();     
     }
 
    //메일 인증상태 업데이트
 	@Override
 	public int updateStatus(Map<String, String> map) {
 		return dao.updateStatus(map);
+	}
+
+	@Override
+	public int deleteMember(int memberNum) {
+		return dao.deleteMember(memberNum);
+	}
+
+	@Override
+	public Map<String, String> findId(Map findId) {
+		// TODO Auto-generated method stub
+		return dao.findId(findId);
+	}
+
+	@Override
+
+	public Map<String, String> findPw(Map info) {
+		// TODO Auto-generated method stub
+		return dao.findPw(info);
+	}
+
+	@Override
+	public void sendPw(Map info) throws Exception {
+		     System.out.println("서비스레지스");
+		     dao.updateTempPw(info);//임시 비밀번호로 업데이트.
+		     
+		     //만들어놓은 임시 비밀번호
+		     String newPw=(String)info.get("sendPw");
+		            	        
+	        //메일 전송
+	        MailHandler sendMail = new MailHandler(mailSender);
+	        sendMail.setSubject("[odagada] 임시 비밀번호 발송");
+	        sendMail.setText(
+	                new StringBuffer().append("<h2>임시 비밀번호 안내입니다.</h2>")
+	                .append("<h2>임시 비밀번호를 발송해드립니다.</h2>")
+	                .append("<h2>임시 비밀번호는 "+newPw+"입니다</h2>")
+	                .append("<a href='http://localhost:9090/odagada/member/loginForm.do")
+	                .append("' target='_blank'>로그인 하러가기</a>")
+					.toString());
+	        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
+	        sendMail.setTo((String)info.get("email"));
+	        sendMail.send();     
+	    }
+
+	//메일 코드 만들어서 업데이트 시키기. 
+	@Override
+	public void mailAuth(Member m) throws Exception {
+        System.out.println("메일인증 service");
+            
+        // 인증키 생성
+        String key = new TemKey().getKey(50,false); 
+        System.out.println(key);
+        //인증키 db 저장        
+        dao.createAuthKey(m.getEmail(),key);
+        
+        //메일 전송
+        MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("[odagada] 가입 인증 메일");
+        sendMail.setText(
+                new StringBuffer().append("<h1>메일인증</h1>")
+                .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+                .append("<a href='http://localhost:9090/odagada/emailConfirm.do?memberId=")
+                .append(m.getMemberId())
+				.append("&email=")
+				.append(m.getEmail())
+				.append("&mailCode=").append(key)
+				.append("' target='_blank'>이메일 인증 확인</a>").toString());
+        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
+        sendMail.setTo(m.getEmail());
+        sendMail.send(); 
+	}
+		
+
+	public int updatePhoneCode(Member m) {
+		return dao.updatePhoneCode(m);
+		
+	}
+
+	@Override
+	public String getPhoneCode(int memberNum) {
+		return dao.getPhoneCode(memberNum);
+	}
+
+	@Override
+	public int updateYPhoneStatus(int memberNum) {
+		return dao.updateYPhoneStatus(memberNum);
+	}
+
+	@Override
+	public int checkPhone(String phone) {
+		return dao.checkPhone(phone);
 	}
 
 }

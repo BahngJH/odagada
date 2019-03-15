@@ -15,6 +15,33 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public int searchListAll(Map<String, String> searchData) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.searchListAll", searchData);
+	}
+
+	@Override
+	public List<Map<String, String>> searchList(Map<String, String> searchData,int cPage,int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
+		return sqlSession.selectList("board.searchList",searchData,rb);
+	}
+
+	@Override
+	public int selectAllMemberCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.selectAllMemberCount");
+	}
+
+	@Override
+	public List<Map<String, String>> memberList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
+		return sqlSession.selectList("board.memberList",null,rb);
+		
+	}
+
+	@Override
 	public int selectBoardCount() {
 		return sqlSession.selectOne("board.selectBoardCount");
 	}
@@ -50,6 +77,26 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteBoard(int boardNo) {
 		return sqlSession.delete("board.deleteBoard",boardNo);
 	}
+
+	@Override
+	public int selectQnaCount() {
+		return sqlSession.selectOne("board.selectQnaCount");
+	}
+
+	@Override
+	public List<Map<String, String>> selectQnaList(int cPage, int numPerPage) {
+		
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		
+		return sqlSession.selectList("board.selectQnaList",null,rb);
+	}
+
+	@Override
+	public Map<String, String> selectQnaOne(int qnaNum) {
+		return sqlSession.selectOne("board.selectQnaOne",qnaNum);
+	}
+	
+	
 	
 	
 	

@@ -162,46 +162,34 @@
 		    <version>5.0.6.RELEASE</version>
 		</dependency>
 
-		
+ 
+		<!--AOP 적용  
+		AspectJ
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>${org.aspectj-version}</version>
+		</dependency>	 -->
 		<!-- iamport 관련 -->
 		<dependency>
 		    <groupId>com.github.iamport</groupId>
 		    <artifactId>iamport-rest-client-java</artifactId>
 		    <version>0.2.0</version>
 		</dependency>
-	
-				
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-				
-		<!-- AspectJ -->
+    
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
-		</dependency>	
-		
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.3</version>
+		</dependency>
+			
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
