@@ -210,7 +210,7 @@ $(function(){
          });
     
    //아이디  숫자,영소문자만 입력 가능하게 하는 함수      
-   $("#memberId_").keyup(function(event) {
+   $("#memberId_").keydown(function(event) {
       if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
          var inputVal = $(this).val().trim();
          $(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));

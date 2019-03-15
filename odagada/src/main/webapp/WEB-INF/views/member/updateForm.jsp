@@ -250,7 +250,7 @@
        			<div class="profileDiv col-6">
 		           <div class="custom-file" >
 		           		<img class="card-img-top" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-	   		    	    <input type="file" class="custom-file-input"  accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
+	   		    	    <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" value="${logined.profileImageRe }" onchange="fileCheck(this)" required>
 		           </div>
 		         </div> 
 	         	  <div class="col-6">           			                                
