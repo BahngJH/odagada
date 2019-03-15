@@ -43,7 +43,7 @@ public class BoardController {
    {
 	   int allMemberCount = service.selectAllMemberCount();
 	   int numPerPage = 10;
-	   
+	   logger.debug(""+cPage);
 	   List<Map<String,String>> memberList = service.memberList(cPage,numPerPage);
 	   logger.debug("전체회원 정보"+memberList);
 	   mv.addObject("pageBar", PageFactory.getPageBar(allMemberCount, cPage, numPerPage,"/odagada/admin/memberList.do"));
@@ -55,6 +55,10 @@ public class BoardController {
    @RequestMapping("/admin/searchMember.do")
    public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
    {
+	   logger.debug(keyword+"");
+	   logger.debug(""+searchType);
+	   logger.debug(""+cPage);
+	   
 	   Map<String,String> searchData = new HashMap<String,String>();
 	   searchData.put("searchType", searchType);
 	   searchData.put("keyword", keyword);
@@ -62,7 +66,7 @@ public class BoardController {
 	   int searchListAll = service.searchListAll(searchData);
 	   int numPerPage = 10;
 	   List<Map<String,String>> searchList = service.searchList(searchData,cPage,numPerPage);
-	   mv.addObject("pageBar", PageFactory.getPageBar(searchListAll, cPage, numPerPage,"/odagada/admin/memberList.do"));
+	   mv.addObject("pageBar", PageFactory.getPageBar(searchListAll, cPage, numPerPage,"/odagada/admin/searchMember.do",searchType,keyword));
 	   mv.addObject("memberList", searchList);
 	   mv.addObject("searchType", searchType);
 	   mv.addObject("keyword", keyword);
