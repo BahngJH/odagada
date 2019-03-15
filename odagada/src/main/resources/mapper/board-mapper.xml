@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
+
+  <select id="searchListAll" parameterType="map" resultType="int">
+  	select count(*) from member where ${searchType} like '%' || #{keyword} || '%'
+  </select>
+
+  <select id="searchList" parameterType="map" resultType="map">
+  	select * from member where ${searchType} like '%' || #{keyword} || '%'
+  </select>
+
+  <select id="selectAllMemberCount" resultType="int">
+  	select count(*) from member
+  </select>
+
+  <select id="memberList" resultType="map">
+  	select * from member order by enrolldate
+  </select>
+
   <select id="selectBoardCount" resultType="_int">
   	select count(*) from board
   </select>
@@ -22,6 +39,7 @@
   <delete id="deleteBoard">
   	DELETE FROM BOARD WHERE BOARDNO=#{boardNo}
   </delete>
+
   
   
 </mapper>

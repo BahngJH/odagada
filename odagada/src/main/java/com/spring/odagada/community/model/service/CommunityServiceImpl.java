@@ -18,6 +18,12 @@ public class CommunityServiceImpl implements CommunityService {
 	private Logger logger = LoggerFactory.getLogger(CommunityServiceImpl.class);
 
 	@Override
+	public List<Map<String, String>> searchId(String searchId) {
+		// TODO Auto-generated method stub
+		return dao.searchId(searchId);
+	}
+
+	@Override
 	public int insertRoomId(Map roomIdData) {
 		// TODO Auto-generated method stub
 		return dao.insertRoomId(roomIdData);

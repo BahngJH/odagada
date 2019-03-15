@@ -32,13 +32,14 @@
     .pPassword{font-size:13px; margin-top:1px;}
   	.passwordInfo{height:40px; align:left;}
   	.oriEmail{font-size:20px; text-align:left;}
+  	.oriPhone{font-size:20px; text-align:left;}
   	.alert{padding:0; }
   	.cg {font-size:13px;}
   	.btns{padding-top:3px; padding-right:0; padding-left:0;}
   	#chgMailInfoP{margin-top:10px; margin-bottom:15px;}
     .chgBtnDiv{padding-right:15px;}
     #chgEmailBtn{width:117px;}
-       
+    #sentEmailDiv, #sentTxtDiv, #sentPhoneDiv{margin-bottom:20px;}   
     </style>
     
      
@@ -57,6 +58,7 @@
  		};
 
       $(this).next('.custom-file-label').html(filename);
+      console.log(filename);
    });  
   
    //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
@@ -94,7 +96,7 @@
               $(".ck.ckNo").show(); 
            }
         });
-		
+	    
 
 		//이메일(아이디부분) 알파벳만 입력 받게 하기    
 		$("#email1").keyup(function(event) {
@@ -128,6 +130,12 @@
 			$("#chgEmailInfo").hide();
 			$("#chgMailInfoP").hide();
 		});
+		
+		//인증 메일 발송 취소 버튼
+		$("#backEmail").on("click", function(){
+			$("#alertEmail").hide();
+    		$("#sentEmailDiv").hide();
+		})
 		
 		//핸드폰 번호 변경 버튼
 		$("#chgPhoneBtn").on("click", function(){
@@ -198,6 +206,38 @@
 		}
 	}
 	
+ 	function changeEmail(){		    
+	    //이전 이메일과 중복여부 확인
+	    	var reMail=$('#reMail').val().trim();
+	   	    var oriMail=$('.oriEmail').text();
+	   	    /* var sendMailBtn=document.getElementById('sendMailBtn'); */
+	   		//이메일 유효성 검사
+			var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			
+			if(!ckMail.test($("input[name=email]").val())){
+				alert("정확한 이메일 형식을 입력해주세요.");	
+				return false;
+			}
+	   	    
+
+	     	if(reMail===oriMail){
+	    		$("#alertEmail").show();
+	    		$("#sentEmailDiv").hide();
+	    		/* sendMailBtn=$('#sendMailBtn').attr('disalbed',true); */
+	    		
+	    		 return false;
+	    		
+	    	}else{
+	    		$("#alertEmail").hide();
+	    		$("#sentEmailDiv").show();
+	    	} 
+	    
+	} 
+ 	
+ 	
+
+	    
+	    
 
 	
 	
@@ -236,29 +276,26 @@
 	           		 <!--Email 변경 버튼 클릭시  -->
 	           		 <div class="row passwordInfo" id="chgEmailInfo">    	
 		           		<div class="ptext col-7">
-		       			  <input type="email" class="form-control" value="${logined.email }" name="email" maxlength="30" required>
+		       			  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
 		       			</div>  
 		       			<div class="btns col-5">
-		       			  <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 발송</button>
+		       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMailBtn" onclick="changeEmail();">인증 메일 발송</button>
 		       			  <button type="button" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
 		          		</div> 		
 	           		 </div>
-     			     <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
        			 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
+     			     <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
 	           		  <!--Email 변경 인증 메일 전송 후  -->      			  
 	       			  <div id="sentEmailDiv">
-		    			  <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
+		    			  <div class="alert alert-success text-success" id="sendEmail" role="alert">인증메일이 발송되었습니다.</div>
 		    			  <p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
 		    			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
 		       			  <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
-	       			  </div>
-       			  
-       			  
-			  
+	       			  </div>		
 	       			   <!--기존 Phone 정보  -->
 	           		  <div class="row passwordInfo" id="oriPhoneDiv">    	
 		           		<div class="ptext col-6">
-		           			<p class="oriEmail font-weight-bold"><%=m.getPhone() %></p>
+		           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
 		       			</div>  
 		       			<div class="col-6">
 		       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	

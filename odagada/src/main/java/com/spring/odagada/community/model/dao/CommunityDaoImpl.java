@@ -17,6 +17,11 @@ public class CommunityDaoImpl implements CommunityDao {
 	SqlSessionTemplate session;
 	
 	@Override
+	public List<Map<String, String>> searchId(String searchId) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.searchId", searchId);
+	}
+	@Override
 	public int insertRoomId(Map roomIdData) {
 		// TODO Auto-generated method stub
 		int rs = session.insert("community.insertRoomId",roomIdData);
@@ -63,14 +68,11 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		
 		List<ChatRoomVo> chatRoomList =  session.selectList("community.bringChatRooms",loginId);
+		
 		for(ChatRoomVo room:chatRoomList)
 		{
-			room.setIsReadCount(room.getAllMsg()-room.getyMsg());
-		}
-		/*for(ChatRoomVo room:chatRoomList)
-		{
 			room.setIsReadCount(session.selectOne("community.isReadCount", room));
-		}*/
+		}
 		return chatRoomList;
 	}
 	

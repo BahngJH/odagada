@@ -96,7 +96,7 @@
 	</select>
 	<!-- 동승자 출력  -->
 	<select id="selectPasList" parameterType="_int" resultMap="carpool">
-		select * from passenger join member using(membernum) where carpoolnum=#{carpoolNum} and pstatus='Y'
+		select * from passenger join member using(membernum) where carpoolnum=#{carpoolNum} order by pstatus desc
 	</select>
 	<!-- 차량이미지 출력 -->
 	<select id="selectImageList" parameterType="_int" resultMap="carpool">

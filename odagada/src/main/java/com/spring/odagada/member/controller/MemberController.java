@@ -1,14 +1,13 @@
 package com.spring.odagada.member.controller;
 
 
-import static com.spring.odagada.common.PageFactory.getpageBar;
+import static com.spring.odagada.common.PageFactory.getPageBar;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.community.model.service.CommunityService;
+import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -50,6 +51,10 @@ public class MemberController {
 	
 	@Autowired
 	CommunityService comService;
+	
+	@Autowired
+	DriverService dService;
+	
 	//비밀번호 암호화 처리
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
@@ -66,7 +71,6 @@ public class MemberController {
 		}else {
 			result="no";
 		}
-		logger.debug(result);
 		return result;
 	}
 			
@@ -77,17 +81,10 @@ public class MemberController {
 		Map map=new HashMap();
 		boolean isId=service.checkId(memberId)==0?false:true;
 		map.put("isId", isId);
-		List<String> list=new ArrayList();
-		
-		list.add("Yoo");
-		list.add("Lee");
-		list.add("Kim");
-		list.add("Joo");
 		
 		mv.addAllObjects(map);
 		mv.addObject("char",URLEncoder.encode("문자열","UTF-8"));
 		mv.addObject("num",1);
-		mv.addObject("list",list);
 		mv.setViewName("jsonView");
 		return mv;	
 	}
@@ -97,33 +94,29 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
-	
+
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
-	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) {
+	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
 		logger.debug("뉴비: "+m);
-		
 		//암호화 전 패스워드
 		String oriPw=m.getMemberPw();
 		logger.debug("암호화 전:"+oriPw);
 		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
-		m.setMemberPw(pwEncoder.encode(oriPw));
-		
+		m.setMemberPw(pwEncoder.encode(oriPw));		
 		//메일주소
 		String email1=request.getParameter("email1");
 		String email2=request.getParameter("email2");
 		String email=email1+"@"+email2;	
-		m.setEmail(email);
-			
+		m.setEmail(email);			
 		//전화번호
 		String phone1=request.getParameter("phone1");
 		String phone2=request.getParameter("phone2");
 		String phone=phone1+phone2;
-		m.setPhone(phone);
-		
+		m.setPhone(phone);		
 		//프로필 사진 저장되는 장소
 		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
-		
+
 		ModelAndView mv=new ModelAndView();
 		
 		if(!upFile.isEmpty()) {
@@ -144,19 +137,45 @@ public class MemberController {
 			}		
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);					
-		}int result=service.insertMember(m);
-		String msg="";
-		String loc="/";
-		if(result>0) {
-			msg="오다가다 환영합니다 *^^*";
-		}else {
-			msg="회원가입 실패";
 		}
+		service.insertMember(m);
+
+		String msg="인증 메일이 전송되었습니다. 인증 후 로그인 하실 수 있습니다.";
+		String loc="/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
-		return "common/msg";		
+		return "common/msg";
+		
 	}
 	
+	 //이메일 인증 코드 검증
+    @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
+    public ModelAndView emailConfirm(String memberId) {
+    	Map<String, String>map=new HashMap();
+    	map.put("isEmailAuth", "Y");
+    	map.put("memberId", memberId);
+               
+        int result=service.updateStatus(map);  
+        logger.debug("결과는?"+result);
+        ModelAndView mv=new ModelAndView();
+        
+        String msg="";
+		String loc="/";
+        if(result>0) {
+        	msg="회원가입 성공";
+        }else {       	
+        	mv.addObject("비정상적인 접근입니다.", msg);
+        	mv.setViewName("redirect:/");
+        }
+        //System.out.println("usercontroller vo =" +vo);
+       /* return "member/sucessAuth";*/
+        mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("member/successAuth");
+		return mv;
+    }
+    
+
 	//로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
@@ -177,21 +196,33 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
-		   
-	   if(result!=null) {
-		   if(pwEncoder.matches(memberPw,result.get("MEMBERPW"))){
-			   mv.addObject("logined", m);
-			   mv.setViewName("redirect:/");
-		   }else {
-			  mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-			  mv.addObject("loc", "/member/loginForm.do");
-			  mv.setViewName("common/msg");
-		   }	   
-	   }	  
-	   logger.debug("로그인 멤버 정보"+m);
-	   logger.debug("관리자 테스트"+m.getIsAdmin());
-	   return mv;
-   }
+	         
+		if (m == null) {
+			mv.addObject("msg", "등록된 정보가 없습니다.");
+			mv.addObject("loc", "/member/loginForm.do");
+			mv.setViewName("common/msg");
+		} else {
+			logger.debug("로그인 멤버 정보" + m);
+			logger.debug("관리자 테스트" + m.getIsAdmin());
+
+			if (result != null) {
+				if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && m.getIsEmailAuth().equals("Y")) {
+					mv.addObject("logined", m);
+					mv.setViewName("redirect:/");
+				}
+				else if (pwEncoder.matches(memberPw, result.get("MEMBERPW")) && !m.getIsEmailAuth().equals("Y")) {
+					mv.addObject("msg", "이메일 인증을 완료해주세요.");
+					mv.setViewName("common/msg");
+				} else {
+					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
+					mv.addObject("loc", "/member/loginForm.do");
+					mv.setViewName("common/msg");
+				}
+			}
+		}
+		return mv;
+}
+
    
    //로그아웃(세션끊기)
    @RequestMapping("/member/logout.do")
@@ -199,7 +230,7 @@ public class MemberController {
 	   	if(!status.isComplete()) {
 	   		status.setComplete();
 	   	}
-	   	return "redirect:/index.jsp";
+	   	return "redirect:/";
    }
    
    //마이페이지 
@@ -316,9 +347,50 @@ public class MemberController {
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
 	   logger.debug("여기 확인:   "+list);
 	   mav.addObject("carpoolList", list);
-	   mav.addObject("pageBar", getpageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
+	   mav.addObject("pageBar", getPageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;
+   }
+   
+   @RequestMapping("/member/myDriver")
+   public ModelAndView myDriver(HttpSession session) {
+	   
+	   
+	   ModelAndView mv = new ModelAndView();
+	   
+	   Member m = (Member)session.getAttribute("logined");	   
+	   int memberNum = m.getMemberNum();	   
+	   Map<String, String> driver = dService.selectDriverOne(memberNum);
+	   
+	   if(driver!=null)
+	   {
+		   logger.debug("차 넘버"+driver.get("CARNUM"));
+
+		   String carNum = driver.get("CARNUM");
+		   List<Map<String,String>> carImg = dService.selectCarImg(carNum);
+		   
+		   String a = driver.get("LICENSENUM").substring(0,3);
+		   String b = "**-******";
+		   String c = driver.get("LICENSENUM").substring(13);
+		   
+		   String licenseNum = a+b+c;
+		   
+		   logger.debug("차번호"+carNum);
+		   logger.debug("차 이미지"+carImg);
+		   logger.debug("번호판 길이"+carNum.length());
+		   carImg.get(0).put("active", "active");
+		   
+		   mv.addObject("carImg",carImg);
+		   mv.addObject("licenseNum",licenseNum);
+	   }
+	     
+
+
+	   logger.debug("테스트"+driver);
+	   mv.addObject("driver", driver);
+	   mv.setViewName("member/myDriver");
+	   
+	   return mv;
    }
    
    
