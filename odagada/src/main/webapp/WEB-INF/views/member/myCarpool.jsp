@@ -78,8 +78,11 @@ a#pay{
 		<div class="col-12 col-md-10" id="enroll-container">	
 			<div class="info col-12 col-sm-12 col-md-10">
 				<!-- 조건만큼 검색 결과 출력 -->
-				<c:forEach items="${carpoolList }" var="list">
-				   <form method="post" action="${path}/carpool/oneSearch.do?carpoolnum=1" id="form-onecar">
+				<c:if test="${carpoolList == [] }">
+					<h3>조회 결과가 없습니다.</h3>
+				</c:if>
+				<c:if test="${carpoolList != [] }">
+					<c:forEach items="${carpoolList }" var="list">
 				      <div id="div-pick" class="card border-success mb-3">
 				        <div class="card-body text-success">
 				          <div class="row">
@@ -100,24 +103,50 @@ a#pay{
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
 					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
 					                        <!-- Modal -->
-											<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
 											  <div class="modal-dialog" role="document">
 											    <div class="modal-content">
 											      <div class="modal-header">
-											        <h5 class="modal-title" id="exampleModalLabel">결제 코드</h5>
-											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											        <h5 class="modal-title" id="payModalLabel">결제 코드</h5>
+											        <button type="button" class="close" data-dismiss="payModal" aria-label="Close">
 											          <span aria-hidden="true">&times;</span>
 											        </button>
 											      </div>
 											      <div class="modal-body">
 											        ${list.PAYCODE }
+											        
 											      </div>
 											      <div class="modal-footer">
+											      	<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="payCancel(${list.CARPOOLNUM });">결제 취소</button>
 											        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 											      </div>
 											    </div>
 											  </div>
 											</div>
+											<script>
+												function payCancel(carpoolNum){
+													var isCancel = confirm("정말 취소하시겠습니까?");
+													if(isCancel){
+														console.log("취소 시작");
+														console.log(carpoolNum);
+														$.ajax({
+															url:"${path}/carpool/paymentCancel",
+															type:"post",
+															data:{
+																"carpoolNum" : carpoolNum,																	
+															},
+															success:function(response){
+																if(response === "ok"){
+																	alert("결제 취소 성공");
+																}else{
+																	alert("결제 취소 실패");
+																}
+																location.reload();
+															}
+														});
+													}
+												}
+											</script>
 				                   		</c:if>
 				                   		<c:if test='${list.PAYSTATUS == "Y"}'>
 											<span class="badge badge-success">결제 완료</span>
@@ -131,15 +160,17 @@ a#pay{
 				                   		<c:if test='${list.PSTATUS == "Y"}'>
 											<span class="badge badge-success">승인</span>
 										</c:if>
+										<c:if test='${list.PSTATUS == "C" }'>
+											<span class="badge badge-warning">결제 취소</span>
+										</c:if>
 				                   </div>
 				                </div>
 				             </div>
 				          </div>
 				        </div>
 				      </div>
-				      
-				   </form>
-				</c:forEach>
+					</c:forEach>
+				</c:if>
 		     </div>
 
 		</div>
