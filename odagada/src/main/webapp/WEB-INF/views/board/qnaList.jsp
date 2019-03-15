@@ -12,38 +12,40 @@
 		text-align: center;
 	}
 </style>
-<section id="notice-container" class="container">
+
+
+<section id="qna-container" class="container">
 <div class="col-md-6 offset-md-3">
-<h1>공지사항</h1>
-<c:set var="isAdmin" value="${logined.isAdmin}"/>
-	<c:if test="${isAdmin eq '1'}">
-		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/boardForm';" >글쓰기</button>
-	</c:if>      
+	<h1>Q&A</h1>
+	
+	<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/qnaForm';" >글쓰기</button>
 	<table id="tbl-board" class="table table-hover">
 	    <tr>
 	        <th>번호</th>
 	        <th>제목</th>
+	        <th>작성자</th>
 	        <th>작성일</th>
-	        <th>첨부파일</th>
-	        <th>조회수</th>
 	    </tr>
-	    <c:forEach var="b" items="${list}">
+	    <c:forEach var="q" items="${list}">
 	    <tr>
-			<td>${b.BOARDNO }</td>
-			<td><a href="${path}/board/boardView.do?boardNo=${b.BOARDNO}">${b.BTITLE }</a></td>
+			<td>${q.QNANUM}</td>
+			<td><a href="${path}/board/qnaView.do?qnaNum=${q.QNANUM}">${q.QTITLE}
+			<c:if test="${q.COMCNT >0 }">
+				<span style="color: red;">(${q.COMCNT})</span>
+			</c:if>
+			</a>
+			</td>
+			<td>${q.QWRITER}</td>
 			<td>
 			<fmt:formatDate value="${q.QDATE}" pattern="yyyy-MM-dd"/>
 			</td>
-			<td>
-				<c:if test="${b.BREFILENAME !=null}">
-					<img src="${path}/resources/images/file.png"/>
-				</c:if>
-			</td>
-			<td>${b.BCOUNT}</td>
+			
         </tr>   
 	    </c:forEach>
 	</table>
-	${pageBar}
-	</div>   
+	
+	${pageBar} 
+</div>
 </section>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
