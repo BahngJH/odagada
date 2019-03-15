@@ -349,7 +349,7 @@
 				  										amount : '${oList.get(0).PAY}',
 				  										pay_method : 'card',
 				  										merchant_uid : 'merchant_' + new Date().getTime(),
-				  										name : '주문명: 결제테스트',
+				  										name : '오다가다 카풀',
 				  										buyer_email : '${logined.email}',
 				  										buyer_name : '${logined.memberName}',
 				  										buyer_tel : '${logined.phone}',
@@ -357,10 +357,11 @@
 				  									}, function(rsp){
 				  										if(rsp.success){
 				  											$.ajax({
-				  												url: "/carpool/paymentEnd",
+				  												url: "${path}/carpool/paymentEnd",
 				  												data: {
 				  													"carpoolNum": "${oList.get(0).CARPOOLNUM}",
 			  														"memberNum": "${logined.memberNum}",
+			  														"impUid":rsp.imp_uid,
 				  												},
 				  												type: "post",
 				  											 	success:function(result){
