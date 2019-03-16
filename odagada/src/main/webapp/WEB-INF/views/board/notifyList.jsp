@@ -45,10 +45,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel">몇일 블랙 시킬지 날짜를 입력하세요. </h5>
+        <h5 class="modal-title" id="myModalLabel">블랙할 기간을 입력하세요. </h5>
       </div>
       <div class="modal-body">
-        <input type="text" id="blackCount" placeholder="1일 일경우 => 1">
+        <input type="text" id="blackCount" placeholder="1일 일 경우 => 1">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -83,6 +83,10 @@
 	function insertBlack()
 	{
 		var blackCount = $('#blackCount').val();
+		if(blackCount).trim().val("")){
+			//모달창에 alert이 안떠서 그냥 return false로만 해둠
+			return false;
+		}
 		location.href='${path}/admin/insertBlack.do?notifyId='+NOTIFYID+'&nonNotifyId='+NONNOTIFYID+'&nContent='+NCONTENT+'&blackCount='+blackCount;
 	}
 </script>
