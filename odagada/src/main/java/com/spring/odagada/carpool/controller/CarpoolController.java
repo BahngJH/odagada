@@ -60,10 +60,14 @@ public class CarpoolController {
 				mav.setViewName("/common/msg");
 				mav.addObject("msg", "드라이버만 등록 가능합니다. 드라이버 등록해주세요.");
 				mav.addObject("loc", "/driver/driverEnroll");
-				return mav;
 			}else {
-				mav.setViewName("/carpool/register");
-				return mav;
+				if(d.getDriverStatus().equals("N")) {
+					mav.setViewName("/common/msg");
+					mav.addObject("msg", "드라이버 심사 중 입니다.");
+					mav.addObject("loc", "/");
+				}else {
+					mav.setViewName("/carpool/register");
+				}
 			}
 			
 		}else {
@@ -71,8 +75,9 @@ public class CarpoolController {
 			mav.setViewName("/common/msg");
 			mav.addObject("msg", "로그인 해주세요.");
 			mav.addObject("loc", "/member/loginForm.do");
-			return mav;
 		}		
+		
+		return mav;
 	}
 
 	@RequestMapping("/carpool/registerEnd")
