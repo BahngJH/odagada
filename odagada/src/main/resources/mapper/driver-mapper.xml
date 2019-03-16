@@ -37,10 +37,16 @@
       select * from carpool where membernum=#{memberNum} order by startdate desc
    </select>
    <select id="selectDriverPas" parameterType="map" resultMap="driver_">
-      select carpoolnum, c.membernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,p.membernum, paycode, paystatus, impuid ,m.* 
+      select carpoolnum, c.membernum as cmembernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,p.membernum as pmembernum, paycode,pstatus, paystatus, impuid ,m.* 
       from  carpool c 
       join passenger p using(carpoolnum) 
       join member m on(m.membernum=p.membernum) 
       where  carpoolnum=#{carpoolNum} and c.membernum=#{driverNum}
    </select>
+   <update id="updatePasOk" parameterType="_int">
+		update passenger set pstatus='Y' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
+   </update>
+   <update id="updatePasNo" parameterType="_int">
+		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
+   </update>
 </mapper>

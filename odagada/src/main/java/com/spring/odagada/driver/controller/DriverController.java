@@ -259,6 +259,48 @@ public class DriverController {
        mav.setViewName("member/passengerCk");
        return mav; 
     }
-
+    //드라이버가 승차 승락한 경우
+    @RequestMapping("/driver/updatePasOk")
+    public ModelAndView updatePasOk(int memberNum,String memberName,int carpoolNum,int driverNum){
+    	ModelAndView mav = new ModelAndView();
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("memberNum", memberNum);
+    	map.put("carpoolNum", carpoolNum);
+    	String msg="";
+    	int rs = service.updatePasOk(map);
+    	if(rs>0)
+    	{
+    		msg=memberName+"님이 승차하였습니다.";
+    	}
+    	else {
+    		msg="수락 실패하였습니다. 다시 시도해주세요.";
+    	}
+    	mav.addObject("msg",msg);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.setViewName("common/msg");
+    	return mav;
+    }
+    
+    //드라이버가 승차 거부한 경우
+    @RequestMapping("/driver/updatePasNo")
+    public ModelAndView updatePasNo(int memberNum,String memberName,int carpoolNum,int driverNum){
+    	ModelAndView mav = new ModelAndView();
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("memberNum", memberNum);
+    	map.put("carpoolNum", carpoolNum);
+    	String msg="";
+    	int rs = service.updatePasNo(map);
+    	if(rs>0)
+    	{
+    		msg=memberName+"님을 거부하였습니다.";
+    	}
+    	else {
+    		msg="거부 실패하였습니다. 다시 시도해주세요.";
+    	}
+    	mav.addObject("msg",msg);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.setViewName("common/msg");
+    	return mav;
+    }
    
 }
