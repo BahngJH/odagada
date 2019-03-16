@@ -604,4 +604,14 @@ public class MemberController {
 	   }
    }
    
+   //이메일 변경
+   @ResponseBody
+   @RequestMapping("/member/changeEmail")
+   public String changeEmail(String email, HttpSession session) throws Exception {
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setEmail(email);
+	   service.mailUpdate(m);
+	   return "sent";	   
+   }
+   
 }

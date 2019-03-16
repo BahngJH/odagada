@@ -130,4 +130,13 @@ public class MemberDaoImpl implements MemberDao {
 	public int updatePassword(Member m) {
 		return session.update("member.updatePassword", m);
 	}
+	//메일코드 업데이트	
+	@Override
+	public void updateEmailCode(String mailCode, String memberId) {
+		Member m = new Member();
+        m.setMailCode(mailCode);
+        m.setMemberId(memberId);
+        System.out.println("메일코드는?"+mailCode);
+        session.update("member.updateMailCode",m);
+	}
 }

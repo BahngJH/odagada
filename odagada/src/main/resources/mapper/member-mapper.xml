@@ -24,7 +24,7 @@
 	
  	<!-- 메일 인증상태 업데이트 -->	
 	<update id="mailStatus" parameterType="map">
-	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where memberId=#{memberId}
+	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth}, EMAIL=#{email} where memberId=#{memberId}
 	</update>
 	
 	<!--ID중복 체크 -->
@@ -89,4 +89,8 @@
 	<update id="updatePassword" parameterType="member">
 	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
 	</update>
+	<!--메일 코드 변경 -->
+	<update id="updateMailCode" parameterType="member">
+	 UPDATE MEMBER SET MAILCODE=#{mailCode} WHERE MEMBERID=#{memberId}
+	 </update>
 </mapper>

@@ -23,5 +23,6 @@ public interface MemberDao {
 	int updateYPhoneStatus(int memberNum);	
 	int checkPhone(String phone);//핸드폰 중복체크
 	int updatePassword(Member m);//비밀번호 변경
+	void updateEmailCode(String mailCode, String memberId)throws Exception;//이메일 인증 코드 업데이트
 	
 }

@@ -23,5 +23,6 @@ public interface MemberService {
 	void mailAuth(Member m)throws Exception;//메일 인증	
 	int checkPhone(String phone); //핸드폰 중복확인
 	int updatePassword(Member m);//비밀번호 변경
+	void mailUpdate(Member m)throws Exception;//이메일 변경 인증 코드
 	 
 }
