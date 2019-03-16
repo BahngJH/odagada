@@ -49,6 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
@@ -71,6 +72,9 @@ public class MemberController {
 	//비밀번호 암호화 처리
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+	
+	@Autowired
+	CommunityService comService;
 	
 
 	//email 중복확인
@@ -160,7 +164,7 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		return "common/msg";		
 	}
-	
+
 
 	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
@@ -358,8 +362,6 @@ public class MemberController {
 		mv.addObject("loc", loc);
 		return "common/msg";
 	}
-   
-    //ID 찾기 화면
    @RequestMapping("/member/findId")
    public String findId() {
 	   return "member/findId";
@@ -468,7 +470,7 @@ public class MemberController {
     	return isPhone;  			
     } 
 
-
+    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;

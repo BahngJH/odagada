@@ -9,8 +9,8 @@
 </jsp:include>
 <style>
 	div#review-container {
-	width: 500px;
-	margin: 0 auto;
+	width: 600px;
+	margin: 0;
 	}
 	div#review-container ul{
 	list-style:none;
@@ -35,7 +35,7 @@
 	text-align: Left;
 	}
 	#rContent{
-	width:460px;
+	width:560px;
 	}
 	
 .star-input>.input, .star-input>.input>label:hover, .star-input>.input>input:focus+label,
@@ -152,43 +152,65 @@
 	font: bold 18px Helvetica, Arial, sans-serif;
 	vertical-align: middle;
 }
+#rContent{
+	resize: none;
+	height: 100px;
+}
+	div#enroll-container{width:400px; margin:0 auto;}
+	div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
+	.menu{text-align:center; font-weight:bold;}
+	.info{margin-top:50px; margin-bottom: 50px;}
+	#answer{height:50%;}
 </style>
 
-<div id="review-container">
-	<form name="reviewFrm" action="${path}/community/reviewModifyEnd.do" method="post" onsubmit="return validate();"> 
-	<h3>내가 작성한 리뷰</h3>
-		<div style="overflow:scroll; height:500px;">
-			<%-- <c:forEach items="${list}" var="r"> --%>
-			<ul id="review-list">
-				<div id="review-context">
-					<div class="review-content" id="writerNum">아이디</div>
-						 <span class="star-input">
-						<span class="input">
-							<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5"><label for="p1">0.5</label>
-							<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
-							<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
-							<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
-							<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
-							<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
-							<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
-							<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
-							<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
-							<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
-						</span>
-						<!-- <output for="star-input"><b>0</b>점</output> -->
-						</span>
-						<div id="review-content">
-							<textarea id="rContent" name="rContent"><c:out value="${review.RCONTENT}"/></textarea>
-							<br/>
-							<input type="submit" class="btn btn-outline-success" value="수정" style="margin-left:340px;">
-							<input type="reset" class="btn btn-outline-success" value="취소" onclick="javascript:location.href='${path}/community/myReviewView';">
-						</div>
-					</div>
-			</ul>
-		<%-- </c:forEach> --%>
+<section class="container">
+	<div class="row">
+		<div class="col-12 col-md-4">
+			<div class="menu_list info list-group">
+			   <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
+			   <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+			   <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+			   <a href="${path }/community/myReviewView.do?memberNum=${logined.memberNum}" class="list-group-item list-group-item-action">리뷰 관리</a>
+	        </div>
 		</div>
-	</form>
-</div>
+		<div id="review-container">
+			<form name="reviewFrm" action="${path}/community/reviewModifyEnd.do" method="post" onsubmit="return validate();"> 
+			<h3>내가 작성한 리뷰</h3>
+				<div style="overflow:scroll; height:500px;">
+					<ul id="review-list">
+						<div id="review-context">
+							<div class="review-content" id="writerNum">
+								운전자 : ${driverName }
+							</div>
+								 <span class="star-input">
+									<span class="input">
+										<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5" ><label for="p1">0.5</label>
+										<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
+										<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
+										<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
+										<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
+										<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
+										<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
+										<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
+										<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
+										<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
+									</span>
+								 </span>
+								<div id="review-content">
+									<textarea id="rContent" name="rContent"><c:out value="${review.RCONTENT}"/></textarea>
+									<br/>
+									<input type="hidden" id="memberNum" name="memberNum" value="${review.WRITERNUM }" />
+									<input type="hidden" id="carpoolNum" name="carpoolNum" value="${review.CARPOOLNUM}" />
+									<input type="submit" class="btn btn-outline-success" value="완료" onclick="location.href='${path}/community/myReviewView.do?memberNum=${logined.memberNum }&carpoolNum=${carpoolNum }';"style="margin-left: 440px;"> 
+									<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';">
+								</div>
+							</div>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
 <script>
 	/*  별점 */
 	var starRating = function(){
@@ -227,9 +249,21 @@
 	};
 	starRating();
 	
+	/* function validate()
+	{
+		var rating = $("[name=rGrade]").val();
+		if(rating.trim().val==0)
+		{
+			alert("별점을 입력하세요");
+			return false;
+		}
+		return true;
+		
+	} */
+	
 	function validate()
 	{
-		var content = $("[name=reviewContent]").val();
+		var content = $("[name=rContent]").val();
 		if(content.trim().length==0)
 		{
 			alert("내용을 입력하세요");

@@ -142,39 +142,40 @@ div#review-container textarea {
 	vertical-align: middle;
 }
 </style>
+
 <div id="review-container">
 	<form name="reviewFrm" action="${path}/community/reviewFormEnd.do" method="post" onsubmit="return validate();"> 
-	<h1>리뷰</h1>
-	<br/>
-	<input type="button" value="내가 작성한 리뷰" id='btn-reviewView' class='btn btn-outline-success' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}"'/>
-	<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-outline-success' onclick='location.href="${path}/community/reviewView.do?memberNum=${logined.memberNum}"'/>
-	<%-- <input type="text" class="form-control" name="writerNum" id="writerNum" value="${logined.memberId}" readonly required> --%>
-	<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>
-	<br/>
-	<span class="star-input">
-	<span class="input">
-		<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5"><label for="p1">0.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
-		<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
-		<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
-		<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
-		<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
-		<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
-	</span>
-	<output for="star-input"><b>0</b>점</output>
-	</span>
-	<br/>
-	<br/>
-	<input type="hidden" name="memberNum" value="${logined.memberNum}">
-	<input type="submit" class="btn btn-outline-success" value="등록" >
-	<input type="button" class="btn btn-outline-success" value="취소" onclick="javascript:location.href='${path}/';">
+		<h1>리뷰</h1>
+		<br/>
+		<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>
+		<br/>
+		<span class="star-input">
+			<span class="input">
+				<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5"><label for="p1">0.5</label>
+				<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
+				<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
+				<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
+				<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
+				<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
+				<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
+				<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
+				<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
+				<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
+			</span>
+		<output for="star-input"><b>0</b>점</output>
+		</span>
+		<br/>
+		<br/>
+		<input type="hidden" name="memberNum" value="${logined.memberNum}">
+		<input type="hidden" name="driverNum" id="driverNum" value="${review.driverNum }"/>
+		<input type="hidden" name="carpoolNum" id="carpoolNum" value="${review.carpoolNum }"/>
+		<input type="hidden" name="memberName" id="memberName" value="${review.memberName }"/>
+		<input type="submit" class="btn btn-outline-success" value="등록" >
+		<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/';">
 	</form>
 </div>
 <script>
-	/*  별점 */
+	/*별점 */
 	var starRating = function(){
 	var $star = $(".star-input"),
 	    $result = $star.find("output>b");
@@ -213,7 +214,7 @@ div#review-container textarea {
 	
 	function validate()
 	{
-		var content = $("[name=reviewContent]").val();
+		var content = $("[name=rContent]").val();
 		if(content.trim().length==0)
 		{
 			alert("내용을 입력하세요");

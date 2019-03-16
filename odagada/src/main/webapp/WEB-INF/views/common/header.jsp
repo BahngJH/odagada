@@ -79,9 +79,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="${path }/community/reviewForm.do">리뷰</a>
-                </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
@@ -109,6 +106,8 @@
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/memberList.do">회원 관리</a>
 	                    <a class="dropdown-item" href="${path}/driver/driverList">드라이버 관리</a>
 	                    <a class="dropdown-item" href="${path}/board/qnaList">Q&A</a>
+	                    <a class="dropdown-item" href="${path}/admin/notifyList.do">신고내역</a>
+	                    <a class="dropdown-item" href="${path}/admin/blackList.do">블랙리스트</a>
 	                  </div>
 	                </li>
                </c:if>
