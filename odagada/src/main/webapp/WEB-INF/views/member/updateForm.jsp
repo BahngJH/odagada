@@ -153,32 +153,6 @@
 
 	});
 
-	function validate() {
-		//핸드폰 유효성 검사 
-		var regExp = /([0-9]{7,8})$/;
-		var ck = /^\d{3}-\d{3,4}-\d{4}$/;
-
-		if (!regExp.test($("input[name=phone2]").val())) {
-			alert("정확한 휴대폰 번호를 입력해주세요.");
-			return false;
-		}
-		
-		//이메일 유효성 검사
-		var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		if(!ckMail.test($("input[name=email]").val())){
-			alert("정확한 이메일 형식을 입력해주세요.");	
-			return false;
-		}		
-		//비밀번호 체크 
-		var pw1 = $("#password1").val().trim();
-		var pw2 = $("#password2").val().trim();
-		if (pw1 != pw2) {
-			alert("정확한 비밀번호 입력하세요.");
-			return false;
-		}
-		return true;
-		
-	}
 
 	//프로필 사진을 이미지 타입 파일로만 받기
 	function fileCheck(obj) {
@@ -244,7 +218,21 @@
 	    		}	    		
     		} 
 			
+//핸드폰 번호 변경 버튼 클릭시
+function sendSms(){
+		//핸드폰 유효성 검사 
+		var regExp = /([0-9]{7,8})$/;
+		var ck = /^\d{3}-\d{3,4}-\d{4}$/;
+
+		if (!regExp.test($("input[name=phone2]").val())) {
+			alert("정확한 휴대폰 번호를 입력해주세요.");
+			return false;
+		}
 			
+		
+	
+	
+}
 			
 	
  	
@@ -367,7 +355,7 @@
        			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
 	   			     <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
 	   			    <div id="sentTxtDiv">
-	       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn">인증 번호 발송</button>
+	       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn" onclick="sendSms();">인증 번호 발송</button>
 	       			  <button type="reset" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
 	       			</div>   
        			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
