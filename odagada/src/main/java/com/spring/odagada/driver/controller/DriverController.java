@@ -302,5 +302,25 @@ public class DriverController {
     	mav.setViewName("common/msg");
     	return mav;
     }
+    //결제하기 ajax
+    @RequestMapping("/driver/updateDriverCredit")
+    public ModelAndView updateDriverCredit(int carpoolNum,int passengerNum, int driverNum, int paycode) {
+    	ModelAndView mav = new ModelAndView();
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("carpoolNum", carpoolNum);
+    	map.put("passengerNum", passengerNum);
+    	map.put("driverNum", driverNum);
+    	map.put("paycode", paycode);
+    	
+    	Map<String,String> rs = service.selectCreditCode(map);
+    	if(rs!=null) {
+    		
+    	}
+    	else {
+    		mav.addObject("N");
+    	}
+    	return mav;
+    	
+    }
    
 }

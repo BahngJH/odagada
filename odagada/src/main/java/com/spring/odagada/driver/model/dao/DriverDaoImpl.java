@@ -89,4 +89,10 @@ public class DriverDaoImpl implements DriverDao {
 	public int updatePasNo(Map<String,Integer> map) {
 		return session.update("driver.updatePasNo",map);
 	}
+
+	@Override
+	public Map<String, String> selectCreditCode(Map<String, Integer> map) {
+		return session.selectOne("driver.selectCreditCode",map);
+	}
+	
 }

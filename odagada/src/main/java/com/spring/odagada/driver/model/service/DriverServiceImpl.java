@@ -95,4 +95,10 @@ public class DriverServiceImpl implements DriverService {
 	public int updatePasNo(Map<String,Integer> map) {
 		return dao.updatePasNo(map);
 	}
+
+	@Override
+	public Map<String, String> selectCreditCode(Map<String, Integer> map) {
+		return dao.selectCreditCode(map);
+	}
+	
 }
