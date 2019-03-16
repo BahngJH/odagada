@@ -200,6 +200,11 @@ public class MemberController {
 	public String loginForm() {
 		return "member/loginForm";
 	}
+	//로그인 페이지
+		@RequestMapping("/member/loginForm2.do")
+		public String loginForm2() {
+			return "member/loginForm2";
+		}
 	
 	//로그인
    @RequestMapping("/member/login.do")

@@ -139,6 +139,24 @@
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
   	.name-div{padding-right:3px;}
+  	
+   input[type='radio'] {
+            display: none;
+    }
+    #checkGender label {
+        padding-top: 10px;
+        width: 100px; height: 40px;
+        border: 1px solid gray;
+        border-radius: 10px 10px 10px 10px;
+    }
+    #man:checked ~ label:nth-of-type(1) {
+        color: white;
+        background: black
+    }
+    #woman:checked ~ label:nth-of-type(2) {
+        color: white;
+        background: black
+    } 
     </style>
     
      
@@ -468,12 +486,18 @@ $(function(){
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              
-               <div class="row genderRow">         
+               <!--  <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">성별 : &nbsp; 
 	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
 	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
              	   </div>
-               </div>                 
+               </div>  -->
+                <div id="checkGender">
+	                <input type="radio" name="gender" value="M" id="man" checked>
+	                <input type="radio" name="gender" value="F" id="woman">
+	                <label for="man">남자</label>
+	                <label for="woman">여자</label>
+            	</div>                
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
