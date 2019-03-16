@@ -15,9 +15,47 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<Map<String, String>> notifyList() {
+	public int allBlackCount() {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("board.notifyList");
+		return sqlSession.selectOne("board.allBlackCount");
+	}
+
+	@Override
+	public int allNotifyCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.allNotifyCount");
+	}
+
+	@Override
+	public List<Map<String, String>> blackList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
+		return sqlSession.selectList("board.blackList",null,rb);
+	}
+
+	@Override
+	public int checkBlackList(String checkId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.checkBlackList", checkId);
+	}
+
+	@Override
+	public int insertBlack(Map<String, Object> bNotify) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("board.insertBlack", bNotify);
+	}
+
+	@Override
+	public int deleteNotify(Map<String, Object> dNotify) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board.deleteNotify",dNotify);
+	}
+
+	@Override
+	public List<Map<String, String>> notifyList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage); 
+		return sqlSession.selectList("board.notifyList",null,rb);
 	}
 
 	@Override

@@ -39,6 +39,63 @@ public class BoardController {
    @Autowired
    BoardService service;
    
+   @RequestMapping("/admin/blackList.do")
+   public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   {
+	   int allBlackCount = service.allBlackCount();
+	   int numPerPage=10;
+	   List<Map<String,String>> blackList = service.blackList(cPage,numPerPage);
+	   mv.addObject("pageBar", PageFactory.getPageBar(allBlackCount, cPage, numPerPage, "/odagada/admin/blackList.do"));
+	   mv.addObject("blackList", blackList);
+	   mv.setViewName("board/blackList");
+	   return mv;
+   }
+   
+   //블랙리스트 처리
+   @RequestMapping("/admin/insertBlack.do")
+   public ModelAndView insertBlack(String notifyId, String nonNotifyId, String nContent, String blackCount, ModelAndView mv) 
+   {
+	   logger.debug(notifyId+" "+nonNotifyId+" "+nContent+" "+blackCount);
+	   Map<String,Object> bNotify = new HashMap<String,Object>();
+	   bNotify.put("notifyId", notifyId);
+	   bNotify.put("nonNotifyId", nonNotifyId);
+	   bNotify.put("nContent", nContent);
+	   
+	   int result = service.checkBlackList(nonNotifyId);
+	   
+	   if(result==0) {
+		   int rs = service.deleteNotify(bNotify);
+		   bNotify.put("blackCount", Integer.parseInt(blackCount));
+		   int rs2 = service.insertBlack(bNotify);
+		   
+		   mv.setViewName("redirect:/admin/notifyList.do");
+		   return mv;
+	   }
+	   else {
+		   mv.addObject("msg","이미 블랙리스트에 있는 회원입니다.");
+		   mv.addObject("loc", "/admin/notifyList.do");
+		   mv.setViewName("common/msg");
+		   return mv;
+	   }
+	   
+	   
+   }
+   
+   //경미한 신고내역 삭제
+   @RequestMapping("/admin/deleteNotify.do")
+   public ModelAndView deleteNotify(String notifyId, String nonNotifyId, String nContent, ModelAndView mv) 
+   {
+	   logger.debug(notifyId+" "+nonNotifyId+" "+nContent);
+	   Map<String,Object> dNotify = new HashMap<String,Object>();
+	   dNotify.put("notifyId", notifyId);
+	   dNotify.put("nonNotifyId", nonNotifyId);
+	   dNotify.put("nContent", nContent);
+	   int rs = service.deleteNotify(dNotify);
+	   
+	   mv.setViewName("redirect:/admin/notifyList.do");
+	   return mv;
+   }
+   
    //회원 목록 불러옴
    @RequestMapping("/admin/memberList.do")
    public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv)
@@ -55,9 +112,12 @@ public class BoardController {
    }
    
    @RequestMapping("/admin/notifyList.do")
-   public ModelAndView notifyList(ModelAndView mv) 
+   public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
    {
-	   List<Map<String,String>> notifyList = service.notifyList();
+	   int numPerPage=10;
+	   int allNotifyCount = service.allNotifyCount();
+	   List<Map<String,String>> notifyList = service.notifyList(cPage,numPerPage);
+	   mv.addObject("pageBar", PageFactory.getPageBar(allNotifyCount, cPage, numPerPage, "/odagada/admin/notifyList.do"));
 	   mv.addObject("notifyList",notifyList);
 	   mv.setViewName("board/notifyList");
 	   return mv;   
