@@ -151,11 +151,13 @@
     }
     #man:checked ~ label:nth-of-type(1) {
         color: white;
-        background: black
+        background: green;
+        border-color: green;
     }
     #woman:checked ~ label:nth-of-type(2) {
         color: white;
-        background: black
+        background: green;
+        border-color: green;
     } 
     </style>
     

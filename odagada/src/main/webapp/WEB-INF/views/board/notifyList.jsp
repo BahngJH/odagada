@@ -45,10 +45,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel">몇일 블랙 시킬지 날짜를 입력하세요. </h5>
+        <h5 class="modal-title" id="myModalLabel">블랙할 기간을 입력하세요. </h5>
       </div>
       <div class="modal-body">
-        <input type="text" id="blackCount" placeholder="1일 일경우 => 1">
+        <input type="text" id="blackCount" placeholder="1일 일 경우 => 1">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
