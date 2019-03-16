@@ -589,6 +589,13 @@ public class MemberController {
 	   return mv;
    }
    
+ /*  //비밀번호 변경
+   @ResponseBody
+   @RequestMapping("/member/changePass")
+   public String changePassword(String password) {
+	   
+   }
+   */
    
 
 

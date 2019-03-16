@@ -81,7 +81,7 @@ tr::after {
 				      <td>		
 			       	 	<c:choose>
 			       	 		<c:when test="${logined.isPhoneAuth eq 'N'}">				      			
-				      			<a href="#" class="ck badge badge-danger" onclick="sendSms();"  data-toggle="modal" data-target="#sendPhone" data-whatever="@mdo">인증하기</a>
+				      			<a href="#" class="ck badge badge-danger" onclick="sendSms();"  data-toggle="modal" data-target="#sendPhone">인증하기</a>
 				      			<script>
 					      			function sendSms(){
 					      				console.log("문자인증");

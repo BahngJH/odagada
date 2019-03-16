@@ -437,7 +437,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
           <div class="row form-group">
        		<div class="ptext col-5">
        			<p class="badge badge-secondary">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
@@ -448,11 +447,34 @@
           </div>
           <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                         
           <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary">변경하기</button>
+        <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="changePass();">변경하기</a>
+  <!--       <script>
+        	function changePass(){
+        		var pass1=$("#password1").val();
+        		var pass2=$("#password2").val();
+        		if(pass1==pass2){
+        			$.ajax({
+        				url:"${path}/member/changePass",
+        				data:{"password":"password"},
+        				success:function(){
+        					if(){
+        						alert("비밀번호 변경 성공");
+        					
+        				}else{
+        					alert("비밀번호 변경 실패");
+        				}
+        				
+        			})
+        			
+        		}else{
+        			alert("비밀번호가 일치하지 않습니다.");
+        		 	return false; 
+        		}
+        	}
+        </script> -->
       </div>
     </div>
   </div>
