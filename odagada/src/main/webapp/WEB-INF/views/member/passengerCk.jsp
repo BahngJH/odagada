@@ -86,11 +86,24 @@ button.credit-btn:hover{
 }
 img.profile-img{
 border-radius: 30px;
-width:70px;
-height:70px;
+width:100px;
+height:100px;
 }
-div.img-div{
-margin-left:3%;
+div.nSub-div{
+margin:7%;
+}
+div.pSub-div{
+margin-left:10px;
+}
+div.check-div{
+margin-bottom:10px;
+}
+div.nAll-div{
+     overflow-x: scroll;
+     white-space:nowrap;
+}
+div.nsAll-div{
+
 }
 </style>
 <section class="container">
@@ -167,20 +180,45 @@ margin-left:3%;
                   <div class="card-header">
                      <h3>탑승 신청한 승객</h3>
                   </div>
+                  <!-- 여기서부터 복사 -->
                   <div class="card-body">
-                     <div class="row">
+                     <div class="row nAll-div">
+                     	<!-- <div class="col-12"> -->
                         <c:if test="${dList != null }">
                            <c:forEach items="${dList}" var="d" varStatus="count">
                               <c:choose>
                                  <c:when test='${d.STATUS eq "N"}'>
-                                    <div class="col-12 col-md-4">
-                                       <div class="card text-center">
+                                    <div class="col-12 col-md-4 ">
+                                       <div class="card nsAll-div">
                                           <div class="row">
-                                             <div class="col-12">
-                                                <div class="img-div">
+                                             <div class="col-12 text-center">
+                                                <div class="nSub-div">
                                                    <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
-                                                   <p>${d.MEMBERNAME }</p>
                                                 </div>
+                                                <hr/>
+                                             </div>
+                                             <div class="col-12 pSub-div">
+                                             	<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+                                           		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+                                             	<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+                                             	<p><b>성별:&nbsp;</b>
+	                                             	<c:choose>
+		                                             	<c:when test='${d.GENDER == "M"}'>
+		                                             		남
+		                                           		</c:when>
+		                                           		<c:otherwise>
+		                                           			여
+		                                           		</c:otherwise>
+	                                           		</c:choose>
+                                           		</p>
+                                             	<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+                                             	<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+                                             </div>
+                                             <div class="col-12 text-center check-div">
+                                             	<span>
+                                             		<button class="btn btn-success" onclick="">승락</button>
+                                             		<button class="btn btn-warning">거절</button>
+                                           		</span>
                                              </div>
                                           </div>
                                        </div>
@@ -194,6 +232,7 @@ margin-left:3%;
                               </c:choose>
                            </c:forEach>
                         </c:if>
+                        <!-- </div> -->
                      </div>
                   </div>
                </div>
