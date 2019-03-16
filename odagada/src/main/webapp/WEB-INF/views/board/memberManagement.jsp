@@ -18,13 +18,13 @@
 	<div>
 		<h2>회원관리</h2>
 		<div id="searchMember">
-			<form method='get' action='${path }/admin/searchMember.do'>
-			<select name="searchType">
-				<option value="" disabled selected>검색타입</option>
+			<form method='get' action='${path }/admin/searchMember.do' onsubmit="return checkSearch();">
+			<select name="searchType" id='select'>
+				<option value="none" disabled selected>검색타입</option>
 				<option value="memberid" <c:if test="${searchType eq 'memberid'}">selected</c:if>>아이디</option>
 				<option value="membername"<c:if test="${searchType eq 'membername'}">selected</c:if>>이름</option>
 			</select>
-			<input type="text" name="keyword" value="${keyword!=null?keyword:''}"/>
+			<input type="text" id="keyword" name="keyword" value="${keyword!=null?keyword:''}"/>
 			<input type="submit" value="검색">
 			</form>
 		</div>
@@ -55,6 +55,19 @@
 	</table>
 	${pageBar }
 </section>
+<script>
+	function checkSearch()
+	{
+		if($('#select').val()==null){
+			alert("옵션을 선택하세요");
+			return false;
+		}
+		if($('#keyword').val().length==0){
+			alert("검색할 키워드를 입력하세요");
+			return false;
+		}	
+	}
+</script>
 
 ​
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>​

@@ -14,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.board.model.service.BoardService;
 import com.spring.odagada.common.PageFactory;
+import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -43,7 +45,7 @@ public class BoardController {
    {
 	   int allMemberCount = service.selectAllMemberCount();
 	   int numPerPage = 10;
-	   
+	   logger.debug(""+cPage);
 	   List<Map<String,String>> memberList = service.memberList(cPage,numPerPage);
 	   logger.debug("전체회원 정보"+memberList);
 	   mv.addObject("pageBar", PageFactory.getPageBar(allMemberCount, cPage, numPerPage,"/odagada/admin/memberList.do"));
@@ -52,9 +54,22 @@ public class BoardController {
 	   return mv;
    }
    
+   @RequestMapping("/admin/notifyList.do")
+   public ModelAndView notifyList(ModelAndView mv) 
+   {
+	   List<Map<String,String>> notifyList = service.notifyList();
+	   mv.addObject("notifyList",notifyList);
+	   mv.setViewName("board/notifyList");
+	   return mv;   
+   }
+   
    @RequestMapping("/admin/searchMember.do")
    public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
    {
+	   logger.debug(keyword+"");
+	   logger.debug(""+searchType);
+	   logger.debug(""+cPage);
+	   
 	   Map<String,String> searchData = new HashMap<String,String>();
 	   searchData.put("searchType", searchType);
 	   searchData.put("keyword", keyword);
@@ -62,7 +77,7 @@ public class BoardController {
 	   int searchListAll = service.searchListAll(searchData);
 	   int numPerPage = 10;
 	   List<Map<String,String>> searchList = service.searchList(searchData,cPage,numPerPage);
-	   mv.addObject("pageBar", PageFactory.getPageBar(searchListAll, cPage, numPerPage,"/odagada/admin/memberList.do"));
+	   mv.addObject("pageBar", PageFactory.getPageBar(searchListAll, cPage, numPerPage,"/odagada/admin/searchMember.do",searchType,keyword));
 	   mv.addObject("memberList", searchList);
 	   mv.addObject("searchType", searchType);
 	   mv.addObject("keyword", keyword);
@@ -288,6 +303,40 @@ public class BoardController {
       
       return "redirect:/board/boardList";
    }
+   
+   @RequestMapping("/board/qnaList")
+   public ModelAndView qnaList(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage)
+   {
+	   ModelAndView mv = new ModelAndView();
+	   int numPerPage = 5;
+	   int contentCount = service.selectQnaCount();
+	   
+	   List<Map<String,String>> list = service.selectQnaList(cPage,numPerPage);
+
+	   mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaList"));
+	   mv.addObject("list",list);
+	   mv.setViewName("board/qnaList");
+	   
+	   return mv;
+   }
+   
+   @RequestMapping("/board/qnaView.do")
+   public ModelAndView qnaView(int qnaNum,@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,HttpServletRequest request,HttpServletResponse response)
+   {
+	   ModelAndView mv = new ModelAndView();
+	   int numPerPage = 10;
+	  /* int contentCount = service.select*/
+  
+	   Map<String,String> map = service.selectQnaOne(qnaNum);
+	 /*  List<Map<String,String>> com = service.selectComOne(qnaNum);*/
+ 	   mv.addObject("qna",map);
+	   mv.setViewName("board/qnaView");
+	   
+	   return mv;
+
+	   
+   }
+   
    
 
 }

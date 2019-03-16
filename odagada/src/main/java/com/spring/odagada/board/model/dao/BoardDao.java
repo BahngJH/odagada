@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 public interface BoardDao {
+	List<Map<String,String>> notifyList();
 	int searchListAll(Map<String, String> searchData);
 	List<Map<String,String>>searchList(Map<String,String> searchData,int cPage,int numPerPage);
 	int selectAllMemberCount();
@@ -20,5 +21,9 @@ public interface BoardDao {
 	int insertBoard(Map<String,String> board);
 	int updateBoard(Map<String,Object> board);
 	int deleteBoard(int boardNo);
+	
+	int selectQnaCount();
+	List<Map<String,String>> selectQnaList(int cPage,int numPerPage);
+	Map<String,String> selectQnaOne(int qnaNum);
 
 }

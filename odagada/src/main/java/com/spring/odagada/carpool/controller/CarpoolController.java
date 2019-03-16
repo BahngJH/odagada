@@ -3,7 +3,6 @@ package com.spring.odagada.carpool.controller;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.carpool.model.vo.CarOption;
 import com.spring.odagada.carpool.model.vo.Carpool;
@@ -52,7 +57,9 @@ public class CarpoolController {
 			
 			if(d == null) {
 				l.debug("드라이버 등록 필요");
-				mav.setViewName("/");
+				mav.setViewName("/common/msg");
+				mav.addObject("msg", "드라이버만 등록 가능합니다. 드라이버 등록해주세요.");
+				mav.addObject("loc", "/driver/driverEnroll");
 				return mav;
 			}else {
 				mav.setViewName("/carpool/register");
@@ -137,19 +144,7 @@ public class CarpoolController {
 		m.put("destLong",endLon);
 		m.put("destLat",endLat);
 		m.put("kmNum", kmNum);
-		
-		//지나간 날짜 비교해야함 
-/*		l.debug("날짜 확인이요: "+ startDate.trim());
-		
-		String[] mm=startDate.split("\\.");
-		for(int i=0;i<mm.length;i++) {
-			l.debug("split: "+ mm[i]);
-		}
-		
-		String day=mm[0]+mm[1]+mm[2];
-		l.debug("day: "+day);
-		m.put("day", "day");*/
-		
+
 		List<Map<String,String>> carlist = service.selectCarpoolList(m);
 		
 		mav.addObject("cList",carlist);
@@ -211,6 +206,7 @@ public class CarpoolController {
 			String startLong,
 			String startLat,
 			String destLat,
+			String startDate,
 			String destLong) throws ServletException, IOException 
 	{
 		l.debug(option.toString());
@@ -289,6 +285,7 @@ public class CarpoolController {
 		map.put("startLong", startLong);
 		map.put("destLat", destLat);
 		map.put("destLong", destLong);
+		map.put("startDate", startDate);
 		
 		l.debug(map.toString());
 		
@@ -301,7 +298,7 @@ public class CarpoolController {
 	
 	@ResponseBody
 	@RequestMapping("/carpool/paymentEnd")
-	public String paymentEnd(int carpoolNum, int memberNum) {
+	public String paymentEnd(int carpoolNum, int memberNum, String impUid) {
 		l.debug("카풀 넘: " + carpoolNum + " 멤버 넘 : "+ memberNum);
 		
 		Calendar cal = Calendar.getInstance();
@@ -313,15 +310,69 @@ public class CarpoolController {
 		
 		l.debug("랜덤 넘버:" + rand);
 		
-		Map<String, Integer> pass = new HashMap<>();
+		Map<String, Object> pass = new HashMap<>();
 		pass.put("carpoolNum", carpoolNum);
 		pass.put("memberNum", memberNum);
 		pass.put("payCode", rand);
+		pass.put("impUid", impUid);
 		
 		int result = service.insertPassenger(pass);
 		
 		if(result > 0) {
 			return "ok";
+		}else {
+			return "no";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/carpool/paymentCancel")
+	public String paymentCancel(HttpSession session, int carpoolNum) {
+		
+		Member m = (Member)session.getAttribute("logined");
+		int memberNum = m.getMemberNum();
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("memberNum", memberNum);
+		map.put("carpoolNum", carpoolNum);
+		
+		String impUid = service.getImpUid(map);
+		
+		if(impUid != null) {
+			final String APIKey = "8371442165887262";
+			final String APISecret = "3BcZ8LhZ715zulG8TuZGMBYDoUyGBWBEyNEHzVGGWMgq8Wz1rzIdaHRyBpfcmQRVEvCerjVo6bPe8ogz";
+			
+			IamportClient client = new IamportClient(APIKey, APISecret);
+			String accessToken = null;
+			try {
+				IamportResponse<AccessToken> authResponse = client.getAuth();
+				
+				accessToken = authResponse.getResponse().getToken();
+			}catch (IamportResponseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			CancelData cancelData = new CancelData(impUid, true);
+			
+			try {
+				IamportResponse<Payment> paymentResponse = client.cancelPaymentByImpUid(cancelData);
+				if(paymentResponse == null) {
+					return "no";
+				}else {
+					int result = service.updateCPayStatus(map);
+					
+					return "ok";
+				}
+			}catch (IamportResponseException e) {
+				e.printStackTrace();
+				return "no";
+			}catch (IOException e) {
+				e.printStackTrace();
+				return "no";
+			}
+			
 		}else {
 			return "no";
 		}

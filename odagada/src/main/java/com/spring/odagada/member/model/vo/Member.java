@@ -24,7 +24,7 @@ public class Member implements Serializable {
 	private String isPhoneAuth;
 	private String isEmailAuth;
 	private String mailCode;
-
+	private String phoneCode;
 
 	public Member() {
 		super();
@@ -32,7 +32,7 @@ public class Member implements Serializable {
 
 	public Member(int memberNum, String memberId, String memberPw, String memberName, String birth, String phone,
 			String email, String enrollDate, int isAdmin, String gender, String profileImageOri, String profileImageRe,
-			String isPhoneAuth, String isEmailAuth, String mailCode) {
+			String isPhoneAuth, String isEmailAuth, String mailCode, String phoneCode) {
 		super();
 		this.memberNum = memberNum;
 		this.memberId = memberId;
@@ -49,6 +49,7 @@ public class Member implements Serializable {
 		this.isPhoneAuth = isPhoneAuth;
 		this.isEmailAuth = isEmailAuth;
 		this.mailCode = mailCode;
+		this.phoneCode = phoneCode;
 	}
 
 	public int getMemberNum() {
@@ -206,6 +207,13 @@ public class Member implements Serializable {
 	}
 
 
+	public String getPhoneCode() {
+		return phoneCode;
+	}
+
+	public void setPhoneCode(String phoneCode) {
+		this.phoneCode = phoneCode;
+	}
 
 	@Override
 	public String toString() {
@@ -213,16 +221,7 @@ public class Member implements Serializable {
 				+ memberName + ", birth=" + birth + ", phone=" + phone + ", email=" + email + ", enrollDate="
 				+ enrollDate + ", isAdmin=" + isAdmin + ", gender=" + gender + ", profileImageOri=" + profileImageOri
 				+ ", profileImageRe=" + profileImageRe + ", isPhoneAuth=" + isPhoneAuth + ", isEmailAuth=" + isEmailAuth
-				+ ", mailCode=" + mailCode + "]";
+				+ ", mailCode=" + mailCode + ", phoneCode=" + phoneCode + "]";
 	}
-
-	
-
-
-	
-
-	
-
-	
 
 }

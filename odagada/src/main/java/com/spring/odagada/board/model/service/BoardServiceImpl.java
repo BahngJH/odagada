@@ -15,6 +15,12 @@ public class BoardServiceImpl implements BoardService {
 	BoardDao dao;
 
 	@Override
+	public List<Map<String, String>> notifyList() {
+		// TODO Auto-generated method stub
+		return dao.notifyList();
+	}
+
+	@Override
 	public int searchListAll(Map<String, String> searchData) {
 		// TODO Auto-generated method stub
 		return dao.searchListAll(searchData);
@@ -72,6 +78,25 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteBoard(int boardNo) {
 		return dao.deleteBoard(boardNo);
 	}
+
+	@Override
+	public int selectQnaCount() {
+		return dao.selectQnaCount();
+	}
+
+	@Override
+	public List<Map<String, String>> selectQnaList(int cPage, int numPerPage) {
+		return dao.selectQnaList(cPage,numPerPage);
+	}
+
+	@Override
+	public Map<String, String> selectQnaOne(int qnaNum) {
+		return dao.selectQnaOne(qnaNum);
+	}
+	
+	
+	
+	
 	
 	
 	

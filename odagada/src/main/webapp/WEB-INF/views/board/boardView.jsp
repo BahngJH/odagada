@@ -32,6 +32,7 @@ hr {
 </style>
 
 <section id="board-container" class="container">
+	<div class="col-md-6 offset-md-3">
 	<table class="table" class="table table-hover">
 	  <thead>
 		  <th colspan="4" id="title">공지사항</th>
@@ -71,6 +72,7 @@ hr {
 	    </tr>    
 	  </tbody>
 	</table>
+	</div>
 </section>
 <script>
 	function fileDownload(oName,rName)

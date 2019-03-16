@@ -15,6 +15,12 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public List<Map<String, String>> notifyList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.notifyList");
+	}
+
+	@Override
 	public int searchListAll(Map<String, String> searchData) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("board.searchListAll", searchData);
@@ -77,6 +83,26 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteBoard(int boardNo) {
 		return sqlSession.delete("board.deleteBoard",boardNo);
 	}
+
+	@Override
+	public int selectQnaCount() {
+		return sqlSession.selectOne("board.selectQnaCount");
+	}
+
+	@Override
+	public List<Map<String, String>> selectQnaList(int cPage, int numPerPage) {
+		
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		
+		return sqlSession.selectList("board.selectQnaList",null,rb);
+	}
+
+	@Override
+	public Map<String, String> selectQnaOne(int qnaNum) {
+		return sqlSession.selectOne("board.selectQnaOne",qnaNum);
+	}
+	
+	
 	
 	
 	
