@@ -85,4 +85,8 @@
 	<update id="updateYPhoneStatus" parameterType="_int">
 		UPDATE MEMBER SET ISPHONEAUTH = 'Y' WHERE MEMBERNUM=#{memberNum}
 	</update>
+	<!--비밀번호 변경  -->
+	<update id="updatePassword" parameterType="member">
+	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+	</update>
 </mapper>

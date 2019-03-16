@@ -125,4 +125,9 @@ public class MemberDaoImpl implements MemberDao {
 	public int checkPhone(String phone) {
 		return session.selectOne("member.checkPhone", phone);
 	}
+	//비밀번호 변경
+	@Override
+	public int updatePassword(Member m) {
+		return session.update("member.updatePassword", m);
+	}
 }

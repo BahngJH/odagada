@@ -171,4 +171,9 @@ public class MemberServiceImple implements MemberService {
 	public int checkPhone(String phone) {
 		return dao.checkPhone(phone);
 	}
+
+	@Override
+	public int updatePassword(Member m) {
+		return dao.updatePassword(m);
+	}
 }

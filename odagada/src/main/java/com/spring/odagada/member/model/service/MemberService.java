@@ -13,19 +13,15 @@ public interface MemberService {
 	int checkId(String memberId);
 	int updateMember(Member m);	
 	int updateStatus(Map<String, String>map);
-	int deleteMember(int memberNum);
-	
-	 //아이디 찾기
-	 Map<String, String> findId(Map findId);
+	int deleteMember(int memberNum);	
+    Map<String, String> findId(Map findId);  //아이디 찾기
 	int updatePhoneCode(Member m);
 	String getPhoneCode(int memberNum);
-	int updateYPhoneStatus(int memberNum);
-	 //패스워드 찾기
-	 Map<String,String>findPw(Map info);
-	 //임시 비밀번호 발급
-	 void sendPw(Map info)throws Exception;
-	 //메일 인증
-	 void mailAuth(Member m)throws Exception;
-	 //핸드폰 중복확인
-	 int checkPhone(String phone);
+	int updateYPhoneStatus(int memberNum); 
+	Map<String,String>findPw(Map info); //패스워드 찾기 
+	void sendPw(Map info)throws Exception;//임시 비밀번호 발급	 
+	void mailAuth(Member m)throws Exception;//메일 인증	
+	int checkPhone(String phone); //핸드폰 중복확인
+	int updatePassword(Member m);//비밀번호 변경
+	 
 }

@@ -451,30 +451,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
         <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="changePass();">변경하기</a>
-  <!--       <script>
+         <script>
         	function changePass(){
         		var pass1=$("#password1").val();
         		var pass2=$("#password2").val();
         		if(pass1==pass2){
-        			$.ajax({
+        			console.log("ajax실행할 차례");
+        		 	$.ajax({
         				url:"${path}/member/changePass",
-        				data:{"password":"password"},
-        				success:function(){
-        					if(){
-        						alert("비밀번호 변경 성공");
-        					
-        				}else{
-        					alert("비밀번호 변경 실패");
-        				}
-        				
-        			})
-        			
+        				data:{"password":pass1},
+        				success:function(result){
+        					console.log(result);       				
+        					if(result=="update"){
+        						alert("비밀번호 변경 성공");       					
+	        				}else{
+	        					alert("비밀번호 변경 실패");
+	        				}	
+       					}
+        			});        			
         		}else{
         			alert("비밀번호가 일치하지 않습니다.");
         		 	return false; 
         		}
         	}
-        </script> -->
+        </script> 
       </div>
     </div>
   </div>

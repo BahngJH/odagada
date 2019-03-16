@@ -589,14 +589,19 @@ public class MemberController {
 	   return mv;
    }
    
- /*  //비밀번호 변경
+   //비밀번호 변경
    @ResponseBody
    @RequestMapping("/member/changePass")
-   public String changePassword(String password) {
-	   
+   public String changePassword(String password, HttpSession session) {
+	   String pw=pwEncoder.encode(password);
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setMemberPw(pw);	      
+	   int result=service.updatePassword(m);
+	   if(result>0){
+		 return "update";  
+	   }else {
+		   return "fail";
+	   }
    }
-   */
    
-
-
 }
