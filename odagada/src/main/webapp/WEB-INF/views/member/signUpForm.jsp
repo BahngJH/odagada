@@ -465,7 +465,7 @@ $(function(){
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
-               		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
+               		<button type="button" class="eck btn btn-success" onclick="checkEmail();">중복확인</button>
                </div>
           </div>
           <div class="row row-email">
@@ -484,7 +484,7 @@ $(function(){
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
              <div class="col-2 phone-btn">
-             	<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">	
+             	<button type="button" class="eck btn btn-success" onclick="checkPhone();">중복확인</button>
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              

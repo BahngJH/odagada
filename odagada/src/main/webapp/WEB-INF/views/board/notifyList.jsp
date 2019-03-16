@@ -83,6 +83,10 @@
 	function insertBlack()
 	{
 		var blackCount = $('#blackCount').val();
+		if(blackCount).trim().val("")){
+			//모달창에 alert이 안떠서 그냥 return false로만 해둠
+			return false;
+		}
 		location.href='${path}/admin/insertBlack.do?notifyId='+NOTIFYID+'&nonNotifyId='+NONNOTIFYID+'&nContent='+NCONTENT+'&blackCount='+blackCount;
 	}
 </script>
