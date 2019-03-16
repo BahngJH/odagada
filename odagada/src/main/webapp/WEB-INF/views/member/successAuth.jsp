@@ -13,11 +13,11 @@
 
 	<script type="text/javascript">
 
-		alert('회원가입을 축하합니다. 이제 로그인이 가능 합니다.');
+		alert('${msg}');
 
 		window.open('', '_self', ''); // 브라우저창 닫기
 		/* window.close(); // 브라우저 창 닫기 */
-		self.location = '${path}/member/loginForm.do';
+		self.location = '${path}/';
 		</script>
 
 

@@ -31,4 +31,16 @@
 	<delete id="deleteDriver">
 		DELETE FROM DRIVER WHERE MEMBERNUM=#{memberNum}
 	</delete>
+	<!-- //드라이버가 등록한 카풀리스트  -->
+	<resultMap type="map" id="driver_"></resultMap>
+	<select id="selectDriverCarpool" parameterType="_int" resultMap="driver_">
+		select * from carpool where membernum=#{memberNum} order by startdate desc
+	</select>
+	<select id="selectDriverPas" parameterType="map" resultMap="driver_">
+		select carpoolnum, c.membernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,p.membernum, paycode, paystatus, impuid ,m.* 
+		from  carpool c 
+		join passenger p using(carpoolnum) 
+		join member m on(m.membernum=p.membernum) 
+		where  carpoolnum=#{carpoolNum} and c.membernum=#{driverNum}
+	</select>
 </mapper>

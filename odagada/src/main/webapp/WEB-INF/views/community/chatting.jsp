@@ -563,6 +563,7 @@
     	console.log($(e).children('#selectListOneId').val());
     	var clickedUser =$(e).children('#selectListOneId').val();
     	var allMsg="";
+    	$('#insertContent').html(allMsg);
     	$.ajax({
     		url:"${path}/community/clickedUser",
     		data:{"clickedUser":clickedUser},

@@ -174,7 +174,7 @@ public class DriverController {
 	      mv.addObject("list",list);
 	      mv.setViewName("driver/driverJoinList");	      
 		      
-		      return mv;	      
+	      return mv;	      
 	   }
 	 
 	 @RequestMapping("/driver/driverForm")
@@ -235,5 +235,30 @@ public class DriverController {
 		return "redirect: driverList";
 	}
 	
+    //드라이버 자신이 등록한 카풀 리스트 보기- 정하
+    @RequestMapping("/driver/driverCarpool")
+    public ModelAndView selectDriverCarpool(HttpSession session) {
+    	ModelAndView mav = new ModelAndView();
+    	Member m = (Member) session.getAttribute("logined");
+    	List<Map<String,String>> dcarList = service.selectDriverCarPool(m.getMemberNum());
+    	mav.addObject("dcarList",dcarList);
+    	mav.setViewName("member/driverCarpool");
+     	return mav;
+    }
+    
+    //드라이버가 동승중인 이용객 보기
+    @RequestMapping("/driver/selectDriverPas")
+    public ModelAndView selectDriverPas(String driverNum,String carpoolNum){
+    	ModelAndView mav = new ModelAndView();
+    	Map<String,String> m = new HashMap();
+    	m.put("driverNum", driverNum);
+    	m.put("carpoolNum", carpoolNum);
+    	List<Map<String,String>> dList =service.selectDriverPas(m);
+    	logger.debug(""+dList);
+    	mav.addObject("dList",dList);
+    	mav.setViewName("member/passengerCk");
+    	return mav; 
+    }
+
 	
 }

@@ -21,13 +21,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.odagada.board.model.dao.BoardDao;
 import com.spring.odagada.board.model.service.BoardService;
 import com.spring.odagada.common.PageFactory;
 import com.spring.odagada.driver.model.service.DriverService;
@@ -42,8 +43,128 @@ public class BoardController {
    @Autowired
    BoardService service;
    
-	@Autowired
-	DriverService dService;
+   @Autowired
+   DriverService dService;
+   
+   @Autowired
+   BoardDao dao;
+   
+   //하루에 0시와 12시, 6시에 실행해 블랙날짜 지난 사람 제거 
+   @Scheduled(cron="0 0 0,12,18 * * *")
+   public void blackListDelete()
+   {
+	   int rs = dao.blackListDelete();
+	   logger.debug(rs+"개의 블랙리스트 회원이 제거됨");
+   }
+   
+   //블랙리스트 불러옴
+   @RequestMapping("/admin/blackList.do")
+   public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   {
+	   int allBlackCount = service.allBlackCount();
+	   int numPerPage=10;
+	   List<Map<String,String>> blackList = service.blackList(cPage,numPerPage);
+	   mv.addObject("pageBar", PageFactory.getPageBar(allBlackCount, cPage, numPerPage, "/odagada/admin/blackList.do"));
+	   mv.addObject("blackList", blackList);
+	   mv.setViewName("board/blackList");
+	   return mv;
+   }
+   
+   //블랙리스트 처리
+   @RequestMapping("/admin/insertBlack.do")
+   public ModelAndView insertBlack(String notifyId, String nonNotifyId, String nContent, String blackCount, ModelAndView mv) 
+   {
+	   logger.debug(notifyId+" "+nonNotifyId+" "+nContent+" "+blackCount);
+	   Map<String,Object> bNotify = new HashMap<String,Object>();
+	   bNotify.put("notifyId", notifyId);
+	   bNotify.put("nonNotifyId", nonNotifyId);
+	   bNotify.put("nContent", nContent);
+	   
+	   int result = service.checkBlackList(nonNotifyId);
+	   
+	   if(result==0) {
+		   int rs = service.deleteNotify(bNotify);
+		   bNotify.put("blackCount", Integer.parseInt(blackCount));
+		   int rs2 = service.insertBlack(bNotify);
+		   
+		   mv.setViewName("redirect:/admin/notifyList.do");
+		   return mv;
+	   }
+	   else {
+		   mv.addObject("msg","이미 블랙리스트에 있는 회원입니다.");
+		   mv.addObject("loc", "/admin/notifyList.do");
+		   mv.setViewName("common/msg");
+		   return mv;
+	   }
+	   
+	   
+   }
+   
+   //경미한 신고내역 삭제
+   @RequestMapping("/admin/deleteNotify.do")
+   public ModelAndView deleteNotify(String notifyId, String nonNotifyId, String nContent, ModelAndView mv) 
+   {
+	   logger.debug(notifyId+" "+nonNotifyId+" "+nContent);
+	   Map<String,Object> dNotify = new HashMap<String,Object>();
+	   dNotify.put("notifyId", notifyId);
+	   dNotify.put("nonNotifyId", nonNotifyId);
+	   dNotify.put("nContent", nContent);
+	   int rs = service.deleteNotify(dNotify);
+	   
+	   mv.setViewName("redirect:/admin/notifyList.do");
+	   return mv;
+   }
+   
+   //회원 목록 불러옴
+   @RequestMapping("/admin/memberList.do")
+   public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv)
+   {
+	   int allMemberCount = service.selectAllMemberCount();
+	   int numPerPage = 10;
+	   logger.debug(""+cPage);
+	   List<Map<String,String>> memberList = service.memberList(cPage,numPerPage);
+	   logger.debug("전체회원 정보"+memberList);
+	   mv.addObject("pageBar", PageFactory.getPageBar(allMemberCount, cPage, numPerPage,"/odagada/admin/memberList.do"));
+	   mv.addObject("memberList", memberList);
+	   mv.setViewName("board/memberManagement");
+	   return mv;
+   }
+   
+   //신고내역가져옴
+   @RequestMapping("/admin/notifyList.do")
+   public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   {
+	   int numPerPage=10;
+	   int allNotifyCount = service.allNotifyCount();
+	   List<Map<String,String>> notifyList = service.notifyList(cPage,numPerPage);
+	   mv.addObject("pageBar", PageFactory.getPageBar(allNotifyCount, cPage, numPerPage, "/odagada/admin/notifyList.do"));
+	   mv.addObject("notifyList",notifyList);
+	   mv.setViewName("board/notifyList");
+	   return mv;   
+   }
+   
+   //회원관리에서 아이디나 이름 상세검색
+   @RequestMapping("/admin/searchMember.do")
+   public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
+   {
+	   logger.debug(keyword+"");
+	   logger.debug(""+searchType);
+	   logger.debug(""+cPage);
+	   
+	   Map<String,String> searchData = new HashMap<String,String>();
+	   searchData.put("searchType", searchType);
+	   searchData.put("keyword", keyword);
+	   
+	   int searchListAll = service.searchListAll(searchData);
+	   int numPerPage = 10;
+	   List<Map<String,String>> searchList = service.searchList(searchData,cPage,numPerPage);
+	   mv.addObject("pageBar", PageFactory.getPageBar(searchListAll, cPage, numPerPage,"/odagada/admin/searchMember.do",searchType,keyword));
+	   mv.addObject("memberList", searchList);
+	   mv.addObject("searchType", searchType);
+	   mv.addObject("keyword", keyword);
+	   mv.setViewName("board/memberManagement");
+	   return mv;
+   }
    
    @RequestMapping("/board/boardList")
    public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)

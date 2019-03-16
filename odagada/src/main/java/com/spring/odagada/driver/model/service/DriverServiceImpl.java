@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.dao.DriverDao;
-import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.driver.model.vo.Driver;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -77,7 +77,16 @@ public class DriverServiceImpl implements DriverService {
 	
 	
 	
-	
+	//드라이버 카풀 등록 리스트
+	@Override
+	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
+		return dao.selectDriverCarPool(memberNum);
+	}
+
+	@Override
+	public List<Map<String, String>> selectDriverPas(Map<String, String> m) {
+		return dao.selectDriverPas(m);
+	}
 	
 	
 	

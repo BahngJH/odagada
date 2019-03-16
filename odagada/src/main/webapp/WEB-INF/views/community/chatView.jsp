@@ -22,7 +22,7 @@
 
 <div id="message"></div>
 
-<button onclick="moveChatting('zlglml2')">채팅방 생성하기</button>
+<button onclick="moveChatting('driverTest1')">채팅방 생성하기</button>
 
 
 

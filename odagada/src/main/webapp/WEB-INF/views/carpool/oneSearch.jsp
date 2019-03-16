@@ -4,11 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <%
 	int seat = (int)request.getAttribute("seat");
 	List pList = (List)request.getAttribute("pList"); 
@@ -27,7 +27,7 @@
 	img.option-icon{
 		width:50px;height:50px;
 		float:left;
-		margin:7px;
+		margin:14px;
 	}
 	button.btn-chat{
 		font-size: 13px;
@@ -45,7 +45,7 @@
 		border:1px solid rgb(230,230,230);
 		height:auto;
 		position:relative;
-		float:left;
+		float:left; 
 		border-style: dashed;
 		margin-top:10px;
 	}
@@ -71,21 +71,28 @@
 	div.seat-div{
 		margin-top:12px;
 	}
+	p.dhead-p{
+		margin-top:10px;
+	}
 	img.car-img{
-		width:100px; height:100px;
+		/* width:165px; height:165px; */
 		border:1px;
+		border-radius:3px;
+		/* margin-left:22px;
+		margin-bottom: 10px; */
+		padding:10px;
 	}
 	span.car-span{
 		margin-left:10px;
 	}
 	img.re-img{
-		margin-top:20px;
-		margin-left:4px;
-		width:70px;height:70px;
+		margin:10px;
+		max-width:100%;height:70px;
 		border-radius: 30px;
 	}
 	div.re-div{
 		margin-top:12px;
+		position:relative;
 	}
 	img.pas-img{
 		width:70px; height:70px;
@@ -104,6 +111,9 @@
 		margin-top:20px;
 		margin-left:25px;
 	}
+/* 	.re-size{
+		overflow:scroll;
+	} */
 	/* 별점 css 테스트 */
 	.star-rating { width:150px; }
 	.star-rating,.star-rating span { display:inline-block; height:21px; overflow:hidden; background:url(${pageContext.request.contextPath}/resources/images/option-icon/star.png)no-repeat; }
@@ -127,7 +137,6 @@
 	    border-style: solid;
 	    text-align:left;
 	}
-	
 </style>
 <section id="container">
 	<div class="row">
@@ -181,7 +190,7 @@
 					  			</div>
 					  			<div class="col-6">
 						  			<span class="badge badge-pill badge-warning">출발 예정 시간</span>
-						  			<span> |&nbsp;${fn:substring(o.STARTDATE,11,19)}</span>
+						  			<span> |&nbsp;${fn:substring(o.STARTDATE,11,20)}</span>
 						  		</div>
 					  		</div><br>
 					  		<div class="row">
@@ -215,10 +224,11 @@
 						  				<p class="intro-p">${o.INTRODUCE }</p>
 						  				<input type="hidden" id="intro" name="intro" value="${o.INTRODUCE }"/>
 						  				<div class="row">
-						  					<div class="col-9"></div>
-						  					<div class="col-3">
-						  						<p class="plus-content">더보기</p>
-						  					</div>
+						  					<c:if test="${fn:length(o.INTRODUCE) >= 65 }">
+						  						<div class="col-2 offset-9 plus-content">
+				  									<i class="fas fa-angle-down"></i>
+						  						</div>
+						  					</c:if>
 						  				</div>
 						  			</div>
 						  		</div>
@@ -227,14 +237,14 @@
 					  </div>
 				  </div>
 					<!-- 경로보기 tab -->
-					<div class="tab-pane fade" id="road" role="tabpanel" aria-labelledby="road-tab">
+					<div class="tab-pane fade" id="road" role="tabpanel" aria-labelledby="road-tab" >
 						<div class="card-body"  >
 							<c:forEach items="${oList }" var="o">
-								<div class="row">
-									<div class="col-12">
-										<div id="map_div"></div>
-									</div>
-								</div>
+								<!-- <div class="row">
+									<div class="col-12"> -->
+										<div id="map_div" style="width:600px; height:400px;"></div>
+									<!-- </div>
+								</div> -->
 								<input type="hidden" value="${o.STARTLAT }" id="startLat" name="startLat">
 								<input type="hidden" value="${o.STARTLONG }" id="startLong" name="startLong">
 								<input type="hidden" value="${o.DESTLAT }" id="endLat" name="endLat">
@@ -255,11 +265,13 @@
 					  			<span class="badge badge-pill badge-warning">이용 좌석 </span>
 					  			<c:set var='size' value='0'/>
 					  			<fmt:parseNumber value="${size}" type="number" var="si"/>
-					  			<c:forEach begin="1" end="${fn:length(pList) }"  varStatus="count">
-						  				<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
-						  					<c:set var="si" value='${si+1 }'/>
-				  						</c:if>
-			  					</c:forEach>
+					  			<c:if test='${fn:length(pList)!=0 }'>
+						  			<c:forEach begin="0" end="${fn:length(pList)-1 }"  varStatus="count">
+							  				<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
+							  					<c:set var="si" value='${si+1 }'/>
+					  						</c:if>
+				  					</c:forEach>
+			  					</c:if>
 				  				<span>&nbsp;| &nbsp;(${si}/${seat })</span>
 					  		</div>
 					  	</div>
@@ -269,10 +281,10 @@
 					  				<div class="row">
 					  					<div class="col-9">
 					  						<span>
-										  		<c:forEach begin="0" end="${seat }"  varStatus="count">
+										  		<c:forEach begin="1" end="${seat }"  varStatus="count">
 										  			<c:choose>
 											  			<%-- <c:when test="${count.index <= fn:length(pList)}"> --%>
-											  				<c:when test='${pList[count.index].PSTATUS eq "Y" }'>
+											  				<c:when test='${pList[count.index-1].PSTATUS eq "Y" }'>
 										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
 									  						</c:when>
 								  						<%-- </c:when> --%>
@@ -283,7 +295,7 @@
 							  					</c:forEach>
 						  					</span>
 					  					</div>
-					  					<div class="col-3">
+					  					<div class="col-3 col-md-12 col-lg-3">
 					  						<span class="line-div"></span>
 					  						<c:if test="${logined != null }">
 					  							<c:set var="flag" value="false"/>
@@ -291,11 +303,11 @@
 						  							<c:if test="${not flag }">
 					  									<c:choose>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
-					  											<button class="btn btn-success ride-btn" >탑승중</button>
+					  											<button class="btn btn-danger ride-btn" onclick="checkIng();">탑승중</button>
 					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "N" }'>
-					  											<button class="btn btn-success ride-btn">탑승승인중</button>
+					  											<button class="btn btn-danger ride-btn" onclick="checkSubmit();">탑승<br/>승인중</button>
 					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  									</c:choose>
@@ -310,7 +322,7 @@
 					  								if(${logined == null}){
 					  									return alert("로그인 필요");
 					  								}
-
+													/*
 					  								$.ajax({
 		  												url: "${path}/carpool/paymentEnd",
 		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
@@ -327,8 +339,8 @@
 															location.reload();
 		  											 	}
 		  											});
+					  								*/
 					  								
-					  								/* 
 				  									var imp = window.IMP;
 				  									imp.init('imp87992639');
 				  									
@@ -337,7 +349,7 @@
 				  										amount : '${oList.get(0).PAY}',
 				  										pay_method : 'card',
 				  										merchant_uid : 'merchant_' + new Date().getTime(),
-				  										name : '주문명: 결제테스트',
+				  										name : '오다가다 카풀',
 				  										buyer_email : '${logined.email}',
 				  										buyer_name : '${logined.memberName}',
 				  										buyer_tel : '${logined.phone}',
@@ -345,19 +357,27 @@
 				  									}, function(rsp){
 				  										if(rsp.success){
 				  											$.ajax({
-				  												url: "/carpool/paymentEnd",
-				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
-				  														"memberNum": "${logined.memberNum}"	
+				  												url: "${path}/carpool/paymentEnd",
+				  												data: {
+				  													"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+			  														"memberNum": "${logined.memberNum}",
+			  														"impUid":rsp.imp_uid,
 				  												},
 				  												type: "post",
 				  											 	success:function(result){
-				  													console.log(result);
+				  											 		if(result==="ok"){
+				  														alert("신청 완료");
+				  													}else if(result ==="no"){
+				  														alert("신청 실패");
+				  													}
+				  													
+																	location.reload();
 				  											 	}
 				  											});
 				  										}else{
 				  											console.log(rsp);
 				  										}
-				  									}) */
+				  									}) 
 			  									};
 					  						</script>
 											</c:if>
@@ -398,7 +418,16 @@
 		<!-- 왼쪽바 : 드라이버 정보창 -->
 		<div class="col-12 col-md-3">
 			<div class="card bg-light mb-3">
-			  <div class="card-header">드라이버 정보</div>
+			  <div class="card-header">
+				 <div class="row">
+				 	<div class="col-12 col-xl-6">
+				 		<p class='dhead-p'>드라이버 정보</p>
+				 	</div>
+				 	<div class='col-12 col-xl-5 offset-xl-1'>
+				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
+				 	</div>
+				 </div> 
+			  </div>
 			  <div class="card-body">
 			     <div class="row">
 				  	<div class="col-12">
@@ -444,11 +473,9 @@
 				  </div>
 				  <!-- 채팅창 연결 버튼 -->
 				  <div class="row">
-				  	<div class="col-3"></div>
-				  	<div class="col-6">
-				  		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
+				  	<div class="col-6 offset-4">
+				  		
 				  	</div>
-				  	<div class="col-3"></div>
 				  </div>
 				  <div class="row">
 				  	<div class="col-12">
@@ -465,11 +492,13 @@
 				  				</div>
 			  				</div>
 				  			<hr>
-				  			<span>
-					  			<c:forEach items="${cList }" var="c">
-				  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="car-img"/>
-					  			</c:forEach>
-				  			</span>
+				  			<c:forEach items="${cList }" var="c" varStatus="count">
+				  				<div class='row'>
+					  				<div class='col-12'>
+					  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="img-fluid car-img "/>
+						  			</div>
+		  						</div>
+				  			</c:forEach>
 				  		</div>
 				  	</div>
 				  </div>
@@ -482,12 +511,11 @@
 						  			<div class="row">
 						  				<c:forEach items="${rList }" var="r" varStatus="count">
 						  					<c:if test="${count.index <2}">
-								  				<div class="col-4">
+								  				<div class="col-4 col-sm-4 col-md-12 col-lg-4">
 								  					<%-- <img src="${path }/resources/images/${r.PROFILEIMAGERE}" class="re-img"/> --%>
 								  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
 								  				</div>
-								  					<span class="line-div" ></span>
-								  				<div class="col-7">
+								  				<div class="col-8 col-sm-8 col-md-12 col-lg-8 re-size">
 								  					<div class="star-div">
 								  						<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg"/>
 								  						<c:choose>
@@ -566,11 +594,9 @@
 				  </div>
 				   <!-- 드라이버 신고 버튼 -->
 				  <div class="row">
-				  	<div class="col-3"></div>
-				  	<div class="col-6">
+				  	<div class="col-6 offset-4">
 				  		<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
 				  	</div>
-				  	<div class="col-3"></div>
 				  </div>
 			  </div>
 			</div>
@@ -578,6 +604,7 @@
 		<div class="col-12 col-md-2">
 		</div>
 	</div>
+
 </section>
 
 <!-- 채팅방 -->
@@ -590,18 +617,24 @@
    }
 </script>
 <script>
+var introFlag=true;
 	//더보기
 	$('.plus-content').on('click',function(){
 		var length=65;
-		var text = $('.intro-p');
 		var textL = $('.intro-p').text().trim().length;
-		var rtext = $('#intro').val();
-		if(textL < rtext.length){
-			text.text(rtext);
-			return;
+		if(introFlag){
+			$('div.plus-content>i').removeClass('fa-angle-down');
+			$('div.plus-content>i').addClass('fa-angle-up');
+			introFlag=false;
+			$('.intro-p').text($('#intro').val());
 		}
 		else{
-			text.text(text.text().trim().substr(0,length)+'...');
+			$('div.plus-content>i').removeClass('fa-angle-up');
+			$('div.plus-content>i').addClass('fa-angle-down');
+			introFlag=true;
+			if(textL>length){
+				$('.intro-p').text($('.intro-p').text().trim().substr(0,length)+'...');
+			}
 		}
 	});
 	//인트로 
@@ -612,7 +645,7 @@
 				$(this).text($(this).text().trim().substr(0,length)+'...');
 			}
 		});
-	});
+	}); 
 	//리뷰 콘텐츠
 	$('.rcontent-div').each(function(){
 		var length=20;
@@ -636,51 +669,122 @@
 	function initTmap(){
 		//map 생성
 		//Tmap.map을 이용하여, 지도가 들어갈 div, 넓이, 높이를 설정합니다.
-		map = new Tmap.Map({div:'map_div', width:'570px', height:'380px'});
-		/* map.setCenter(new Tmap.LonLat("126.9850380932383", "37.566567545861645").transform("EPSG:4326", "EPSG:3857"), 15); */ //설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 즁심점으로 설정합니다.
-		var tData = new Tmap.TData(); //REST API 에서 제공되는 경로, 교통정보, POI 데이터를 쉽게 처리할 수 있는 클래스입니다.
+		$("#map_div").empty();
 		
-		var s_lonLat = new Tmap.LonLat(startLong, startLat); //김포 시작 좌표입니다.
-		var e_lonLat = new Tmap.LonLat(endLong, endLat); //도착 서울 좌표입니다.
+		map = new Tmap.Map({div:'map_div'});
 		
-		var optionObj = {
-			reqCoordType:"WGS84GEO", //요청 좌표계 옵셥 설정입니다.
-			resCoordType:"EPSG3857", //응답 좌표계 옵션 설정입니다.
-			trafficInfo:"Y" //교통정보 표출 옵션 설정입니다.
-	         }
+		$("#map_div").css("width", "100%");
 		
-		tData.getRoutePlan(s_lonLat, e_lonLat, optionObj);//경로 탐색 데이터를 콜백 함수를 통해 XML로 리턴합니다.
-		
-		tData.events.register("onComplete", tData, onComplete);//데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트를 등록합니다.
-		tData.events.register("onError", tData, onError);//데이터 로드가 실패했을 떄 발생하는 이벤트를 등록합니다.
+         markerLayer = new Tmap.Layer.Markers();
+     	map.addLayer(markerLayer);
+         
+         setMarker(startLong, startLat);
+		 setMarker(endLong, endLat);
+		apiRequest();
 	}
 	//데이터 로드가 성공적으로 완료되었을 때 발생하는 이벤트 함수 입니다. 
-	function onComplete(){		  
-		//교통정보 표출시 생성되는 LineColor 입니다.      
-		var trafficColors = {
-			extractStyles:true,
-			
-			// 사용자가 임의로 색상을 설정할 수 있습니다.
-			// 교통정보 옵션 - 라인색상
-			trafficDefaultColor:"#000000", //교통 정보가 없을 때
-			trafficType1Color:"#009900", //원할
-			trafficType2Color:"#8E8111", //지체
-			trafficType3Color:"#FF0000"  //정체
-			
-		};    
-		var kmlForm = new Tmap.Format.KML(trafficColors).readTraffic(this.responseXML);
-		var vectorLayer = new Tmap.Layer.Vector("vectorLayerID");
-		vectorLayer.addFeatures(kmlForm);    
+	var count = 0;
+	function setMarker(lon, lat){
+		var size = new Tmap.Size(24,38);
+		var offset = new Tmap.Pixel(-(size.w/2), -(size.h));
 		
-		map.addLayer(vectorLayer);
-		//경로 그리기 후 해당영역으로 줌  
-		map.zoomToExtent(vectorLayer.getDataExtent());
+		//출발지와 목적지 마커 분류
+		if(count === 0){
+			var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',size, offset);		
+		}else if(count === 1){
+			var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_e.png',size, offset);
+		}
+		
+		count++;
+		
+		var lonlat = new Tmap.LonLat(lon, lat);
+		
+		var m = new Tmap.Marker(lonlat.transform("EPSG:4326", "EPSG:3857"), icon);
+		
+		markerLayer.addMarker(m);
 	}
-	//데이터 로드시 에러가 발생시 발생하는 이벤트 함수입니다.
-	function onError(){
-		alert("onError");
+		function apiRequest(){
+		var prtcl;
+		var headers = {};
+		headers["appKey"] = "8ea84df6-f96e-4f9a-9429-44cee22ab70f";
+			
+		$.ajax({
+			method: "POST",
+			headers : headers,
+			url : "https://api2.sktelecom.com/tmap/routes?version=1&format=xml",
+			async: false,
+			data:{
+				startX: startLong,
+				startY: startLat,
+				endX: endLong,
+				endY: endLat,
+				reqCoordType : "WGS84GEO",
+				resCoordType : "EPSG3857",
+				angle: "172",
+				searchOption: "0",
+				trafficInfo : "N"
+			}, success:function(response){
+				prtcl = response;
+				
+				var xmlDoc = $.parseXML(new XMLSerializer().serializeToString(prtcl));
+				$xml = $(xmlDoc);
+				$xmlData = $xml.find("Document");
+							
+				routeLayer = new Tmap.Layer.Vector("route");
+				
+				var prtclLine = new Tmap.Format.KML({extractStyles:true, extractAttributes:true}).read(prtcl);
+			
+				routeLayer.events.register("beforefeatureadded", routeLayer, onBeforeFeatureAdded);
+				function onBeforeFeatureAdded(e){
+					var style={};
+					
+					switch (e.feature.attributes.styleUrl) {
+		        	case "#pointStyle":
+			        	style.externalGraphic = "http://topopen.tmap.co.kr/imgs/point.png"; //렌더링 포인트에 사용될 외부 이미지 파일의 url입니다.
+						style.graphicHeight = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 높이입니다.
+						style.graphicOpacity = 1; //외부 이미지 파일의 투명도 (0-1)입니다.
+						style.graphicWidth = 16; //외부 이미지 파일의 크기 설정을 위한 픽셀 폭입니다.
+		        	break;
+		        	default:
+						style.strokeColor = "#ff0000";//stroke에 적용될 16진수 color
+						style.strokeOpacity = "1";//stroke의 투명도(0~1)
+						style.strokeWidth = "5";//stroke의 넓이(pixel 단위)
+		        	};
+				
+					e.feature.style = style;
+				};
+				
+				routeLayer.addFeatures(prtclLine);			
+				
+				map.addLayer(routeLayer);
+				
+				map.zoomToExtent(routeLayer.getDataExtent());
+				
+			}, error:function(request, status, error){
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
 	}
 	// 맵 생성 실행
 	initTmap();
+</script>
+<script>
+//탑승중 / 탑승승인중
+function checkIng(){
+	if(!confirm('탑승 확인을 위해 마이페이지로 이동하시겠습니까?')){
+		return;
+	}
+	else{
+		location.href="${path}/member/myCarpool";
+	}
+}
+function checkSubmit(){
+	if(!confirm('탑승 상태 확인을 위해 마이페이지로 이동하시겠습니까?')){
+		return;
+	}
+	else{
+		location.href="${path}/member/myCarpool";
+	}
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
