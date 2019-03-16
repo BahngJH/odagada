@@ -219,7 +219,12 @@ width:300px;
 																<div class="col-12 text-center check-div">
 																	<span>
 																		<button class="btn btn-success" onclick="moveChatting('${d.PMEMBERNUM}')">채팅하기</button>
-																		<button class="btn btn-info"  data-toggle="modal" data-target="#credit">결제 받기</button>
+																		<c:if test='${d.PAYSTATUS eq "N" }'>
+																			<button class="btn btn-info"  data-toggle="modal" data-target="#credit" onclick="nMem('${d.PMEMBERNUM}')">결제 받기</button>
+																		</c:if>
+																		<c:if test='${d.PAYSTATUS eq "Y" }'>
+																			<button class="btn btn-success">결제 완료</button>
+																		</c:if>
 															 		</span>
 																</div>
 															</div>
@@ -247,7 +252,7 @@ width:300px;
             <div class="col-12">
                <div class="card">
                   <div class="card-header">
-                     <h3>탑승 신청한 승객</h3>
+                     <h3><b>탑승 신청한 승객</b></h3>
                   </div>
                   <div class="card-body">
                      <div class="row">
@@ -323,7 +328,7 @@ width:300px;
          	<div class="col-12">
          		<div class="card">
          			<div class="card-header">
-         				<h3>거절한 승객 / 결제 취소한 승객</h3>
+         				<h3><b>거절한 승객 / 결제 취소한 승객</b></h3>
          			</div>
          			<div class="card-body">
          				<div class="row">
@@ -428,24 +433,26 @@ width:300px;
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">결제 코드 입력</h5>                    
+					<h4 class="modal-title" id="exampleModalLabel"><b>결제 코드 입력</b></h4>                    
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body" id="ttMessage-div">
-					<div class="form-group">
-						<label for="answer" class="form-control-label">결제 코드를 입력해주세요.</label>
+					<div class="row">
+						<div class="col-12 text-center"><p>결제 코드를 입력해주세요.</p></div>
 					</div>
 					<div class="modal-body">
-						<div class="form-group">
-							<input type="text" class="form-control" id="credit-code" name="credit-code" style="resize: none;">
+						<div class="row">
+							<div class="col-12">
+								<input type="text" class="form-control" id="credit-code" name="credit-code" style="resize: none;">
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" id="credi-ok" onclick="updateCredit();">코드 입력</button>                       
+					<button type="button" class="btn btn-info" id="credi-ok" onclick="updateCredit();">결제</button>
 				</div>
 			</div>
 		</div>
@@ -494,17 +501,46 @@ function pasNo(e){
 }
 </script>
 <script>
-
-/* 결제하기 */
-  function updateCredit(){
-     var code = $('#credit-code').val().trim();
-     var driverNum = ${logined.memberNum};
-     if(code.length==0)
-     {
-        alert('코드를 정확히 입력해주세요.');
-        return;
-     }
-     location.href="${path}/driver/updateDriverCredit?"
-  }
-</script>
+$(function(){
+	/* 결제하기 */
+	var mNum;
+	function nMem(e){
+		mNum=e;
+	}
+	
+	function updateCredit(){
+	   var paycode = $('#credit-code').val().trim();
+	   var passengerNum = mNum;
+	   var carpoolNum=$('#carpoolNum').val();
+	   var driverNum=$('#driverNum').val();
+	   console.log(carpoolNum+" : "+passengerNum);
+	   
+	   if(code.length==0)
+	   {
+	      alert('코드를 정확히 입력해주세요.');
+	      return;
+	   }
+	   else{
+		 $.ajax({
+			url:"${path}/driver/updateDriverCredit",
+			data:{"carpoolNum":carpoolNum,
+			"passengerNum":pasengerNum,
+			"paycode":paycode,
+			"driverNum":driverNum
+			},
+			success:function(data){
+				if(data==='Y'){
+					alert('결제가 완료되었습니다.');
+					location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum;
+				}
+				else{
+					alert('결제에 실패하였습니다. 다시 시도해주세요.');
+					return;
+				}
+			};
+		 });
+	   }
+	 }
+});
+</script>      
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
