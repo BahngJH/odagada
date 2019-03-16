@@ -14,7 +14,11 @@ public interface BoardService {
 	int deleteBoard(int boardNo);
 	
 	int selectQnaCount();
+	int selectQnaComCount();
 	List<Map<String,String>> selectQnaList(int cPage,int numPerPage);
+	int insertQna(Map<String,Object> qna);
 	Map<String,String> selectQnaOne(int qnaNum);
-	/*List<Map<String,String>> selectQnaList(int qna)*/
+	List<Map<String,String>> selectQnaComOne(int cPage,int numPerPage,int qnaNum);
+	int updateQna(Map<String,Object> qna);
+	int deleteQna(int qnaNum);
 }
