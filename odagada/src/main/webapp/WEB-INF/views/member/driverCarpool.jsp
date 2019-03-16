@@ -75,7 +75,7 @@ button.checkPass-btn{
 	text-decoration: none;
 	border: none;
 	border-radius: 25px;
-	width:80px;
+	width:100px;
 	height:30px;
 	background-color:rgb(0,175,76);
 	color:white;
@@ -87,17 +87,16 @@ button.checkPass-btn:hover{
 }
 div.N-div{
 	border:2px solid rgb(0,175,76);
+	background-color:rgba(0,175,76,0.1);
+}
+div.N-div:hover{
+box-shadow: 2px 2px 1px rgb(0,175,76),-2px -2px 1px rgb(0,175,76);
 }
 div.Y-div{
 	border:2px solid darkgray;
+	background-color:rgb(200,200,200);
 }
 </style>
-<script>
-function trans(){
-	alert("Sd");
-	
-}
-</script>
 <section class="container">
 	<div class="row">
  		<div class="col-sm-12 col-md-3 mem-div">
@@ -141,6 +140,8 @@ function trans(){
  				</span>
  			</div>
 		</div> 
+		
+		<!-- 리스트 -->
 		<div class="col-12 offset-md-1 col-md-7">
 			<div class="row">
 				<c:forEach items="${dcarList }" var="dc">
@@ -152,7 +153,7 @@ function trans(){
 									<p>출발지: ${dc.STARTCITY } ${dc.STARTDETAIL }</p>
 									<p>도착지: ${dc.ENDCITY } ${dc.ENDDETAIL }</p>
 									<span>
-										<button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }'" class="checkPass-btn">동승자</button>
+										<button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }'" class="checkPass-btn">동승자 확인</button>
 									</span>
 								</div>
 							</div>
@@ -166,7 +167,7 @@ function trans(){
 									<p>출발지: ${dc.STARTCITY } ${dc.STARTDETAIL }</p>
 									<p>도착지: ${dc.ENDCITY } ${dc.ENDDETAIL }</p>
 									<span>
-										<button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }'" class="checkPass-btn">동승자보기</button>
+										<button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }'" class="checkPass-btn">동승자 결제</button>
 									</span>
 								</div>
 							</div>
@@ -175,33 +176,6 @@ function trans(){
 				</c:forEach>
 			</div>
 		</div>
-	</div>
-	<!--번호 받기 -->
-	<div class="modal fade" id="credit" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">결제 코드 입력</h5>				        
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body" id="ttMessage-div">
-	          <div class="form-group">
-	            <label for="answer" class="form-control-label">결제 코드를 입력해주세요.</label>
-	          </div>
-              <div class="modal-body">
-		          <div class="form-group">
-		            <input type="text" class="form-control" id="credit-code" name="credit-code" style="resize: none;">
-		          </div>
-		      </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary" id="credi-ok" onclick="updateCredit();">코드 입력</button>					        
-	      </div>
-	    </div>
-	  </div>
 	</div>
 </section>
 <script>

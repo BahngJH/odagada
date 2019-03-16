@@ -254,6 +254,7 @@ public class DriverController {
     	m.put("driverNum", driverNum);
     	m.put("carpoolNum", carpoolNum);
     	List<Map<String,String>> dList =service.selectDriverPas(m);
+    	logger.debug(""+dList);
     	mav.addObject("dList",dList);
     	mav.setViewName("member/passengerCk");
     	return mav; 

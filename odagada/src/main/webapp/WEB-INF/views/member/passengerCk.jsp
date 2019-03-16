@@ -12,7 +12,7 @@
 div.mem-div{
 /* background:url(${pageContext.request.contextPath}/resources/images/mypage/my2.png); */
 max-width:100%;
-height:auto;
+height:100%;
 background-repeat:repeat-y;
 overflow: hidden;
 background-color:rgba(200,200,200,0.8);
@@ -84,10 +84,18 @@ margin-right:2%;
 button.credit-btn:hover{
 	background-color:rgba(50,50,50,0.7);
 }
+img.profile-img{
+border-radius: 30px;
+width:70px;
+height:70px;
+}
+div.img-div{
+margin-left:3%;
+}
 </style>
 <section class="container">
 	<div class="row">
- 		<div class="col-sm-12 col-md-3 mem-div">
+ 		<div class="col-12 col-md-3 mem-div">
  			<div class="col-12">
  				<img alt="logo" src="${path }/resources/images/mypage/logo2.png" class="img-fluid logo-img">
  			</div>
@@ -127,17 +135,79 @@ button.credit-btn:hover{
  				</span>
  			</div>
 		</div> 
-		<div class="col-12 col-md-">
-			<div class="card">
-				<c:forEach items="dList" var="d">
-					<div class="card-body">
-					<!-- <button class="credit-btn"  data-toggle="modal" data-target="#credit">결제 코드 입력</button> -->
-					
+		<div class="col-12 col-md-9">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3>탑승 중인 승객</h3>
+						</div>
+						<div class="card-body">
+							<c:if test="${dList != null }">
+								<c:forEach items="${dList}" var="d" varStatus="count">
+									<c:choose>
+										<c:when test='${d.STATUS eq "Y"}'>
+											<div class="img-div">
+												<img src="${path }/resources/upload/profile/${dList.get(count.index).PROFILEIMAGERE}" class="profile-img">
+												<p>${dList.get(0).MEMBERNAME }</p>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="card-body text-center">
+												<p>탑승중인 승객이 없습니다.</p>
+											</div>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:if>
+						</div>
 					</div>
-				</c:forEach>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3>탑승 신청한 승객</h3>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<c:if test="${dList != null }">
+									<c:forEach items="${dList}" var="d" varStatus="count">
+										<c:choose>
+											<c:when test='${d.STATUS eq "N"}'>
+												<div class="col-12 col-md-4">
+													<div class="card text-center">
+														<div class="row">
+															<div class="col-12">
+																<div class="img-div">
+																	<img src="${path }/resources/upload/profile/${dList.get(count.index).PROFILEIMAGERE}" class="profile-img">
+																	<p>${dList.get(0).MEMBERNAME }</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div class="card-body text-center">
+													<p>탑승신청한 승객이 없습니다.</p>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</c:if>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	<!-- <button class="credit-btn"  data-toggle="modal" data-target="#credit">결제 코드 입력</button> -->
 	<!--번호 받기 -->
 	<div class="modal fade" id="credit" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
