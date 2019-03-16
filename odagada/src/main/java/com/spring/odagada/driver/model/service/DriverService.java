@@ -20,5 +20,6 @@ public interface DriverService {
 	List<Map<String,String>> selectDriverCarPool(int memberNum);
 	List<Map<String,String>> selectDriverPas(Map<String,String> m);
 	int deleteDriver(int memberNum);
-	
+	int updatePasOk(Map<String,Integer> map);
+	int updatePasNo(Map<String,Integer> map);
 }

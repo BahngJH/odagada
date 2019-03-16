@@ -75,8 +75,6 @@ public class DriverServiceImpl implements DriverService {
 		return dao.deleteDriver(memberNum);
 	}
 	
-	
-	
 	//드라이버 카풀 등록 리스트
 	@Override
 	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
@@ -87,13 +85,14 @@ public class DriverServiceImpl implements DriverService {
 	public List<Map<String, String>> selectDriverPas(Map<String, String> m) {
 		return dao.selectDriverPas(m);
 	}
+
+	@Override
+	public int updatePasOk(Map<String,Integer> map) {
+		return dao.updatePasOk(map);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public int updatePasNo(Map<String,Integer> map) {
+		return dao.updatePasNo(map);
+	}
 }
