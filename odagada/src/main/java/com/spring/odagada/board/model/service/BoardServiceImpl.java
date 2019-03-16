@@ -14,6 +14,8 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardDao dao;
 
+	
+
 	@Override
 	public int allBlackCount() {
 		// TODO Auto-generated method stub
