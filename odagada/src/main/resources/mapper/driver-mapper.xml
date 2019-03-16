@@ -50,4 +50,7 @@
    <update id="updatePasNo" parameterType="_int">
 		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
    </update>
+   <select id="selectCreditCode" parameterType="map" resultMap="driver_">
+   		select * from passenger where paycode=#{paycode} and carpoolnum={carpoolNum}
+   </select>
 </mapper>
