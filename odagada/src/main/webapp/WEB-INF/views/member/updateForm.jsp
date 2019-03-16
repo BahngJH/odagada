@@ -197,6 +197,7 @@
 		}
 	}
 	
+	//이메일 변경
  	function sendEmail(){		    
 	    //이전 이메일과 중복여부 확인
 	    	var reMail=$('#reMail').val().trim();//변경할 이메일
@@ -262,6 +263,46 @@
 			    <li class="list-group-item">
 			    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
 			    </li>
+			    
+			    <!--이름 변경  -->
+			     <li class="list-group-item">
+					<!--기존 Email 정보  -->
+				     <div class="row passwordInfo" id="oriEmailDiv">    	
+			    		<div class="ptext col-6">
+			    			<p class="oriEmail font-weight-bold"><%=m.getMemberName() %></p>
+						</div>  
+						<div class="col-6 chgBtnDiv">
+							<button type="button" id="chgName-btn" class="cg btn btn-secondary btn-sm">이름 변경</button>      	
+			   			</div> 		
+			   		 </div>
+			 <%--   		 <!--Email 변경 버튼 클릭시  -->
+			   		 <div class="row passwordInfo" id="chgEmailInfo">    	
+			    		<div class="ptext col-7">
+						  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
+						</div>  
+						<div class="btns col-5">
+						  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
+						  <button type="reset" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
+			   			</div> 		
+			   		 </div>
+				 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
+					 <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
+			   		  <!--Email 변경 인증 메일 전송 후  -->      			  
+					  <div id="sentEmailDiv">
+			 			 <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
+			  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
+			   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
+						    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
+					  </div> --%> 
+			    </li>
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
 			    <li class="list-group-item">
 					<!--기존 Email 정보  -->
 				     <div class="row passwordInfo" id="oriEmailDiv">    	
@@ -327,18 +368,18 @@
 	   			     <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
 	   			    <div id="sentTxtDiv">
 	       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn">인증 번호 발송</button>
-	       			  <button type="button" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
+	       			  <button type="reset" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
 	       			</div>   
        			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
 	       			  <div id="sentPhoneDiv">
 		    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
 			           	  <input type="number" class="form-control" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
 	    			      <button type="button" class="cg btn btn-secondary btn-sm">인증 문자 재발송</button>
-	    			      <button type="button" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
+	    			      <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
 	       			  </div>
-      			  		</div>			    
-			    </li>
-			  </ul>
+		  		</div>			    
+		    </li>
+		  </ul>
 			  <div class="card-body">
 			    <a href="#" class="card-link">Card link</a>
 			    <a href="#" class="card-link">Another link</a>
