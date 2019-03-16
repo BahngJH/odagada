@@ -14,22 +14,21 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.odagada.board.model.dao.BoardDao;
 import com.spring.odagada.board.model.service.BoardService;
 import com.spring.odagada.common.PageFactory;
-import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -39,6 +38,18 @@ public class BoardController {
    @Autowired
    BoardService service;
    
+   @Autowired
+   BoardDao dao;
+   
+   //하루에 0시와 12시, 6시에 실행해 블랙날짜 지난 사람 제거 
+   @Scheduled(cron="0 0 0,12,18 * * *")
+   public void blackListDelete()
+   {
+	   int rs = dao.blackListDelete();
+	   logger.debug(rs+"개의 블랙리스트 회원이 제거됨");
+   }
+   
+   //블랙리스트 불러옴
    @RequestMapping("/admin/blackList.do")
    public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
    {
@@ -111,6 +122,7 @@ public class BoardController {
 	   return mv;
    }
    
+   //신고내역가져옴
    @RequestMapping("/admin/notifyList.do")
    public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
    {
@@ -123,6 +135,7 @@ public class BoardController {
 	   return mv;   
    }
    
+   //회원관리에서 아이디나 이름 상세검색
    @RequestMapping("/admin/searchMember.do")
    public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
    {

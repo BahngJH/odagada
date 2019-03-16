@@ -15,6 +15,12 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSession;
 
 	@Override
+	public int blackListDelete() {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board.blackListDelete");
+	}
+
+	@Override
 	public int allBlackCount() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("board.allBlackCount");

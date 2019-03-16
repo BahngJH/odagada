@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 public interface BoardDao {
+	int blackListDelete();
 	int allBlackCount();
 	int allNotifyCount();
 	List<Map<String,String>> blackList(int cPage, int numPerPage);
