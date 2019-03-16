@@ -2,6 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
 
+<select id="allBlackCount" resultType="int">
+  	select count(*) from black
+  </select>
+
+  <select id="allNotifyCount" resultType="int">
+  	select count(*) from notify
+  </select>
+
+  <select id="blackList" resultType="map">
+  	select * from black order by blackpunish
+  </select>
+
+  <select id="checkBlackList" parameterType="string" resultType="int">
+  	select count(*) from black where blackid=#{checkId}
+  </select>
+
+  <insert id="insertBlack" parameterType="map">
+  	insert into black values(#{nContent},sysdate+#{blackCount},#{nonNotifyId},#{notifyId})
+  </insert>
+
+  <delete id="deleteNotify" parameterType="map" >
+  	delete from notify where notifyid=#{notifyId} and nonnotifyid=#{nonNotifyId} and ncontent=#{nContent}
+  </delete>
+  
+  <select id="notifyList" resultType="map">
+  	select * from notify order by ndate desc
+  </select>
+ 
   <select id="searchListAll" parameterType="map" resultType="int">
   	select count(*) from member where ${searchType} like '%' || #{keyword} || '%'
   </select>

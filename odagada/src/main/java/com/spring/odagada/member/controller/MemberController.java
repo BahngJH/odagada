@@ -164,7 +164,7 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		return "common/msg";		
 	}
-	
+
 
 	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
@@ -470,7 +470,7 @@ public class MemberController {
     	return isPhone;  			
     } 
 
-
+    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;

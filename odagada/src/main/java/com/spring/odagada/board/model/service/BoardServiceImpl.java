@@ -15,6 +15,48 @@ public class BoardServiceImpl implements BoardService {
 	BoardDao dao;
 
 	@Override
+	public int allBlackCount() {
+		// TODO Auto-generated method stub
+		return dao.allBlackCount();
+	}
+
+	@Override
+	public int allNotifyCount() {
+		// TODO Auto-generated method stub
+		return dao.allNotifyCount();
+	}
+
+	@Override
+	public List<Map<String, String>> blackList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.blackList(cPage,numPerPage);
+	}
+
+	@Override
+	public int checkBlackList(String checkId) {
+		// TODO Auto-generated method stub
+		return dao.checkBlackList(checkId);
+	}
+
+	@Override
+	public int insertBlack(Map<String, Object> bNotify) {
+		// TODO Auto-generated method stub
+		return dao.insertBlack(bNotify);
+	}
+
+	@Override
+	public int deleteNotify(Map<String, Object> dNotify) {
+		// TODO Auto-generated method stub
+		return dao.deleteNotify(dNotify);
+	}
+
+	@Override
+	public List<Map<String, String>> notifyList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.notifyList(cPage,numPerPage);
+	}
+
+	@Override
 	public int searchListAll(Map<String, String> searchData) {
 		// TODO Auto-generated method stub
 		return dao.searchListAll(searchData);

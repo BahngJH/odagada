@@ -4,6 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface BoardService {
+	int allBlackCount();
+	int allNotifyCount();
+	List<Map<String,String>> blackList(int cPage, int numPerPage);
+	int checkBlackList(String checkId);
+	int insertBlack(Map<String,Object> bNotify);
+	int deleteNotify(Map<String,Object> dNotify);
+	List<Map<String,String>> notifyList(int cPage, int numPerPage);
 	int searchListAll(Map<String, String> searchData);
 	List<Map<String,String>>searchList(Map<String,String> searchData, int cPage,int numPerPage);
 	int selectAllMemberCount();
