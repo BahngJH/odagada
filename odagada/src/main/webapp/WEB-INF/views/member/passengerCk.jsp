@@ -8,6 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
+
 <style>
 div.mem-div{
 /* background:url(${pageContext.request.contextPath}/resources/images/mypage/my2.png); */
@@ -98,12 +99,9 @@ margin-left:10px;
 div.check-div{
 margin-bottom:10px;
 }
-div.nAll-div{
-     overflow-x: scroll;
-     white-space:nowrap;
-}
-div.nsAll-div{
-
+/* 테이블 스크롤 */
+table.table-responsive tbody tr td div.nsAll-div1{
+width:300px;
 }
 </style>
 <section class="container">
@@ -158,7 +156,7 @@ div.nsAll-div{
                   <div class="card-body">
 					<c:if test="${dList != null }">
 						<c:forEach items="${dList}" var="d" varStatus="count">
-							<c:if test='${d.STATUS eq "Y"}'>
+							<c:if test='${d.PSTATUS eq "Y"}'>
 								<div class="img-div">
 									<img src="${path }/resources/upload/profile/${dList.get(count.index).PROFILEIMAGERE}" class="profile-img">
 									<p>${dList.get(0).MEMBERNAME }</p>
@@ -180,59 +178,91 @@ div.nsAll-div{
                   <div class="card-header">
                      <h3>탑승 신청한 승객</h3>
                   </div>
-                  <!-- 여기서부터 복사 -->
                   <div class="card-body">
-                     <div class="row nAll-div">
-                     	<!-- <div class="col-12"> -->
-                        <c:if test="${dList != null }">
-                           <c:forEach items="${dList}" var="d" varStatus="count">
-                              <c:choose>
-                                 <c:when test='${d.STATUS eq "N"}'>
-                                    <div class="col-12 col-md-4 ">
-                                       <div class="card nsAll-div">
-                                          <div class="row">
-                                             <div class="col-12 text-center">
-                                                <div class="nSub-div">
-                                                   <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
-                                                </div>
-                                                <hr/>
-                                             </div>
-                                             <div class="col-12 pSub-div">
-                                             	<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-                                           		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-                                             	<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-                                             	<p><b>성별:&nbsp;</b>
-	                                             	<c:choose>
-		                                             	<c:when test='${d.GENDER == "M"}'>
-		                                             		남
-		                                           		</c:when>
-		                                           		<c:otherwise>
-		                                           			여
-		                                           		</c:otherwise>
-	                                           		</c:choose>
-                                           		</p>
-                                             	<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-                                             	<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
-                                             </div>
-                                             <div class="col-12 text-center check-div">
-                                             	<span>
-                                             		<button class="btn btn-success" onclick="">승락</button>
-                                             		<button class="btn btn-warning">거절</button>
-                                           		</span>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </c:when>
-                                 <c:otherwise>
-<!--                                     <div class="card-body text-center">
-                                       <p>탑승신청한 승객이 없습니다.</p>
-                                    </div> -->
-                                 </c:otherwise>
-                              </c:choose>
-                           </c:forEach>
-                        </c:if>
-                        <!-- </div> -->
+                     <div class="row">
+                     	<div class="col-12 nAll-div"> <!-- 크기 지정해주기 -->
+							<table class='table table-responsive'>
+								<tr>
+									<c:if test="${dList != null }">
+										<c:forEach items="${dList}" var="d" varStatus="count">
+											<c:choose>
+												<c:when test='${d.PSTATUS eq "N"}'>
+													<td>
+														<div class="nsAll-div1"> <!-- 세부크기지정해주기 -->
+															<div class="card">
+																<div class="row">
+																	<div class="col-12 text-center">
+																	   <div class="nSub-div">
+																	      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
+																	   </div>
+																	   <hr/>
+																	</div>
+																	<div class="col-12 pSub-div">
+																		<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																		<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																		<p><b>성별:&nbsp;</b>
+																			<c:choose>
+																				<c:when test='${d.GENDER == "M"}'>
+																					남
+																				</c:when>
+																				<c:otherwise>
+																					여
+																				</c:otherwise>
+																			</c:choose>
+																		</p>
+																		<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																		<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																	</div>
+																	<div class="col-12 text-center check-div">
+																		<span>
+																			<button class="btn btn-success" onclick="pasOk('${d.PMEMBERNUM} ${d.MEMBERNAME }');">승락</button>
+																	   		<button class="btn btn-warning" onclick="pasNo(this);">거절</button>
+																 		</span>
+																 		<script>
+																 		/* 승차 수락  */
+																 		function pasOk(e){
+																 			var tt=e.split(' ');
+																 			console.log(tt[0]+":"+tt[1]);
+																 			var driverNum='${d.CMEMBERNUM}';
+																 			var memberNum=tt[0];
+																 			var memberName=tt[1];
+																 			var carpoolNum='${d.CARPOOLNUM}';
+																 			console.log("memberNum="+memberNum+" memberName="+memberName+" carpoolNum="+carpoolNum+" driverNum="+driverNum);
+																 			if(!confirm("승차 수락하시겠습니까?")){
+																 				 return;
+																 			}
+																 			else{
+																 				location.href="${path}/driver/updatePasOk?memberNum="+memberNum+"&memberName="+memberName+"&carpoolNum="+carpoolNum+"&driverNum="+driverNum;	
+																 			}
+																 		}
+																 		/* 승차 거부 */
+																 		function pasNo(e){
+																 			var driverNum=$('#driverNum').val();
+																 			var memberNum=$('#memberNum').val();
+																 			var memberName=$('#memberName').val();
+																 			var carpoolNum=$('#carpoolNum').val();
+																 			console.log("회원 번호: "+memberNum);
+																 			if(!confirm("승차 거부하시겠습니까?")){
+																 				 return;
+																 			}
+																 			else{
+																 				location.href="${path}/driver/updatePasNo?memberNum="+memberNum+"&memberName="+memberName+"&carpoolNum="+carpoolNum+"&driverNum="+driverNum;	
+																 			}
+																 		}
+																 		</script>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</td>
+												</c:when>
+											</c:choose>
+										</c:forEach>
+									</c:if>
+								</tr>
+							</table>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -240,48 +270,47 @@ div.nsAll-div{
          </div>
       </div>
    </div>
-   
-   
-   
    <!-- <button class="credit-btn"  data-toggle="modal" data-target="#credit">결제 코드 입력</button> -->
-   <!--번호 받기 -->
-   <div class="modal fade" id="credit" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="exampleModalLabel">결제 코드 입력</h5>                    
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-         </div>
-         <div class="modal-body" id="ttMessage-div">
-             <div class="form-group">
-               <label for="answer" class="form-control-label">결제 코드를 입력해주세요.</label>
-             </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="credit-code" name="credit-code" style="resize: none;">
-                </div>
-            </div>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-           <button type="button" class="btn btn-primary" id="credi-ok" onclick="updateCredit();">코드 입력</button>                       
-         </div>
-       </div>
-     </div>
-   </div>
+	<!--번호 받기 -->
+	<div class="modal fade" id="credit" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">결제 코드 입력</h5>                    
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="ttMessage-div">
+					<div class="form-group">
+						<label for="answer" class="form-control-label">결제 코드를 입력해주세요.</label>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="text" class="form-control" id="credit-code" name="credit-code" style="resize: none;">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" id="credi-ok" onclick="updateCredit();">코드 입력</button>                       
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 <script>
-   function updateCredit(){
-      var code = $('#credit-code').val().trim();
-      var driverNum = ${logined.memberNum};
-      if(code.length==0)
-      {
-         alert('코드를 정확히 입력해주세요.');
-         return;
-      }
-      location.href="${path}/driver/updateDriverCredit?"
-   }
+
+/* 결제하기 */
+  function updateCredit(){
+     var code = $('#credit-code').val().trim();
+     var driverNum = ${logined.memberNum};
+     if(code.length==0)
+     {
+        alert('코드를 정확히 입력해주세요.');
+        return;
+     }
+     location.href="${path}/driver/updateDriverCredit?"
+  }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
