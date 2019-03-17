@@ -23,4 +23,5 @@ public interface DriverService {
 	int updatePasOk(Map<String,Integer> map);
 	int updatePasNo(Map<String,Integer> map);
 	Map<String,String> selectCreditCode(Map<String,Integer> map);
+	int updateCredit(Map<String,Integer> map);
 }

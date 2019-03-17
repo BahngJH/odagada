@@ -91,8 +91,19 @@ public class DriverDaoImpl implements DriverDao {
 	}
 
 	@Override
-	public Map<String, String> selectCreditCode(Map<String, Integer> map) {
+	public Map<String,String> selectCreditCode(Map<String, Integer> map) {
 		return session.selectOne("driver.selectCreditCode",map);
 	}
+
+	@Override
+	public int updateDriverCredit(Map<String, Integer> map) {
+		return session.update("driver.updateDriverCredit",map);
+	}
+
+	@Override
+	public int updatePasPayStatus(Map<String, Integer> map) {
+		return session.update("driver.updatePasPayStatus",map);
+	}
+	
 	
 }

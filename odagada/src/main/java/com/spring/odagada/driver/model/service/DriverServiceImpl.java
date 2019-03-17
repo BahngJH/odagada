@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.dao.DriverDao;
-import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.driver.model.vo.Driver;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -97,8 +98,23 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
-	public Map<String, String> selectCreditCode(Map<String, Integer> map) {
+	public Map<String,String> selectCreditCode(Map<String, Integer> map) {
 		return dao.selectCreditCode(map);
 	}
+
+	@Override
+	@Transactional
+	public int updateCredit(Map<String, Integer> map) {
+		int result=0;
+		try {
+			result = dao.updateDriverCredit(map);
+			result = dao.updatePasPayStatus(map);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	
 }
