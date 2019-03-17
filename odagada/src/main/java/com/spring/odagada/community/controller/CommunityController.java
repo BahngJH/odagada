@@ -62,6 +62,8 @@ public class CommunityController {
 				{
 					logger.debug("MAP데이터 clickedUser"+chatContent.get(i));
 				}
+				List<Map<String,String>> userInfo = service.bringUserInfo(roomIdData);
+				mv.addObject("userInfo", userInfo);
 			}
 			else 
 			{
@@ -135,6 +137,8 @@ public class CommunityController {
 				{
 					logger.debug("MAP데이터22"+chatContent.get(i));
 				}
+				List<Map<String,String>> userInfo = service.bringUserInfo(roomIdData);
+				mv.addObject("chatMember", userInfo);
 			}
 			else 
 			{
@@ -212,7 +216,7 @@ public class CommunityController {
 	
 	//채팅방 클릭 했을 때 해당 메시지를 가져옴
 	@RequestMapping("/community/bringMessage.do")
-	public ModelAndView bringMsg(String roomId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
+	public ModelAndView bringMsg(String roomId,String memberId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
 	{
 		
 		Member m =(Member) request.getSession().getAttribute("logined");
@@ -229,7 +233,13 @@ public class CommunityController {
 		{
 			logger.debug("MAP데이터 : "+i);
 		}
-		
+		Map<String,String> userData = new HashMap();
+		userData.put("myId", m.getMemberId());
+		userData.put("chatUser", memberId);
+		List<Map<String,String>> userInfo = service.bringUserInfo(userData);
+		logger.debug("userInfo데이터 : "+userInfo);
+
+		mv.addObject("userInfo", userInfo);
 		
 		mv.addObject("chatList",chatContent);
 		mv.setViewName("jsonView");

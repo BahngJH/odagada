@@ -202,7 +202,6 @@
 	                		<c:if test="${chatCon.SENDER==logined.memberId }">
 	                			<div>
 	        						<p class="right" style="clear:both">${chatCon.CCONTENT }</p>
-	        						
 							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
 	   							</div>
 	                		</c:if>
@@ -213,7 +212,6 @@
 		                		<div class="msgDivLeft">
 							        <img class="left" style="clear:both" width="40px" height="40px" src="${path}/resources/upload/profile/${imageUrl}" alt="회원사진">
 							        <p class="left" style="clear:both">${chatCon.CCONTENT }</p>
-							       	
 							    </div>
 		                	</c:if>
 	                	</c:forEach>
@@ -595,7 +593,6 @@
     					}else{
     						/* jsonData.receiver = data.chatContent[i].MEMBERID;
     						jsonData.roomId = data.chatContent[i].ROOMID; */
-
 /*     						name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatContent[i].PROFILEIMAGERE+'" alt="상대방사진"></span><span id="selectName">'+data.chatContent[i].MEMBERNAME+'</span>'; */
             				var left = "<div class='msgDivLeft'>";
             				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+data.chatContent[i].PROFILEIMAGERE+"' alt='회원사진'/>";
