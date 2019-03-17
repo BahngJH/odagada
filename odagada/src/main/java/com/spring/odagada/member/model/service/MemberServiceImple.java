@@ -171,4 +171,43 @@ public class MemberServiceImple implements MemberService {
 	public int checkPhone(String phone) {
 		return dao.checkPhone(phone);
 	}
+
+	@Override
+	public int updatePassword(Member m) {
+		return dao.updatePassword(m);
+	}
+
+	@Override
+	public void mailUpdate(Member m) throws Exception {
+		 //인증키 생성
+	    String key = new TemKey().getKey(50,false); 
+		//새로운 인증키로 db 입력        
+        dao.updateEmailCode(key, m.getMemberId());      
+        //메일 전송
+        MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("[odagada] 메일 인증하기 입니다.");
+        sendMail.setText(
+                new StringBuffer().append("<h1>메일인증</h1>")
+                .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+                .append("<a href='http://localhost:9090/odagada/emailConfirm.do?memberId=")
+                .append(m.getMemberId())
+				.append("&email=")
+				.append(m.getEmail())
+				.append("&mailCode=").append(key)
+				.append("' target='_blank'>이메일 인증 확인</a>").toString());
+        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
+        sendMail.setTo(m.getEmail());
+        sendMail.send();
+		
+	}
+
+	@Override
+	public int updatePhone(Member m) {
+		return dao.updatePhone(m);
+	}
+
+	@Override
+	public int updateName(Member m) {
+		return dao.updateName(m);
+	}
 }
