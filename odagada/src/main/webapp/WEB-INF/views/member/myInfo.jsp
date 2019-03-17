@@ -243,42 +243,7 @@ tr::after {
 </section>
 
 <script>
-/* 	function updateCheck(){
-		var answer = $('#answer1').val();
-		
-		console.log(answer);
-	     $.ajax({
-	    	url:"${path}/member/checkPw.do",
-	    	data:{"answer":answer},
-	    	success:function(data){
-	    		if(data =='no'){
-					alert("비밀번호가 올바르지 않습니다.");
-					return;
-	    		}else{
-	    				location.href="${path}/member/updateInfo.do";
-	    			}
-	    		
-	    		}
-	    	}); 
-	    }      
 
-
- function deleteCheck(){
-	var answer=$('#answer2').val();	
-	console.log(answer);
-	$.ajax({
-		url:"{path}/member/deleteMember.do",
-		data:{"answer", answer},
-		success:function(data){
-			if(data=='no'){
-				alert("비밀번호가 일치하지 않습니다.")
-			}
-		}
-	}])
-	
-	
-} 
- */
  function updateCheck(answer) {
 		var tt2="";
 		if(answer==='change'){

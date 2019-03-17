@@ -93,4 +93,8 @@
 	<update id="updateMailCode" parameterType="member">
 	 UPDATE MEMBER SET MAILCODE=#{mailCode} WHERE MEMBERID=#{memberId}
 	 </update>
+	 <!--핸드폰 번호 변경  -->
+	 <update id="updatePhone" parameterType="member">
+	 UPDATE MEMBER SET ISPHONEAUTH=#{isPhoneAuth}, PHONE=#{phone} WHERE MEMBERNUM=#{memberNum}
+	 </update>
 </mapper>

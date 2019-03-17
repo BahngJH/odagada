@@ -125,6 +125,7 @@
 		$("#backEmail").on("click", function(){
 			$("#alertEmail").hide();
     		$("#sentEmailDiv").hide();
+    		$("#reMail").attr("readonly",false);
 		})
 		
 		//핸드폰 번호 변경 버튼
@@ -139,10 +140,10 @@
      	    $("#oriPhoneDiv").show();
 		})
 			 
-		//인증 번호 취소 버튼
+		//인증 번호 발송 취소 버튼
 		$("#backOriPhone").on("click", function(){
 			$("#sentPhoneDiv").hide();
-			$("#sentTxtDiv").show();
+			$("#sentTxtDiv").show();			
 		})
 
 	});
@@ -201,6 +202,7 @@
 				    	    			if(result=="sent"){
 				    	    				$("#alertEmail").hide();
 				    	    	    		$("#sentEmailDiv").show();
+				    	    	    		$("#reMail").attr("readonly",true);
 				    	    			}else{
 				    	    				alert("메일전송에 실패하였습니다.");
 				    	    			}
@@ -230,12 +232,8 @@ function sendSms(){
 			url:"${path}/member/phoneCheck.do",
 			data:{"phone":phone},
 			success:function(data){
-					console.log("이것은 데이타"+data);
-				if(data=='Y'){
-					$("#sentTxtDiv").hide();
-					$("#sentPhoneDiv").show();		
-					//문자인증
-		  			$.ajax({
+				if(data=='Y'){				
+					$.ajax({
 						url:"${path}/member/sendSms",
 						data:{"receiver":phone},
 						type:"post",
@@ -243,14 +241,13 @@ function sendSms(){
 							console.log(result);					
 							if(result == "true"){
 								$("#sentTxtDiv").hide();
-								$("#sentPhoneDiv").show();
-								document.getElementById('').value=phone;
+								$("#sentPhoneDiv").show();							
+								document.getElementById('phoneNumber').value=phone;							
 						}else{
 							alert("전송 실패!");
 						}
 					}						
-				});  
-																	
+				});																	
 			}else{
 				alert("이미 사용중인 번호 입니다. 사용하실 수 없습니다.");
 				return false;
@@ -381,7 +378,8 @@ function sendSms(){
 		           			 <c:if test="${fn:length(phone) eq 10}">
 		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" maxlength="8" required>
 		           			</c:if>
-	         		 </div>	       			
+	         		 </div>
+	         		 	       			
        			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
 	   			     <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
 	   			    <div id="sentTxtDiv">
@@ -398,6 +396,7 @@ function sendSms(){
 	    			      <button type="button" class="cg btn btn-secondary btn-sm" onclick="sendSms();">인증 문자 재발송</button>
 	    			      <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
 	       			  </div>
+	       			   <input type="hidden" id="phoneNumber" value="0" required>
 		  		</div>			    
 		    </li> 
 		  </ul>
@@ -410,11 +409,18 @@ function sendSms(){
        </div>       
 <script>
 function phoneCheck(){
+	
+ 	var p1=$('#selectPhone option:selected').val(); 
+	var p2=$('#phone2').val().trim();
+	var phone=p1+p2;
+	console.log(phone);  
+	
 	$.ajax({
-		url:"${path}/member/smsCheck",
+		url:"${path}/member/phoneUpdate",
 		type:"post",
 		data:{
-			"code":$("#smsAnswer").val()
+			"code":$("#smsAnswer").val(),
+			"phone":$("#phoneNumber").val()
 		},
 		success:function(result){
 			if(result == "ok"){

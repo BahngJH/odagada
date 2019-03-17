@@ -615,4 +615,27 @@ public class MemberController {
 	   return "sent";	   
    }
    
+   //핸드폰 번호 변경
+   @ResponseBody
+   @RequestMapping("/member/phoneUpdate")
+   public String smsCheck(HttpSession session, String code, String phone) {
+   	Member m = (Member)session.getAttribute("logined");
+   	
+   	String saveCode = service.getPhoneCode(m.getMemberNum());
+   	
+   	logger.debug("들어오는 핸드폰 번호"+phone);
+   	if(pwEncoder.matches(code, saveCode)) {
+   		m.setPhone(phone);
+   		m.setIsPhoneAuth("Y");
+   		int result = service.updatePhone(m);
+   		if(result > 0) {
+   			return "ok";
+   		}else {
+   			return "no";
+   		}
+   	}else {
+   		return "no";
+   	}
+   }
+   
 }

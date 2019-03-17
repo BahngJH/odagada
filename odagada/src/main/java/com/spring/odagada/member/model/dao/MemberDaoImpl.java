@@ -138,4 +138,9 @@ public class MemberDaoImpl implements MemberDao {
         m.setMemberId(memberId);
         session.update("member.updateMailCode",m);
 	}
+
+	@Override
+	public int updatePhone(Member m) {
+		return session.update("member.updatePhone",m);
+	}
 }

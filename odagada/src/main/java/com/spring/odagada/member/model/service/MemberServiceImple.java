@@ -200,4 +200,9 @@ public class MemberServiceImple implements MemberService {
         sendMail.send();
 		
 	}
+
+	@Override
+	public int updatePhone(Member m) {
+		return dao.updatePhone(m);
+	}
 }
