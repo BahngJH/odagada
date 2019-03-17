@@ -8,26 +8,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.common.PageFactory;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.service.DriverService;
-import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -304,23 +302,33 @@ public class DriverController {
     }
     //결제하기 ajax
     @RequestMapping("/driver/updateDriverCredit")
-    public ModelAndView updateDriverCredit(int carpoolNum,int passengerNum, int driverNum, int paycode) {
-    	ModelAndView mav = new ModelAndView();
+    public void updateDriverCredit(HttpServletResponse rep, int carpoolNum,int passengerNum, int driverNum, int paycode,int pay) {
     	Map<String,Integer> map = new HashMap<>();
     	map.put("carpoolNum", carpoolNum);
     	map.put("passengerNum", passengerNum);
     	map.put("driverNum", driverNum);
     	map.put("paycode", paycode);
-    	
+    	map.put("pay", pay);
+    	logger.debug("pay: "+pay+" driverNum"+driverNum);
+    	//입력된 코드값과 일치하는 컬럼이 있는지 검색
     	Map<String,String> rs = service.selectCreditCode(map);
-    	if(rs!=null) {
-    		
-    	}
-    	else {
-    		mav.addObject("N");
-    	}
-    	return mav;
-    	
+		try {
+	    	if(rs!=null) {
+	    		//있을 경우 passenger테이블과 driver테이블 업데이트
+	    		int result = service.updateCredit(map);
+	    		if(result>0) {
+	    			rep.getWriter().print("Y");
+	    		}
+	    		else {
+	    			rep.getWriter().print("N");
+	    		}
+	    	}
+	    	else {
+	    	//없을 경우 N리턴
+				rep.getWriter().print("N");
+	    	}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
-   
 }
