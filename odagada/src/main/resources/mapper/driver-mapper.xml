@@ -51,6 +51,13 @@
 		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
    </update>
    <select id="selectCreditCode" parameterType="map" resultMap="driver_">
-   		select * from passenger where paycode=#{paycode} and carpoolnum={carpoolNum}
+   		select * from passenger where paycode=#{paycode} and carpoolnum=#{carpoolNum} and membernum=#{passengerNum}
    </select>
+   <!-- 금액 입력 -->
+   <update id="updateDriverCredit" parameterType="map">
+   		update driver set money=+#{pay} where memberNum=#{driverNum}
+   </update>
+   <update id="updatePasPayStatus" parameterType="map">
+   		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum}
+   </update>
 </mapper>
