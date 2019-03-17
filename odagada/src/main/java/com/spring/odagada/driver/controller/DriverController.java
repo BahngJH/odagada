@@ -246,7 +246,7 @@ public class DriverController {
     
     //드라이버가 동승중인 이용객 보기
     @RequestMapping("/driver/selectDriverPas")
-    public ModelAndView selectDriverPas(String driverNum,String carpoolNum){
+    public ModelAndView selectDriverPas(String driverNum,String carpoolNum,String sta){
        ModelAndView mav = new ModelAndView();
        Map<String,String> m = new HashMap();
        m.put("driverNum", driverNum);
@@ -254,7 +254,13 @@ public class DriverController {
        List<Map<String,String>> dList =service.selectDriverPas(m);
        logger.debug(""+dList);
        mav.addObject("dList",dList);
-       mav.setViewName("member/passengerCk");
+       if(sta.equals("Y")) {
+    	   mav.setViewName("member/passengerCk");
+       }
+       else{
+    	   //이용이 끝난 경우 결제 받기
+    	   mav.setViewName("member/passengerFinish");   
+       }
        return mav; 
     }
     //드라이버가 승차 승락한 경우
