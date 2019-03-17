@@ -46,7 +46,6 @@ public class BoardController {
    public void blackListDelete()
    {
 	   int rs = dao.blackListDelete();
-	   logger.debug(rs+"개의 블랙리스트 회원이 제거됨");
    }
    
    //블랙리스트 불러옴

@@ -403,7 +403,6 @@
         				left +="</div>";
     					allMsg +=left;
         			}
-    				
     			}
     			
     			name +=nameImg;
@@ -450,9 +449,7 @@
         			{
         				updateRoom +='<span class="msgCount">'+data.chatRooms[i].isReadCount+'</span>';
         			}
-
         			updateRoom +='</div></div>';
-        			
     			}
     			$('#chatRooms').html(updateRoom);
     		}
@@ -572,6 +569,7 @@
     			if(data.chatMember!=null)
     			{
     				console.log("메시지가 없다");
+    				console.log(data);
     				for(var i=0;i<data.chatMember.length;i++)
     				{
     					var img = '<img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatMember[i].PROFILEIMAGERE+'" alt="회사 로고">';
@@ -589,6 +587,7 @@
     			if(data.chatContent!=null)
     			{
     				console.log("메시지가 있다.");
+    				console.log(data);
     				for(var i=0;i<data.chatContent.length;i++)
     				{
     					console.log(data.chatContent[i]);
@@ -602,8 +601,9 @@
     					}else{
     						jsonData.receiver = data.chatContent[i].MEMBERID;
     						jsonData.roomId = data.chatContent[i].ROOMID;
-    						name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatContent[i].PROFILEIMAGERE+'" alt="상대방사진"></span>';
-        		        	nameImg ='<span id="selectName">'+data.chatContent[i].MEMBERNAME+'</span>';
+    						/* name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatContent[i].PROFILEIMAGERE+'" alt="상대방사진"></span>';
+        		        	nameImg ='<span id="selectName">'+data.chatContent[i].MEMBERNAME+'</span>'; */
+        		        	name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatContent[i].PROFILEIMAGERE+'" alt="상대방사진"></span><span id="selectName">'+data.chatContent[i].MEMBERNAME+'</span>';
             				var left = "<div class='msgDivLeft'>";
             				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+data.chatContent[i].PROFILEIMAGERE+"' alt='회원사진'/>";
             				left +="<p class='left' >"+data.chatContent[i].CCONTENT+"</p>";
@@ -611,7 +611,7 @@
         					allMsg +=left;
     					}
     				}
-    				name +=nameImg;
+    				/* name +=nameImg; */
         			$('#selectUserInfo').html(name);
         			$('#insertContent').html(allMsg);
         			allMsg="";
