@@ -179,7 +179,6 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public void mailUpdate(Member m) throws Exception {
-		System.out.print("메일 보내기 전 serviceImpl단계 갖고오는 이메일은?"+m.getEmail());
 		 //인증키 생성
 	    String key = new TemKey().getKey(50,false); 
 		//새로운 인증키로 db 입력        

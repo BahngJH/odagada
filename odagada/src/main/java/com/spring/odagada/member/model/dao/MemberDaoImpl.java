@@ -136,7 +136,6 @@ public class MemberDaoImpl implements MemberDao {
 		Member m = new Member();
         m.setMailCode(mailCode);
         m.setMemberId(memberId);
-        System.out.println("메일코드는?"+mailCode);
         session.update("member.updateMailCode",m);
 	}
 }

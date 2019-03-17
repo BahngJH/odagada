@@ -444,6 +444,7 @@ public class MemberController {
     	
     	if(pwEncoder.matches(code, saveCode)) {
     		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		
     		if(result > 0) {
     			return "ok";
     		}else {

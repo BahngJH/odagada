@@ -138,16 +138,10 @@
 			$("#inputPhone").hide();
      	    $("#oriPhoneDiv").show();
 		})
-		
-		//인증 번호 발송 버튼
-		$("#sentTxtBtn").on("click", function(){
-			$("#sentPhoneDiv").show();
-			$("#sentTxtDiv").hide();
-		})
-		
+			 
 		//인증 번호 취소 버튼
 		$("#backOriPhone").on("click", function(){
-			$("#sentPhoneDiv").hidFe();
+			$("#sentPhoneDiv").hide();
 			$("#sentTxtDiv").show();
 		})
 
@@ -219,20 +213,56 @@
     		} 
 			
 //핸드폰 번호 변경 버튼 클릭시
-function sendSms(){
-		//핸드폰 유효성 검사 
+function sendSms(){		
+	 	var p1=$('#selectPhone option:selected').val(); 
+		var p2=$('#phone2').val().trim();
+		var phone=p1+p2;
+		console.log(phone);  
+	 	//핸드폰 유효성 검사 		
 		var regExp = /([0-9]{7,8})$/;
-		var ck = /^\d{3}-\d{3,4}-\d{4}$/;
-
-		if (!regExp.test($("input[name=phone2]").val())) {
-			alert("정확한 휴대폰 번호를 입력해주세요.");
+		if (!regExp.test(p2)) {
+			alert("정확한 휴대폰 번호를 입력해주세요. '-' 빼고 입력해주세요. ");
 			return false;
+		} 
+				
+	 	//핸드폰 번호 중복 검사
+		$.ajax({
+			url:"${path}/member/phoneCheck.do",
+			data:{"phone":phone},
+			success:function(data){
+					console.log("이것은 데이타"+data);
+				if(data=='Y'){
+					$("#sentTxtDiv").hide();
+					$("#sentPhoneDiv").show();		
+					//문자인증
+		  			$.ajax({
+						url:"${path}/member/sendSms",
+						data:{"receiver":phone},
+						type:"post",
+						success:function(result){
+							console.log(result);					
+							if(result == "true"){
+								$("#sentTxtDiv").hide();
+								$("#sentPhoneDiv").show();
+								document.getElementById('').value=phone;
+						}else{
+							alert("전송 실패!");
+						}
+					}						
+				});  
+																	
+			}else{
+				alert("이미 사용중인 번호 입니다. 사용하실 수 없습니다.");
+				return false;
+			}
 		}
-			
+	}); 
+};
 		
+		
+	 
 	
-	
-}
+
 			
 	
  	
@@ -252,7 +282,7 @@ function sendSms(){
 			    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
 			    </li>
 			    
-			    <!--이름 변경  -->
+			 <%--    <!--이름 변경  -->
 			     <li class="list-group-item">
 					<!--기존 Email 정보  -->
 				     <div class="row passwordInfo" id="oriEmailDiv">    	
@@ -263,7 +293,7 @@ function sendSms(){
 							<button type="button" id="chgName-btn" class="cg btn btn-secondary btn-sm">이름 변경</button>      	
 			   			</div> 		
 			   		 </div>
-			 <%--   		 <!--Email 변경 버튼 클릭시  -->
+			    		 <!--Email 변경 버튼 클릭시  -->
 			   		 <div class="row passwordInfo" id="chgEmailInfo">    	
 			    		<div class="ptext col-7">
 						  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
@@ -281,8 +311,8 @@ function sendSms(){
 			  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
 			   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
 						    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
-					  </div> --%> 
-			    </li>
+					  </div> 
+			    </li> --%>
 			    
 			    
 			    
@@ -346,10 +376,10 @@ function sendSms(){
 		                     </select>
 		                   
 		                     <c:if test="${fn:length(phone) eq 11}">
-		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}"required>
+		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" maxlength="8" required>
 		           			 </c:if>
 		           			 <c:if test="${fn:length(phone) eq 10}">
-		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
+		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" maxlength="8" required>
 		           			</c:if>
 	         		 </div>	       			
        			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
@@ -361,21 +391,44 @@ function sendSms(){
        			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
 	       			  <div id="sentPhoneDiv">
 		    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
-			           	  <input type="number" class="form-control" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
-	    			      <button type="button" class="cg btn btn-secondary btn-sm">인증 문자 재발송</button>
+	    			  	  <div class="row">
+				           	  <input type="text" class="col-8 form-control" id="smsAnswer" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
+				           	  <button type="button" class="col-4 cg btn btn-secondary btn-sm" onclick="phoneCheck();">인증하기</button>
+	    			      </div>
+	    			      <button type="button" class="cg btn btn-secondary btn-sm" onclick="sendSms();">인증 문자 재발송</button>
 	    			      <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
 	       			  </div>
 		  		</div>			    
-		    </li>
+		    </li> 
 		  </ul>
 			  <div class="card-body">
-			    <a href="#" class="card-link">Card link</a>
-			    <a href="#" class="card-link">Another link</a>
+			    <a href="#" class="card-link">정보변경</a>
+			   <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
 			  </div>
 			</div>            
           </form>
-       </div> 
-
+       </div>       
+<script>
+function phoneCheck(){
+	$.ajax({
+		url:"${path}/member/smsCheck",
+		type:"post",
+		data:{
+			"code":$("#smsAnswer").val()
+		},
+		success:function(result){
+			if(result == "ok"){
+				alert("번호 인증 성공");
+				
+			}else{
+				alert("번호 인증 실패");ㅣ
+			}		
+			location.reload();
+		}
+	})							
+}		    	    
+</script>
+       
 <!--비밀번호 변경하기 모달창  -->
 <div class="modal fade" id="chgPass" tabindex="-1" role="dialog" aria-labelledby="chgPassLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
