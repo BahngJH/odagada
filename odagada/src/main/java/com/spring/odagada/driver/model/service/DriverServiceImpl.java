@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.dao.DriverDao;
+import com.spring.odagada.driver.model.vo.CarImage;
 import com.spring.odagada.driver.model.vo.Driver;
-import com.spring.odagada.driver.model.vo.carImage;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -22,7 +22,7 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
-	public int enrollDriver(Map<String, Object> driver, List<carImage> files) throws BoardException {
+	public int enrollDriver(Map<String, Object> driver, List<CarImage> files) throws BoardException {
 
 		int result=0;
 		int boardNo = 0;
@@ -32,7 +32,7 @@ public class DriverServiceImpl implements DriverService {
 			{
 				throw new BoardException("가입 실패");
 			}
-			for(carImage cImg : files)
+			for(CarImage cImg : files)
 			{
 				
 				result = dao.insertCarImage(cImg);
@@ -69,8 +69,24 @@ public class DriverServiceImpl implements DriverService {
 	public int updateStatus(Map<String, Object> map) {
 		return dao.updateStatus(map);
 	}
+
+	@Override
+	public int deleteDriver(int memberNum) {
+		return dao.deleteDriver(memberNum);
+	}
 	
 	
+	
+	//드라이버 카풀 등록 리스트
+	@Override
+	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
+		return dao.selectDriverCarPool(memberNum);
+	}
+
+	@Override
+	public List<Map<String, String>> selectDriverPas(Map<String, String> m) {
+		return dao.selectDriverPas(m);
+	}
 	
 	
 	

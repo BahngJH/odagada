@@ -322,7 +322,7 @@
 					  								if(${logined == null}){
 					  									return alert("로그인 필요");
 					  								}
-
+													/*
 					  								$.ajax({
 		  												url: "${path}/carpool/paymentEnd",
 		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
@@ -339,8 +339,8 @@
 															location.reload();
 		  											 	}
 		  											});
+					  								*/
 					  								
-					  								/* 
 				  									var imp = window.IMP;
 				  									imp.init('imp87992639');
 				  									
@@ -349,7 +349,7 @@
 				  										amount : '${oList.get(0).PAY}',
 				  										pay_method : 'card',
 				  										merchant_uid : 'merchant_' + new Date().getTime(),
-				  										name : '주문명: 결제테스트',
+				  										name : '오다가다 카풀',
 				  										buyer_email : '${logined.email}',
 				  										buyer_name : '${logined.memberName}',
 				  										buyer_tel : '${logined.phone}',
@@ -357,19 +357,27 @@
 				  									}, function(rsp){
 				  										if(rsp.success){
 				  											$.ajax({
-				  												url: "/carpool/paymentEnd",
-				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
-				  														"memberNum": "${logined.memberNum}"	
+				  												url: "${path}/carpool/paymentEnd",
+				  												data: {
+				  													"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+			  														"memberNum": "${logined.memberNum}",
+			  														"impUid":rsp.imp_uid,
 				  												},
 				  												type: "post",
 				  											 	success:function(result){
-				  													console.log(result);
+				  											 		if(result==="ok"){
+				  														alert("신청 완료");
+				  													}else if(result ==="no"){
+				  														alert("신청 실패");
+				  													}
+				  													
+																	location.reload();
 				  											 	}
 				  											});
 				  										}else{
 				  											console.log(rsp);
 				  										}
-				  									}) */
+				  									}) 
 			  									};
 					  						</script>
 											</c:if>
@@ -767,7 +775,7 @@ function checkIng(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myInfo.do";
+		location.href="${path}/member/myCarpool";
 	}
 }
 function checkSubmit(){
@@ -775,7 +783,7 @@ function checkSubmit(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myInfo.do";
+		location.href="${path}/member/myCarpool";
 	}
 }
 </script>

@@ -13,10 +13,12 @@ public interface CarpoolService {
 	List<Map<String,String>> selectCarOneList(int carpoolNum);
 	List<Map<String,String>> selectPasList(int carpoolNum);
 	List<Map<String,String>> selectImageList(int mem);
-	int insertPassenger(Map<String, Integer> pass);
+	int insertPassenger(Map<String, Object> pass);
 	List<Map<String,String>> selectReList(int dNum);
 	List<Map<String, String>> selectCarpoolList(int memberNum, int cPage, int numPerPage);
 	int selectCarpoolCount(int memberNum);
 	List<Map<String,String>> selectPopList();
 	void setCarpoolStatus(String nowDate);
+	String getImpUid(Map<String, Integer> map);
+	int updateCPayStatus(Map<String, Integer> map);
 }

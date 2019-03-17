@@ -1,7 +1,13 @@
 package com.spring.odagada.carpool.controller;
 
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,15 +20,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.Iamport;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.carpool.model.vo.CarOption;
 import com.spring.odagada.carpool.model.vo.Carpool;
@@ -57,10 +75,14 @@ public class CarpoolController {
 				mav.setViewName("/common/msg");
 				mav.addObject("msg", "드라이버만 등록 가능합니다. 드라이버 등록해주세요.");
 				mav.addObject("loc", "/driver/driverEnroll");
-				return mav;
 			}else {
-				mav.setViewName("/carpool/register");
-				return mav;
+				if(d.getDriverStatus().equals("N")) {
+					mav.setViewName("/common/msg");
+					mav.addObject("msg", "드라이버 심사 중 입니다.");
+					mav.addObject("loc", "/");
+				}else {
+					mav.setViewName("/carpool/register");
+				}
 			}
 			
 		}else {
@@ -68,8 +90,9 @@ public class CarpoolController {
 			mav.setViewName("/common/msg");
 			mav.addObject("msg", "로그인 해주세요.");
 			mav.addObject("loc", "/member/loginForm.do");
-			return mav;
 		}		
+		
+		return mav;
 	}
 
 	@RequestMapping("/carpool/registerEnd")
@@ -295,7 +318,7 @@ public class CarpoolController {
 	
 	@ResponseBody
 	@RequestMapping("/carpool/paymentEnd")
-	public String paymentEnd(int carpoolNum, int memberNum) {
+	public String paymentEnd(int carpoolNum, int memberNum, String impUid) {
 		l.debug("카풀 넘: " + carpoolNum + " 멤버 넘 : "+ memberNum);
 		
 		Calendar cal = Calendar.getInstance();
@@ -307,10 +330,11 @@ public class CarpoolController {
 		
 		l.debug("랜덤 넘버:" + rand);
 		
-		Map<String, Integer> pass = new HashMap<>();
+		Map<String, Object> pass = new HashMap<>();
 		pass.put("carpoolNum", carpoolNum);
 		pass.put("memberNum", memberNum);
 		pass.put("payCode", rand);
+		pass.put("impUid", impUid);
 		
 		int result = service.insertPassenger(pass);
 		
@@ -321,5 +345,56 @@ public class CarpoolController {
 		}
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/carpool/paymentCancel")
+	public String paymentCancel(HttpSession session, int carpoolNum) {
+		
+		Member m = (Member)session.getAttribute("logined");
+		int memberNum = m.getMemberNum();
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("memberNum", memberNum);
+		map.put("carpoolNum", carpoolNum);
+		
+		String impUid = service.getImpUid(map);
+		
+		if(impUid != null) {
+			final String APIKey = "8371442165887262";
+			final String APISecret = "3BcZ8LhZ715zulG8TuZGMBYDoUyGBWBEyNEHzVGGWMgq8Wz1rzIdaHRyBpfcmQRVEvCerjVo6bPe8ogz";
+			
+			IamportClient client = new IamportClient(APIKey, APISecret);
+			String accessToken = null;
+			try {
+				IamportResponse<AccessToken> authResponse = client.getAuth();
+				
+				accessToken = authResponse.getResponse().getToken();
+			}catch (IamportResponseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			CancelData cancelData = new CancelData(impUid, true);
+			
+			try {
+				IamportResponse<Payment> paymentResponse = client.cancelPaymentByImpUid(cancelData);
+				if(paymentResponse == null) {
+					return "no";
+				}else {
+					int result = service.updateCPayStatus(map);
+					
+					return "ok";
+				}
+			}catch (IamportResponseException e) {
+				e.printStackTrace();
+				return "no";
+			}catch (IOException e) {
+				e.printStackTrace();
+				return "no";
+			}
+			
+		}else {
+			return "no";
+		}
+	}
 }

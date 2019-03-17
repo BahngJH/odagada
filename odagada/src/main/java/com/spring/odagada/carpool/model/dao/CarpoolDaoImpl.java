@@ -58,7 +58,7 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	}
 
 	@Override
-	public int insertPassenger(Map<String, Integer> pass) {
+	public int insertPassenger(Map<String, Object> pass) {
 		return session.insert("carpool.insertPassenger", pass);
 	}
 
@@ -80,5 +80,15 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	@Override
 	public void setCarpoolStatus(String nowDate) {
 		session.update("carpool.setCarpoolStatus", nowDate);
+	}
+
+	@Override
+	public String getImpUid(Map<String, Integer> map) {
+		return session.selectOne("carpool.selectImpUid", map);
+	}
+
+	@Override
+	public int updateCPayStatus(Map<String, Integer> map) {
+		return session.update("carpool.updateCPayStatus", map);
 	}	
 }
