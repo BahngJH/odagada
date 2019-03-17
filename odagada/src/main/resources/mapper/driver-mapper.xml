@@ -55,7 +55,7 @@
    </select>
    <!-- 금액 입력 -->
    <update id="updateDriverCredit" parameterType="map">
-   		update driver set money=+#{pay} where memberNum=#{driverNum}
+   		update driver set money=money+#{pay} where memberNum=#{driverNum}
    </update>
    <update id="updatePasPayStatus" parameterType="map">
    		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum}
