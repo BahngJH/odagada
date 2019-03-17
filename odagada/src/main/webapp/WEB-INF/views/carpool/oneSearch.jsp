@@ -4,11 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <%
 	int seat = (int)request.getAttribute("seat");
 	List pList = (List)request.getAttribute("pList"); 
@@ -34,13 +34,27 @@
 		margin-top:10px;
 		margin-bottom: 10px;
 	}
-	img.driver-img{
-		width:80px;height:80px;
-		border-radius: 100px;
-		float:left;
-		margin:19px;
-		margin-top:35%;
-	}
+img.driver-img{
+      position: relative;
+      width: 110px;
+      height: 100px;
+      margin: 20px 0;
+      border-radius: 50% / 10%;
+      color: white;
+      text-align: center;
+      text-indent: .1em;
+    }
+img.driver-img:before {
+      content: '';
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      right: -5%;
+      left: -5%;
+      background: inherit;
+      border-radius: 5% / 50%;
+    }
+  
 	span.line-div{
 		border:1px solid rgb(230,230,230);
 		height:auto;
@@ -137,8 +151,28 @@
 	    border-style: solid;
 	    text-align:left;
 	}
+	div.speak-div{
+      width: auto;
+      height: auto;
+      background: #FFFFC2;
+      position: relative;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+    }
+    div.speak-div:before {
+      content: "";
+      position: absolute;
+      right: 100%;
+      top: 26px;
+      width: 0;
+      height: 0;
+      border-top: 13px solid transparent;
+      border-right: 26px solid #FFFFC2;
+      border-bottom: 13px solid transparent;
+	}
 </style>
-<section class="container">
+<section id="container">
 	<div class="row">
 		<div class="col-12 col-md-2"></div>
 		<div class="col-12 col-md-8">
@@ -202,14 +236,14 @@
 					  		<input type="hidden" value="${o.CARPOOLNUM }" id="carpoolNum" name="carpoolNum">
 						  	<hr>
 						  	<!-- 드라이버 소개 -->
-						  	<div class="card text-center intro-driver" >
+						  	<div class="text-center intro-driver" >
 						  		<div class="row">
-						  			<div class="col-3">
+						  			<div class="col-12 col-md-3">
 						  				<div class="row">
-						  					<div class="col-10">
+						  					<div class="col-12">
 												<span>
 								  					<%-- <img src="${path }/resources/images/${o.PROFILEIMAGERE}" class="driver-img"/> --%>
-								  					<img src="${path }/resources/images/ilhoon2.jpg" class="driver-img"/>
+								  					<img src="${path }/resources/upload/profile/${o.PROFILEIMAGERE}" class="img-fluid driver-img"/>
 								  				</span>
 							  				</div>
 						  				</div>
@@ -220,7 +254,7 @@
 					  						</div>
 					  					</div>
 						  			</div>
-						  			<div class="col-9">
+						  			<div class="col-12 offset-md-1 col-md-7 speak-div">
 						  				<p class="intro-p">${o.INTRODUCE }</p>
 						  				<input type="hidden" id="intro" name="intro" value="${o.INTRODUCE }"/>
 						  				<div class="row">
@@ -322,7 +356,6 @@
 					  								if(${logined == null}){
 					  									return alert("로그인 필요");
 					  								}
-													/*
 					  								$.ajax({
 		  												url: "${path}/carpool/paymentEnd",
 		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
@@ -339,8 +372,8 @@
 															location.reload();
 		  											 	}
 		  											});
-					  								*/
 					  								
+					  								/* 
 				  									var imp = window.IMP;
 				  									imp.init('imp87992639');
 				  									
@@ -349,7 +382,7 @@
 				  										amount : '${oList.get(0).PAY}',
 				  										pay_method : 'card',
 				  										merchant_uid : 'merchant_' + new Date().getTime(),
-				  										name : '오다가다 카풀',
+				  										name : '주문명: 결제테스트',
 				  										buyer_email : '${logined.email}',
 				  										buyer_name : '${logined.memberName}',
 				  										buyer_tel : '${logined.phone}',
@@ -357,27 +390,19 @@
 				  									}, function(rsp){
 				  										if(rsp.success){
 				  											$.ajax({
-				  												url: "${path}/carpool/paymentEnd",
-				  												data: {
-				  													"carpoolNum": "${oList.get(0).CARPOOLNUM}",
-			  														"memberNum": "${logined.memberNum}",
-			  														"impUid":rsp.imp_uid,
+				  												url: "/carpool/paymentEnd",
+				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+				  														"memberNum": "${logined.memberNum}"	
 				  												},
 				  												type: "post",
 				  											 	success:function(result){
-				  											 		if(result==="ok"){
-				  														alert("신청 완료");
-				  													}else if(result ==="no"){
-				  														alert("신청 실패");
-				  													}
-				  													
-																	location.reload();
+				  													console.log(result);
 				  											 	}
 				  											});
 				  										}else{
 				  											console.log(rsp);
 				  										}
-				  									}) 
+				  									}) */
 			  									};
 					  						</script>
 											</c:if>
@@ -393,7 +418,7 @@
 									  					<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
 									  						<span class="card pas-span">
 									  							<%-- <img src="${path }/resources/images/${p.PROFILEIMAGERE}" class="pas-img"><br> --%>
-									  							<img src="${path }/resources/images/ilhoon.jpg" class="pas-img"><br>
+									  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img"><br>
 									  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
 								  							</span>
 							  							</c:if>
@@ -495,7 +520,7 @@
 				  			<c:forEach items="${cList }" var="c" varStatus="count">
 				  				<div class='row'>
 					  				<div class='col-12'>
-					  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="img-fluid car-img "/>
+					  					<img src="${path }/resources/upload/car/${c.CARIMAGERE}" class="img-fluid car-img "/>
 						  			</div>
 		  						</div>
 				  			</c:forEach>
@@ -609,7 +634,6 @@
 
 <!-- 채팅방 -->
 <script>
-
    function moveChatting(chatUser)
    {
 	   console.log(chatUser);
@@ -775,7 +799,7 @@ function checkIng(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myCarpool";
+		location.href="${path}/member/myInfo.do";
 	}
 }
 function checkSubmit(){
@@ -783,7 +807,7 @@ function checkSubmit(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myCarpool";
+		location.href="${path}/member/myInfo.do";
 	}
 }
 </script>
