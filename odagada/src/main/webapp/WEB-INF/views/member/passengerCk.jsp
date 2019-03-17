@@ -88,10 +88,36 @@ margin-right:2%;
 button.credit-btn:hover{
    background-color:rgba(50,50,50,0.7);
 }
-img.profile-img{
-border-radius: 30px;
-width:100px;
-height:100px;
+.profile-img {
+  position: relative;
+  width: 130px;
+  height: 120px;
+  border-radius: 50% / 10%;
+  color: white;
+  text-align: center;
+  text-indent: .1em;
+}
+.profile-img:before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  right: -5%;
+  left: -5%;
+  background: inherit;
+  border-radius: 5% / 50%;
+}
+div.tag-div{
+width: 0;
+height: 0;
+border-top: 20px solid #FFCD12;
+border-right: 20px solid transparent;
+}
+div.tagN-div{
+width: 0;
+height: 0;
+border-top: 20px solid rgb(100,100,100);
+border-right: 20px solid transparent;
 }
 div.nSub-div{
 margin:7%;
@@ -113,6 +139,12 @@ background-color:rgb(240,240,240);
 div.yes-div{
 border:1px solid rgb(0,175,76);
 width:300px;
+}
+div.rcFloat-div{
+float:left;
+}
+div.in-div{
+margin-left:13px;
 }
 </style>
 <section class="container">
@@ -187,8 +219,8 @@ width:300px;
 									<fmt:parseNumber value="${size_Y}" type="number" var="si_Y"/>
 									<c:if test="${dList != null }">
 										<c:forEach items="${dList}" var="d" varStatus="count">
-											<c:set value="${si_Y + 1 }" var="si_Y"/>
 											<c:if test='${d.PSTATUS eq "Y"}'>
+											<c:set value="${si_Y + 1 }" var="si_Y"/>
 												<td>
 													<div> <!-- 세부크기지정해주기 -->
 														<div class="card yes-div">
@@ -197,30 +229,33 @@ width:300px;
 																   <div class="nSub-div">
 																      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
 																   </div>
-																   <hr/>
+																   <hr>
 																</div>
 																<div class="col-12 pSub-div">
-																	<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-																	<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-																	<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-																	<p><b>성별:&nbsp;</b>
-																		<c:choose>
-																			<c:when test='${d.GENDER == "M"}'>
-																				남
-																			</c:when>
-																			<c:otherwise>
-																				여
-																			</c:otherwise>
-																		</c:choose>
-																	</p>
-																	<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-																	<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																	<div class="tag-div"></div>
+																	<div class="in-div">
+																		<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																		<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																		<p><b>성별:&nbsp;</b>
+																			<c:choose>
+																				<c:when test='${d.GENDER == "M"}'>
+																					남
+																				</c:when>
+																				<c:otherwise>
+																					여
+																				</c:otherwise>
+																			</c:choose>
+																		</p>
+																		<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																		<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																	</div>
 																</div>
 																<div class="col-12 text-center check-div">
 																	<span>
 																		<button class="btn btn-success" onclick="moveChatting(${d.PMEMBERNUM})">채팅하기</button>
 																		<c:if test='${d.PAYSTATUS eq "N" }'>
-																			<button class="btn btn-info credit-id" data-toggle="modal" data-target="#credit" value='${d.PMEMBERNUM }'>결제 받기</button>
+																			<button class="btn btn-warning credit-id" data-toggle="modal" data-target="#credit" value='${d.PMEMBERNUM }'>결제 받기</button>
 																		</c:if>
 																		<c:if test='${d.PAYSTATUS eq "Y" }'>
 																			<button class="btn btn-success">결제 완료</button>
@@ -274,24 +309,27 @@ width:300px;
 																	   <div class="nSub-div">
 																	      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
 																	   </div>
-																	   <hr/>
+																	   <hr>
 																	</div>
 																	<div class="col-12 pSub-div">
-																		<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-																		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-																		<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-																		<p><b>성별:&nbsp;</b>
-																			<c:choose>
-																				<c:when test='${d.GENDER == "M"}'>
-																					남
-																				</c:when>
-																				<c:otherwise>
-																					여
-																				</c:otherwise>
-																			</c:choose>
-																		</p>
-																		<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-																		<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																		<div class="tag-div"></div>
+																		<div class="in-div">
+																			<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																			<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																			<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																			<p><b>성별:&nbsp;</b>
+																				<c:choose>
+																					<c:when test='${d.GENDER == "M"}'>
+																						남
+																					</c:when>
+																					<c:otherwise>
+																						여
+																					</c:otherwise>
+																				</c:choose>
+																			</p>
+																			<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																			<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																		</div>
 																	</div>
 																	<div class="col-12 text-center check-div">
 																		<span>
@@ -338,35 +376,38 @@ width:300px;
 		         						<c:choose>
 		         							<c:when test="${d.PSTATUS eq 'R' }">
 		         								<c:set var="si_RC" value="${si_RC + 1 }"/>
-			         							<div class="col-12 col-md-4">
+			         							<div class="col-12 col-md-4 rcFloat-div">
 			         								<div class="card rc-div">
 				         								<div class="row">
 					         								<div class="col-12 text-center">
 															   <div class="nSub-div">
 															      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
 															   </div>
-															   <hr/>
+															   <hr>
 															</div>
 															<div class="col-12 pSub-div">
-																<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-																<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-																<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-																<p><b>성별:&nbsp;</b>
-																	<c:choose>
-																		<c:when test='${d.GENDER == "M"}'>
-																			남
-																		</c:when>
-																		<c:otherwise>
-																			여
-																		</c:otherwise>
-																	</c:choose>
-																</p>
-																<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-																<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																<div class="tagN-div"></div>
+																<div class="in-div">
+																	<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																	<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																	<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																	<p><b>성별:&nbsp;</b>
+																		<c:choose>
+																			<c:when test='${d.GENDER == "M"}'>
+																				남
+																			</c:when>
+																			<c:otherwise>
+																				여
+																			</c:otherwise>
+																		</c:choose>
+																	</p>
+																	<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																	<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																</div>
 															</div>
 															<div class="col-12 text-center check-div">
 																<span>
-																	<button class="btn btn-danger">거절됨</button>
+																	<button class="btn btn-danger">승차거절</button>
 														 		</span>
 															</div>
 														</div>
@@ -375,35 +416,38 @@ width:300px;
 		         							</c:when>
 		         							<c:when test="${d.PSTATUS eq 'C' }">
 		         								<c:set var="si_RC" value="${si_RC + 1 }"/>
-		         								<div class="col-12 col-md-4">
+		         								<div class="col-12 col-md-4 rcFloat-div">
 			         								<div class="card rc-div">
 				         								<div class="row">
 					         								<div class="col-12 text-center">
 															   <div class="nSub-div">
 															      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
 															   </div>
-															   <hr/>
+															   <hr>
 															</div>
 															<div class="col-12 pSub-div">
-																<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-																<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-																<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-																<p><b>성별:&nbsp;</b>
-																	<c:choose>
-																		<c:when test='${d.GENDER == "M"}'>
-																			남
-																		</c:when>
-																		<c:otherwise>
-																			여
-																		</c:otherwise>
-																	</c:choose>
-																</p>
-																<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-																<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																<div class="tagN-div"></div>
+																	<div class="in-div">
+																		<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																		<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																		<p><b>성별:&nbsp;</b>
+																			<c:choose>
+																				<c:when test='${d.GENDER == "M"}'>
+																					남
+																				</c:when>
+																				<c:otherwise>
+																					여
+																				</c:otherwise>
+																			</c:choose>
+																		</p>
+																		<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																		<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																	</div>
 															</div>
 															<div class="col-12 text-center check-div">
 																<span>
-																	<button class="btn btn-danger">결제취소됨</button>
+																	<button class="btn btn-danger">결제취소</button>
 														 		</span>
 															</div>
 														</div>
@@ -479,7 +523,7 @@ width:300px;
 									console.log(data);
 									if(data==='Y'){
 										alert('결제를 완료하였습니다.');
-										location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum;
+										location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y";
 									}
 									else{
 										alert('결제에 실패하였습니다. 다시 시도해주세요.');
@@ -498,10 +542,6 @@ width:300px;
 </section>
 <script>
 var mNum;
-/* function mNum(e){
-	mNum=e;
-	console.log(mNum);
-} */
 $('.credit-id').on('click',function(){
 	mNum=this.value;
 	console.log(mNum);

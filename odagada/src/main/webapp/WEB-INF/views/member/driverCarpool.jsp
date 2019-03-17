@@ -77,24 +77,43 @@ button.checkPass-btn{
    border-radius: 25px;
    width:100px;
    height:30px;
-   background-color:rgb(0,175,76);
-   color:white;
+   background-color:#FFCD12;
    font-size: 16px;
    float:right;
 }
 button.checkPass-btn:hover{
    background-color:rgba(50,50,50,0.7);
+   color:white;
 }
 div.N-div{
    border:2px solid rgb(0,175,76);
-   background-color:rgba(0,175,76,0.1);
 }
-div.N-div:hover{
-box-shadow: 2px 2px 1px rgb(0,175,76),-2px -2px 1px rgb(0,175,76);
+div.a-card:hover{
+box-shadow: 1px 1px 1px rgb(0,175,76),-1px -1px 1px rgb(0,175,76);
 }
 div.Y-div{
    border:2px solid darkgray;
    background-color:rgb(200,200,200);
+}
+div.head-div{
+background-color:rgb(0,175,76);
+}
+div.headN-div{
+background-color:rgb(100,100,100);
+}
+.mark-p{
+      width: 0;
+      height: 0;
+      border-top: 20px solid #FFCD12;
+      border-right: 20px solid transparent;
+      float:left;
+}
+.markN-p{
+      width: 0;
+      height: 0;
+      border-top: 20px solid rgb(100,100,100);
+      border-right: 20px solid transparent;
+      float:left;
 }
 </style>
 <section class="container">
@@ -147,13 +166,15 @@ div.Y-div{
             <c:forEach items="${dcarList }" var="dc">
                <c:if test='${dc.STATUS eq "N" }'>
                   <div class="col-md-6" style="margin-top:30px">
-                     <div class="card">
+                     <div class="card a-card">
+                     	<div class="card-header head-div">
+                     	</div>
                         <div class="card-body N-div">
-                           <p>출발일: ${dc.STARTDATE }</p>
-                           <p>출발지: ${dc.STARTCITY } ${dc.STARTDETAIL }</p>
-                           <p>도착지: ${dc.ENDCITY } ${dc.ENDDETAIL }</p>
-                           <span>
-                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }'" class="checkPass-btn">동승자 확인</button>
+                           <div class="mark-p"></div><span><b>출발일</b></span><br> <p>${dc.STARTDATE }</p><hr>
+                           <div class="mark-p"></div><span><b>출발지</b></span><br> <p>${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
+                           <div class="mark-p"></div><span><b>도착지</b></span><br> <p>${dc.ENDCITY } ${dc.ENDDETAIL }</p>
+                           <span> 
+                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=Y'" class="checkPass-btn">동승자 확인</button>
                            </span>
                         </div>
                      </div>
@@ -162,12 +183,14 @@ div.Y-div{
                <c:if test='${dc.STATUS eq "Y" }'>
                   <div class="col-md-6" style="margin-top:30px">
                      <div class="card">
+                     	<div class="card-header headN-div">
+                     	</div>
                         <div class="card-body Y-div">
-                           <p>출발일: ${dc.STARTDATE }</p>
-                           <p>출발지: ${dc.STARTCITY } ${dc.STARTDETAIL }</p>
-                           <p>도착지: ${dc.ENDCITY } ${dc.ENDDETAIL }</p>
+                           <div class="markN-p"></div><span><b>출발일</b></span><br> <p>${dc.STARTDATE }</p><hr>
+                           <div class="markN-p"></div><span><b>출발지</b></span><br> <p>${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
+                           <div class="markN-p"></div><span><b>도착지</b></span><br> <p>${dc.ENDCITY } ${dc.ENDDETAIL }</p>
                            <span>
-                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }'" class="checkPass-btn">동승자 결제</button>
+                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=N'" class="checkPass-btn">동승자 결제</button>
                            </span>
                         </div>
                      </div>
