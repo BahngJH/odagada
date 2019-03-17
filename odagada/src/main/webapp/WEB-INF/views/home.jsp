@@ -106,28 +106,6 @@ div.pop-size{
 h3.best-text{
 	text-align: center;
 }
-h3.best-text::before{
-    /* p를 쓰기전에 어떤 값을 입력하고 싶을때!! */
-    position: absolute;
-    left: -300px;
-    top: 50%;
-    margin-top: -1px;
-    height: 2px;
-    width: 350px;
-    content: "";
-    border-top: 2px solid #28A745;
-}
-h3.best-text::after{
-    left: auto;
-    right: -300px;
-    position: absolute;
-    top: 50%;
-    margin-top: -1px;
-    height: 2px;
-    width: 350px;
-    content: "";
-    border-top: 2px solid #28A745;
-}
 }
 </style>
 <section class="container-fluid section-st">

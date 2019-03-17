@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -20,7 +21,7 @@
 <style>
 	body{
 		min-width: 350px;
-	}
+	} 
 
 	footer>div.row{
 		margin-right: 0px;
@@ -78,9 +79,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="${path }/community/reviewForm.do">리뷰</a>
-                </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
@@ -108,6 +106,8 @@
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/memberList.do">회원 관리</a>
 	                    <a class="dropdown-item" href="${path}/driver/driverList">드라이버 관리</a>
 	                    <a class="dropdown-item" href="${path}/board/qnaList">Q&A</a>
+	                    <a class="dropdown-item" href="${path}/admin/notifyList.do">신고내역</a>
+	                    <a class="dropdown-item" href="${path}/admin/blackList.do">블랙리스트</a>
 	                  </div>
 	                </li>
                </c:if>
@@ -169,7 +169,6 @@
 				console.log(data.unIsReadMsg);
 				if(data.unIsReadMsg>0)
 				{
-					
 					var unCheckMsg="<a href='${path }/community/chatting.do'><span class='msgCount'>"+data.unIsReadMsg+"</span></a>";
 					$("#msgDiv").html(unCheckMsg);
 				}

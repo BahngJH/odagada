@@ -146,6 +146,14 @@ float:left;
 div.in-div{
 margin-left:13px;
 }
+img.profile-img{
+border-radius: 30px;
+width:70px;
+height:70px;
+}
+div.img-div{
+margin-left:3%;
+}
 </style>
 <section class="container">
    <div class="row">
