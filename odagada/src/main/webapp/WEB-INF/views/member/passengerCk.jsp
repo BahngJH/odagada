@@ -218,9 +218,9 @@ width:300px;
 																</div>
 																<div class="col-12 text-center check-div">
 																	<span>
-																		<button class="btn btn-success" onclick="moveChatting('${d.PMEMBERNUM}')">채팅하기</button>
+																		<button class="btn btn-success" onclick="moveChatting(${d.PMEMBERNUM})">채팅하기</button>
 																		<c:if test='${d.PAYSTATUS eq "N" }'>
-																			<button class="btn btn-info"  data-toggle="modal" data-target="#credit" onclick="nMem('${d.PMEMBERNUM}')">결제 받기</button>
+																			<button class="btn btn-info credit-id" data-toggle="modal" data-target="#credit" value='${d.PMEMBERNUM }'>결제 받기</button>
 																		</c:if>
 																		<c:if test='${d.PAYSTATUS eq "Y" }'>
 																			<button class="btn btn-success">결제 완료</button>
@@ -297,8 +297,6 @@ width:300px;
 																		<span>
 																			<button class="btn btn-success" onclick="pasOk('${d.PMEMBERNUM} ${d.MEMBERNAME }');">승락</button>
 																	   		<button class="btn btn-warning" onclick="pasNo('${d.PMEMBERNUM} ${d.MEMBERNAME }');">거절</button>
-																	   		<input type="hidden" value="${d.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
-																	   		<input type="hidden" value="${d.CMEMBERNUM }" id="driverNum" name="driverNum"/>
 																 		</span>
 																	</div>
 																</div>
@@ -428,6 +426,9 @@ width:300px;
          </div>
       </div>
    </div>
+	<input type="hidden" value="${dList.get(0).CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
+	<input type="hidden" value="${dList.get(0).CMEMBERNUM }" id="driverNum" name="driverNum"/>
+	<input type="hidden" value="${dList.get(0).PAY }" id="pay" name="pay"/>
 	<!--번호 받기 -->
 	<div class="modal fade" id="credit" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -453,12 +454,58 @@ width:300px;
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 					<button type="button" class="btn btn-info" id="credi-ok" onclick="updateCredit();">결제</button>
+					<script>
+					function updateCredit(){
+						var paycode=$('#credit-code').val().trim();
+						var passengerNum = mNum;
+						var carpoolNum=$('#carpoolNum').val();
+						var driverNum=$('#driverNum').val();
+						var pay=$('#pay').val();
+						if(paycode.length==0)
+						{
+							alert('코드를 정확히 입력해 주세요.');
+						}
+						else{
+							$.ajax({
+								url:"${path}/driver/updateDriverCredit",
+								data:{"carpoolNum":carpoolNum,
+									"passengerNum":passengerNum,
+									"paycode":paycode,
+									"driverNum":driverNum,
+									"pay":pay
+								},
+								type:"post",
+								success:function(data){
+									console.log(data);
+									if(data==='Y'){
+										alert('결제를 완료하였습니다.');
+										location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum;
+									}
+									else{
+										alert('결제에 실패하였습니다. 다시 시도해주세요.');
+										return;
+									}
+								}
+							});
+						}
+						
+					}
+					</script>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
 <script>
+var mNum;
+/* function mNum(e){
+	mNum=e;
+	console.log(mNum);
+} */
+$('.credit-id').on('click',function(){
+	mNum=this.value;
+	console.log(mNum);
+});
 <!-- 채팅방 -->
    function moveChatting(chatUser)
    {
@@ -500,47 +547,5 @@ function pasNo(e){
 	}
 }
 </script>
-<script>
-$(function(){
-	/* 결제하기 */
-	var mNum;
-	function nMem(e){
-		mNum=e;
-	}
-	
-	function updateCredit(){
-	   var paycode = $('#credit-code').val().trim();
-	   var passengerNum = mNum;
-	   var carpoolNum=$('#carpoolNum').val();
-	   var driverNum=$('#driverNum').val();
-	   console.log(carpoolNum+" : "+passengerNum);
-	   
-	   if(code.length==0)
-	   {
-	      alert('코드를 정확히 입력해주세요.');
-	      return;
-	   }
-	   else{
-		 $.ajax({
-			url:"${path}/driver/updateDriverCredit",
-			data:{"carpoolNum":carpoolNum,
-			"passengerNum":pasengerNum,
-			"paycode":paycode,
-			"driverNum":driverNum
-			},
-			success:function(data){
-				if(data==='Y'){
-					alert('결제가 완료되었습니다.');
-					location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum;
-				}
-				else{
-					alert('결제에 실패하였습니다. 다시 시도해주세요.');
-					return;
-				}
-			};
-		 });
-	   }
-	 }
-});
-</script>      
+  
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
