@@ -68,7 +68,7 @@
 </style>
 <section class="container">
 	<div class="row">
-		<div class="col-12 col-md-8 offset-md-2">
+		<div class="col-12 col-md-9 offset-md-1">
 			<div class="input-group">
 				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
@@ -79,7 +79,7 @@
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-12 col-md-3 offset-md-2">
+		<div class="col-12 col-md-3 offset-md-1">
 			<div class="row">
 				<div class="col-12">
 					<div class="card"  id="option_flex">
@@ -165,7 +165,7 @@
 			</div>
 		</div>
 		<!-- 검색 결과만큼 출력 -->
-		<div class="col-12 col-md-5" id="result-search">
+		<div class="col-12 col-md-6" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
 				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
@@ -199,7 +199,7 @@
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+					    					<img class="driver-profile" src="${path }/resources/upload/profile/${c.PROFILEIMAGERE}"/><br>
 					    					<span class="driver-name">${c.MEMBERNAME }</span>
 					    				</span>
 					    			</div>
@@ -250,7 +250,7 @@
 			</c:forEach>
 			<c:if test="${empty cList }">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 text-center">
 						<div>
 							<h2>검색결과가 없습니다.</h2>
 						</div>
