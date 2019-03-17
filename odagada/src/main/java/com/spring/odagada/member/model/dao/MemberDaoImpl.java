@@ -143,4 +143,9 @@ public class MemberDaoImpl implements MemberDao {
 	public int updatePhone(Member m) {
 		return session.update("member.updatePhone",m);
 	}
+
+	@Override
+	public int updateName(Member m) {
+		return session.update("member.updateName",m);
+	}
 }

@@ -638,4 +638,20 @@ public class MemberController {
    	}
    }
    
+   //이름 변경
+   @ResponseBody
+   @RequestMapping("/member/changeName")
+   public String changeName(HttpSession session, String memberName) {
+	   logger.debug("바꾸려는 이름은?"+memberName);
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setMemberName(memberName);
+	   int result=service.updateName(m);
+	   
+	   if(result>0) {
+		   return "ok";
+	   }else {
+		   return "fail";
+	   }
+   }
+   
 }

@@ -205,4 +205,9 @@ public class MemberServiceImple implements MemberService {
 	public int updatePhone(Member m) {
 		return dao.updatePhone(m);
 	}
+
+	@Override
+	public int updateName(Member m) {
+		return dao.updateName(m);
+	}
 }

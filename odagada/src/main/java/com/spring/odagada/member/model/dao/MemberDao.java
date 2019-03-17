@@ -25,4 +25,5 @@ public interface MemberDao {
 	int updatePassword(Member m);//비밀번호 변경
 	void updateEmailCode(String mailCode, String memberId)throws Exception;//이메일 인증 코드 업데이트
 	int updatePhone(Member m);//핸드폰 번호 변경
+	int updateName(Member m);//이름 변경
 }

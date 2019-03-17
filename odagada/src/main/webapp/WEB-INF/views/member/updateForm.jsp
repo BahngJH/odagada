@@ -31,8 +31,7 @@
     .profileDiv{padding-right:0; width:100px;}
     .pPassword{font-size:13px; margin-top:1px;}
   	.passwordInfo{height:40px; align:left;}
-  	.oriEmail{font-size:20px; text-align:left;}
-  	.oriPhone{font-size:20px; text-align:left;}
+  	.oriEmail,.oriPhone,.oriName {font-size:20px; text-align:left;} 	
   	.alert{padding:0; }
   	.cg {font-size:13px;}
   	.btns{padding-top:3px; padding-right:0; padding-left:0;}
@@ -41,6 +40,7 @@
     #chgEmailBtn{width:117px;}
     #sentEmailDiv, #sentTxtDiv, #sentPhoneDiv{margin-bottom:20px;}  
     ul{list-style:none;} 
+    a{color:green;}
     </style>
     
      
@@ -67,6 +67,29 @@
 			$('#upFile').trigger('click');			
 		})	 
 });
+ 
+ 
+ 
+//프로필 사진을 이미지 타입 파일로만 받기
+	function fileCheck(obj) {
+		var fileKind = obj.value.lastIndexOf('.');
+		var fileName = obj.value.substring(fileKind + 1, obj.length);
+		var fileType = fileName.toLowerCase();
+
+		var ckFileType = new Array();
+		ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
+
+		if (ckFileType.indexOf(fileType) == -1) {
+			alert("이미지 파일만 선택할 수 있습니다.");
+			var parentObj = obj.parentNode;
+			var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+			return false;
+		}
+	}
+ 
+ 
+ 
+ 
 
  //비밀번호 유효성 검사
  function passwordCheck(password){
@@ -98,7 +121,21 @@
 			$("#sentPhoneDiv").hide();
 			$("#alertPhone").hide();
 			$("#pass-div").hide();//패스워드 변경 입력창
+			$("#name-div").hide();//이름 변경 입력창
 		})
+		
+		//이름 변경 버튼
+		$("#chgName-btn").on("click", function(){
+			$("#name-div").show();
+			$("#oriName-div").hide();
+		})
+		
+		//이름 변경 취소 버튼
+		$("#cancleName-btn").on("click",function(){
+			$("#name-div").hide();
+			$("#oriName-div").show();
+		})
+		
 		
 		//패스워드 변경 버튼
 		$("#chgPass-btn").on("click", function(){
@@ -149,70 +186,55 @@
 	});
 
 
-	//프로필 사진을 이미지 타입 파일로만 받기
-	function fileCheck(obj) {
-		var fileKind = obj.value.lastIndexOf('.');
-		var fileName = obj.value.substring(fileKind + 1, obj.length);
-		var fileType = fileName.toLowerCase();
-
-		var ckFileType = new Array();
-		ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
-
-		if (ckFileType.indexOf(fileType) == -1) {
-			alert("이미지 파일만 선택할 수 있습니다.");
-			var parentObj = obj.parentNode;
-			var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+	
+	
+//이메일 변경
+	function sendEmail(){		    
+    //이전 이메일과 중복여부 확인
+    	var reMail=$('#reMail').val().trim();//변경할 이메일
+   	    var oriMail=$('.oriEmail').text();//기존 이메일
+   	    
+   		//이메일 유효성 검사
+		var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if(!ckMail.test($("input[name=email]").val())){
+			alert("정확한 이메일 형식을 입력해주세요.");	
 			return false;
 		}
-	}
-	
-	//이메일 변경
- 	function sendEmail(){		    
-	    //이전 이메일과 중복여부 확인
-	    	var reMail=$('#reMail').val().trim();//변경할 이메일
-	   	    var oriMail=$('.oriEmail').text();//기존 이메일
-	   	    
-	   		//이메일 유효성 검사
-			var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			
-			if(!ckMail.test($("input[name=email]").val())){
-				alert("정확한 이메일 형식을 입력해주세요.");	
-				return false;
-			}
-					
-		 	if(reMail===oriMail){
-	    		$("#alertEmail").show();
-	    		$("#sentEmailDiv").hide();	    		
-	    		 return false;	    		
-	    	}else{	    		
-	    		   $.ajax({
-			           url:"${path}/member/checkEmail.do",
-			           data:{"email":reMail},
-			           success:function(data){                 
-			               if(data == 'no')
-			               {
-			              	  alert('이미 사용중인 이메일 입니다. 사용하실 수 없습니다.');          
-			                  return false;
-			               }else{			            	   
-				           		 $.ajax({
-				    	    		url:"${path}/member/changeEmail",
-				    	    		data:{"email":reMail},
-				    	    		type:"post",
-				    	    		success:function(result){
-				    	    			if(result=="sent"){
-				    	    				$("#alertEmail").hide();
-				    	    	    		$("#sentEmailDiv").show();
-				    	    	    		$("#reMail").attr("readonly",true);
-				    	    			}else{
-				    	    				alert("메일전송에 실패하였습니다.");
-				    	    			}
-				        			}    		
-				        		});			             	               	   		            	   
-			               }
-			           }
-			        }); 
-	    		}	    		
-    		} 
+				
+	 	if(reMail===oriMail){
+    		$("#alertEmail").show();
+    		$("#sentEmailDiv").hide();	    		
+    		 return false;	    		
+    	}else{	    		
+    		   $.ajax({
+		           url:"${path}/member/checkEmail.do",
+		           data:{"email":reMail},
+		           success:function(data){                 
+		               if(data == 'no')
+		               {
+		              	  alert('이미 사용중인 이메일 입니다. 사용하실 수 없습니다.');          
+		                  return false;
+		               }else{			            	   
+			           		 $.ajax({
+			    	    		url:"${path}/member/changeEmail",
+			    	    		data:{"email":reMail},
+			    	    		type:"post",
+			    	    		success:function(result){
+			    	    			if(result=="sent"){
+			    	    				$("#alertEmail").hide();
+			    	    	    		$("#sentEmailDiv").show();
+			    	    	    		$("#reMail").attr("readonly",true);
+			    	    			}else{
+			    	    				alert("메일전송에 실패하였습니다.");
+			    	    			}
+			        			}    		
+			        		});			             	               	   		            	   
+		               }
+		           }
+		        }); 
+    		}	    		
+   		} 
 			
 //핸드폰 번호 변경 버튼 클릭시
 function sendSms(){		
@@ -255,158 +277,165 @@ function sendSms(){
 		}
 	}); 
 };
+	
+$(function(){
+//이름 한글만 입력받게 하는 함수       
+	$("#memberName").keyup(function(event) {
+	      if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
+	         var inputVal = $(this).val();
+	         $(this).val(inputVal.replace(/[^가-힣]/gis, ''));
+	   }
+	});		
+});
 		
-		
+//이름 변경
+function changeName(){
+	//이름 유효성 검사
+	var name=$('#memberName').val().trim();
+	 if(name.length>7){
+	    alert("정확한 이름을 입력해주세요.");
+	    return false;
+		  }	
+	console.log(name);
+	$.ajax({
+		url:"${path}/member/changeName",
+		type:"post",
+		data:{"memberName":name},
+		success:function(result){
+			if(result=='ok'){
+			}else{
+				alert("이름 변경에 실패했습니다.");
+			}
+			location.reload();
+		}
+	});
+}		
 	 
 	
-
-			
-	
- 	
- 	
 </script>
       <div id="enroll-container" class="container">
          <form name="memberEnrollFrm" id="memberEnrollFrm" action="${path }/member/updateInfoEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">                	                     
 			<div class="card" >
-			  <ul class="list-group list-group-flush">
-				 <li>
-					 <div class="custom-file" > 
-						 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-						 <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" value="" onchange="fileCheck(this)" required>
-				  	 </div> 
-			  	 </li>
-			    <li class="list-group-item">
-			    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
-			    </li>
-			    
-			 <%--    <!--이름 변경  -->
-			     <li class="list-group-item">
-					<!--기존 Email 정보  -->
-				     <div class="row passwordInfo" id="oriEmailDiv">    	
-			    		<div class="ptext col-6">
-			    			<p class="oriEmail font-weight-bold"><%=m.getMemberName() %></p>
-						</div>  
-						<div class="col-6 chgBtnDiv">
-							<button type="button" id="chgName-btn" class="cg btn btn-secondary btn-sm">이름 변경</button>      	
-			   			</div> 		
-			   		 </div>
-			    		 <!--Email 변경 버튼 클릭시  -->
-			   		 <div class="row passwordInfo" id="chgEmailInfo">    	
-			    		<div class="ptext col-7">
-						  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
-						</div>  
-						<div class="btns col-5">
-						  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
-						  <button type="reset" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
-			   			</div> 		
-			   		 </div>
-				 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
-					 <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
-			   		  <!--Email 변경 인증 메일 전송 후  -->      			  
-					  <div id="sentEmailDiv">
-			 			 <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
-			  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
-			   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
-						    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
-					  </div> 
-			    </li> --%>
-			    
-			    
-			    
-			    
-			    
-			    
-			    
-			    
-			    <li class="list-group-item">
-					<!--기존 Email 정보  -->
-				     <div class="row passwordInfo" id="oriEmailDiv">    	
-			    		<div class="ptext col-6">
-			    			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
-						</div>  
-						<div class="col-6 chgBtnDiv">
-							<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
-			   			</div> 		
-			   		 </div>
-			   		 <!--Email 변경 버튼 클릭시  -->
-			   		 <div class="row passwordInfo" id="chgEmailInfo">    	
-			    		<div class="ptext col-7">
-						  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
-						</div>  
-						<div class="btns col-5">
-						  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
-						  <button type="reset" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
-			   			</div> 		
-			   		 </div>
-				 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
-					 <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
-			   		  <!--Email 변경 인증 메일 전송 후  -->      			  
-					  <div id="sentEmailDiv">
-			 			 <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
-			  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
-			   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
-						    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
-					  </div> 
-			    </li>
-			    <li class="list-group-item">
-			    	   <!--기존 Phone 정보  -->
-           		  <div class="row passwordInfo" id="oriPhoneDiv">    	
-	           		<div class="ptext col-6">
-	           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
-	       			</div>  
-	       			<div class="col-6">
-	       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
-	          		</div> 		
-           		 </div>
-           		 <!--핸드폰번호 변경 버튼 클릭시  -->
-           		 <div id="inputPhone">
-	       		      <div class="row phone">
-		               	  <c:set var="phone" value="${logined.phone}"/>
-		                     <select class="tel form-control col-sm-5" name="phone1" id="selectPhone" required>                                                                                        
-		                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>>010</option>
-		                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
-		                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
-		                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
-		                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
-		                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
-		                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
-		                     </select>
-		                   
-		                     <c:if test="${fn:length(phone) eq 11}">
-		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" maxlength="8" required>
-		           			 </c:if>
-		           			 <c:if test="${fn:length(phone) eq 10}">
-		                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" maxlength="8" required>
-		           			</c:if>
-	         		 </div>
-	         		 	       			
-       			 	 <div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
-	   			     <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
-	   			    <div id="sentTxtDiv">
-	       			  <button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn" onclick="sendSms();">인증 번호 발송</button>
-	       			  <button type="reset" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
-	       			</div>   
-       			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
-	       			  <div id="sentPhoneDiv">
-		    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
-	    			  	  <div class="row">
-				           	  <input type="text" class="col-8 form-control" id="smsAnswer" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
-				           	  <button type="button" class="col-4 cg btn btn-secondary btn-sm" onclick="phoneCheck();">인증하기</button>
-	    			      </div>
-	    			      <button type="button" class="cg btn btn-secondary btn-sm" onclick="sendSms();">인증 문자 재발송</button>
-	    			      <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
-	       			  </div>
-	       			   <input type="hidden" id="phoneNumber" value="0" required>
-		  		</div>			    
-		    </li> 
-		  </ul>
-			  <div class="card-body">
-			    <a href="#" class="card-link">정보변경</a>
-			   <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
-			  </div>
-			</div>            
-          </form>
-       </div>       
+					  <ul class="list-group list-group-flush">
+						 <li>
+							 <div class="custom-file" > 
+								 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+								 <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" value="" onchange="fileCheck(this)" required>
+						  	 </div> 
+					  	 </li>
+					    <li class="list-group-item">
+					    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
+					    </li>
+					    
+					    <!--이름 변경  -->
+					     <li class="list-group-item">
+						     <div class="row" id="oriName-div">    	
+					    		<div class="ptext col-6">
+					    			<p class="oriName font-weight-bold"><%=m.getMemberName() %></p>
+								</div>  
+								<div class="col-6 chgBtnDiv">
+									<button type="button" id="chgName-btn" class="cg btn btn-secondary btn-sm">이름 변경</button>      	
+					   			</div> 		
+					   		 </div>			   		 			   		    		 
+				     		 <!--이름 변경 버튼 클릭시  -->
+					   		 <div class="row" id="name-div">    	
+					    		<div class="ptext col-7">
+								  <input type="text" class="form-control" value="${logined.memberName }" name="memberName" id="memberName" maxlength="8" required>
+								</div>  
+								<div class="btns col-5">
+								  <button type="button" id="" class="cg btn btn-secondary btn-sm" onclick="changeName()">변경하기</button>
+								  <button type="reset" id="cancleName-btn" class="cg btn btn-secondary btn-sm">취소</button>
+					   			</div> 		
+					   		 </div>				 
+					    </li>  			        
+					    <li class="list-group-item">
+							<!--기존 Email 정보  -->
+						     <div class="row passwordInfo" id="oriEmailDiv">    	
+					    		<div class="ptext col-6">
+					    			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
+								</div>  
+								<div class="col-6 chgBtnDiv">
+									<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
+					   			</div> 		
+					   		 </div>
+					   		 <!--Email 변경 버튼 클릭시  -->
+					   		 <div class="row passwordInfo" id="chgEmailInfo">    	
+					    		<div class="ptext col-7">
+								  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
+								</div>  
+								<div class="btns col-5">
+								  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
+								  <button type="reset" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
+					   			</div> 		
+					   		 </div>
+						 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
+							 <div><p class="pPassword" id="chgMailInfoP">이메일 주소를 인증하시면 변경이 완료됩니다.</p></div>
+					   		  <!--Email 변경 인증 메일 전송 후  -->      			  
+							  <div id="sentEmailDiv">
+					 			 <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
+					  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
+					   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
+								    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
+							  </div> 
+					    </li>
+					    <li class="list-group-item">
+					    	   <!--기존 Phone 정보  -->
+		           			<div class="row passwordInfo" id="oriPhoneDiv">    	
+				           		<div class="ptext col-6">
+				           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
+				       			</div>  
+				       			<div class="col-6">
+				       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+				          		</div> 		
+		           			 </div>
+		           		 <!--핸드폰번호 변경 버튼 클릭시  -->
+			           		 <div id="inputPhone">
+				       		      <div class="row phone">
+					               	  <c:set var="phone" value="${logined.phone}"/>
+					                     <select class="tel form-control col-sm-5" name="phone1" id="selectPhone" required>                                                                                        
+					                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>>010</option>
+					                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
+					                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
+					                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
+					                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
+					                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
+					                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
+					                     </select>
+					                   
+					                     <c:if test="${fn:length(phone) eq 11}">
+					                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" maxlength="8" required>
+					           			 </c:if>
+					           			 <c:if test="${fn:length(phone) eq 10}">
+					                		<input type="text" class="tel form-control col-sm-7" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" maxlength="8" required>
+					           			</c:if>
+			         	    	 </div>			         		 	       			
+			       			 	<div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
+				   			    <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
+				   			    <div id="sentTxtDiv">
+				       				<button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn" onclick="sendSms();">인증 번호 발송</button>
+				       				<button type="reset" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
+				       			</div>   
+			       			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
+				       			  <div id="sentPhoneDiv">
+					    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
+				    			  	  <div class="row">
+							           	  <input type="text" class="col-8 form-control" id="smsAnswer" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
+							           	  <button type="button" class="col-4 cg btn btn-secondary btn-sm" onclick="phoneCheck();">인증하기</button>
+				    			      </div>
+				    			      <button type="button" class="cg btn btn-secondary btn-sm" onclick="sendSms();">인증 문자 재발송</button>
+				    			      <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
+				       			  </div>
+				       			  <input type="hidden" id="phoneNumber" value="0" required>
+					  		</div>			    
+				    </li> 
+				  </ul>
+		 		 <div class="card-body">			  
+				  	<input type="submit" class="btn btn-success" value="변경하기">
+		   			<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myInfo.do'">뒤로가기</button>			  
+		 		 </div>
+			 </div>            
+ 		 </form>
+	</div>       
 <script>
 function phoneCheck(){
 	
@@ -432,7 +461,14 @@ function phoneCheck(){
 			location.reload();
 		}
 	})							
-}		    	    
+}
+
+
+
+
+
+
+
 </script>
        
 <!--비밀번호 변경하기 모달창  -->

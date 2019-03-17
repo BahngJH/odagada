@@ -97,4 +97,8 @@
 	 <update id="updatePhone" parameterType="member">
 	 UPDATE MEMBER SET ISPHONEAUTH=#{isPhoneAuth}, PHONE=#{phone} WHERE MEMBERNUM=#{memberNum}
 	 </update>
+	 <!--이름 변경  -->
+	 <update id="updateName" parameterType="member">
+	 UPDATE MEMBER SET MEMBERNAME=#{memberName} WHERE MEMBERNUM=#{memberNum}
+	 </update>
 </mapper>
