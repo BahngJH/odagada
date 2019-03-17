@@ -162,6 +162,7 @@ a#pay{
 										</c:if>
 										<c:if test='${list.PSTATUS == "C" }'>
 											<span class="badge badge-warning">결제 취소</span>
+										</c:if>
 										<c:if test='${list.PSTATUS == "R"}'>
 											<span class="badge badge-warning">승인거절</span>
 										</c:if>
