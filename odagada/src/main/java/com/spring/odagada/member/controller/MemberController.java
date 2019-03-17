@@ -444,6 +444,7 @@ public class MemberController {
     	
     	if(pwEncoder.matches(code, saveCode)) {
     		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		
     		if(result > 0) {
     			return "ok";
     		}else {
@@ -468,7 +469,7 @@ public class MemberController {
     	return isPhone;  			
     } 
 
-
+   @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;
@@ -589,7 +590,68 @@ public class MemberController {
 	   return mv;
    }
    
+   //비밀번호 변경
+   @ResponseBody
+   @RequestMapping("/member/changePass")
+   public String changePassword(String password, HttpSession session) {
+	   String pw=pwEncoder.encode(password);
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setMemberPw(pw);	      
+	   int result=service.updatePassword(m);
+	   if(result>0){
+		 return "update";  
+	   }else {
+		   return "fail";
+	   }
+   }
    
-
-
+   //이메일 변경
+   @ResponseBody
+   @RequestMapping("/member/changeEmail")
+   public String changeEmail(String email, HttpSession session) throws Exception {
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setEmail(email);
+	   service.mailUpdate(m);
+	   return "sent";	   
+   }
+   
+   //핸드폰 번호 변경
+   @ResponseBody
+   @RequestMapping("/member/phoneUpdate")
+   public String smsCheck(HttpSession session, String code, String phone) {
+   	Member m = (Member)session.getAttribute("logined");
+   	
+   	String saveCode = service.getPhoneCode(m.getMemberNum());
+   	
+   	logger.debug("들어오는 핸드폰 번호"+phone);
+   	if(pwEncoder.matches(code, saveCode)) {
+   		m.setPhone(phone);
+   		m.setIsPhoneAuth("Y");
+   		int result = service.updatePhone(m);
+   		if(result > 0) {
+   			return "ok";
+   		}else {
+   			return "no";
+   		}
+   	}else {
+   		return "no";
+   	}
+   }
+   
+   //이름 변경
+   @ResponseBody
+   @RequestMapping("/member/changeName")
+   public String changeName(HttpSession session, String memberName) {
+	   logger.debug("바꾸려는 이름은?"+memberName);
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setMemberName(memberName);
+	   int result=service.updateName(m);
+	   
+	   if(result>0) {
+		   return "ok";
+	   }else {
+		   return "fail";
+	   }
+   }
+   
 }
