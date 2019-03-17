@@ -169,7 +169,6 @@
 				console.log(data.unIsReadMsg);
 				if(data.unIsReadMsg>0)
 				{
-					
 					var unCheckMsg="<a href='${path }/community/chatting.do'><span class='msgCount'>"+data.unIsReadMsg+"</span></a>";
 					$("#msgDiv").html(unCheckMsg);
 				}

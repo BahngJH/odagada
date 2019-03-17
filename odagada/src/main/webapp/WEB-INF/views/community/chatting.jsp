@@ -154,6 +154,9 @@
             </div>
             <!-- 채팅방 목록을 불러오는 로직(왼쪽) -->
             <div id="chatRooms">
+            <c:if test="${chatRooms.isEmpty() }">
+            	<h6>현재 대화중인 방이 없습니다.</h6>
+            </c:if>
               <c:forEach items="${chatRooms }"  var="rooms">
             		<div id="chatRoom" onclick="bringMessage(this)">
             			<input type="hidden" id="roomId" value="${rooms.roomId }">
@@ -186,20 +189,9 @@
                 <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
 	        	<span id="selectName">${memberName}</span>
                </c:if>
-               <%-- <c:if test="${chatContent.size()>0}">
-                	<c:forEach items="${chatContent }" var="chatCon">
-	                	<c:if test="${chatCon.SENDER!=logined.memberId }">
-		                	<c:set var="receiver" value="${chatCon.SENDER}"/>
-		                	<c:set var="imageUrl" value="${chatCon.PROFILEIMAGERE }"/>
-		                	<c:set var="memberName" value="${chatCon.MEMBERNAME }"/>
-	                	</c:if>
-                	</c:forEach>
-	                <span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방사진"></span>
-	        		<span id="selectName">${memberName}</span>
-               </c:if> --%>
                <c:if test="${imageUrl==null }">
                		<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/images/odagadaLogo.png" alt="회사 로고"></span>
-	        		<span id="selectName">방을 선택하세요</span>
+	        		<span id="selectName">채팅방을 선택하세요</span>
                </c:if>                	
             </div>
             <!-- 채팅 내용이 들어갈 자리 -->
@@ -305,8 +297,6 @@
 			$('#selectName').html('${memberName}');
 			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
 			$('#selectImage').html(img);
-			/* jsonData.imageUrl = "${imageUrl}"; */
-			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
 		if(${chatContent.size()>0})
@@ -316,8 +306,6 @@
 			$('#selectName').html('${memberName}');
 			var img ='<img width="80px" height="80px" src="${path}/resources/upload/profile/${imageUrl}" alt="상대방 사진">';
 			$('#selectImage').html(img);
-			/* jsonData.imageUrl = "${imageUrl}"; */
-			/* jsonData.imageUrl = "${logined.profileImageRe}"; */
 		}
 		
 		//엔터로 메시지 전송
@@ -349,6 +337,7 @@
     	if(jsonData.receiver==null)
     	{
     		alert("채팅방을 선택하세요!");
+    		$('#messageInput').val("");
     		return;
     	}
     	if($('#messageInput').val().trim().length==0)
@@ -542,6 +531,7 @@
     		data:{"searchId":$('#searchId').val()},
     		success:function(data){
     			var searchList="";
+    			console.log(data.searchList);
     			for(var i=0;i<data.searchList.length;i++)
     			{
     				searchList +='<div id="selectListOne" onclick="clickMember(this)">';
@@ -550,6 +540,10 @@
     				searchList +=data.searchList[i].MEMBERNAME+'</p>';
     				searchList +='</div>';
     			}
+    			if(data.searchList.length==0){
+    				searchList="없는 회원입니다";
+    			}
+    			
     			$('#searchList').html(searchList);
     		}
     	});	
