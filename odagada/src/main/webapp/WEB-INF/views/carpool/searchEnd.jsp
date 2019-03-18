@@ -66,7 +66,7 @@
 		border:2px solid rgb(50,50,50);
 	}
 </style>
-<section id="container">
+<section class="container">
 	<div class="row">
 		<div class="col-12 col-md-2"></div>
 		<div class="col-12 col-md-8">

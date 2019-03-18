@@ -131,6 +131,9 @@ a#pay{
 				                   		<c:if test='${list.PSTATUS == "Y"}'>
 											<span class="badge badge-success">승인</span>
 										</c:if>
+										<c:if test='${list.PSTATUS == "R"}'>
+											<span class="badge badge-warning">승인거절</span>
+										</c:if>
 				                   </div>
 				                </div>
 				             </div>

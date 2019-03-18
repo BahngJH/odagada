@@ -79,6 +79,31 @@ public class DriverDaoImpl implements DriverDao {
 	public List<Map<String, String>> selectDriverPas(Map<String, String> m) {
 		return session.selectList("driver.selectDriverPas",m);
 	}
+
+	@Override
+	public int updatePasOk(Map<String,Integer> map) {
+		return session.update("driver.updatePasOk",map);
+	}
+	
+	@Override
+	public int updatePasNo(Map<String,Integer> map) {
+		return session.update("driver.updatePasNo",map);
+	}
+
+	@Override
+	public Map<String,String> selectCreditCode(Map<String, Integer> map) {
+		return session.selectOne("driver.selectCreditCode",map);
+	}
+
+	@Override
+	public int updateDriverCredit(Map<String, Integer> map) {
+		return session.update("driver.updateDriverCredit",map);
+	}
+
+	@Override
+	public int updatePasPayStatus(Map<String, Integer> map) {
+		return session.update("driver.updatePasPayStatus",map);
+	}
 	
 	
 }
