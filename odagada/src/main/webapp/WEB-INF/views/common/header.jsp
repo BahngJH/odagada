@@ -58,10 +58,9 @@
     
 </style>
 </head>
-
 <body>
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="${path }/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
+            <a class="navbar-brand" href="${path}/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -70,10 +69,13 @@
               <ul class="navbar-nav">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>          
+                </li>
+                <c:if test="${sessionScope.driver.LICENSENUM eq null}">
+	                <li class="nav-item">
+                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
+	               	</li>
+               	</c:if>       
                 <li class="nav-item">
-                  <a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
-                </li><li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
                 <li class="nav-item">

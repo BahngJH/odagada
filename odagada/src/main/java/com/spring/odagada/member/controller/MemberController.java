@@ -51,10 +51,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
+import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
-@SessionAttributes("logined")
+
+@SessionAttributes(value= {"logined", "driver"})
 @Controller
 public class MemberController {
 	
@@ -218,16 +220,22 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
+	   
 	         
 		if (m == null) {
 			mv.addObject("msg", "등록된 정보가 없습니다.");
 			mv.addObject("loc", "/member/loginForm.do");
 			mv.setViewName("common/msg");
 		} else {
+			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
+			
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
+					
+					logger.debug("로그인 드라이버"+driver);
+					mv.addObject("driver",driver);
 					mv.addObject("logined", m);
 					mv.setViewName("redirect:/");
 				} else {

@@ -91,15 +91,21 @@
   	SELECT Q.*,(SELECT MEMBERNAME FROM MEMBER WHERE MEMBERNUM=Q.MEMBERNUM) AS QWRITER
   	FROM QNA Q WHERE QNANUM=#{qnaNum}
   </select>
-  <select id="selectQnaComOne" resultType="map" parameterType="_int">
+  <select id="selectQnaComList" resultType="map" parameterType="_int">
   	SELECT * FROM QNACOMMENT WHERE QNANUM=#{qnaNum}
   </select>
     <update id="updateQna" parameterType="map">
   	UPDATE QNA SET QTITLE=#{title},QCONTENT=#{content},MEMBERNUM=#{memberNum},QDATE=default WHERE QNANUM=#{qnaNum}
   </update>
-    <delete id="deleteQna">
+   <delete id="deleteQna">
   	DELETE FROM QNA WHERE QNANUM=#{qnaNum}
   </delete>
+  <insert id="insertQnaCom" parameterType="map">
+  	INSERT INTO QNACOMMENT VALUES(SEQ_COMMENTNUM.NEXTVAL,#{qnaNum},#{content},default)
+  </insert>
+  <select id="selectQnaComOne" resultType="map" parameterType="_int">
+  	SELECT * FROM QNACOMMENT WHERE COMMENTNUM=#{commentNum}
+  </select>
   
   
   

@@ -144,8 +144,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Map<String, String>> selectQnaComOne(int cPage, int numPerPage, int qnaNum) {
-		return dao.selectQnaComOne(cPage,numPerPage,qnaNum);
+	public List<Map<String, String>> selectQnaComList(int cPage, int numPerPage, int qnaNum) {
+		return dao.selectQnaComList(cPage,numPerPage,qnaNum);
 	}
 
 	public int updateQna(Map<String, Object> qna) {
@@ -156,6 +156,17 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteQna(int qnaNum) {
 		return dao.deleteQna(qnaNum);
 	}
+
+	@Override
+	public int insertQnaCom(Map<String, Object> comment) {
+		return dao.insertQnaCom(comment);
+	}
+
+	@Override
+	public Map<String, Object> selectQnaComOne(int commentNum) {
+		return dao.selectQnaComOne(commentNum);
+	}
+	
 	
 	
 	

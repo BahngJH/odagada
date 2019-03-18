@@ -78,10 +78,10 @@ a#pay{
 		<div class="col-12 col-md-10" id="enroll-container">	
 			<div class="info col-12 col-sm-12 col-md-10">
 				<!-- 조건만큼 검색 결과 출력 -->
-				<c:if test="${carpoolList == [] }">
+				<c:if test="${carpoolList.isEmpty() }">
 					<h3>조회 결과가 없습니다.</h3>
 				</c:if>
-				<c:if test="${carpoolList != [] }">
+				<c:if test="${carpoolList.size()>0}">
 					<c:forEach items="${carpoolList }" var="list">
 				      <div id="div-pick" class="card border-success mb-3">
 				        <div class="card-body text-success">

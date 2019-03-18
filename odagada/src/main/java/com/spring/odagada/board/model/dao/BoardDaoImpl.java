@@ -157,10 +157,10 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<Map<String, String>> selectQnaComOne(int cPage, int numPerPage, int qnaNum) {
+	public List<Map<String, String>> selectQnaComList(int cPage, int numPerPage, int qnaNum) {
 
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);		
-		return sqlSession.selectList("board.selectQnaComOne",qnaNum,rb);
+		return sqlSession.selectList("board.selectQnaComList",qnaNum,rb);
 	}
 
 	@Override
@@ -172,6 +172,18 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteQna(int qnaNum) {
 		return sqlSession.delete("board.deleteQna",qnaNum);
 	}
+
+	@Override
+	public int insertQnaCom(Map<String, Object> comment) {
+		return sqlSession.insert("board.insertQnaCom",comment);
+	}
+
+	@Override
+	public Map<String, Object> selectQnaComOne(int commentNum) {
+		return sqlSession.selectOne("board.selectQnaComOne",commentNum);
+	}
+	
+	
 	
 	
 	

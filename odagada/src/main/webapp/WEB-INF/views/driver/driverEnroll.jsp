@@ -124,6 +124,14 @@
     	  return false;
       }
       
+      var carModelExp = /[ㄱ-ㅎ가-힣]/g;
+      if(!carModelExp.test($("input[name=carModel]").val())){
+    	  alert("자동차모델은 한글로만 입력해주세요");
+    	  return false;
+      }
+      
+      var file_name2=$('.custom-file-label').val();
+      
       var licenseNum = $('#licenseNum').val();
       var licen = /([가-힣]|[0-9]){2}-{1}([0-9]{2})-{1}([0-9]){6}-{1}([0-9]){2}$/
       console.log("licenseNum");
@@ -145,7 +153,8 @@
     	  }
       
       console.log(carNumTest.test($("input[name=carNum]").val()));
-
+      
+      
    }
    //프로필 사진을 이미지 타입 파일로만 받기
    function fileCheck(obj){
@@ -161,8 +170,9 @@
          var parentObj=obj.parentNode;
          var node=parentObj.replaceChild(obj.cloneNode(true), obj);
          return false;      
-         }   
+         }
       }
+   
 
 </script>
    	<div class="col-6 col-md-6 offset-md-3" style="text-align: center; font-weight: bold;">

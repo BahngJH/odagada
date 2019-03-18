@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -434,7 +435,7 @@ public class BoardController {
 	   int contentCount = service.selectQnaComCount();
   
 	   Map<String,String> map = service.selectQnaOne(qnaNum);
-	   List<Map<String,String>> com = service.selectQnaComOne(cPage,numPerPage,qnaNum);
+	   List<Map<String,String>> com = service.selectQnaComList(cPage,numPerPage,qnaNum);
 	   
 	   
 	   logger.debug("멤버확인"+m);
@@ -519,6 +520,35 @@ public class BoardController {
 	   int result = service.deleteQna(qnaNum);
 	   
 	   return "redirect:/board/qnaList"; 
+   }
+   
+   @RequestMapping("/board/qnaComEnroll")
+   public String qnaComEnroll(String comContent,int qnaNum,HttpServletResponse response,HttpServletRequest request )
+   {
+	   Map<String,Object> comment = new HashMap();
+	   comment.put("qnaNum", qnaNum);
+	   comment.put("content", comContent);
+	   
+	   int result = service.insertQnaCom(comment);
+	   
+	   return "redirect:/board/qnaView.do?qnaNum="+qnaNum;
+   }
+   
+   @RequestMapping("/board/qnaComModify")
+   public ModelAndView qnaComModify(int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
+   {
+      ModelAndView mv = new ModelAndView();
+      Member m = (Member)session.getAttribute("logined");
+      
+      Map<String,Object> map = service.selectQnaComOne(commentNum);
+      Map<String,String> qna = service.selectQnaOne(qnaNum);
+      mv.addObject("comment",map);
+      mv.addObject("qna",qna);
+      mv.addObject("member",m);
+      mv.setViewName("board/qnaComModify");
+
+      return mv;
+
    }
 
 }

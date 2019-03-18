@@ -70,8 +70,9 @@
 					</div>
 			    </form>
 		  	</div>
-		  	</c:if> 
-		  <c:forEach var="c" items="${comment}">
+		  	</c:if>
+
+			  <c:forEach var="c" items="${comment}">
 			  <div class="card-body text-muted">
 			  	<div class="container" style="font-size: 15px;">
 			  		<div class="commentList">
@@ -79,19 +80,21 @@
 			  				<div class="commentInfo far fa-user">관리자 &nbsp;&nbsp;
 			  					<c:if test="${member.isAdmin eq '1'}">
 			  					<input type="hidden" name="commentNum" value="${c.COMMENTNUM}"/>
-	             						<a onclick="javascript:location.href='${path}/board/qnaComModify?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 수정 </a>
-	               						<a onclick="javascript:location.href='${path}/board/qnaComDelete?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 삭제 </a>
-	               				</c:if>
-	              				</div>
-	             				<div class="commentContent"> 
-	             					<p id="commentContent"style="margin-top: 10px;"><c:out value="${c.COMCONTENT}"/></p>
-	             				</div>
+              						<a onclick="javascript:location.href='${path}/board/qnaComModifyEnd?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 수정 </a>
+                					<a onclick="javascript:location.href='${path}/board/qnaComDelete?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 삭제 </a>
+                				</c:if>
+               				</div>
+               				<ㅊ:ㅑ
+              				<div class="commentContent"> 
+              					<p id="commentContent"style="margin-top: 10px;"><c:out value="${c.COMCONTENT}"/></p>
+              				</div>
 				   		</div>
 					</div>
 				</div>
 			</div>
-        </c:forEach>
+        	 </c:forEach>
+    </div>
     </div>
 
 ​
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>​
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>​​

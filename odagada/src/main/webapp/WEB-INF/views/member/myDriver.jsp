@@ -6,8 +6,7 @@
 <%
 	Member m = (Member) request.getAttribute("logined");
 	System.out.println(m);
-	
-	
+
 %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>

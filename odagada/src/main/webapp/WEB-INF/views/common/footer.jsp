@@ -19,10 +19,10 @@
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<a href="${pageContext.request.contextPath}/board/boardList"><strong>공지사항</strong></a>
 				</div>
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<a href="${pageContext.request.contextPath}/board/qnaList"><strong>Q&A</strong></a>
 				</div>
-				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>고객센터</strong></div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>자주 묻는 질문</strong></div>
 			</div>
 			<hr/>
 			<div class="row">

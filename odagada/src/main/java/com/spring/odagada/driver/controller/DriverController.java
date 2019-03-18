@@ -92,8 +92,10 @@ public class DriverController {
 	// 파일에 대한 사이즈를 비교? 배열로 넘...ㄱ...ㅣ....ㅁ..
 	
 	@RequestMapping("/driver/driverEnrollEnd")
-	public String driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
+	public ModelAndView driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
 	{
+		ModelAndView mv = new ModelAndView();
+		
 		int memberNum = Integer.parseInt(request.getParameter("memberNum"));
 		String memberId = request.getParameter("memberId");
 		String memberName = request.getParameter("memberName");
@@ -109,9 +111,6 @@ public class DriverController {
 		String driver_info = request.getParameter("driver_info");
 		
 		int imgOrder = 0;
-		
-		logger.debug("멤버번호 테스트"+memberNum);
-		
 		
 		Map<String,Object> driver = new HashMap();
 		driver.put("memberNum", memberNum);
@@ -141,6 +140,7 @@ public class DriverController {
 			{
 				e.printStackTrace();
 			}
+			
 			imgOrder = imgOrder+1;
 			CarImage cImg = new CarImage();
 			cImg.setCarImageOri(oriFileName);
@@ -149,14 +149,21 @@ public class DriverController {
 			cImg.setCarNum(carNum);
 			cImg.setImageOrder(imgOrder);
 			files.add(cImg);
-
 		}
+		logger.debug("이미지 갯수확인"+imgOrder);
 		
-		int result = service.enrollDriver(driver,files);
-		
-		logger.debug("파일 확인"+files);
-		
-		return "redirect:/";
+		if(imgOrder>0 && imgOrder<=4)
+		{
+			int result = service.enrollDriver(driver,files);
+			mv.setViewName("redirect:/");
+			return mv;
+		}
+		else {
+			mv.addObject("msg","이미지는 4개 이하로 올려주세요.");
+			mv.addObject("loc","/driver/driverEnroll");
+			mv.setViewName("common/msg");
+			return mv;
+		}
 	}
 	
 	 @RequestMapping("/driver/driverList")
