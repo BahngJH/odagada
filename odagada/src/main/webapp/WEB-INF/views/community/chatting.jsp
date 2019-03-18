@@ -84,6 +84,25 @@
         #searchList{
         	overflow:auto;
         }
+       	#searchList{
+       		margin-top:15px;
+       	}
+        #selectListOne{
+        	border-top: 1px solid black;
+        }
+        #selectListOne:hover{
+            background-color: #D9E5FF;
+        }
+        #searchId{
+        	border-top-left-radius: 5px;
+        	border-top-right-radius: 5px;        	
+		    border-bottom-right-radius: 5px;
+		    border-bottom-left-radius: 5px;
+        }
+        p.searchId-p{
+        	margin-bottom:0px;
+        	padding:7px;
+        }
         img{
             border-radius: 100%;
         }
@@ -131,19 +150,6 @@
         	width: 30px;
             text-align: center;
             color:white;
-        }
-       	#searchList{
-       		margin-top:30px;
-       	}
-        #selectListOne{
-        	border-top: 1px solid black;
-        }
-        #selectListOne:hover{
-            background-color: #D9E5FF;
-        }
-        p.searchId-p{
-        	margin-bottom:0px;
-        	padding:7px;
         }
     </style>
 <div id="container" class="container-fluid">
@@ -530,6 +536,7 @@
     		success:function(data){
     			var searchList="";
     			console.log(data.searchList);
+    			searchList +='<h6>조회된 회원</h6>';
     			for(var i=0;i<data.searchList.length;i++)
     			{
     				searchList +='<div id="selectListOne" onclick="clickMember(this)">';
