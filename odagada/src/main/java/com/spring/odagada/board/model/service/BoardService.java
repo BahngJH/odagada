@@ -34,5 +34,8 @@ public interface BoardService {
 	int deleteQna(int qnaNum);
 	int insertQnaCom(Map<String,Object> comment);
 	Map<String,Object> selectQnaComOne(int commentNum);
+	int updateComment(Map<String,Object> com);
+	int deleteQnaCom(int commentNum);
+	
 	
 }

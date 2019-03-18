@@ -182,6 +182,16 @@ public class BoardDaoImpl implements BoardDao {
 	public Map<String, Object> selectQnaComOne(int commentNum) {
 		return sqlSession.selectOne("board.selectQnaComOne",commentNum);
 	}
+
+	@Override
+	public int updateComment(Map<String, Object> com) {
+		return sqlSession.update("board.updateComment",com);
+	}
+
+	@Override
+	public int deleteQnaCom(int commentNum) {
+		return sqlSession.delete("board.deleteQnaCom",commentNum);
+	}
 	
 	
 	

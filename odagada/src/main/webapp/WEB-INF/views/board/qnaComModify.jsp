@@ -60,19 +60,20 @@
 	        <c:if test="${member.isAdmin eq '1'}">
 			<div class="container">
 			<label for="content">comment</label>
-				<form name="commentInsertForm" action="${path}/board/qnaComEnroll" method="post" onsubmit="return validate();">
+				<form name="commentInsertForm" action="${path}/board/qnaComModifyEnd" method="post" onsubmit="return validate();">
 					<div class="input-group">
 						<input type="hidden" name="qnaNum" value="${qna.QNANUM}"/>
-						<input type="text" class="form-control" id="comContent" name="comContent" placeholder="내용을 입력하세요.">	
+						<input type="hidden" name="comNum" value="${comment.COMMENTNUM}"/>
+						<input type="text" class="form-control" id="comContent" name="comContent" placeholder="내용을 입력하세요." value="${comment.COMCONTENT}">	
 						<span class="input-group-btn">
-							<input type="submit" class="btn btn-success" type="button" name="commentInsertBtn" value="등록">
+							<input type="submit" class="btn btn-success" type="button" name="commentInsertBtn" value="수정">
 						</span>
 					</div>
 			    </form>
 		  	</div>
 		  	</c:if>
 
-			  <c:forEach var="c" items="${comment}">
+			  <c:forEach var="c" items="${com}">
 			  <div class="card-body text-muted">
 			  	<div class="container" style="font-size: 15px;">
 			  		<div class="commentList">
@@ -80,11 +81,10 @@
 			  				<div class="commentInfo far fa-user">관리자 &nbsp;&nbsp;
 			  					<c:if test="${member.isAdmin eq '1'}">
 			  					<input type="hidden" name="commentNum" value="${c.COMMENTNUM}"/>
-              						<a onclick="javascript:location.href='${path}/board/qnaComModifyEnd?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 수정 </a>
+              						<a onclick="javascript:location.href='${path}/board/qnaComModify?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 수정 </a>
                 					<a onclick="javascript:location.href='${path}/board/qnaComDelete?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 삭제 </a>
                 				</c:if>
-               				</div>
-               				<ㅊ:ㅑ
+               				</div>               			
               				<div class="commentContent"> 
               					<p id="commentContent"style="margin-top: 10px;"><c:out value="${c.COMCONTENT}"/></p>
               				</div>

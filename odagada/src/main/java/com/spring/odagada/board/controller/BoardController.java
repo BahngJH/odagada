@@ -426,28 +426,29 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaView.do")
-   public ModelAndView qnaView(HttpSession session,int qnaNum,@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,HttpServletRequest request,HttpServletResponse response)
+   public ModelAndView qnaView(HttpSession session,int qnaNum,@RequestParam(value="cPage", required=false, defaultValue="0") int cPage, HttpServletRequest request,HttpServletResponse response)
    {
 	   Member m = (Member)session.getAttribute("logined");
 	   
 	   ModelAndView mv = new ModelAndView();
 	   int numPerPage = 10;
 	   int contentCount = service.selectQnaComCount();
-  
+	   
 	   Map<String,String> map = service.selectQnaOne(qnaNum);
 	   List<Map<String,String>> com = service.selectQnaComList(cPage,numPerPage,qnaNum);
+	   mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaView.do", qnaNum));
 	   
 	   
 	   logger.debug("멤버확인"+m);
 	   
 	   logger.debug("댓글 확인"+com);
+	   
 	   mv.addObject("member",m);
  	   mv.addObject("qna",map);
  	   mv.addObject("comment",com);
 	   mv.setViewName("board/qnaView");
 	   
 	   return mv;
-
    }
    
    @RequestMapping("/board/qnaForm")
@@ -535,20 +536,63 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaComModify")
-   public ModelAndView qnaComModify(int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
+   public ModelAndView qnaComModify(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
    {
+	  int numPerPage = 10;
+	  int contentCount = service.selectQnaComCount();
+	  
       ModelAndView mv = new ModelAndView();
       Member m = (Member)session.getAttribute("logined");
       
       Map<String,Object> map = service.selectQnaComOne(commentNum);
       Map<String,String> qna = service.selectQnaOne(qnaNum);
+      List<Map<String,String>> com = service.selectQnaComList(cPage,numPerPage,qnaNum);
+      
       mv.addObject("comment",map);
+      mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaComModify"));
       mv.addObject("qna",qna);
+      mv.addObject("com",com);
       mv.addObject("member",m);
       mv.setViewName("board/qnaComModify");
 
       return mv;
 
    }
+   
+   @RequestMapping("/board/qnaComModifyEnd")
+   public ModelAndView qnaComModifyEnd(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,HttpSession session,String comContent,String qnaNum, String comNum,
+		   HttpServletRequest request, HttpServletResponse response)
+   {
+	   int numPerPage = 10;
+	   int contentCount = service.selectQnaComCount();
+	   
+	   logger.debug("내용"+comContent);
+	   logger.debug("댓글번호"+comNum);
+	   logger.debug("글번호"+qnaNum);
+	   
+	   ModelAndView mv = new ModelAndView();
+	   
+	   Map<String,Object> com = new HashMap();
+	   com.put("comContent", comContent);
+	   com.put("comNum", comNum);
+	   
+	   int result = service.updateComment(com);
+	   
+	   mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaView.do"));
+	   mv.addObject("qnaNum", qnaNum);
+	   mv.setViewName("redirect:/board/qnaView.do");
+	   
+	   return mv;
+   }
+   
+   @RequestMapping("/board/qnaComDelete")
+   public String qnaComDelete(int commentNum,int qnaNum)
+   {
+	   int result = service.deleteQnaCom(commentNum);
+	   
+	   return "redirect:/board/qnaView.do?qnaNum="+qnaNum;
+	   
+   }
+   
 
 }

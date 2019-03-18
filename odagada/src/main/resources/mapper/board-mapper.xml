@@ -94,7 +94,7 @@
   <select id="selectQnaComList" resultType="map" parameterType="_int">
   	SELECT * FROM QNACOMMENT WHERE QNANUM=#{qnaNum}
   </select>
-    <update id="updateQna" parameterType="map">
+  <update id="updateQna" parameterType="map">
   	UPDATE QNA SET QTITLE=#{title},QCONTENT=#{content},MEMBERNUM=#{memberNum},QDATE=default WHERE QNANUM=#{qnaNum}
   </update>
    <delete id="deleteQna">
@@ -106,7 +106,12 @@
   <select id="selectQnaComOne" resultType="map" parameterType="_int">
   	SELECT * FROM QNACOMMENT WHERE COMMENTNUM=#{commentNum}
   </select>
-  
+  <update id="updateComment" parameterType="map">
+  	  UPDATE QNACOMMENT SET COMCONTENT=#{comContent} WHERE COMMENTNUM=#{comNum}
+  </update>
+  <delete id="deleteQnaCom">
+  	DELETE FROM QNACOMMENT WHERE COMMENTNUM=#{commentNum}
+  </delete>
   
   
   

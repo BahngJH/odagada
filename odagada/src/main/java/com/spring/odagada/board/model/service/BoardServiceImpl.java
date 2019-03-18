@@ -166,6 +166,16 @@ public class BoardServiceImpl implements BoardService {
 	public Map<String, Object> selectQnaComOne(int commentNum) {
 		return dao.selectQnaComOne(commentNum);
 	}
+
+	@Override
+	public int updateComment(Map<String, Object> com) {
+		return dao.updateComment(com);
+	}
+
+	@Override
+	public int deleteQnaCom(int commentNum) {
+		return dao.deleteQnaCom(commentNum);
+	}
 	
 	
 	
