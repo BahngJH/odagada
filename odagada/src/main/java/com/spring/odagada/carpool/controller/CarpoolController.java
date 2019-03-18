@@ -212,6 +212,8 @@ public class CarpoolController {
 			String startLat,
 			String destLat,
 			String startDate,
+			String startCity,
+			String endCity,
 			String destLong) throws ServletException, IOException 
 	{
 		l.debug(option.toString());
@@ -291,6 +293,8 @@ public class CarpoolController {
 		map.put("destLat", destLat);
 		map.put("destLong", destLong);
 		map.put("startDate", startDate);
+		map.put("startCity", startCity);
+		map.put("endCity",endCity);
 		
 		l.debug(map.toString());
 		
