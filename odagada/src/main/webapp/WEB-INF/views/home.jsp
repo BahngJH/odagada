@@ -106,11 +106,16 @@ div.pop-size{
 h3.best-text{
 	text-align: center;
 }
+div.row{
+margin-right:0px;
+}
+div.tt{
+padding-right:0px;
 }
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->
-	<div class="row">
+	<div class="row dd">
 		<div class="col-12 tt">
 			<div class="main-div">
 				<%-- <img class="main-img" src="${path }/resources/images/main_img.jpg"> --%>
@@ -222,8 +227,9 @@ h3.best-text{
 			</div>
 		</div>
 	</div>
+	<hr>
 <!-- 우리 카풀 장점 -->
-	<%-- <div class="row".>
+	<div class="row">
 		<div class="col-md-12 card-group">
 			<div class="card">
 				<img class="card-img-top img-size" src="${path}/resources/images/map.png" alt="Card image cap">
@@ -250,7 +256,7 @@ h3.best-text{
 				</div>
 			</div>
 		</div>
-	</div> --%>
+	</div>
 </section>
 <!-- 추천 경로 더보기 -->
     <script>
