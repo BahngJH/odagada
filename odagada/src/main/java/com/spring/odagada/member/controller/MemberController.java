@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -52,6 +53,7 @@ import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
+import com.sun.net.ssl.HttpsURLConnection;
 
 @SessionAttributes("logined")
 @Controller
@@ -658,6 +660,13 @@ public class MemberController {
 	   }else {
 		   return "fail";
 	   }
+   }
+   
+   @ResponseBody
+   @RequestMapping("/member/moreinfo")
+   public String naverLogin() {
+	   
+	   return "네이버";
    }
    
 }
