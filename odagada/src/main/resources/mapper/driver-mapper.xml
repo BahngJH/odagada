@@ -45,10 +45,10 @@
       where  carpoolnum=#{carpoolNum} and c.membernum=#{driverNum}
    </select>
    <update id="updatePasOk" parameterType="_int">
-		update passenger set pstatus='Y' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
+		update passenger set pstatus='Y' where membernum=#{memberNum} and carpoolnum=#{carpoolNum} and paystatus='N'
    </update>
    <update id="updatePasNo" parameterType="_int">
-		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
+		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum} and paystatus='N'
    </update>
    <select id="selectCreditCode" parameterType="map" resultMap="driver_">
    		select * from passenger where paycode=#{paycode} and carpoolnum=#{carpoolNum} and membernum=#{passengerNum}
@@ -58,6 +58,6 @@
    		update driver set money=money+#{pay} where memberNum=#{driverNum}
    </update>
    <update id="updatePasPayStatus" parameterType="map">
-   		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum}
+   		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum} and paystatus='N'
    </update>
 </mapper>
