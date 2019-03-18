@@ -309,24 +309,22 @@ public class MemberController {
    public String updateInfo(Model model) {
 	   return "member/updateForm";
    }
-   
-   //내 정보 변경
-   @RequestMapping("/member/updateInfoEnd.do")
-   public String updateInfoEnd(Member m, HttpServletRequest request, MultipartFile upFile) {
-
-		String phone1 = request.getParameter("phone1");
-		String phone2 = request.getParameter("phone2");
-		String phone = phone1 + phone2;
-		m.setPhone(phone);
-
-		String orPw = m.getMemberPw();
-		m.setMemberPw(pwEncoder.encode(orPw));
-
+  
+   //내 사진변경
+   @RequestMapping("/member/updateProfile.do")
+   public ModelAndView updateInfoEnd(HttpServletRequest request,HttpSession session, MultipartFile upFile) {
+	   
+	   logger.debug("넘어오는  파일?"+upFile);
 		// 프로필 사진 저장되는 장소
 		String sd = request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+		
+		ModelAndView mv=new ModelAndView("common/msg");
 
-		ModelAndView mv = new ModelAndView();
-
+		Member m=(Member)session.getAttribute("logined");
+		
+		//원래 있던 프로필 이미지 이름
+		String oldFile = m.getProfileImageRe();
+		
 		if (!upFile.isEmpty()) {
 			// 파일명 생성(ReName)
 			String oriFileName = upFile.getOriginalFilename();
@@ -343,21 +341,29 @@ public class MemberController {
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
+			// 새로운 프로필 이미지 이름(Ori, Re)
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);
 		}
 		int result = service.updateMember(m);
-		String msg = "";
-		String loc = "/";
+		
 		if (result > 0) {
-			msg = "정보수정이 완료되었습니다.";
+			//원래 있던 프로필 이미지 삭제
+			File file=new File(sd+"/"+oldFile);
+			if(file.exists()) {
+				file.delete();
+				Member nM=service.selectMember(m.getMemberId());
+				logger.debug("업데이트 된 : "+nM);
+				mv.addObject("logined", nM);
+			}
+			mv.addObject("msg", "사진수정이 완료되었습니다.");
+			mv.addObject("loc", "/member/updateInfo.do");
 		} else {
-			msg = "정보수정 실패.";
+			mv.addObject("msg", "사진수정 실패!");
+			mv.addObject("loc", "/member/updateInfo.do");
 		}
-		mv.addObject("msg", msg);
-		mv.addObject("loc", loc);
-		return "common/msg";
-	}
+		return mv;		
+   }
    
     //ID 찾기 화면
    @RequestMapping("/member/findId")
