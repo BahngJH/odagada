@@ -280,7 +280,7 @@ public class DriverController {
     		msg="수락 실패하였습니다. 다시 시도해주세요.";
     	}
     	mav.addObject("msg",msg);
-    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y");
     	mav.setViewName("common/msg");
     	return mav;
     }
@@ -302,7 +302,7 @@ public class DriverController {
     		msg="거부 실패하였습니다. 다시 시도해주세요.";
     	}
     	mav.addObject("msg",msg);
-    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y");
     	mav.setViewName("common/msg");
     	return mav;
     }
