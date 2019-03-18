@@ -367,104 +367,112 @@ margin-left:13px;
          				<h3><b>거절한 승객 / 결제 취소한 승객</b></h3>
          			</div>
          			<div class="card-body">
-         				<div class="row">
-         					<div class="col-12">
-	         					<c:set value="0" var="size_RC"/>
-	         					<fmt:parseNumber value="${size-RC}" type="number" var="si_RC"/>
-	         					<c:if test="${dList !=null }">
-	         						<c:forEach items="${dList }" var="d">
-		         						<c:choose>
-		         							<c:when test="${d.PSTATUS eq 'R' }">
-		         								<c:set var="si_RC" value="${si_RC + 1 }"/>
-			         							<div class="col-12 col-md-4 rcFloat-div">
-			         								<div class="card rc-div">
-				         								<div class="row">
-					         								<div class="col-12 text-center">
-															   <div class="nSub-div">
-															      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
-															   </div>
-															   <hr>
-															</div>
-															<div class="col-12 pSub-div">
-																<div class="tagN-div"></div>
-																<div class="in-div">
-																	<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-																	<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-																	<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-																	<p><b>성별:&nbsp;</b>
-																		<c:choose>
-																			<c:when test='${d.GENDER == "M"}'>
-																				남
-																			</c:when>
-																			<c:otherwise>
-																				여
-																			</c:otherwise>
-																		</c:choose>
-																	</p>
-																	<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-																	<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+                     <div class="row">
+                     	<div class="col-12 nAll-div"> <!-- 크기 지정해주기 -->
+							<table class='table table-responsive'>
+								<tr>
+		         					<c:set value="0" var="size_RC"/>
+		         					<fmt:parseNumber value="${size-RC}" type="number" var="si_RC"/>
+		         					<c:if test="${dList !=null }">
+		         						<c:forEach items="${dList }" var="d">
+			         						<c:choose>
+			         							<c:when test="${d.PSTATUS eq 'R' }">
+			         								<c:set var="si_RC" value="${si_RC + 1 }"/>
+			         								<td>
+					         							<div class="nsAll-div1"> <!-- 세부크기지정해주기 -->
+															<div class="card">
+																<div class="row">
+																	<div class="col-12 text-center">
+																	   <div class="nSub-div">
+																	      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
+																	   </div>
+																	   <hr>
+																	</div>
+																	<div class="col-12 pSub-div">
+																		<div class="tagN-div"></div>
+																		<div class="in-div">
+																			<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																			<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																			<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																			<p><b>성별:&nbsp;</b>
+																				<c:choose>
+																					<c:when test='${d.GENDER == "M"}'>
+																						남
+																					</c:when>
+																					<c:otherwise>
+																						여
+																					</c:otherwise>
+																				</c:choose>
+																			</p>
+																			<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																			<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																		</div>
+																	</div>
+																	<div class="col-12 text-center check-div">
+																		<span>
+																			<button class="btn btn-danger">승차거절</button>
+																 		</span>
+																	</div>
 																</div>
 															</div>
-															<div class="col-12 text-center check-div">
-																<span>
-																	<button class="btn btn-danger">승차거절</button>
-														 		</span>
-															</div>
-														</div>
-													</div>
-			         							</div>
-		         							</c:when>
-		         							<c:when test="${d.PSTATUS eq 'C' }">
-		         								<c:set var="si_RC" value="${si_RC + 1 }"/>
-		         								<div class="col-12 col-md-4 rcFloat-div">
-			         								<div class="card rc-div">
-				         								<div class="row">
-					         								<div class="col-12 text-center">
-															   <div class="nSub-div">
-															      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
-															   </div>
-															   <hr>
-															</div>
-															<div class="col-12 pSub-div">
-																<div class="tagN-div"></div>
-																	<div class="in-div">
-																		<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
-																		<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
-																		<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
-																		<p><b>성별:&nbsp;</b>
-																			<c:choose>
-																				<c:when test='${d.GENDER == "M"}'>
-																					남
-																				</c:when>
-																				<c:otherwise>
-																					여
-																				</c:otherwise>
-																			</c:choose>
-																		</p>
-																		<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
-																		<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+					         							</div>
+				         							</td>
+				         							</c:when>
+				         							<c:when test="${d.PSTATUS eq 'C' }">
+				         								<c:set var="si_RC" value="${si_RC + 1 }"/>
+				         								<td>
+					         								<div class="nsAll-div1"> <!-- 세부크기지정해주기 -->
+																<div class="card">
+																	<div class="row">
+																		<div class="col-12 text-center">
+																		   <div class="nSub-div">
+																		      <img src="${path }/resources/upload/profile/${d.PROFILEIMAGERE}" class="profile-img">
+																		   </div>
+																		   <hr>
+																		</div>
+																		<div class="col-12 pSub-div">
+																			<div class="tagN-div"></div>
+																				<div class="in-div">
+																					<p><b>아이디:&nbsp;</b>${d.MEMBERID }</p>
+																					<p><b>이름:&nbsp;</b>${d.MEMBERNAME }</p>
+																					<p><b>생년월일:&nbsp;</b>${d.BIRTH }</p>
+																					<p><b>성별:&nbsp;</b>
+																						<c:choose>
+																							<c:when test='${d.GENDER == "M"}'>
+																								남
+																							</c:when>
+																							<c:otherwise>
+																								여
+																							</c:otherwise>
+																						</c:choose>
+																					</p>
+																					<p><b>전화번호:&nbsp;</b>${d.PHONE}</p>
+																					<p><b>Email:&nbsp;</b>${d.EMAIL }</p>
+																				</div>
+																		</div>
+																		<div class="col-12 text-center check-div">
+																			<span>
+																				<button class="btn btn-danger">결제취소</button>
+																	 		</span>
+																		</div>
 																	</div>
-															</div>
-															<div class="col-12 text-center check-div">
-																<span>
-																	<button class="btn btn-danger">결제취소</button>
-														 		</span>
-															</div>
-														</div>
-													</div>
-			         							</div>
-		         							</c:when>
-	         							</c:choose>
-	         						</c:forEach>
-	         					</c:if>
-	       						<c:if test="${dList[0]==null || si_RC==0 }">
-									<div class="text-center">
-										<p>신청 내역이 없습니다.</p>
-									</div>
-								</c:if>
-							</div>
-         				</div>
-         			</div>
+																</div>
+						         							</div>
+					         							</td>
+				         							</c:when>
+			         							</c:choose>
+		         						</c:forEach>
+		         					</c:if>
+		       						<c:if test="${dList[0]==null || si_RC==0 }">
+										<div class="text-center">
+											<p>신청 내역이 없습니다.</p>
+										</div>
+									</c:if>
+								</tr>
+							</table>
+                        </div>
+                     </div>
+                  </div>
          		</div>
          	</div>
          </div>

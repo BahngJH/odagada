@@ -318,11 +318,9 @@ img.driver-img:before {
 					  						<span>
 										  		<c:forEach begin="1" end="${seat }"  varStatus="count">
 										  			<c:choose>
-											  			<%-- <c:when test="${count.index <= fn:length(pList)}"> --%>
-											  				<c:when test='${pList[count.index-1].PSTATUS eq "Y" }'>
-										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
-									  						</c:when>
-								  						<%-- </c:when> --%>
+										  				<c:when test='${pList[count.index-1].PSTATUS eq "Y" }'>
+									  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
+								  						</c:when>
 								  						<c:otherwise>
 								  							<img src="${path }/resources/images/option-icon/empty.png" class="seat-img"/>
 							  							</c:otherwise>
@@ -337,6 +335,10 @@ img.driver-img:before {
 						  						<c:forEach items='${pList }' var='p' varStatus="count">
 						  							<c:if test="${not flag }">
 					  									<c:choose>
+					  										<c:when test='${logined.memberNum != pList[count.index].MEMBERNUM }'>
+					  											<button class="btn btn-warning ride-btn" onclick="checkIng();">탑승객<br/>확인</button>
+					  											<c:set var="flag" value="true"/>
+					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
 					  											<button class="btn btn-danger ride-btn" onclick="checkIng();">탑승중</button>
 					  											<c:set var="flag" value="true"/>
@@ -348,7 +350,6 @@ img.driver-img:before {
 					  									</c:choose>
 						  							</c:if>
 							  					</c:forEach>
-							  					
 					  						</c:if>
 											<c:if test="${logined == null or flag == false}">
 	  											<button class="btn btn-success ride-btn" onclick="ridePayment()">탑승신청</button>
@@ -427,7 +428,6 @@ img.driver-img:before {
 								  					<c:forEach items='${pList }' var='p' varStatus="count">
 									  					<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
 									  						<span class="card pas-span">
-									  							<%-- <img src="${path }/resources/images/${p.PROFILEIMAGERE}" class="pas-img"><br> --%>
 									  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img"><br>
 									  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
 								  							</span>

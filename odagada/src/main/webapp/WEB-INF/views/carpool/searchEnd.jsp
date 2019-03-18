@@ -262,22 +262,37 @@
 </section>
 <script>
 //옵션바 고정
-$(function () { 
-	var wid=768;
+window.onload=function(){
 	var currentPosition = parseInt($("#option_flex").css("top"));
-	var win = $(window).innerWidth;
-	if(win<wid){
-		$(window).scroll(function () {
-			console.log(position + currentPosition + "px : "+win);
-		    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-		    
-		    $("#option_flex").stop().animate({
-		        "top": position + currentPosition + "px"
-		    }, 400);
-		});
-	} 
-});
-
+	$(window).scroll(function () {
+	    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+	    console.log(position + currentPosition + "px : ");
+	    $("#option_flex").stop().animate({
+	        "top": position + currentPosition + "px"
+	    }, 400);
+	});
+	$(window).resize(function(){
+		var win = $(window).innerWidth();
+		if(win<750)
+		{
+ 			$(window).scroll(function () {
+			    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+			    $("#option_flex").stop().animate({
+			        "top":"0" + "px"
+			    }, 400);
+			});
+ 		}
+		else{
+			$(window).scroll(function () {
+			    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+			    console.log(position + currentPosition + "px : ");
+			    $("#option_flex").stop().animate({
+			        "top": position + currentPosition + "px"
+			    }, 400);
+			});
+		}
+	});
+}
 function validate(){
 	return true;
 };
