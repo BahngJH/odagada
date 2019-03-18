@@ -9,6 +9,7 @@
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <%
 	int seat = (int)request.getAttribute("seat");
 	List pList = (List)request.getAttribute("pList"); 
@@ -356,6 +357,7 @@ img.driver-img:before {
 					  								if(${logined == null}){
 					  									return alert("로그인 필요");
 					  								}
+													/*
 					  								$.ajax({
 		  												url: "${path}/carpool/paymentEnd",
 		  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
@@ -372,8 +374,8 @@ img.driver-img:before {
 															location.reload();
 		  											 	}
 		  											});
+					  								*/
 					  								
-					  								/* 
 				  									var imp = window.IMP;
 				  									imp.init('imp87992639');
 				  									
@@ -382,7 +384,7 @@ img.driver-img:before {
 				  										amount : '${oList.get(0).PAY}',
 				  										pay_method : 'card',
 				  										merchant_uid : 'merchant_' + new Date().getTime(),
-				  										name : '주문명: 결제테스트',
+				  										name : '오다가다 카풀',
 				  										buyer_email : '${logined.email}',
 				  										buyer_name : '${logined.memberName}',
 				  										buyer_tel : '${logined.phone}',
@@ -390,19 +392,27 @@ img.driver-img:before {
 				  									}, function(rsp){
 				  										if(rsp.success){
 				  											$.ajax({
-				  												url: "/carpool/paymentEnd",
-				  												data: {"carpoolNum": "${oList.get(0).CARPOOLNUM}",
-				  														"memberNum": "${logined.memberNum}"	
+				  												url: "${path}/carpool/paymentEnd",
+				  												data: {
+				  													"carpoolNum": "${oList.get(0).CARPOOLNUM}",
+			  														"memberNum": "${logined.memberNum}",
+			  														"impUid":rsp.imp_uid,
 				  												},
 				  												type: "post",
 				  											 	success:function(result){
-				  													console.log(result);
+				  											 		if(result==="ok"){
+				  														alert("신청 완료");
+				  													}else if(result ==="no"){
+				  														alert("신청 실패");
+				  													}
+				  													
+																	location.reload();
 				  											 	}
 				  											});
 				  										}else{
 				  											console.log(rsp);
 				  										}
-				  									}) */
+				  									}) 
 			  									};
 					  						</script>
 											</c:if>
@@ -448,9 +458,11 @@ img.driver-img:before {
 				 	<div class="col-12 col-xl-6">
 				 		<p class='dhead-p'>드라이버 정보</p>
 				 	</div>
+				 	<c:if test="${logined.memberId != driverId}">
 				 	<div class='col-12 col-xl-5 offset-xl-1'>
 				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
 				 	</div>
+				 	</c:if>
 				 </div> 
 			  </div>
 			  <div class="card-body">

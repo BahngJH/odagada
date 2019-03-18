@@ -66,9 +66,9 @@
 		border:2px solid rgb(50,50,50);
 	}
 </style>
-<section class="container">
+<section class="container" >
 	<div class="row">
-		<div class="col-12 col-md-9 offset-md-1">
+		<div class="col-12 offset-md-1 col-md-9 ">
 			<div class="input-group">
 				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
@@ -79,7 +79,7 @@
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-12 col-md-3 offset-md-1">
+		<div class="col-12 col-md-4">
 			<div class="row">
 				<div class="col-12">
 					<div class="card"  id="option_flex">
@@ -165,7 +165,7 @@
 			</div>
 		</div>
 		<!-- 검색 결과만큼 출력 -->
-		<div class="col-12 col-md-6" id="result-search">
+		<div class="col-12 col-md-8" id="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
 				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
@@ -297,36 +297,39 @@ $(function () {
 
 }); 
 
- $(function(){ 
-	
- 	$('#btn-reset').on("click",function(){
- 		console.log($('#startLat').val());
- 		$.ajax({
-			url:"${path}/carpool/searchOption",
-			data:{"animal":$('#animal').is(":checked"),
-				"smoking":$('#smoking').is(":checked"),
-				"teenage":$('#teenage').is(":checked"),
-				"talking":$('#talking').is(":checked"),
-				"music":$('#music').is(":checked"),
-				"gender":$('#gender').val(),
-				"food":$('#food').is(":checked"),
-				"baggage":$('#baggage').is(":checked"),
-				"seatcount":$('#seatcount').val(),
-				"kmNumS":$('#kmNumS').val(),
-				"kmNumE":$('#kmNumE').val(),
-				"startLat":$('#startLat').val(),
-				"startLong":$('#startLong').val(),
-				"destLat":$('#destLat').val(),
-				"destLong":$('#destLong').val(),
-				"startDate":$('#startDate').val()
-			},
-			dataType:"html",
-			success:function(data){
-				$('#result-search').html(data);
-			}
-		});  
-	})
-	
+$('#btn-reset').on("click",function(){
+	$.ajax({
+		url:"${path}/carpool/searchOption",
+		data:{"animal":$('#animal').is(":checked"),
+			"smoking":$('#smoking').is(":checked"),
+			"teenage":$('#teenage').is(":checked"),
+			"talking":$('#talking').is(":checked"),
+			"music":$('#music').is(":checked"),
+			"gender":$('#gender').val(),
+			"food":$('#food').is(":checked"),
+			"baggage":$('#baggage').is(":checked"),
+			"seatcount":$('#seatcount').val(),
+			"kmNumS":$('#kmNumS').val(),
+			"kmNumE":$('#kmNumE').val(),
+			"startLat":$('#startLat').val(),
+			"startLong":$('#startLong').val(),
+			"destLat":$('#destLat').val(),
+			"destLong":$('#destLong').val(),
+			"startDate":$('#startDate').val(),
+			"startCity":$('startCity').val(),
+			"endCity":$('endCity').val()
+		},
+		dataType:"html",
+		success:function(data){
+			$('#result-search').html(data);
+		}
+	});  
 });
+	
+function fclick(){
+	$('#btn-reset').trigger("click");
+};
+fclick();
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
