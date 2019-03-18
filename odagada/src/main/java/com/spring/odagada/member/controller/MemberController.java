@@ -307,6 +307,7 @@ public class MemberController {
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
    public String updateInfo(Model model) {
+	
 	   return "member/updateForm";
    }
   
@@ -356,7 +357,6 @@ public class MemberController {
 				logger.debug("업데이트 된 : "+nM);
 				mv.addObject("logined", nM);
 			}
-			mv.addObject("msg", "사진수정이 완료되었습니다.");
 			mv.addObject("loc", "/member/updateInfo.do");
 		} else {
 			mv.addObject("msg", "사진수정 실패!");
