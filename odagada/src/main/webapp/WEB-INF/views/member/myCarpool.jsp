@@ -160,6 +160,7 @@ a#pay{
 				                   		<c:if test='${list.PSTATUS == "Y"}'>
 											<span class="badge badge-success">승인</span>
 										</c:if>
+<<<<<<< HEAD
 										<c:if test='${list.PSTATUS == "C" }'>
 											<span class="badge badge-warning">결제 취소</span>
 										</c:if>
@@ -176,6 +177,11 @@ a#pay{
 													</span>
 												</c:otherwise>
 											</c:choose>
+=======
+										<c:if test='${list.PSTATUS == "R"}'>
+											<span class="badge badge-warning">승인거절</span>
+										</c:if>
+>>>>>>> branch 'Member' of https://github.com/BahngJH/odagada.git
 				                   </div>
 				                </div>
 				             </div>

@@ -31,16 +31,34 @@
 	<delete id="deleteDriver">
 		DELETE FROM DRIVER WHERE MEMBERNUM=#{memberNum}
 	</delete>
-	<!-- //드라이버가 등록한 카풀리스트  -->
-	<resultMap type="map" id="driver_"></resultMap>
-	<select id="selectDriverCarpool" parameterType="_int" resultMap="driver_">
-		select * from carpool where membernum=#{memberNum} order by startdate desc
-	</select>
-	<select id="selectDriverPas" parameterType="map" resultMap="driver_">
-		select carpoolnum, c.membernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,p.membernum, paycode, paystatus, impuid ,m.* 
-		from  carpool c 
-		join passenger p using(carpoolnum) 
-		join member m on(m.membernum=p.membernum) 
-		where  carpoolnum=#{carpoolNum} and c.membernum=#{driverNum}
-	</select>
+   <!-- //드라이버가 등록한 카풀리스트  -->
+   <resultMap type="map" id="driver_"></resultMap>
+   <select id="selectDriverCarpool" parameterType="_int" resultMap="driver_">
+      select * from carpool where membernum=#{memberNum} order by startdate desc
+   </select>
+   <select id="selectDriverPas" parameterType="map" resultMap="driver_">
+      select carpoolnum, c.membernum as cmembernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,t.seatcount,p.membernum as pmembernum, paycode,pstatus, paystatus, impuid ,m.* 
+      from  carpool c 
+      join caroption t using(carpoolnum)
+      left join passenger p using(carpoolnum) 
+      left join member m on(m.membernum=p.membernum) 
+      where  carpoolnum=#{carpoolNum} and c.membernum=#{driverNum}
+   </select>
+   <update id="updatePasOk" parameterType="_int">
+		update passenger set pstatus='Y' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
+   </update>
+   <update id="updatePasNo" parameterType="_int">
+		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
+   </update>
+   <select id="selectCreditCode" parameterType="map" resultMap="driver_">
+   		select * from passenger where paycode=#{paycode} and carpoolnum=#{carpoolNum} and membernum=#{passengerNum}
+   </select>
+   <!-- 금액 입력 -->
+   <update id="updateDriverCredit" parameterType="map">
+   		update driver set money=money+#{pay} where memberNum=#{driverNum}
+   </update>
+   <update id="updatePasPayStatus" parameterType="map">
+   		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum}
+   </update>
 </mapper>
+

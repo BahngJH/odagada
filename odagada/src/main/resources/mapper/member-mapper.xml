@@ -24,7 +24,7 @@
 	
  	<!-- 메일 인증상태 업데이트 -->	
 	<update id="mailStatus" parameterType="map">
-	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth} where memberId=#{memberId}
+	UPDATE MEMBER SET ISEMAILAUTH = #{isEmailAuth}, EMAIL=#{email} where memberId=#{memberId}
 	</update>
 	
 	<!--ID중복 체크 -->
@@ -44,14 +44,9 @@
  	
  <!-- 회원 정보 수정  -->
 	<update id="updateMember" parameterType="member">
-	UPDATE MEMBER SET memberPw=#{memberPw},
-	                        phone=#{phone},
-	                        email=#{email},
-	                        #{profileImageOri},
-	                        #{profileImageRe},
-	                        #{isPhoneAuth},
-	                        #{isEmailAuth}
-	                        where memberNum=#{memberNum}                      
+	UPDATE MEMBER SET PROFILEIMAGEORI=#{profileImageOri},
+	                  PROFILEIMAGERE=#{profileImageRe}
+	                  where memberNum=#{memberNum}                      
 	</update> 
 	
 	<!-- 회원삭제  -->
@@ -85,4 +80,20 @@
 	<update id="updateYPhoneStatus" parameterType="_int">
 		UPDATE MEMBER SET ISPHONEAUTH = 'Y' WHERE MEMBERNUM=#{memberNum}
 	</update>
+	<!--비밀번호 변경  -->
+	<update id="updatePassword" parameterType="member">
+	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+	</update>
+	<!--메일 코드 변경 -->
+	<update id="updateMailCode" parameterType="member">
+	 UPDATE MEMBER SET MAILCODE=#{mailCode} WHERE MEMBERID=#{memberId}
+	 </update>
+	 <!--핸드폰 번호 변경  -->
+	 <update id="updatePhone" parameterType="member">
+	 UPDATE MEMBER SET ISPHONEAUTH=#{isPhoneAuth}, PHONE=#{phone} WHERE MEMBERNUM=#{memberNum}
+	 </update>
+	 <!--이름 변경  -->
+	 <update id="updateName" parameterType="member">
+	 UPDATE MEMBER SET MEMBERNAME=#{memberName} WHERE MEMBERNUM=#{memberNum}
+	 </update>
 </mapper>
