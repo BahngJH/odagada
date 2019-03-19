@@ -20,7 +20,7 @@
 
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
-
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <style>
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
@@ -116,10 +116,6 @@ margin-left: 4px;
 </style>
 
 
-
-
-
-
 <body>
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
@@ -168,6 +164,48 @@ margin-left: 4px;
 			</div>
 		</div>
 	</div>
+	<div id="kakaoLogin">  
+    <a id="kakao-login-btn"></a>
+    <a href="http://developers.kakao.com/logout"></a>
+</div>
+ 
+<script type='text/javascript'>
+	var kakaoName="";
+	var kakaoId="";
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('05f49b9ab4a2c1bc706682703a9c1bae');
+    // 카카오 로그인 버튼을 생성합니다.
+    Kakao.Auth.createLoginButton({
+      container: '#kakao-login-btn',
+      success: function(authObj) {
+          
+          //로그인 성공시, kakao API를 호출한다.(카카오에 있는 데이터 불러옴)
+          Kakao.API.request({
+              url: '/v2/user/me',
+              success: function(res){
+                  console.log(res);
+                  console.log(res.id);
+                  console.log(res.kakao_account);
+                  console.log(JSON.stringify(res.properties.nickname));
+                  
+                  kakaoId=res.id;
+                  kakaoName=JSON.stringify(res.properties.nickname);
+                  location.href='${path}/member/kakaoLogin.do?kakaoId='+kakaoId+'&kakaoName='+kakaoName;     
+
+              },
+              fail: function(error){
+                  alert(JSON.stringify(error));
+              }
+          });
+         
+      },
+      fail: function(err) {
+         alert(JSON.stringify(err));
+      }
+    });
+    
+</script>  
+	
 </div>
 
       
