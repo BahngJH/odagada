@@ -67,6 +67,7 @@
 	}
 </style>
 <section class="container" >
+<c:set value='0' var="listSize"/>
 	<div class="row">
 		<div class="col-12 offset-md-1 col-md-9 ">
 			<div class="input-group">
@@ -165,11 +166,11 @@
 			</div>
 		</div>
 		<!-- 검색 결과만큼 출력 -->
-		<div class="col-12 col-md-8" id="result-search">
+		<div class="col-12 col-md-8" id="result-search" class="result-search">
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
-				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
-					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="return oneck()">
+				<form method="post" action="${path}/carpool/oneSearch.do" class='form-onecar'>
+					<div id="div-pick" class="card border-success mb-3 div-pick" >
 					  <div class="card-body text-success click">
   					  <input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
 					  <input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
@@ -258,6 +259,58 @@
 	</div>
 </section>
 <script>
+//무한스크롤
+$(document).ready(function() {
+    // 스크롤 발생 이벤트 처리
+    $(document).on("scroll",document,function() {
+    	var frmLength = $('.div-pick').length;//frm 길이갯수
+    	var numPerPage=5;
+    	var cPage=Math.floor((frmLength)/numPerPage)*numPerPage;
+    	var scrollTop = $(document).scrollTop(); //현재 스크롤 높이
+    	var docuHeight = $(document).height(); //화면 높이
+    	var maxHeight = $('#result-search').height(); // form div 길이
+    	var scrollMax = $(document).height() - $(window).height() - $(window).scrollTop(); //
+    	
+    	console.log("frmLength: "+frmLength+" : "+cPage);
+    	
+       // 스크롤바가 맨 아래에 위치할 때   
+       if (scrollMax<0.5) {
+    	   if(frmLength%5==0&&frmLength>0){
+	          console.log("이벤트"+cPage);
+	          $.ajax({
+	  			url:"${path}/carpool/searchOption",
+	  			data:{"animal":$('#animal').is(":checked"),
+	  				"smoking":$('#smoking').is(":checked"),
+	  				"teenage":$('#teenage').is(":checked"),
+	  				"talking":$('#talking').is(":checked"),
+	  				"music":$('#music').is(":checked"),
+	  				"gender":$('#gender').val(),
+	  				"food":$('#food').is(":checked"),
+	  				"baggage":$('#baggage').is(":checked"),
+	  				"seatcount":$('#seatcount').val(),
+	  				"kmNumS":$('#kmNumS').val(),
+	  				"kmNumE":$('#kmNumE').val(),
+	  				"startLat":$('#startLat').val(),
+	  				"startLong":$('#startLong').val(),
+	  				"destLat":$('#destLat').val(),
+	  				"destLong":$('#destLong').val(),
+	  				"startDate":$('#startDate').val(),
+	  				"startCity":$('#startCity').val(),
+	  				"endCity":$('#endCity').val(),
+	  				"cPage":cPage
+	  			},
+	  			dataType:"html",
+	  			success:function(data){
+	  				$('#result-search').append(data);
+	  				console.log("이벤트2");
+	  			}
+	  		});  
+		}else{
+			console.log('ddd');
+		}
+       }                  
+    });
+ });
 //옵션바 고정
 $(function () {
     var currentPosition = parseInt($("#option_flex").css("top"));
@@ -272,24 +325,16 @@ $(function () {
         }
     });
 });
-function validate(){
-	return true;
-};
-function oneck(){
-	$('#form-onecar').submit();	
-}
-$(function () {
- 	$('.click').on("click",function(e){
-		var carpoolNum=$(this).find('#carpoolNum').val();
-		var seat=$(this).find('#seat').val();
-		var mem=$(this).find('#mem').val();
-		console.log(carpoolNum+" : "+seat+" : "+mem);
-		document.getElementById("carpoolNum").value=carpoolNum;
-		document.getElementById("seat").value=seat;
-		document.getElementById("mem").value=mem;
-	});
-
-}); 
+$(document).on('click','.form-onecar',function(){
+	var carpoolNum=$(this).find('#carpoolNum').val();
+	var seat=$(this).find('#seat').val();
+	var mem=$(this).find('#mem').val();
+	console.log(carpoolNum+" : "+seat+" : "+mem);
+	document.getElementById("carpoolNum").value=carpoolNum;
+	document.getElementById("seat").value=seat;
+	document.getElementById("mem").value=mem;
+	$(this).submit();
+});
 
 $('#btn-reset').on("click",function(){
 	$.ajax({
@@ -311,7 +356,8 @@ $('#btn-reset').on("click",function(){
 			"destLong":$('#destLong').val(),
 			"startDate":$('#startDate').val(),
 			"startCity":$('#startCity').val(),
-			"endCity":$('#endCity').val()
+			"endCity":$('#endCity').val(),
+			"cPage":0
 		},
 		dataType:"html",
 		success:function(data){

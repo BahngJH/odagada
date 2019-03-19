@@ -5,9 +5,10 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@page import="java.util.*,com.spring.odagada.carpool.model.vo.Carpool"%>
 <!-- 조건만큼 검색 결과 출력 -->
-<c:forEach items="${coList}" var="c">
-	<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
-		<div id="div-pick" class="card border-success mb-3 div-pick" onclick="return oneck();">
+<c:forEach items="${coList}" var="c" varStatus="count">
+	<form method="post" action="${path}/carpool/oneSearch.do" class='form-onecar'>
+	<c:set value='${listSize+1 }' var="listSize"/>
+		<div id="div-pick" class="card border-success mb-3 div-pick">
 		  <div class="card-body text-success click">
 			<input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
 			<input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
@@ -91,7 +92,88 @@
 		</div>
 	</div>
 </c:if>
-<script>
+<input type="hidden" value="${search.cPage }" id="cPage" name='cPage'/>
+<!-- <script>
+//무한스크롤
+$(document).ready(function() {
+    // 스크롤 발생 이벤트 처리
+    $(document).on("scroll",document,function() {
+    	var frmLength = $('.div-pick').length;//frm 길이갯수
+    	var scrollTop = $(document).scrollTop(); //현재 스크롤 높이
+    	var docuHeight = $(document).height(); //화면 높이
+    	var maxHeight = $('#result-search').height(); // form div 길이
+    	var scrollMax = $(document).height() - $(window).height() - $(window).scrollTop(); //
+    	console.log("frmLength: "+frmLength);
+    	
+       // 스크롤바가 맨 아래에 위치할 때   
+       if (scrollMax<1) {
+    	   if(frmLength%5==0){
+	          console.log("이벤트");
+	          $.ajax({
+	  			url:"${path}/carpool/searchOption",
+	  			data:{"animal":$('#animal').is(":checked"),
+	  				"smoking":$('#smoking').is(":checked"),
+	  				"teenage":$('#teenage').is(":checked"),
+	  				"talking":$('#talking').is(":checked"),
+	  				"music":$('#music').is(":checked"),
+	  				"gender":$('#gender').val(),
+	  				"food":$('#food').is(":checked"),
+	  				"baggage":$('#baggage').is(":checked"),
+	  				"seatcount":$('#seatcount').val(),
+	  				"kmNumS":$('#kmNumS').val(),
+	  				"kmNumE":$('#kmNumE').val(),
+	  				"startLat":$('#startLat').val(),
+	  				"startLong":$('#startLong').val(),
+	  				"destLat":$('#destLat').val(),
+	  				"destLong":$('#destLong').val(),
+	  				"startDate":$('#startDate').val(),
+	  				"startCity":$('#startCity').val(),
+	  				"endCity":$('#endCity').val(),
+	  				"cPage":'${search.cPage+1}'
+	  			},
+	  			dataType:"html",
+	  			success:function(data){
+	  				console.log(data);
+	  				$('#result-search').append(data);
+	  			}
+	  		});  
+		}
+       }                  
+    });
+ });
+  $('#plus').on('click',function(){
+	 console.log("이벤트");
+	 $('#plus').remove();
+     $.ajax({
+			url:"${path}/carpool/searchOption",
+			data:{"animal":$('#animal').is(":checked"),
+				"smoking":$('#smoking').is(":checked"),
+				"teenage":$('#teenage').is(":checked"),
+				"talking":$('#talking').is(":checked"),
+				"music":$('#music').is(":checked"),
+				"gender":$('#gender').val(),
+				"food":$('#food').is(":checked"),
+				"baggage":$('#baggage').is(":checked"),
+				"seatcount":$('#seatcount').val(),
+				"kmNumS":$('#kmNumS').val(),
+				"kmNumE":$('#kmNumE').val(),
+				"startLat":$('#startLat').val(),
+				"startLong":$('#startLong').val(),
+				"destLat":$('#destLat').val(),
+				"destLong":$('#destLong').val(),
+				"startDate":$('#startDate').val(),
+				"startCity":$('#startCity').val(),
+				"endCity":$('#endCity').val(),
+				"cPage":'${search.cPage+1}'
+			},
+			dataType:"html",
+			success:function(data){
+				console.log(data);
+				$('#result-search').append(data);
+			}
+		}); 
+ }); 
+
 function validate(){
 	return true;
 };
@@ -103,7 +185,8 @@ $(function () {
 		var carpoolNum=$(this).find('#carpoolNum').val();
 		var seat=$(this).find('#seat').val();
 		var mem=$(this).find('#mem').val();
-		console.log(carpoolNum+" : "+seat+" : "+mem);
+		var listNum='${listNum}';
+		console.log(carpoolNum+" : "+seat+" : "+mem+" : "+listNum);
 		document.getElementById("carpoolNum").value=carpoolNum;
 		document.getElementById("seat").value=seat;
 		document.getElementById("mem").value=mem;
@@ -111,4 +194,4 @@ $(function () {
 
 }); 
 
-</script>
+</script> -->
