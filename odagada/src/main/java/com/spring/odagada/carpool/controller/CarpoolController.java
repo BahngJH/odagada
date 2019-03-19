@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -139,7 +140,8 @@ public class CarpoolController {
 			String endLon, String endLat)
 	{
 		ModelAndView mav = new ModelAndView();
-		
+		int numPerPage=5;
+		int cPage=0;
 		Map<String,String> m = new HashMap<String, String>();
 		m.put("startCity", startSearch);
 		m.put("endCity",endSearch);
@@ -150,7 +152,7 @@ public class CarpoolController {
 		m.put("destLat",endLat);
 		m.put("kmNum", kmNum);
 
-		List<Map<String,String>> carlist = service.selectCarpoolList(m);
+		List<Map<String,String>> carlist = service.selectCarpoolList(m,cPage,numPerPage);
 		
 		mav.addObject("cList",carlist);
 		mav.addObject("search", m);
@@ -214,7 +216,9 @@ public class CarpoolController {
 			String startDate,
 			String startCity,
 			String endCity,
-			String destLong) throws ServletException, IOException 
+			String destLong,
+			@RequestParam(value="cPage", defaultValue="0") int cPage
+			) throws ServletException, IOException 
 	{
 		l.debug(option.toString());
 		ModelAndView mav = new ModelAndView();
@@ -296,10 +300,11 @@ public class CarpoolController {
 		map.put("startCity", startCity);
 		map.put("endCity",endCity);
 		
+		
 		l.debug(map.toString());
-		
-		List<Map<String,String>> cList = service.selectCarOptionList(map);
-		
+		int numPerPage=5;
+		List<Map<String,String>> cList = service.selectCarOptionList(map,cPage,numPerPage);
+		map.put("cPage", Integer.toString(cPage));
 		req.setAttribute("search", map);
 		req.setAttribute("coList", cList);
 		req.getRequestDispatcher("/WEB-INF/views/carpool/search-fixed.jsp").forward(req, res);
