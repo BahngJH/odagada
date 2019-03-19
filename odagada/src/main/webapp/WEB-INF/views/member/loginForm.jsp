@@ -168,7 +168,7 @@ margin-left: 4px;
 		var naverLogin = new naver.LoginWithNaverId(
 				{
 					clientId: "vc3JlDx8OrM42I7Dhas4",
-					callbackUrl: "http://localhost:9090/odagada/member/moreinfo",
+					callbackUrl: "http://localhost:9090/odagada/member/naverSignup",
 					isPopup: false,
 					loginButton: {color: "green", type: 1, height: 60}
 					
