@@ -670,7 +670,7 @@ public class MemberController {
 		if (m == null) {
 			return "false";
 		} else {
-			session.setAttribute("loginded", m);
+			session.setAttribute("logined", m);
 			return "true";
 		}
    }
