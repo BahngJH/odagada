@@ -25,4 +25,7 @@ public interface DriverDao {
 	Map<String,String> selectCreditCode(Map<String, Integer> map);
 	int updateDriverCredit(Map<String,Integer> map);
 	int updatePasPayStatus(Map<String,Integer> map);
+	List<String> selectImgRe(String oldCarNum);
+	int updateDriver(Map<String, Object> driver);
+	int deleteImg(String carNum);
 }

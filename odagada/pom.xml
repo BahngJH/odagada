@@ -266,7 +266,13 @@
 		    <version>3.8</version>
 		</dependency>	
 		
-		
+		<!-- 이미지썸네일 -->
+		<dependency>
+		    <groupId>org.imgscalr</groupId>
+		    <artifactId>imgscalr-lib</artifactId>
+		    <version>4.2</version>
+		</dependency>
+
 		
 		
 	

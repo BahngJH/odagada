@@ -145,20 +145,34 @@
     }
     #checkGender label {
         padding-top: 10px;
+<<<<<<< HEAD
+        width: 100px; height: 40px;
+        border: 1px solid #28a745;
+=======
         width: 85px; height: 40px;
         border: 1px solid gray;
+>>>>>>> branch 'master' of https://github.com/BahngJH/odagada.git
         border-radius: 10px 10px 10px 10px;
+        color : #28a745;
+        width: 80px;
     }
     #man:checked ~ label:nth-of-type(1) {
         color: white;
-        background: green;
-        border-color: green;
+        background: #28a745;
+        border-color: #28a745;
     }
     #woman:checked ~ label:nth-of-type(2) {
         color: white;
-        background: green;
-        border-color: green;
-    } 
+        background: #28a745;
+        border-color: #28a745;
+    }
+    
+    #email2{
+    	width: 112px;
+    }
+    #phone2{
+    	width: 200px;
+    }
     </style>
     
      
@@ -495,7 +509,7 @@ $(function(){
              	   </div>
                </div>  -->
                 <div id="checkGender">
-	                <input type="radio" name="gender" value="M" id="man" checked>
+	                <input type="radio" name="gender" value="M" id="man" checked>&nbsp;&nbsp;
 	                <input type="radio" name="gender" value="F" id="woman">
 	                <label for="man">남자</label>
 	                <label for="woman">여자</label>

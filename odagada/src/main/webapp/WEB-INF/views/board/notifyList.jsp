@@ -87,6 +87,11 @@
 			alert("블랙할 기간을 쓰세요");
 			return false;
 		}
+		var numCk = /[^0-9]/g;
+		if(numCk.test(blackCount)){
+			alert("숫자만 입력하세요");
+			return false;
+		}
 		location.href='${path}/admin/insertBlack.do?notifyId='+NOTIFYID+'&nonNotifyId='+NONNOTIFYID+'&nContent='+NCONTENT+'&blackCount='+blackCount;
 	}
 </script>
