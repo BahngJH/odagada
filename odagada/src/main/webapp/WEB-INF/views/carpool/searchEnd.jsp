@@ -70,9 +70,9 @@
 	<div class="row">
 		<div class="col-12 offset-md-1 col-md-9 ">
 			<div class="input-group">
-				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
+				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" id="startCity" name="startCity" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
-				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
+				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }"  id="endCity" name="endCity" readonly>
 				<input type="text" class="form-control search-div" id="startDate" value="${search.startDate }" readonly>
 			</div>
 		</div>
@@ -182,9 +182,6 @@
 					    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 					    		<span class="badge badge-success">도착</span><br>
 					    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
-					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
-					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
-					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
 				    			<input type="hidden" name="startLat" id="startLat" value="${search.startLat }"/>
     							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
     							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
@@ -262,37 +259,19 @@
 </section>
 <script>
 //옵션바 고정
-window.onload=function(){
-	var currentPosition = parseInt($("#option_flex").css("top"));
-	$(window).scroll(function () {
-	    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-	    console.log(position + currentPosition + "px : ");
-	    $("#option_flex").stop().animate({
-	        "top": position + currentPosition + "px"
-	    }, 400);
-	});
-	$(window).resize(function(){
-		var win = $(window).innerWidth();
-		if(win<750)
-		{
- 			$(window).scroll(function () {
-			    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-			    $("#option_flex").stop().animate({
-			        "top":"0" + "px"
-			    }, 400);
-			});
- 		}
-		else{
-			$(window).scroll(function () {
-			    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-			    console.log(position + currentPosition + "px : ");
-			    $("#option_flex").stop().animate({
-			        "top": position + currentPosition + "px"
-			    }, 400);
-			});
-		}
-	});
-}
+$(function () {
+    var currentPosition = parseInt($("#option_flex").css("top"));
+    $(window).scroll(function () {
+        var width = $(window).width();
+        if (width >= 750) {
+            var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+            
+            $("#option_flex").stop().animate({
+                "top": position + currentPosition + "px"
+            }, 500);
+        }
+    });
+});
 function validate(){
 	return true;
 };
@@ -331,8 +310,8 @@ $('#btn-reset').on("click",function(){
 			"destLat":$('#destLat').val(),
 			"destLong":$('#destLong').val(),
 			"startDate":$('#startDate').val(),
-			"startCity":$('startCity').val(),
-			"endCity":$('endCity').val()
+			"startCity":$('#startCity').val(),
+			"endCity":$('#endCity').val()
 		},
 		dataType:"html",
 		success:function(data){
