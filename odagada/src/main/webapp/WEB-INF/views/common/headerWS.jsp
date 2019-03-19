@@ -59,7 +59,7 @@
 </head>
 
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="${path }/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,9 +71,12 @@
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>          
                 <li class="nav-item">
-                  <a class="nav-link" href="#">드라이버등록</a>
+                  <a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
                 </li><li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
                 </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
@@ -99,20 +102,23 @@
 	                  </a>
 	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
-	                    <a class="dropdown-item" href="#">회원 관리</a>
-	                    <a class="dropdown-item" href="#">드라이버 관리</a>
-	                    <a class="dropdown-item" href="#">질의응답</a>
+	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/memberList.do">회원 관리</a>
+	                    <a class="dropdown-item" href="${path}/driver/driverList">드라이버 관리</a>
+	                    <a class="dropdown-item" href="${path}/board/qnaList">Q&A</a>
+	                    <a class="dropdown-item" href="${path}/admin/notifyList.do">신고내역</a>
+	                    <a class="dropdown-item" href="${path}/admin/blackList.do">블랙리스트</a>
 	                  </div>
 	                </li>
                </c:if>
                <!-- 채팅 부분 추가함  -->
-                <c:if test="${sessionScope.logined!=null }">   
+               <c:if test="${sessionScope.logined!=null }">   
 	                <li class="nav-item" id="communityDiv">
 	                  <a class="nav-link" href="${path }/community/chatting.do">소통해요</a>
 	            	</li>
 	            	<li><div id="msgDiv"></div></li>          
-                </c:if> 
+                </c:if>       
+   
+
               </ul>
             </div>
           </nav>
-

@@ -49,7 +49,7 @@
 	img.option-icon{
 		width:30px; height:30px;
 		float:right;
-		margin:4px;
+		margin:8px;
 	}
 	div.div-pick:hover{
 		box-shadow: 4px 4px 15px rgb(190,190,190);
@@ -68,22 +68,18 @@
 </style>
 <section class="container">
 	<div class="row">
-		<div class="col-12 col-md-2"></div>
-		<div class="col-12 col-md-8">
+		<div class="col-12 col-md-8 offset-md-2">
 			<div class="input-group">
 				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
 				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
-				<!-- <input class="form-control search-div" type="datetime-local" name="start-date" id="start-date"> -->
-				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
+				<input type="text" class="form-control search-div" id="startDate" value="${search.startDate }" readonly>
 			</div>
 		</div>
-		<div class="col-12 col-md-2"></div>
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-12 col-md-2"></div>
-		<div class="col-12 col-md-3">
+		<div class="col-12 col-md-3 offset-md-2">
 			<div class="row">
 				<div class="col-12">
 					<div class="card"  id="option_flex">
@@ -117,36 +113,36 @@
 	    						</div>
 	    					</div><br>
 	    					<div class="row">
-								<div class="col-6" >
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6" >
 									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="" /></label>
 								</div>
-								<div class="col-6" >
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6" >
 									<label>흡연 <input type="checkbox" name="smoking" id="smoking" value=""/></label>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-6">
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6">
 									<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="" /></label>
 								</div>
-								<div class="col-6">
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6">
 									<label>대화 <input type="checkbox" name="talking" id="talking" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-6">
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6">
 									<label>노래 <input type="checkbox" name="music" id="music" value="" /></label>
 								</div>
-								<div class="col-6">
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6">
 									<label>음식 섭취 <input type="checkbox" name="food" id="food" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-6">
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6">
 									<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="" /></label>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-6">
+								<div class="col-12 col-sm-6  col-md-12 col-lg-6">
 									성별
 									<select name="gender" id="gender" class="form-control">
 										<option value="A">무관</option>
@@ -154,12 +150,12 @@
 										<option value="M">남</option>
 									</select>
 								</div>
-								<div class="col-6">
+								<div class="col-12 col-sm-6 col-md-12 col-lg-6">
 									좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" value="1" />
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-12">
+								<div class="col-12 ">
 									<button class="btn btn-success search-div start-search" id='btn-reset'>검색</button>
 								</div>
 							</div>
@@ -262,7 +258,6 @@
 				</div>
 			</c:if>
 		</div>
-		<div class="col-12 col-md-2"></div>
 	</div>
 </section>
 <script>
@@ -322,7 +317,8 @@ $(function () {
 				"startLat":$('#startLat').val(),
 				"startLong":$('#startLong').val(),
 				"destLat":$('#destLat').val(),
-				"destLong":$('#destLong').val()
+				"destLong":$('#destLong').val(),
+				"startDate":$('#startDate').val()
 			},
 			dataType:"html",
 			success:function(data){

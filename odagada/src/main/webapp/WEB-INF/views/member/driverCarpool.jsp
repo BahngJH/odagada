@@ -122,7 +122,6 @@ background-color:rgb(100,100,100);
           <div class="col-12">
              <img alt="logo" src="${path }/resources/images/mypage/logo2.png" class="img-fluid logo-img">
           </div>
-
           <div class="offset-1  col-10 my-div">
              <p class="text-center my-p">ALL MY PAGE</p>
           </div>

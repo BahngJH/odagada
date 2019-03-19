@@ -18,11 +18,12 @@ public interface CommunityService {
 	int checkedMessage(Map isreadData);
 	
 	int insertNotify(Map<String,Object>map);
-	int insertReview(Map<String,Object>map);
-	Map<String,Object> selectReview(int carpoolNum);
-	List<Map<String,Object>> selectMyReviewList(int memberNum);
+	int insertReview(Map<String,String>map);
+	int selectReviewCount(int memberNum);
+	Map<String,Object> selectReview(Map<String,String> m);
+	List<Map<String,Object>> selectMyReviewList(Map<String,String> map);
 	List<Map<String,Object>> selectReviewList(int memberNum);
-	int updateReview(Map<String,Object>map);
-	int deleteReview(int carpoolNum);
+	int updateReview(Map<String,String>map);
+	int deleteReview(Map<String,String>map);
 	
 }

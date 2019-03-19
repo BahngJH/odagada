@@ -50,6 +50,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
@@ -73,6 +74,9 @@ public class MemberController {
 	//비밀번호 암호화 처리
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+	
+	@Autowired
+	CommunityService comService;
 	
 
 	//email 중복확인
@@ -162,7 +166,7 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		return "common/msg";		
 	}
-	
+
 
 	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
@@ -198,6 +202,11 @@ public class MemberController {
 	public String loginForm() {
 		return "member/loginForm";
 	}
+	//로그인 페이지
+		@RequestMapping("/member/loginForm2.do")
+		public String loginForm2() {
+			return "member/loginForm2";
+		}
 	
 	//로그인
    @RequestMapping("/member/login.do")
@@ -302,6 +311,7 @@ public class MemberController {
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
    public String updateInfo(Model model) {
+	
 	   return "member/updateForm";
    }
   
@@ -351,7 +361,6 @@ public class MemberController {
 				logger.debug("업데이트 된 : "+nM);
 				mv.addObject("logined", nM);
 			}
-			mv.addObject("msg", "사진수정이 완료되었습니다.");
 			mv.addObject("loc", "/member/updateInfo.do");
 		} else {
 			mv.addObject("msg", "사진수정 실패!");
@@ -470,6 +479,7 @@ public class MemberController {
     	return isPhone;  			
     } 
 
+
    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
@@ -488,7 +498,7 @@ public class MemberController {
 	   return mav;
    }
    
-    @ResponseBody
+  @ResponseBody
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
@@ -554,8 +564,7 @@ public class MemberController {
 
    @RequestMapping("/member/myDriver")
    public ModelAndView myDriver(HttpSession session) {
-	   
-	   
+	   	   
 	   ModelAndView mv = new ModelAndView();
 	   
 	   Member m = (Member)session.getAttribute("logined");	   

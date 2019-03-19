@@ -117,7 +117,6 @@ public class DriverController {
       driver.put("carModel", carModel);
       driver.put("carNum",carNum);
       driver.put("driver_info", driver_info);
-
       
       ArrayList<CarImage> files = new ArrayList();
       
@@ -232,7 +231,93 @@ public class DriverController {
       
       return "redirect: driverList";
    }
-   
+
+		}
+		
+		int result = service.enrollDriver(driver,files);
+		
+		logger.debug("파일 확인"+files);
+		
+		return "redirect:/";
+	}
+	
+	 @RequestMapping("/driver/driverList")
+	   public ModelAndView driverList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage,HttpSession session)
+	   {
+		   
+		  Member m = (Member) session.getAttribute("logined");
+		  ModelAndView mv = new ModelAndView();
+		  int numPerPage = 5;   
+		  int contentCount = service.selectJoinCount();	  
+		      
+	      List<Map<String,String>> list = service.selectDriverList(cPage,numPerPage);
+	      mv.addObject("pageBar",PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/driver/driverList"));
+	     
+	      mv.addObject("list",list);
+	      mv.setViewName("driver/driverJoinList");	      
+		      
+	      return mv;	      
+	   }
+	 
+	 @RequestMapping("/driver/driverForm")
+	 public ModelAndView driverForm(int memberNum,String carNum)
+	 {
+		 System.out.println("여깅하ㅏ하하하하ㅏㅎ"+memberNum+" :"+carNum);
+		 ModelAndView mv = new ModelAndView();
+		 Map<String,String> map = service.selectDriverOne(memberNum);
+		 List<Map<String,String>> carImg = service.selectCarImg(carNum);
+		 
+		 String a = map.get("LICENSENUM").substring(0, 3);
+		 String b = "**-******";
+		 String c = map.get("LICENSENUM").substring(13);
+		 
+		 String licenseNum = a+b+c;
+	
+		carImg.get(0).put("active", "active");
+		 
+		 mv.addObject("driver",map);
+		 mv.addObject("carImg", carImg);
+		 mv.addObject("licenseNum",licenseNum);
+		 mv.setViewName("driver/driverForm");
+		 
+		 logger.info("리턴 전"+map);
+		 
+		 return mv;
+	 }
+	@RequestMapping("/driver/driverFormEnd")
+	public String driverFormEnd(Driver driver,HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
+	{
+		Driver d = service.selectOne(memberNum);
+		String licenseNum = d.getLicenseNum();
+		
+		logger.debug("넘버= "+memberNum);
+		logger.debug("드라이버수락여부 = "+driverStatus);
+		logger.debug("면허 확인"+licenseNum);
+		logger.debug("멤버 = "+driver);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+			map.put("memberNum", memberNum);
+			
+		if(driverStatus.equals("N"))
+		{
+			driverStatus = "Y";
+			map.put("driverStatus", driverStatus);
+			int result = service.updateStatus(map);
+		}
+		
+		return "redirect: driverList";
+		
+	}
+	
+	@RequestMapping("driver/driverRefuse")
+	public String deleteDriver(@RequestParam(value="memberNum") int memberNum)
+	{
+		int result = service.deleteDriver(memberNum);
+		
+		return "redirect: driverList";
+	}
+	
+
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
     public ModelAndView selectDriverCarpool(HttpSession session) {
