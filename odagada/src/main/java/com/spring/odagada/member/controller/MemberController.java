@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -53,6 +54,7 @@ import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
+import com.sun.net.ssl.HttpsURLConnection;
 
 @SessionAttributes("logined")
 @Controller
@@ -316,26 +318,25 @@ public class MemberController {
    //내 정보 변경페이지
    @RequestMapping("/member/updateInfo.do")
    public String updateInfo(Model model) {
+	
 	   return "member/updateForm";
    }
-   
-   //내 정보 변경
-   @RequestMapping("/member/updateInfoEnd.do")
-   public String updateInfoEnd(Member m, HttpServletRequest request, MultipartFile upFile) {
-
-		String phone1 = request.getParameter("phone1");
-		String phone2 = request.getParameter("phone2");
-		String phone = phone1 + phone2;
-		m.setPhone(phone);
-
-		String orPw = m.getMemberPw();
-		m.setMemberPw(pwEncoder.encode(orPw));
-
+  
+   //내 사진변경
+   @RequestMapping("/member/updateProfile.do")
+   public ModelAndView updateInfoEnd(HttpServletRequest request,HttpSession session, MultipartFile upFile) {
+	   
+	   logger.debug("넘어오는  파일?"+upFile);
 		// 프로필 사진 저장되는 장소
 		String sd = request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+		
+		ModelAndView mv=new ModelAndView("common/msg");
 
-		ModelAndView mv = new ModelAndView();
-
+		Member m=(Member)session.getAttribute("logined");
+		
+		//원래 있던 프로필 이미지 이름
+		String oldFile = m.getProfileImageRe();
+		
 		if (!upFile.isEmpty()) {
 			// 파일명 생성(ReName)
 			String oriFileName = upFile.getOriginalFilename();
@@ -352,21 +353,30 @@ public class MemberController {
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
+			// 새로운 프로필 이미지 이름(Ori, Re)
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);
 		}
 		int result = service.updateMember(m);
-		String msg = "";
-		String loc = "/";
+		
 		if (result > 0) {
-			msg = "정보수정이 완료되었습니다.";
+			//원래 있던 프로필 이미지 삭제
+			File file=new File(sd+"/"+oldFile);
+			if(file.exists()) {
+				file.delete();
+				Member nM=service.selectMember(m.getMemberId());
+				logger.debug("업데이트 된 : "+nM);
+				mv.addObject("logined", nM);
+			}
+			mv.addObject("loc", "/member/updateInfo.do");
 		} else {
-			msg = "정보수정 실패.";
+			mv.addObject("msg", "사진수정 실패!");
+			mv.addObject("loc", "/member/updateInfo.do");
 		}
-		mv.addObject("msg", msg);
-		mv.addObject("loc", loc);
-		return "common/msg";
-	}
+		return mv;		
+   }
+   
+    //ID 찾기 화면
    @RequestMapping("/member/findId")
    public String findId() {
 	   return "member/findId";
@@ -451,6 +461,7 @@ public class MemberController {
     	
     	if(pwEncoder.matches(code, saveCode)) {
     		int result = service.updateYPhoneStatus(m.getMemberNum());
+    		
     		if(result > 0) {
     			return "ok";
     		}else {
@@ -475,7 +486,8 @@ public class MemberController {
     	return isPhone;  			
     } 
 
-    @RequestMapping("/member/myCarpool")
+
+   @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
 	   
 	   int numPerPage = 5;
@@ -493,7 +505,7 @@ public class MemberController {
 	   return mav;
    }
    
-    @ResponseBody
+  @ResponseBody
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
@@ -559,8 +571,7 @@ public class MemberController {
 
    @RequestMapping("/member/myDriver")
    public ModelAndView myDriver(HttpSession session) {
-	   
-	   
+	   	   
 	   ModelAndView mv = new ModelAndView();
 	   
 	   Member m = (Member)session.getAttribute("logined");	   
@@ -596,7 +607,75 @@ public class MemberController {
 	   return mv;
    }
    
+   //비밀번호 변경
+   @ResponseBody
+   @RequestMapping("/member/changePass")
+   public String changePassword(String password, HttpSession session) {
+	   String pw=pwEncoder.encode(password);
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setMemberPw(pw);	      
+	   int result=service.updatePassword(m);
+	   if(result>0){
+		 return "update";  
+	   }else {
+		   return "fail";
+	   }
+   }
    
-
-
+   //이메일 변경
+   @ResponseBody
+   @RequestMapping("/member/changeEmail")
+   public String changeEmail(String email, HttpSession session) throws Exception {
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setEmail(email);
+	   service.mailUpdate(m);
+	   return "sent";	   
+   }
+   
+   //핸드폰 번호 변경
+   @ResponseBody
+   @RequestMapping("/member/phoneUpdate")
+   public String smsCheck(HttpSession session, String code, String phone) {
+   	Member m = (Member)session.getAttribute("logined");
+   	
+   	String saveCode = service.getPhoneCode(m.getMemberNum());
+   	
+   	logger.debug("들어오는 핸드폰 번호"+phone);
+   	if(pwEncoder.matches(code, saveCode)) {
+   		m.setPhone(phone);
+   		m.setIsPhoneAuth("Y");
+   		int result = service.updatePhone(m);
+   		if(result > 0) {
+   			return "ok";
+   		}else {
+   			return "no";
+   		}
+   	}else {
+   		return "no";
+   	}
+   }
+   
+   //이름 변경
+   @ResponseBody
+   @RequestMapping("/member/changeName")
+   public String changeName(HttpSession session, String memberName) {
+	   logger.debug("바꾸려는 이름은?"+memberName);
+	   Member m=(Member)session.getAttribute("logined");
+	   m.setMemberName(memberName);
+	   int result=service.updateName(m);
+	   
+	   if(result>0) {
+		   return "ok";
+	   }else {
+		   return "fail";
+	   }
+   }
+   
+   @ResponseBody
+   @RequestMapping("/member/moreinfo")
+   public String naverLogin() {
+	   
+	   return "네이버";
+   }
+   
 }
