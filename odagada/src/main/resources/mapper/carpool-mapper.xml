@@ -10,6 +10,7 @@
 			and (destlat >= (#{destLat} -  0.0272830231094096) and destlat <= (#{destLat}  +  0.0272830231094096))
 			and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
 		]]>
+		and startdate >= #{startDate}
 		order by startdate desc
 	</select>
 	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
@@ -89,6 +90,7 @@
 		<if test="seatcount != null">
 			and seatcount <![CDATA[>=]]> #{seatcount} 
 		</if>
+		and startdate >= #{startDate}
 		order by startdate desc
 	</select>
 	<select id="selectCarOneList" parameterType="_int" resultMap="carpool">
@@ -119,13 +121,25 @@
 		INSERT INTO PASSENGER VALUES(#{carpoolNum}, #{memberNum}, #{payCode}, default, default, #{impUid})
 	</insert>
 	<select id="selectMemberCarpoolList" parameterType="_int" resultType="map">
-		select carpoolnum, pay, startdate, startcity, endcity, startdetail, enddetail, paycode, paystatus, pstatus, m.memberName
-		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
-		where passenger.memberNum = #{memberNum} order by startdate desc
+		select r.writernum, c.membernum, c.carpoolnum, pay, startdate, startcity, endcity, startdetail, enddetail, paycode, paystatus, pstatus, m.memberName
+      from carpool c join passenger p on(c.carpoolNum=p.carpoolnum) left join review r on(c.carpoolNum = r.carpoolnum) join member m on(c.memberNum = m.memberNum)
+      where p.memberNum = #{memberNum} order by startdate desc
 	</select>
 	<select id="selectCarpoolCount" parameterType="_int" resultType="_int">
 		select count(*)
 		from carpool c join passenger using(carpoolNum) join member m on(c.memberNum = m.memberNum)
 		where passenger.memberNum = #{memberNum}
 	</select>
+	<select id="selectPopList" resultMap="carpool">
+		select startcity,endcity, count(startcity), count(endcity) from carpool group by startcity, endcity order by count(startdate) desc
+	</select>
+	<update id="setCarpoolStatus" parameterType="string">
+		UPDATE CARPOOL SET STATUS = 'Y' WHERE STARTDATE <![CDATA[<]]> #{nowDate} 
+	</update>
+	<select id="selectImpUid" parameterType="map" resultType="string">
+		SELECT IMPUID FROM PASSENGER WHERE CARPOOLNUM = #{carpoolNum} AND MEMBERNUM = #{memberNum}
+	</select>
+	<update id="updateCPayStatus" parameterType="map">
+		UPDATE PASSENGER SET PAYSTATUS = 'C', PSTATUS = 'C' WHERE CARPOOLNUM = #{carpoolNum} AND MEMBERNUM = #{memberNum}
+	</update>
 </mapper>

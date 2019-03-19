@@ -134,11 +134,31 @@
   	.passwordInfo{
   	height:40px;
   	}
-  	.eck{padding-right:0; padding-left:0; font-size:15px;}
+  	.eck{padding-right:0; padding-left:0; font-size:15px; width:75px;}
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
   	.name-div{padding-right:3px;}
+  	
+   input[type='radio'] {
+            display: none;
+    }
+    #checkGender label {
+        padding-top: 10px;
+        width: 85px; height: 40px;
+        border: 1px solid gray;
+        border-radius: 10px 10px 10px 10px;
+    }
+    #man:checked ~ label:nth-of-type(1) {
+        color: white;
+        background: green;
+        border-color: green;
+    }
+    #woman:checked ~ label:nth-of-type(2) {
+        color: white;
+        background: green;
+        border-color: green;
+    } 
     </style>
     
      
@@ -445,7 +465,7 @@ $(function(){
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
-               		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
+               		<button type="button" class="eck btn btn-success" onclick="checkEmail();">중복확인</button>
                </div>
           </div>
           <div class="row row-email">
@@ -464,16 +484,22 @@ $(function(){
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
              <div class="col-2 phone-btn">
-             	<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">	
+             	<button type="button" class="eck btn btn-success" onclick="checkPhone();">중복확인</button>
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              
-               <div class="row genderRow">         
+               <!--  <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">성별 : &nbsp; 
 	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
 	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
              	   </div>
-               </div>                 
+               </div>  -->
+                <div id="checkGender">
+	                <input type="radio" name="gender" value="M" id="man" checked>
+	                <input type="radio" name="gender" value="F" id="woman">
+	                <label for="man">남자</label>
+	                <label for="woman">여자</label>
+            	</div>                
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;

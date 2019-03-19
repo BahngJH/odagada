@@ -46,26 +46,30 @@
   	update chattingview set isread='Y' where isread='N' and receiver=#{loginId} and roomid=#{roomId}
   </update>
 
+
   <insert id="insertNotify" parameterType="map">
   	INSERT INTO NOTIFY VALUES(#{memberNum},19,#{nContent},sysdate)
   </insert>
   <insert id="insertReview" parameterType="map">
-  	INSERT INTO REVIEW VALUES(#{memberNum},19,20,#{rContent},sysdate,#{rGrade})
+  	INSERT INTO REVIEW VALUES(#{memberNum},#{driverNum},#{carpoolNum},#{rContent},sysdate,#{rGrade})
   </insert>
-  <select id="selectReview" resultType="map" parameterType="_int">
-	SELECT * FROM REVIEW WHERE CARPOOLNUM=#{carpoolNum}  
+  <select id="selectReviewCount" resultType="_int">
+  	SELECT COUNT(*) FROM REVIEW WHERE DRIVERNUM=#{memberNum}
+  </select>
+  <select id="selectReview" resultType="map" parameterType="map">
+	select * from review where WRITERNUM=#{memberNum} and CARPOOLNUM= #{carpoolNum}
   </select>
   <select id="selectMyReviewList" resultType="map">
-  	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} order by rDate desc
+  	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} and carpoolNum=#{carpoolNum}
   </select>
   <select id="selectReviewList" resultType="map">
   	SELECT * FROM REVIEW WHERE DRIVERNUM=#{memberNum} order by rDate desc
   </select>
   <update id="updateReview">
- 	UPDATE REVIEW SET WRITERNUM=#{memberNum},19,RCONTENT=#{rContent},sysdate,RGRADE=#{rGarde} WHERE CARPOOLNUM=#{carpoolNum}
+ 	UPDATE REVIEW SET RCONTENT=#{rContent},RGRADE=#{rGrade},RDATE=sysdate WHERE WRITERNUM=#{memberNum} AND CARPOOLNUM=#{carpoolNum}
   </update>
   <delete id="deleteReview">
-  	DELETE FROM REVIEW WHERE CARPOOLNUM=#{carpoolNum}
+  	DELETE FROM REVIEW WHERE WRITERNUM=#{memberNum} AND CARPOOLNUM=#{carpoolNum}
   </delete>
   
 

@@ -78,35 +78,40 @@ public class CommunityServiceImpl implements CommunityService {
 	public int insertNotify(Map<String, Object> map) {
 		return dao.insertNotify(map);
 	}
-
+	//리뷰글쓰기
 	@Override
-	public int insertReview(Map<String, Object> map) {
+	public int insertReview(Map<String, String> map) {
 		return dao.insertReview(map);
 	}
-	
+	//리뷰카운트
 	@Override
-	public Map<String, Object> selectReview(int carpoolNum) {
-		return dao.selectReview(carpoolNum);
+	public int selectReviewCount(int memberNum) {
+		return dao.selectReviewCount(memberNum);
 	}
-
+	//리뷰 불러오기
 	@Override
-	public List<Map<String,Object>> selectMyReviewList(int memberNum) {
-		return dao.selectMyReviewList(memberNum);
+	public Map<String, Object> selectReview(Map<String,String> m) {
+		return dao.selectReview(m);
 	}
-
+	//내가 작성한 리뷰리스트
+	@Override
+	public List<Map<String,Object>> selectMyReviewList(Map<String,String> map) {
+		return dao.selectMyReviewList(map);
+	}
+	//내게 달린 리뷰 리스트
 	@Override
 	public List<Map<String, Object>> selectReviewList(int memberNum) {
 		return dao.selectReviewList(memberNum);
 	}
-
+	//리뷰 수정
 	@Override
-	public int updateReview(Map<String, Object> map) {
+	public int updateReview(Map<String, String> map) {
 		return dao.updateReview(map);
 	}
-
+	//리뷰 삭제
 	@Override
-	public int deleteReview(int carpoolNum) {
-		return dao.deleteReview(carpoolNum);
+	public int deleteReview(Map<String, String> map) {
+		return dao.deleteReview(map);
 	}
 	
 	

@@ -34,7 +34,8 @@ public class CommunityController {
 	
 	//채팅 테스트페이지로 이동, 마지막에 지울 메소드
 	@RequestMapping("/community/moveChatting.do")
-	public String test() {
+	public String test() 
+	{
 		return "community/chatView";
 	}
 	
@@ -62,6 +63,8 @@ public class CommunityController {
 				{
 					logger.debug("MAP데이터 clickedUser"+chatContent.get(i));
 				}
+				List<Map<String,String>> userInfo = service.bringUserInfo(roomIdData);
+				mv.addObject("userInfo", userInfo);
 			}
 			else 
 			{
@@ -135,6 +138,8 @@ public class CommunityController {
 				{
 					logger.debug("MAP데이터22"+chatContent.get(i));
 				}
+				List<Map<String,String>> userInfo = service.bringUserInfo(roomIdData);
+				mv.addObject("chatMember", userInfo);
 			}
 			else 
 			{
@@ -212,7 +217,7 @@ public class CommunityController {
 	
 	//채팅방 클릭 했을 때 해당 메시지를 가져옴
 	@RequestMapping("/community/bringMessage.do")
-	public ModelAndView bringMsg(String roomId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
+	public ModelAndView bringMsg(String roomId, String memberId, ModelAndView mv, HttpServletRequest request) throws UnsupportedEncodingException
 	{
 		
 		Member m =(Member) request.getSession().getAttribute("logined");
@@ -228,8 +233,13 @@ public class CommunityController {
 		{
 			logger.debug("MAP데이터 : "+i);
 		}
+		Map<String,String> userData = new HashMap();
+		userData.put("myId", m.getMemberId());
+		userData.put("chatUser", memberId);
+		List<Map<String,String>> userInfo = service.bringUserInfo(userData);
+		logger.debug("userInfo데이터 : "+userInfo);
 		
-		
+		mv.addObject("userInfo", userInfo);
 		mv.addObject("chatList",chatContent);
 		mv.setViewName("jsonView");
 		
@@ -284,13 +294,20 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/community/reviewForm.do")
-	public ModelAndView reviewForm(HttpServletRequest request, HttpSession session)
+	public ModelAndView reviewForm(HttpServletRequest request, HttpSession session,String memberNum, String carpoolNum,String driverNum,String memberName)
 	{
 		ModelAndView mv=new ModelAndView();
 		Member m = (Member)session.getAttribute("logined");
+		Map<String,String> review=new HashMap();
+		review.put("memberNum", memberNum);
+		review.put("carpoolNum", carpoolNum);
+		review.put("driverNum", driverNum);
+		review.put("memberName", memberName);
+		logger.debug("ㅀㅇㅀㅇjldsjjslfjsd: "+carpoolNum);
 		
 		if(m!=null)
 		{
+			mv.addObject("review",review);
 			mv.setViewName("community/reviewForm");
 			return mv;
 		}
@@ -307,20 +324,19 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/reviewFormEnd.do")
-	public String reviewFormEnd(HttpServletRequest request, String rContent, int rGrade, Model model)
+	public String reviewFormEnd(HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, String driverNum, String memberName,Model model)
 	{
-		int memberNum = Integer.parseInt(request.getParameter("memberNum"));
-		
-		Map<String, Object> review=new HashMap();
-		/*map.put("driverNum", driverNum);*/
+		Map<String, String> review=new HashMap();
 		review.put("rContent", rContent);
 		review.put("rGrade", rGrade);
 		review.put("memberNum", memberNum);
-		
+		review.put("carpoolNum", carpoolNum);
+		review.put("driverNum", driverNum);
+		logger.debug("dfsdsfs: "+review);
 		int result=service.insertReview(review);
 		
 		String msg="";
-		String loc="/";
+		String loc="/community/myReviewView.do?memberNum="+memberNum+"&carpoolNum="+carpoolNum;
 		if(result>0)
 		{
 			msg="등록성공";
@@ -337,31 +353,50 @@ public class CommunityController {
 	@RequestMapping("community/reviewView.do")
 	public ModelAndView reviewView(HttpServletRequest request, HttpSession sessiong,int memberNum)
 	{
+		int count=service.selectReviewCount(memberNum);
+		
+		logger.debug("내 리뷰 갯수 확인"+count);
+		
 		ModelAndView mv=new ModelAndView();
 		List<Map<String, Object>> map = service.selectReviewList(memberNum);
 		logger.debug("내게 달린 리뷰 보기"+map);
 		mv.addObject("list",map);
+		mv.addObject("count",count);
 		mv.setViewName("community/reviewView");
 		return mv;
 	}
 	
 	@RequestMapping("community/myReviewView.do")
-	public ModelAndView myReviewView(HttpServletRequest request, HttpSession session,int memberNum)
-	{
+	public ModelAndView myReviewView(HttpServletRequest request, HttpSession session,String memberNum,String driverName, String carpoolNum)
+	{	
+		Map<String,String> review=new HashMap();
+		review.put("carpoolNum", carpoolNum);
+		review.put("memberNum",memberNum);
+		
+		logger.debug("멤버이름 넘어와라 : "+memberNum+" : "+carpoolNum);
+		
 		ModelAndView mv=new ModelAndView();
-		List<Map<String, Object>> map = service.selectMyReviewList(memberNum);
-		logger.debug("내가 남긴 리뷰 보기"+memberNum);
+		List<Map<String, Object>> map = service.selectMyReviewList(review);
+		logger.debug("fdsdfsgd: "+map);
+		mv.addObject("driverName",driverName);
 		mv.addObject("list",map);
 		mv.setViewName("community/myReviewView");
 		return mv;
 	}
 	
 	@RequestMapping("/community/reviewModify.do")
-	public ModelAndView reviewModify(HttpServletRequest request, HttpSession session,int carpoolNum) 
+	public ModelAndView reviewModify(HttpServletRequest request, HttpSession session,String memberNum,String carpoolNum,String driverName) 
 	{
 		ModelAndView mv=new ModelAndView();
-		Map<String,Object> map=service.selectReview(carpoolNum);
+		Map<String,String> m = new HashMap<String,String>();
+		m.put("memberNum", memberNum);
+		m.put("carpoolNum", carpoolNum);
+		m.put("driverName", driverName);
+		Map<String,Object> map=service.selectReview(m);
+		mv.addObject("driverName",driverName);
+		logger.debug("드라이버 이름 들어와ㅣ아리ㅏㄴㅇ리ㅏㅁ넝ㄹ : "+m);
 		mv.addObject("review",map);
+		mv.addObject("memberNum",memberNum);
 		mv.setViewName("community/reviewModify");
 		
 		return mv;
@@ -369,19 +404,19 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/reviewModifyEnd.do")
-	public String reviewModifyEnd(HttpServletRequest request, String rContent, int rGrade, int carpoolNum, Model model)
+	public String reviewModifyEnd(HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, Model model)
 	{
-		Map<String,Object> map=service.selectReview(carpoolNum);
 		
-		Map<String, Object> review=new HashMap();
+		Map<String,String> review=new HashMap();
 		review.put("rContent", rContent);
 		review.put("rGrade", rGrade);
+		review.put("memberNum", memberNum);
 		review.put("carpoolNum", carpoolNum);
-		
+		logger.debug("sdadasdasds"+rContent+":"+rGrade+" : "+memberNum+" :"+carpoolNum);
 		int result=service.updateReview(review);
 		
 		String msg="";
-		String loc="/";
+		String loc="/community/myReviewView.do?memberNum="+memberNum+"&carpoolNum="+carpoolNum;
 		if(result>0)
 		{
 			msg="수정성공";
@@ -397,11 +432,15 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/reviewDelete.do")
-	public String reviewDelete(int carpoolnum,Model model)
+	public String reviewDelete(String carpoolNum, String memberNum, Model model)
 	{
-		int result=service.deleteReview(carpoolnum);
+		Map<String,String> review=new HashMap();
+		review.put("memberNum", memberNum);
+		review.put("carpoolNum", carpoolNum);
+		
+		int result=service.deleteReview(review);
 		String msg="";
-		String loc="/";
+		String loc="/member/myCarpool";
 		if(result>0)
 		{
 			msg="삭제성공";
