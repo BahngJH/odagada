@@ -779,3 +779,26 @@ public class MemberController {
    
 }
 
+  
+   @RequestMapping("/member/naverSignup")
+   public ModelAndView naverLogin(ModelAndView mav) {
+	   mav.setViewName("member/naverSignup");
+	   return mav;
+   }
+   
+   @ResponseBody
+   @RequestMapping("/member/checkNaver")
+   public String checkNaver(HttpSession session, String id, String pw) {
+	   
+	   Member m=service.selectMember(id);   
+	         
+		if (m == null) {
+			return "false";
+		} else {
+			session.setAttribute("logined", m);
+			return "true";
+		}
+   }
+   
+   
+}
