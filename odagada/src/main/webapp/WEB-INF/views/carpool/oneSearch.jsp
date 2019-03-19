@@ -89,6 +89,9 @@ img.driver-img:before {
 	p.dhead-p{
 		margin-top:10px;
 	}
+	div.dr-div{
+		margin-top:12px;
+	}
 	img.car-img{
 		/* width:165px; height:165px; */
 		border:1px;
@@ -251,6 +254,7 @@ img.driver-img:before {
 						  				<div class="row">
 						  					<div class="col-12">
 						  						<c:set var="driverId" value="${o.MEMBERID }"/>
+						  						<c:set var="driverNum" value="${o.MEMBERNUM }"/>
 						  						<span>${o.MEMBERNAME }</span>
 					  						</div>
 					  					</div>
@@ -275,11 +279,7 @@ img.driver-img:before {
 					<div class="tab-pane fade" id="road" role="tabpanel" aria-labelledby="road-tab" >
 						<div class="card-body"  >
 							<c:forEach items="${oList }" var="o">
-								<!-- <div class="row">
-									<div class="col-12"> -->
-										<div id="map_div" style="width:600px; height:400px;"></div>
-									<!-- </div>
-								</div> -->
+								<div id="map_div" style="width:600px; height:400px;"></div>
 								<input type="hidden" value="${o.STARTLAT }" id="startLat" name="startLat">
 								<input type="hidden" value="${o.STARTLONG }" id="startLong" name="startLong">
 								<input type="hidden" value="${o.DESTLAT }" id="endLat" name="endLat">
@@ -335,7 +335,7 @@ img.driver-img:before {
 						  						<c:forEach items='${pList }' var='p' varStatus="count">
 						  							<c:if test="${not flag }">
 					  									<c:choose>
-					  										<c:when test='${logined.memberNum != pList[count.index].MEMBERNUM }'>
+					  										<c:when test='${logined.memberNum == driverNum }'>
 					  											<button class="btn btn-warning ride-btn" onclick="checkIng();">탑승객<br/>확인</button>
 					  											<c:set var="flag" value="true"/>
 					  										</c:when>
@@ -508,15 +508,9 @@ img.driver-img:before {
 						</div>
 				  	</div>
 				  </div>
-				  <!-- 채팅창 연결 버튼 -->
-				  <div class="row">
-				  	<div class="col-6 offset-4">
-				  		
-				  	</div>
-				  </div>
 				  <div class="row">
 				  	<div class="col-12">
-				  		<div class="card">
+				  		<div class="card dr-div">
 				  			<span class="badge badge-secondary">드라이버 차량 </span>
 				  			<div class="row">
 				  				<div class="col-10">
@@ -630,18 +624,34 @@ img.driver-img:before {
 				  	</div>
 				  </div>
 				   <!-- 드라이버 신고 버튼 -->
-				  <div class="row">
-				  	<div class="col-6 offset-4">
-				  		<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
-				  	</div>
-				  </div>
+				<c:if test="${logined != null }">
+				<c:set value='true' var='rFlag'/>
+					<c:forEach items='${pList }' var='p' varStatus="count">
+						<c:if test="${rFlag }">
+							<c:choose>
+								<c:when test='${logined.memberNum == driverNum }'>
+								  <div class="row">
+								  	<div class="col-6 offset-3">
+								  	</div>
+								  </div>
+								  <c:set value="false" var="rFlag"/>
+								</c:when>
+								<c:otherwise>
+									<div class="row">
+										<div class="col-6 offset-3">
+											<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
+										</div>
+									</div>
+									<c:set value="false" var="rFlag"/>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+					</c:forEach>
+				</c:if>
 			  </div>
 			</div>
 		</div>
-		<div class="col-12 col-md-2">
-		</div>
 	</div>
-
 </section>
 
 <!-- 채팅방 -->
