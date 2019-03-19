@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
+import com.spring.odagada.driver.model.vo.CarImage;
 import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
@@ -574,7 +577,7 @@ public class MemberController {
 		}
 	}
     
-
+    //내 드라이버 정보
    @RequestMapping("/member/myDriver")
    public ModelAndView myDriver(HttpSession session) {
 	   
@@ -613,6 +616,120 @@ public class MemberController {
 	   
 	   return mv;
    }
+   //내 드라이버 정보 수정
+   @RequestMapping("/member/myDriverModify")
+   public ModelAndView myDriverModify(HttpSession session)
+   {
+	   ModelAndView mv = new ModelAndView();
+	   Member m = (Member)session.getAttribute("logined");
+	   Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
+	   
+	   logger.debug("차 넘버"+driver.get("CARNUM"));
+
+	   String carNum = driver.get("CARNUM");
+	   List<Map<String,String>> carImg = dService.selectCarImg(carNum);
+	   
+	   String a = driver.get("LICENSENUM").substring(0,3);
+	   String b = "**-******";
+	   String c = driver.get("LICENSENUM").substring(13);
+	   String licenseNum = a+b+c;
+	   
+	   carImg.get(0).put("active", "active");
+	   
+	   mv.addObject("carImg",carImg);
+	   mv.addObject("licenseNum",licenseNum);
+	   logger.debug("테스트"+driver);
+	   mv.addObject("driver", driver);
+	   mv.setViewName("member/myDriverModify");
+	   
+	   return mv;
+	   
+   }
+   //내 드라이버 정보수정 완료
+   @RequestMapping("/member/myDriverModifyEnd")
+   public ModelAndView myDriverModifyEnd(String oldCarNum,String carNum,String licenseNum,String carModel,MultipartFile [] upFile,
+		   HttpServletRequest request, HttpServletResponse response,int memberNum) throws BoardException
+   {
+	  String sd = request.getSession().getServletContext().getRealPath("/resources/upload/car"); 
+	  ModelAndView mv = new ModelAndView();
+	  Map<String,String> map = dService.selectDriverOne(memberNum);
+	  List<String> img = dService.selectImgRe(oldCarNum);
+	  
+	  for(int i=0;i<img.size();i++) {
+		  logger.debug("예전 이미지 확인"+img.get(i));		  
+	  }	  
+	  
+	  Map<String,Object> driver = new HashMap();	  
+	  driver.put("licenseNum", licenseNum);
+	  driver.put("carModel", carModel);
+	  driver.put("carNum", carNum);
+	  driver.put("memberNum", memberNum);
+	  
+	  int imgOrder = 0;
+	  
+	  ArrayList<CarImage> files = new ArrayList();
+	  String savDir=request.getSession().getServletContext().getRealPath("/resources/upload/car");
+	  
+	  for(MultipartFile f : upFile) {
+		  
+		  //파일명 생성(rename)
+		  String oriFileName = f.getOriginalFilename();
+		  String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+		  //rename 규칙설정
+		  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+		  int rdv = (int)(Math.random()*1000);
+		  String reName = sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+		  //파일 저장
+		  try {
+			  f.transferTo(new File(savDir+"/"+reName));
+		  }catch(IllegalStateException | IOException e)
+		  {
+			  e.printStackTrace();
+		  }
+		  
+		  imgOrder = imgOrder+1;
+		  CarImage cImg = new CarImage();
+		  cImg.setCarImageOri(oriFileName);
+		  cImg.setCarImageRe(reName);
+		  cImg.setCarNum(carNum);
+		  logger.debug("수정한 이미지"+cImg);
+		  cImg.setImageOrder(imgOrder);
+		  files.add(cImg);	  
+	  }
+
+	  
+	  int result = dService.updateDriver(driver);
+	  int deleteImg = dService.deleteImg(carNum);
+	  
+	  int insertImg = dService.insertImg(files);
+	  if(result>0)
+	  {
+		  for(String oldImg : img)
+		  {
+			  File file = new File(sd+"/"+oldImg);
+			  if(file.exists())
+			  {
+				  file.delete();
+				  logger.debug("변경 된 드라이버 정보"+driver);
+				  logger.debug("변경 된 이미지"+files);
+				  mv.addObject("driver",driver);
+				  mv.addObject("files",files);
+			  } 
+		  }
+		  mv.addObject("msg","드라이버 정보가 변경되었습니다.");
+		  mv.addObject("loc","/member/myDriver");
+		  mv.setViewName("common/msg");
+		  
+	  }
+	  else {
+		  mv.addObject("msg","수정 실패~!");
+		  mv.addObject("loc","/member/myDriverModify");
+		  mv.setViewName("common/msg");
+	  }
+  
+	  return mv;
+   }
+
    
    //비밀번호 변경
    @ResponseBody

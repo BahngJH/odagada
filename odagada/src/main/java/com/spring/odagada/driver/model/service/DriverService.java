@@ -24,4 +24,8 @@ public interface DriverService {
 	int updatePasNo(Map<String,Integer> map);
 	Map<String,String> selectCreditCode(Map<String,Integer> map);
 	int updateCredit(Map<String,Integer> map);
+	List<String> selectImgRe(String oldCarNum);
+	int updateDriver(Map<String,Object> driver);
+	int deleteImg(String carNum);
+	int insertImg(List<CarImage> files) throws BoardException;
 }

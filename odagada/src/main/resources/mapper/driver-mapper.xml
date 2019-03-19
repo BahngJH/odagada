@@ -60,5 +60,15 @@
    <update id="updatePasPayStatus" parameterType="map">
    		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum}
    </update>
+   <select id="selectImgRe" parameterType="string" resultType="string">
+   	SELECT CARIMAGERE FROM CARIMAGE WHERE CARNUM=#{oldCarNum}
+   </select>
+   <update id="updateDriver" parameterType="map">
+   	UPDATE DRIVER SET CARMODEL=#{carModel}, CARNUM=#{carNum} WHERE MEMBERNUM=#{memberNum}
+   </update>
+   <delete id="deleteImg">
+   	DELETE FROM CARIMAGE WHERE CARNUM=#{carNum}
+   </delete>
+   
 </mapper>
 

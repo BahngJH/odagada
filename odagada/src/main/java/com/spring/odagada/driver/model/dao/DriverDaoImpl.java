@@ -104,6 +104,24 @@ public class DriverDaoImpl implements DriverDao {
 	public int updatePasPayStatus(Map<String, Integer> map) {
 		return session.update("driver.updatePasPayStatus",map);
 	}
+
+	@Override
+	public List<String> selectImgRe(String oldCarNum) {
+		return session.selectList("driver.selectImgRe",oldCarNum);
+	}
+
+	@Override
+	public int updateDriver(Map<String, Object> driver) {
+		return session.update("driver.updateDriver",driver);
+	}
+
+	@Override
+	public int deleteImg(String carNum) {
+		return session.delete("driver.deleteImg",carNum);
+	}
+	
+	
+
 	
 	
 }
