@@ -202,12 +202,6 @@ public class MemberController {
 	//로그인
    @RequestMapping("/member/login.do")
    public ModelAndView login(String memberId, String memberPw, Model model) {	   
-	   Map<String, String>login=new HashMap();
-	   login.put("memberId", memberId);
-	   login.put("memberPw", memberPw);
-	   
-	   Map<String, String>result=service.login(login);
-	   	   
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
@@ -219,15 +213,14 @@ public class MemberController {
 		} else {
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
-			if (result != null) {
-				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					mv.addObject("logined", m);
-					mv.setViewName("redirect:/");
-				} else {
-					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm.do");
-					mv.setViewName("common/msg");
-				}
+			
+			if (pwEncoder.matches(memberPw, m.getMemberPw())) {
+				mv.addObject("logined", m);
+				mv.setViewName("redirect:/");
+			} else {
+				mv.addObject("msg", "패스워드가 일치하지 않습니다.");
+				mv.addObject("loc", "/member/loginForm.do");
+				mv.setViewName("common/msg");
 			}
 		}
 		return mv;
@@ -662,11 +655,25 @@ public class MemberController {
 	   }
    }
    
-   @ResponseBody
-   @RequestMapping("/member/moreinfo")
-   public String naverLogin() {
-	   
-	   return "네이버";
+   @RequestMapping("/member/naverSignup")
+   public ModelAndView naverLogin(ModelAndView mav) {
+	   mav.setViewName("member/naverSignup");
+	   return mav;
    }
+   
+   @ResponseBody
+   @RequestMapping("/member/checkNaver")
+   public String checkNaver(HttpSession session, String id, String pw) {
+	   
+	   Member m=service.selectMember(id);   
+	         
+		if (m == null) {
+			return "false";
+		} else {
+			session.setAttribute("loginded", m);
+			return "true";
+		}
+   }
+   
    
 }
