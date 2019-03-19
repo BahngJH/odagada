@@ -63,9 +63,9 @@
     	  alert('자동차 사진을 첨부해주세요.');
     	  return false;
       }
-      var carModelExp = /[ㄱ-ㅎ가-힣]/g;
+      var carModelExp = /[ㄱ-ㅎ가-힣A-Za-z]/g;
       if(!carModelExp.test($("input[name=carModel]").val())){
-    	  alert("자동차모델은 한글로만 입력해주세요");
+    	  alert("자동차모델은 한글/영어만 입력해주세요");
     	  return false;
       }
 
@@ -86,12 +86,6 @@
          <div id ="row">
          	<div id="col">
 	         	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-					<ol class="carousel-indicators">
-						<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="1"></li> 
-						<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-					</ol>
 					<div class="carousel-inner">
 						<c:forEach items="${carImg}" var="c" varStatus="t">					    
 							<div class="carousel-item ${c.active}">

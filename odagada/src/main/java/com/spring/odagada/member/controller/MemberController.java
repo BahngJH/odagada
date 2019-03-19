@@ -223,7 +223,6 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
-	   
 	         
 		if (m == null) {
 			mv.addObject("msg", "등록된 정보가 없습니다.");
@@ -236,7 +235,6 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					
 					logger.debug("로그인 드라이버"+driver);
 					mv.addObject("driver",driver);
 					mv.addObject("logined", m);

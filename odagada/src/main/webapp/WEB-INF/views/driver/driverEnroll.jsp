@@ -123,10 +123,10 @@
     	  alert('자동차 사진을 첨부해주세요.');
     	  return false;
       }
-      
-      var carModelExp = /[ㄱ-ㅎ가-힣]/g;
+      //자동차모델
+      var carModelExp = /[ㄱ-ㅎ가-힣A-Za-z]/g;
       if(!carModelExp.test($("input[name=carModel]").val())){
-    	  alert("자동차모델은 한글로만 입력해주세요");
+    	  alert("자동차모델은 한글/영어만 입력해주세요");
     	  return false;
       }
       
