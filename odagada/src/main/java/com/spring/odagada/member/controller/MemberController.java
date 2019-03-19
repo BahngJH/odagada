@@ -777,7 +777,6 @@ public class MemberController {
 	   }
    }
    
-}
 
   
    @RequestMapping("/member/naverSignup")
