@@ -134,7 +134,7 @@
   	.passwordInfo{
   	height:40px;
   	}
-  	.eck{padding-right:0; padding-left:0; font-size:15px;}
+  	.eck{padding-right:0; padding-left:0; font-size:15px; width:75px;}
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
@@ -145,8 +145,13 @@
     }
     #checkGender label {
         padding-top: 10px;
+<<<<<<< HEAD
         width: 100px; height: 40px;
         border: 1px solid #28a745;
+=======
+        width: 85px; height: 40px;
+        border: 1px solid gray;
+>>>>>>> branch 'master' of https://github.com/BahngJH/odagada.git
         border-radius: 10px 10px 10px 10px;
         color : #28a745;
         width: 80px;

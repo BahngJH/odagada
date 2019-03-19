@@ -30,15 +30,20 @@
     .profileDiv{padding-right:0; width:100px;}
     .pPassword{font-size:13px; margin-top:1px;}
   	.passwordInfo{height:40px; align:left;}
-  	.oriEmail,.oriPhone,.oriName {font-size:20px; text-align:left;} 	
+  	.oriEmail,.oriPhone,.oriName {font-size:17px; text-align:left; padding-left:15%;} 	
   	.alert{padding:0; }
   	.cg {font-size:13px;}
   	.btns{padding-top:3px; padding-right:0; padding-left:0;}
-  	#chgMailInfoP{margin-top:10px; margin-bottom:15px;}
-    .chgBtnDiv{padding-right:15px;}
+  	#chgMailInfoP{margin-top:10px; margin-bottom:0;}
+  	#chgPhoneInfoP{margin-bottom:10px;}
+    .chgBtnDiv{padding-right:0px;} 
     #chgEmailBtn{width:117px;}
-    #sentEmailDiv, #sentTxtDiv, #sentPhoneDiv{margin-bottom:20px;}  
+    #sentEmailDiv, #sentTxtDiv, #sentPhoneDiv{margin-bottom:0; margin-top:20px;}  
     ul{list-style:none;} 
+    p{margin-bottom:0;}
+    #chgName-btn{width:115px;} 
+    #upFile{height:3px;}
+    #nameInfo-div{padding-top:4px;}
     </style>  
      
 <script>
@@ -305,23 +310,23 @@ function changeName(){
 						 <li>
        						 <form action="${path }/member/updateProfile.do" method="post" enctype="multipart/form-data">                	                     
 								 <div class="custom-file" > 
-									 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
 									 <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
-							  		 <input type="submit" class="btn btn-secondary btn-sm btn-block" id="img-btn" value="사진 저장">
+									 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+							  		 <input type="submit" class="btn btn-success btn-sm btn-block" id="img-btn" value="사진 저장">
 							  	 </div> 
 				  			 </form>
 					  	 </li>
 					    <li class="list-group-item">
-					    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
+					    	<button type="button" class="btn  btn-outline-success btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
 					    </li>					   
 					    <!--이름 변경  -->	
 					     <li class="list-group-item">
 						     <div class="row" id="oriName-div">    	
-					    		<div class="ptext col-6">
+					    		<div class="ptext col-6" id="nameInfo-div">
 					    			<p class="oriName font-weight-bold"><%=m.getMemberName() %></p>
 								</div>  
 								<div class="col-6 chgBtnDiv">
-									<button type="button" id="chgName-btn" class="cg btn btn-secondary btn-sm">이름 변경</button>      	
+									<button type="button" id="chgName-btn" class="cg btn   btn-outline-success btn-sm">이름 변경 </button>      	
 					   			</div> 		
 					   		 </div>			   		 			   		    		 
 				     		 <!--이름 변경 버튼 클릭시  -->
@@ -337,16 +342,16 @@ function changeName(){
 					    </li>  			        
 					    <li class="list-group-item">
 							<!--기존 Email 정보  -->
-						     <div class="row passwordInfo" id="oriEmailDiv">    	
+						     <div class="row" id="oriEmailDiv">    	
 					    		<div class="ptext col-6">
 					    			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
 								</div>  
 								<div class="col-6 chgBtnDiv">
-									<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
+									<button type="button" id="chgEmailBtn" class="cg btn btn-outline-success btn-sm">이메일변경</button>      	
 					   			</div> 		
 					   		 </div>
 					   		 <!--Email 변경 버튼 클릭시  -->
-					   		 <div class="row passwordInfo" id="chgEmailInfo">    	
+					   		 <div class="row" id="chgEmailInfo">    	
 					    		<div class="ptext col-7">
 								  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
 								</div>  
@@ -367,12 +372,12 @@ function changeName(){
 					    </li>
 					    <li class="list-group-item">
 					    	   <!--기존 Phone 정보  -->
-		           			<div class="row passwordInfo" id="oriPhoneDiv">    	
+		           			<div class="row" id="oriPhoneDiv">    	
 				           		<div class="ptext col-6">
 				           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
 				       			</div>  
-				       			<div class="col-6">
-				       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+				       			<div class="col-6 chgBtnDiv">
+				       				<button type="button" id="chgPhoneBtn" class="cg btn  btn-outline-success btn-sm">핸드폰 번호 변경</button>      	
 				          		</div> 		
 		           			 </div>
 		           		 <!--핸드폰번호 변경 버튼 클릭시  -->
@@ -415,10 +420,7 @@ function changeName(){
 				       			  <input type="hidden" id="phoneNumber" value="0" required>
 					  		</div>			    
 				    </li> 
-				  </ul>
-		 		 <div class="card-body">			  
-		   			<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myInfo.do'">뒤로가기</button>			  
-		 		 </div>
+				  </ul>		 	
 			 </div>            
  		 
 	</div>       

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.odagada.community.model.vo.ChatRoomVo;
 import com.spring.odagada.community.model.vo.MessageVo;
@@ -21,6 +22,8 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		return session.selectList("community.searchId", searchId);
 	}
+	
+	@Transactional
 	@Override
 	public int insertRoomId(Map roomIdData) {
 		// TODO Auto-generated method stub
@@ -63,6 +66,7 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	
 	//채팅방들 가져옴
+	@Transactional
 	@Override
 	public List<ChatRoomVo> bringChatRooms(String loginId) {
 		// TODO Auto-generated method stub

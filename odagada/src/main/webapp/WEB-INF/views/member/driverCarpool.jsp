@@ -72,35 +72,28 @@ a.subMy-a{
    color:white;
 }
 button.checkPass-btn{
-	text-decoration: none;
-	border: none;
-	border-radius: 25px;
-	width:100px;
-	height:30px;
-	background-color:rgb(0,175,76);
-	color:white;
-	font-size: 16px;
-	float:right;
+   text-decoration: none;
+   border: none;
+   border-radius: 25px;
+   width:100px;
+   height:30px;
+   background-color:#FFCD12;
+   font-size: 16px;
+   float:right;
 }
 button.checkPass-btn:hover{
    background-color:rgba(50,50,50,0.7);
    color:white;
 }
 div.N-div{
-
-	border:2px solid rgb(0,175,76);
-	background-color:rgba(0,175,76,0.1);
-}
-div.N-div:hover{
-	box-shadow: 2px 2px 1px rgb(0,175,76),-2px -2px 1px rgb(0,175,76);
-	border:2px solid rgb(0,175,76);
+   border:2px solid rgb(0,175,76);
 }
 div.a-card:hover{
 box-shadow: 1px 1px 1px rgb(0,175,76),-1px -1px 1px rgb(0,175,76);
 }
 div.Y-div{
-	border:2px solid darkgray;
-	background-color:rgb(200,200,200);
+   border:2px solid darkgray;
+   background-color:rgb(200,200,200);
 }
 div.head-div{
 background-color:rgb(0,175,76);

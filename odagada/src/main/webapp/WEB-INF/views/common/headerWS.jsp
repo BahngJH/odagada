@@ -59,7 +59,7 @@
 </head>
 
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="${path }/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,9 +78,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="${path }/community/reviewForm.do">리뷰</a>
                 </li>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
@@ -108,7 +105,9 @@
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/board/boardList">공지사항</a>
 	                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/memberList.do">회원 관리</a>
 	                    <a class="dropdown-item" href="${path}/driver/driverList">드라이버 관리</a>
-	                    <a class="dropdown-item" href="#">질의응답</a>
+	                    <a class="dropdown-item" href="${path}/board/qnaList">Q&A</a>
+	                    <a class="dropdown-item" href="${path}/admin/notifyList.do">신고내역</a>
+	                    <a class="dropdown-item" href="${path}/admin/blackList.do">블랙리스트</a>
 	                  </div>
 	                </li>
                </c:if>

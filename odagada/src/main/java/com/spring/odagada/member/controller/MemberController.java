@@ -304,24 +304,6 @@ public class MemberController {
 			result = "no";
 		}
 		return result;
-	/*   try {
-		   if(pwEncoder.matches(answer, m.getMemberPw()))
-		      {
-		         response.setContentType("text/csv;charset=UTF-8");
-		         logger.debug("ok");
-		         
-		         response.getWriter().println("ok");
-		      }
-		      else {
-		         response.setContentType("text/csv;charset=UTF-8");
-		         logger.debug("no");
-		         response.getWriter().println("no");
-		      }
-	   }
-	   catch(IOException e)
-	   {
-		   e.printStackTrace();
-	   }*/
    }
 
    //내 정보 변경페이지
@@ -796,3 +778,4 @@ public class MemberController {
    }
    
 }
+

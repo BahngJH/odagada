@@ -69,6 +69,4 @@
    <delete id="deleteImg">
    	DELETE FROM CARIMAGE WHERE CARNUM=#{carNum}
    </delete>
-   
 </mapper>
-

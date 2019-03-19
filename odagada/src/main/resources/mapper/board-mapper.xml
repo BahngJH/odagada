@@ -15,7 +15,7 @@
   </select>
 
   <select id="blackList" resultType="map">
-  	select * from black order by blackpunish
+  	select blackcontent,blackpunish+9/24 as blackpunish,blackid,report from black order by blackpunish
   </select>
 
   <select id="checkBlackList" parameterType="string" resultType="int">
@@ -31,7 +31,7 @@
   </delete>
   
   <select id="notifyList" resultType="map">
-  	select * from notify order by ndate desc
+  	select  ncontent,ndate+9/24 as ndate,notifyid,nonnotifyid from notify order by ndate desc
   </select>
  
   <select id="searchListAll" parameterType="map" resultType="int">
