@@ -84,6 +84,25 @@
         #searchList{
         	overflow:auto;
         }
+       	#searchList{
+       		margin-top:15px;
+       	}
+        #selectListOne{
+        	border-top: 1px solid black;
+        }
+        #selectListOne:hover{
+            background-color: #D9E5FF;
+        }
+        #searchId{
+        	border-top-left-radius: 5px;
+        	border-top-right-radius: 5px;        	
+		    border-bottom-right-radius: 5px;
+		    border-bottom-left-radius: 5px;
+        }
+        p.searchId-p{
+        	margin-bottom:0px;
+        	padding:7px;
+        }
         img{
             border-radius: 100%;
         }
@@ -131,19 +150,6 @@
         	width: 30px;
             text-align: center;
             color:white;
-        }
-       	#searchList{
-       		margin-top:30px;
-       	}
-        #selectListOne{
-        	border-top: 1px solid black;
-        }
-        #selectListOne:hover{
-            background-color: #D9E5FF;
-        }
-        p.searchId-p{
-        	margin-bottom:0px;
-        	padding:7px;
         }
     </style>
 <div id="container" class="container-fluid">
@@ -202,7 +208,6 @@
 	                		<c:if test="${chatCon.SENDER==logined.memberId }">
 	                			<div>
 	        						<p class="right" style="clear:both">${chatCon.CCONTENT }</p>
-	        						
 							        <c:set var="roomId" value="${chatCon.ROOMID}"/>
 	   							</div>
 	                		</c:if>
@@ -213,7 +218,6 @@
 		                		<div class="msgDivLeft">
 							        <img class="left" style="clear:both" width="40px" height="40px" src="${path}/resources/upload/profile/${imageUrl}" alt="회원사진">
 							        <p class="left" style="clear:both">${chatCon.CCONTENT }</p>
-							       	
 							    </div>
 		                	</c:if>
 	                	</c:forEach>
@@ -532,6 +536,7 @@
     		success:function(data){
     			var searchList="";
     			console.log(data.searchList);
+    			searchList +='<h6>조회된 회원</h6>';
     			for(var i=0;i<data.searchList.length;i++)
     			{
     				searchList +='<div id="selectListOne" onclick="clickMember(this)">';
@@ -595,7 +600,6 @@
     					}else{
     						/* jsonData.receiver = data.chatContent[i].MEMBERID;
     						jsonData.roomId = data.chatContent[i].ROOMID; */
-
 /*     						name ='<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/upload/profile/'+data.chatContent[i].PROFILEIMAGERE+'" alt="상대방사진"></span><span id="selectName">'+data.chatContent[i].MEMBERNAME+'</span>'; */
             				var left = "<div class='msgDivLeft'>";
             				left +="<img class='left' style='clear:both' width='40px' height='40px' src='${path}/resources/upload/profile/"+data.chatContent[i].PROFILEIMAGERE+"' alt='회원사진'/>";
