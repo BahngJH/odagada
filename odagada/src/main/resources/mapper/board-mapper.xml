@@ -72,9 +72,17 @@
   	DELETE FROM BOARD WHERE BOARDNO=#{boardNo}
   </delete>
   
+  
   <select id="selectQnaCount" resultType="_int">
   	SELECT COUNT(*) FROM QNA
   </select>
+  <select id="selectQnaComCount" resultType="_int">
+  	SELECT COUNT(*) FROM QNACOMMENT
+  </select>
+  <insert id="insertQna" parameterType="map">
+  	INSERT INTO QNA VALUES(SEQ_QNANUM.NEXTVAL,#{title},#{content},#{memberNum},default)
+  </insert>
+  
   <select id="selectQnaList" resultType="map">
   	SELECT Q.*,(SELECT COUNT(*) FROM QNACOMMENT WHERE QNANUM=Q.QNANUM) AS COMCNT,
   	(SELECT MEMBERNAME FROM MEMBER WHERE MEMBERNUM=Q.MEMBERNUM) AS QWRITER FROM QNA Q 
@@ -83,6 +91,28 @@
   	SELECT Q.*,(SELECT MEMBERNAME FROM MEMBER WHERE MEMBERNUM=Q.MEMBERNUM) AS QWRITER
   	FROM QNA Q WHERE QNANUM=#{qnaNum}
   </select>
+  <select id="selectQnaComList" resultType="map" parameterType="_int">
+  	SELECT * FROM QNACOMMENT WHERE QNANUM=#{qnaNum}
+  </select>
+  <update id="updateQna" parameterType="map">
+  	UPDATE QNA SET QTITLE=#{title},QCONTENT=#{content},MEMBERNUM=#{memberNum},QDATE=default WHERE QNANUM=#{qnaNum}
+  </update>
+   <delete id="deleteQna">
+  	DELETE FROM QNA WHERE QNANUM=#{qnaNum}
+  </delete>
+  <insert id="insertQnaCom" parameterType="map">
+  	INSERT INTO QNACOMMENT VALUES(SEQ_COMMENTNUM.NEXTVAL,#{qnaNum},#{content},default)
+  </insert>
+  <select id="selectQnaComOne" resultType="map" parameterType="_int">
+  	SELECT * FROM QNACOMMENT WHERE COMMENTNUM=#{commentNum}
+  </select>
+  <update id="updateComment" parameterType="map">
+  	  UPDATE QNACOMMENT SET COMCONTENT=#{comContent} WHERE COMMENTNUM=#{comNum}
+  </update>
+  <delete id="deleteQnaCom">
+  	DELETE FROM QNACOMMENT WHERE COMMENTNUM=#{commentNum}
+  </delete>
+  
   
   
 </mapper>

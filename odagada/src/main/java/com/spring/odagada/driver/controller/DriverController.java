@@ -8,32 +8,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.odagada.common.PageFactory;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.service.DriverService;
-import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class DriverController {
-	
 	private Logger logger = LoggerFactory.getLogger(DriverController.class);
 	
 	@Autowired
@@ -92,8 +89,10 @@ public class DriverController {
 	// 파일에 대한 사이즈를 비교? 배열로 넘...ㄱ...ㅣ....ㅁ..
 	
 	@RequestMapping("/driver/driverEnrollEnd")
-	public String driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
+	public ModelAndView driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
 	{
+		ModelAndView mv = new ModelAndView();
+		
 		int memberNum = Integer.parseInt(request.getParameter("memberNum"));
 		String memberId = request.getParameter("memberId");
 		String memberName = request.getParameter("memberName");
@@ -109,9 +108,6 @@ public class DriverController {
 		String driver_info = request.getParameter("driver_info");
 		
 		int imgOrder = 0;
-		
-		logger.debug("멤버번호 테스트"+memberNum);
-		
 		
 		Map<String,Object> driver = new HashMap();
 		driver.put("memberNum", memberNum);
@@ -141,6 +137,7 @@ public class DriverController {
 			{
 				e.printStackTrace();
 			}
+			
 			imgOrder = imgOrder+1;
 			CarImage cImg = new CarImage();
 			cImg.setCarImageOri(oriFileName);
@@ -149,14 +146,21 @@ public class DriverController {
 			cImg.setCarNum(carNum);
 			cImg.setImageOrder(imgOrder);
 			files.add(cImg);
-
 		}
+		logger.debug("이미지 갯수확인"+imgOrder);
 		
-		int result = service.enrollDriver(driver,files);
-		
-		logger.debug("파일 확인"+files);
-		
-		return "redirect:/";
+		if(imgOrder>0 && imgOrder<=4)
+		{
+			int result = service.enrollDriver(driver,files);
+			mv.setViewName("redirect:/");
+			return mv;
+		}
+		else {
+			mv.addObject("msg","이미지는 4개 이하로 올려주세요.");
+			mv.addObject("loc","/driver/driverEnroll");
+			mv.setViewName("common/msg");
+			return mv;
+		}
 	}
 	
 	 @RequestMapping("/driver/driverList")
@@ -238,12 +242,12 @@ public class DriverController {
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
     public ModelAndView selectDriverCarpool(HttpSession session) {
-    	ModelAndView mav = new ModelAndView();
-    	Member m = (Member) session.getAttribute("logined");
-    	List<Map<String,String>> dcarList = service.selectDriverCarPool(m.getMemberNum());
-    	mav.addObject("dcarList",dcarList);
-    	mav.setViewName("member/driverCarpool");
-     	return mav;
+       ModelAndView mav = new ModelAndView();
+       Member m = (Member) session.getAttribute("logined");
+       List<Map<String,String>> dcarList = service.selectDriverCarPool(m.getMemberNum());
+       mav.addObject("dcarList",dcarList);
+       mav.setViewName("member/driverCarpool");
+        return mav;
     }
     
     //드라이버가 동승중인 이용객 보기
@@ -259,6 +263,79 @@ public class DriverController {
     	mav.setViewName("member/passengerCk");
     	return mav; 
     }
+    //드라이버가 승차 승락한 경우
+    @RequestMapping("/driver/updatePasOk")
+    public ModelAndView updatePasOk(int memberNum,String memberName,int carpoolNum,int driverNum){
+    	ModelAndView mav = new ModelAndView();
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("memberNum", memberNum);
+    	map.put("carpoolNum", carpoolNum);
+    	String msg="";
+    	int rs = service.updatePasOk(map);
+    	if(rs>0)
+    	{
+    		msg=memberName+"님이 승차하였습니다.";
+    	}
+    	else {
+    		msg="수락 실패하였습니다. 다시 시도해주세요.";
+    	}
+    	mav.addObject("msg",msg);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.setViewName("common/msg");
+    	return mav;
+    }
+    
+    //드라이버가 승차 거부한 경우
+    @RequestMapping("/driver/updatePasNo")
+    public ModelAndView updatePasNo(int memberNum,String memberName,int carpoolNum,int driverNum){
+    	ModelAndView mav = new ModelAndView();
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("memberNum", memberNum);
+    	map.put("carpoolNum", carpoolNum);
+    	String msg="";
+    	int rs = service.updatePasNo(map);
+    	if(rs>0)
+    	{
+    		msg=memberName+"님을 거부하였습니다.";
+    	}
+    	else {
+    		msg="거부 실패하였습니다. 다시 시도해주세요.";
+    	}
+    	mav.addObject("msg",msg);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.setViewName("common/msg");
+    	return mav;
+    }
+    //결제하기 ajax
+    @RequestMapping("/driver/updateDriverCredit")
+    public void updateDriverCredit(HttpServletResponse rep, int carpoolNum,int passengerNum, int driverNum, int paycode,int pay) {
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("carpoolNum", carpoolNum);
+    	map.put("passengerNum", passengerNum);
+    	map.put("driverNum", driverNum);
+    	map.put("paycode", paycode);
+    	map.put("pay", pay);
+    	logger.debug("pay: "+pay+" driverNum"+driverNum);
+    	//입력된 코드값과 일치하는 컬럼이 있는지 검색
+    	Map<String,String> rs = service.selectCreditCode(map);
+		try {
+	    	if(rs!=null) {
+	    		//있을 경우 passenger테이블과 driver테이블 업데이트
+	    		int result = service.updateCredit(map);
+	    		if(result>0) {
+	    			rep.getWriter().print("Y");
+	    		}
+	    		else {
+	    			rep.getWriter().print("N");
+	    		}
+	    	}
+	    	else {
+	    	//없을 경우 N리턴
+				rep.getWriter().print("N");
+	    	}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 
-	
 }

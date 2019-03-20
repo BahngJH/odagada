@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.dao.DriverDao;
@@ -75,8 +76,6 @@ public class DriverServiceImpl implements DriverService {
 		return dao.deleteDriver(memberNum);
 	}
 	
-	
-	
 	//드라이버 카풀 등록 리스트
 	@Override
 	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
@@ -86,6 +85,62 @@ public class DriverServiceImpl implements DriverService {
 	@Override
 	public List<Map<String, String>> selectDriverPas(Map<String, String> m) {
 		return dao.selectDriverPas(m);
+	}
+
+	@Override
+	public int updatePasOk(Map<String,Integer> map) {
+		return dao.updatePasOk(map);
+	}
+	
+	@Override
+	public int updatePasNo(Map<String,Integer> map) {
+		return dao.updatePasNo(map);
+	}
+
+	@Override
+	public Map<String,String> selectCreditCode(Map<String, Integer> map) {
+		return dao.selectCreditCode(map);
+	}
+
+	@Override
+	@Transactional
+	public int updateCredit(Map<String, Integer> map) {
+		int result=0;
+		try {
+			result = dao.updateDriverCredit(map);
+			result = dao.updatePasPayStatus(map);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<String> selectImgRe(String oldCarNum) {
+		return dao.selectImgRe(oldCarNum);
+	}
+
+	@Override
+	public int updateDriver(Map<String, Object> driver){
+		return dao.updateDriver(driver);
+	}
+
+	@Override
+	public int deleteImg(String carNum) {
+		return dao.deleteImg(carNum);
+	}
+
+	@Override
+	public int insertImg(List<CarImage> files) throws BoardException {
+		int insertImg = 0;
+		for(CarImage cImg : files)
+		{
+			insertImg = dao.insertCarImage(cImg);
+		}
+		if(insertImg==0) throw new BoardException("사진 수정 실패");
+		
+		return insertImg;
 	}
 	
 	

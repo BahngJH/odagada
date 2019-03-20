@@ -26,22 +26,24 @@
 	        <th>작성자</th>
 	        <th>작성일</th>
 	    </tr>
-	    <c:forEach var="q" items="${list}">
-	    <tr>
-			<td>${q.QNANUM}</td>
-			<td><a href="${path}/board/qnaView.do?qnaNum=${q.QNANUM}">${q.QTITLE}
-			<c:if test="${q.COMCNT >0 }">
-				<span style="color: red;">(${q.COMCNT})</span>
-			</c:if>
-			</a>
-			</td>
-			<td>${q.QWRITER}</td>
-			<td>
-			<fmt:formatDate value="${q.QDATE}" pattern="yyyy-MM-dd"/>
-			</td>
-			
-        </tr>   
-	    </c:forEach>
+	    
+		    <c:forEach var="q" items="${list}">
+			    <c:if test="${member.isAdmin eq '1' || q.QWRITER eq member.memberName}">
+			    <tr>
+					<td>${q.QNANUM}</td>
+					<td><a href="${path}/board/qnaView.do?qnaNum=${q.QNANUM}">${q.QTITLE}
+					<c:if test="${q.COMCNT >0 }">
+						<span style="color: red;">(${q.COMCNT})</span>
+					</c:if>
+					</a>
+					</td>
+					<td>${q.QWRITER}</td>
+					<td>
+					<fmt:formatDate value="${q.QDATE}" pattern="yyyy-MM-dd"/>
+					</td>
+		        </tr>
+		        </c:if>
+		    </c:forEach>
 	</table>
 	
 	${pageBar} 

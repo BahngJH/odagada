@@ -9,18 +9,17 @@
 	<jsp:param value="HelloSpring" name="pageTitle"/>
 </jsp:include>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
-
-	<!--Bootsrap 4 CDN-->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
     <!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
+<<<<<<< HEAD
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+=======
+
+>>>>>>> branch 'master' of https://github.com/BahngJH/odagada
 <style>
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
@@ -164,6 +163,7 @@ margin-left: 4px;
 			</div>
 		</div>
 	</div>
+
 <!-- 	<div id="kakaoLogin">  
     <a id="kakao-login-btn"></a>
     <a href="http://developers.kakao.com/logout"></a>
@@ -205,8 +205,22 @@ margin-left: 4px;
     });
     
 </script>  
-	
+	<div id="naverIdLogin">
+	</div>
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+	<script>
+		var naverLogin = new naver.LoginWithNaverId(
+				{
+					clientId: "vc3JlDx8OrM42I7Dhas4",
+					callbackUrl: "http://localhost:9090/odagada/member/naverSignup",
+					isPopup: false,
+					loginButton: {color: "green", type: 3, height: 60}
+					
+				});
+		naverLogin.init();
+	</script>
 </div>
+
 
       
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

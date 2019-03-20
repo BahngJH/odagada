@@ -15,6 +15,19 @@
 	#comsubmit{
 		float: right;
 	}
+/* 	li{
+		list-style: none;
+		padding-left: 0px;
+	}
+	 */
+	 #commentWindow{
+	 	border-bottom:1px solid darkgray; 
+	 	margin-bottom: 15px;
+	 	font-size: 15px;
+	 }
+	 #commentContent{
+	 	margin-top: 10px;
+	 }
 </style>
 <div class="container col-md-6">
 	<h1>Q&A</h1>
@@ -28,22 +41,57 @@
 	            <p class="card-text">${qna.QCONTENT}</p>
 	        </div>
 	        <div class="card-body">
-	            <a href="#" class="btn btn-outline-secondary btn-sm" role="button">수정</a>
-	            <a href="#" class="btn btn-outline-secondary btn-sm " role="button">삭제</a>
+	        <c:if test="${qna.QWRITER == member.memberName}">
+	            <button class="btn btn-outline-secondary btn-sm" onclick="javascript:location.href='${path}/board/qnaModify?qnaNum=${qna.QNANUM}';">수정</button>
+	        </c:if>
+	        <c:choose>
+	        	<c:when test="${qna.QWRITER == member.memberName}">
+	        		<button class="btn btn-outline-secondary btn-sm " onclick="javascript:location.href='${path}/board/qnaDelete?qnaNum=${qna.QNANUM}';" >삭제</button>
+	        	</c:when>
+    	    	<c:when test="${member.isAdmin eq '1'}">
+	        		<button class="btn btn-outline-secondary btn-sm " onclick="javascript:location.href='${path}/board/qnaDelete?qnaNum=${qna.QNANUM}';">삭제</button>
+	        	</c:when>
+	        </c:choose>
 	        </div>
 	        <div class="card-body">
-	            <a href='<c:url value='/board/qnaList'/>' class="btn btn-success" role="button">목록으로</a>
+	            <a href='<c:url value='/board/qnaList'/>' style="margin-left: 45%;" class="btn btn-success" role="button">목록으로</a>
 	        </div>
-	        <div class="card-body text-muted">
-		        <ol class="breadcrumb">
-			    	<li class="breadcrumb-item active" aria-current="page">댓글확인</li>
-			    	
-			  	</ol>
-			  	<button type="button" id="comsubmit" class="btn btn-success">등록</button>
-	        	<!-- <input type="text" value="댓글확인">
-				<button type="button" class="btn btn-success">등록</button> -->
-	    	</div>
-  		</div>
+	        <br/>
+	        <c:if test="${member.isAdmin eq '1'}">
+			<div class="container">
+			<label for="content">comment</label>
+				<form name="commentInsertForm" action="${path}/board/qnaComEnroll" method="post" onsubmit="return validate();">
+					<div class="input-group">
+						<input type="hidden" name="qnaNum" value="${qna.QNANUM}"/>
+						<input type="text" class="form-control" id="comContent" name="comContent" placeholder="내용을 입력하세요.">	
+						<span class="input-group-btn">
+							<input type="submit" class="btn btn-success" type="button" name="commentInsertBtn" value="등록">
+						</span>
+					</div>
+			    </form>
+		  	</div>
+		  	</c:if> 
+		  <c:forEach var="c" items="${comment}">
+			  <div class="card-body text-muted">
+			  	<div class="container" style="font-size: 15px;">
+			  		<div class="commentList">
+			  			<div class="commentArea" id="commentWindow">
+			  				<div class="commentInfo far fa-user">관리자 &nbsp;&nbsp;
+			  					<c:if test="${member.isAdmin eq '1'}">
+			  					<input type="hidden" name="commentNum" value="${c.COMMENTNUM}"/>
+	             						<a onclick="javascript:location.href='${path}/board/qnaComModify?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 수정 </a>
+	               						<a onclick="javascript:location.href='${path}/board/qnaComDelete?qnaNum=${qna.QNANUM}&commentNum=${c.COMMENTNUM}';"> 삭제 </a>
+	               				</c:if>
+	              				</div>
+	             				<div class="commentContent"> 
+	             					<p id="commentContent"style="margin-top: 10px;"><c:out value="${c.COMCONTENT}"/></p>
+	             				</div>
+				   		</div>
+					</div>
+				</div>
+			</div>
+        </c:forEach>
+        ${pageBar}
     </div>
 
 ​
