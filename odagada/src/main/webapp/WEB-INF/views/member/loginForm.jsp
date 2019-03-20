@@ -164,10 +164,10 @@ margin-left: 4px;
 			</div>
 		</div>
 	</div>
-	<div id="kakaoLogin">  
+<!-- 	<div id="kakaoLogin">  
     <a id="kakao-login-btn"></a>
     <a href="http://developers.kakao.com/logout"></a>
-</div>
+</div> -->
  
 <script type='text/javascript'>
 	var kakaoName="";
