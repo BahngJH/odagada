@@ -169,6 +169,7 @@ margin-left: 4px;
     <a href="http://developers.kakao.com/logout"></a>
 </div> -->
  
+ 
 <script type='text/javascript'>
 	var kakaoName="";
 	var kakaoId="";
