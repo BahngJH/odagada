@@ -82,6 +82,73 @@ public class MemberController {
 	CommunityService comService;
 	
 
+	@RequestMapping("/member/kakaoSignUpEnd.do")
+	public String kakaoSignUpEnd(String kakaoId, String kakaoName,Model model, Member m, HttpServletRequest request, MultipartFile upFile) 
+	{
+		System.out.println(kakaoId+" "+kakaoName+" "+m);
+		m.setMemberId("kakao_"+kakaoId);
+		m.setMemberName(kakaoName);
+		m.setMemberPw("123");
+		//암호화 전 패스워드
+		String oriPw=m.getMemberPw();
+		logger.debug("암호화 전:"+oriPw);
+		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
+		m.setMemberPw(pwEncoder.encode(oriPw));		
+		//메일주소
+		String email1=request.getParameter("email1");
+		String email2=request.getParameter("email2");
+		String email=email1+"@"+email2;	
+		m.setEmail(email);			
+		//전화번호
+		String phone1=request.getParameter("phone1");
+		String phone2=request.getParameter("phone2");
+		String phone=phone1+phone2;
+		m.setPhone(phone);		
+		//프로필 사진 저장되는 장소
+		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+
+		ModelAndView mv=new ModelAndView();
+		
+		if(!upFile.isEmpty()) {
+			//파일명 생성(ReName)
+			String oriFileName=upFile.getOriginalFilename();
+			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
+			
+			//rename 규칙
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv=(int)(Math.random()*1000);
+			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+			
+			//profile 사진 저장
+			try {
+				upFile.transferTo(new File(sd+"/"+reName));
+			}catch(IllegalStateException | IOException e){
+				e.printStackTrace();
+			}		
+			m.setProfileImageOri(oriFileName);
+			m.setProfileImageRe(reName);
+			
+		}
+		
+
+		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
+		String loc="/";
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";	
+	}
+	
+	@RequestMapping("/member/kakaoLogin.do")
+	public ModelAndView kakaoLogin(String kakaoId, String kakaoName, ModelAndView mv) 
+	{
+		System.out.println(kakaoId+" "+kakaoName);
+		String[] kakaoName2 = kakaoName.split("\"");
+		mv.addObject("kakaoId", kakaoId);
+		mv.addObject("kakaoName", kakaoName2[1]);
+		mv.setViewName("/member/kakaoSignUpForm");
+		return mv;
+	}
+	
 	//email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
