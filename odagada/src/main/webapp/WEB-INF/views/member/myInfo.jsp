@@ -232,16 +232,11 @@ tr::after {
 							})							
 						}
 					</script>
-											
 					  </div>
 					</div>
 				</div>		
 			</div>
 		</div>
-		
-		
-</section>
-
 <script>
 
  function updateCheck(answer) {
