@@ -272,39 +272,13 @@ $(function(){
    });   
  });
  
- function validate() {
-  	 //ID 4자리~12자리 소문자, 숫자 가능 확인하기 
-      var idReg =/^[A-Za-z0-9]{4,12}$/;
-      if (!idReg.test($("input[name=memberId]").val())) {
-         alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
-         return false;
-      	}   
-     
-      //이름 유효성 검사
-      //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-      var name=$('#memberName').val().trim();
-       if(name.length>7){
-          alert("정확한 이름을 입력해주세요.");
-          return false;
-    	  }
+ function validate() {   
      	//이메일 도메인 정규식 받기    
         var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
         if(!mC.test($("input[name=email2]").val())){
           alert("정확한 이메일 형식을 입력해주세요.");
           return false;
-       }  
-        //비밀번호 체크 
-        var pw1=$("#password_").val().trim();
-        var pw2=$("#password2").val().trim();
-        if(pw1!=pw2){
-           alert("정확한 비밀번호 입력하세요.");
-          return false;       
-       } 
-        //ID 중복확인 체크
-        if($('#checkStatus').val()==0){
-           alert('ID 중복확인해주세요.');
-           return false;
-         }         
+       }          
         //E-mail 중복확인 체크
         if($('#emailStatus').val()==0){
         alert('e-mail 중복확인 해주세요.')
@@ -316,7 +290,6 @@ $(function(){
               alert("핸드폰 중복확인해주세요.");
               return false;
            }
-        
         //생년월일 받기
         var birth=$('#birth').val().trim();
         if(birth==''){

@@ -16,6 +16,12 @@ public class MemberDaoImpl implements MemberDao {
 	SqlSessionTemplate session;
 
 	@Override
+	public Member kakaoIdCK(Member m) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.kakaoIdCK",m);
+	}
+
+	@Override
 	public Map<String, String> login(Map<String, String> login) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.login", login);

@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
@@ -34,13 +35,27 @@
 		margin-top:10px;
 		margin-bottom: 10px;
 	}
-	img.driver-img{
-		width:80px;height:80px;
-		border-radius: 100px;
-		float:left;
-		margin:19px;
-		margin-top:35%;
-	}
+img.driver-img{
+      position: relative;
+      width: 110px;
+      height: 100px;
+      margin: 20px 0;
+      border-radius: 50% / 10%;
+      color: white;
+      text-align: center;
+      text-indent: .1em;
+    }
+img.driver-img:before {
+      content: '';
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      right: -5%;
+      left: -5%;
+      background: inherit;
+      border-radius: 5% / 50%;
+    }
+  
 	span.line-div{
 		border:1px solid rgb(230,230,230);
 		height:auto;
@@ -73,6 +88,9 @@
 	}
 	p.dhead-p{
 		margin-top:10px;
+	}
+	div.dr-div{
+		margin-top:12px;
 	}
 	img.car-img{
 		/* width:165px; height:165px; */
@@ -137,8 +155,28 @@
 	    border-style: solid;
 	    text-align:left;
 	}
+	div.speak-div{
+      width: auto;
+      height: auto;
+      background: #FFFFC2;
+      position: relative;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+    }
+    div.speak-div:before {
+      content: "";
+      position: absolute;
+      right: 100%;
+      top: 26px;
+      width: 0;
+      height: 0;
+      border-top: 13px solid transparent;
+      border-right: 26px solid #FFFFC2;
+      border-bottom: 13px solid transparent;
+	}
 </style>
-<section class="container">
+<section id="container">
 	<div class="row">
 		<div class="col-12 col-md-2"></div>
 		<div class="col-12 col-md-8">
@@ -202,25 +240,26 @@
 					  		<input type="hidden" value="${o.CARPOOLNUM }" id="carpoolNum" name="carpoolNum">
 						  	<hr>
 						  	<!-- 드라이버 소개 -->
-						  	<div class="card text-center intro-driver" >
+						  	<div class="text-center intro-driver" >
 						  		<div class="row">
-						  			<div class="col-3">
+						  			<div class="col-12 col-md-3">
 						  				<div class="row">
-						  					<div class="col-10">
+						  					<div class="col-12">
 												<span>
 								  					<%-- <img src="${path }/resources/images/${o.PROFILEIMAGERE}" class="driver-img"/> --%>
-								  					<img src="${path }/resources/images/ilhoon2.jpg" class="driver-img"/>
+								  					<img src="${path }/resources/upload/profile/${o.PROFILEIMAGERE}" class="img-fluid driver-img"/>
 								  				</span>
 							  				</div>
 						  				</div>
 						  				<div class="row">
 						  					<div class="col-12">
 						  						<c:set var="driverId" value="${o.MEMBERID }"/>
+						  						<c:set var="driverNum" value="${o.MEMBERNUM }"/>
 						  						<span>${o.MEMBERNAME }</span>
 					  						</div>
 					  					</div>
 						  			</div>
-						  			<div class="col-9">
+						  			<div class="col-12 offset-md-1 col-md-7 speak-div">
 						  				<p class="intro-p">${o.INTRODUCE }</p>
 						  				<input type="hidden" id="intro" name="intro" value="${o.INTRODUCE }"/>
 						  				<div class="row">
@@ -240,11 +279,7 @@
 					<div class="tab-pane fade" id="road" role="tabpanel" aria-labelledby="road-tab" >
 						<div class="card-body"  >
 							<c:forEach items="${oList }" var="o">
-								<!-- <div class="row">
-									<div class="col-12"> -->
-										<div id="map_div" style="width:600px; height:400px;"></div>
-									<!-- </div>
-								</div> -->
+								<div id="map_div" style="width:600px; height:400px;"></div>
 								<input type="hidden" value="${o.STARTLAT }" id="startLat" name="startLat">
 								<input type="hidden" value="${o.STARTLONG }" id="startLong" name="startLong">
 								<input type="hidden" value="${o.DESTLAT }" id="endLat" name="endLat">
@@ -283,11 +318,9 @@
 					  						<span>
 										  		<c:forEach begin="1" end="${seat }"  varStatus="count">
 										  			<c:choose>
-											  			<%-- <c:when test="${count.index <= fn:length(pList)}"> --%>
-											  				<c:when test='${pList[count.index-1].PSTATUS eq "Y" }'>
-										  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
-									  						</c:when>
-								  						<%-- </c:when> --%>
+										  				<c:when test='${pList[count.index-1].PSTATUS eq "Y" }'>
+									  						<img src="${path }/resources/images/option-icon/full.png" class="seat-img"/>
+								  						</c:when>
 								  						<c:otherwise>
 								  							<img src="${path }/resources/images/option-icon/empty.png" class="seat-img"/>
 							  							</c:otherwise>
@@ -302,6 +335,10 @@
 						  						<c:forEach items='${pList }' var='p' varStatus="count">
 						  							<c:if test="${not flag }">
 					  									<c:choose>
+					  										<c:when test='${logined.memberNum == driverNum }'>
+					  											<button class="btn btn-warning ride-btn" onclick="checkIng();">탑승객<br/>확인</button>
+					  											<c:set var="flag" value="true"/>
+					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
 					  											<button class="btn btn-danger ride-btn" onclick="checkIng();">탑승중</button>
 					  											<c:set var="flag" value="true"/>
@@ -313,7 +350,6 @@
 					  									</c:choose>
 						  							</c:if>
 							  					</c:forEach>
-							  					
 					  						</c:if>
 											<c:if test="${logined == null or flag == false}">
 	  											<button class="btn btn-success ride-btn" onclick="ridePayment()">탑승신청</button>
@@ -392,8 +428,7 @@
 								  					<c:forEach items='${pList }' var='p' varStatus="count">
 									  					<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
 									  						<span class="card pas-span">
-									  							<%-- <img src="${path }/resources/images/${p.PROFILEIMAGERE}" class="pas-img"><br> --%>
-									  							<img src="${path }/resources/images/ilhoon.jpg" class="pas-img"><br>
+									  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img"><br>
 									  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
 								  							</span>
 							  							</c:if>
@@ -423,9 +458,11 @@
 				 	<div class="col-12 col-xl-6">
 				 		<p class='dhead-p'>드라이버 정보</p>
 				 	</div>
+				 	<c:if test="${logined.memberId != driverId}">
 				 	<div class='col-12 col-xl-5 offset-xl-1'>
 				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
 				 	</div>
+				 	</c:if>
 				 </div> 
 			  </div>
 			  <div class="card-body">
@@ -471,15 +508,9 @@
 						</div>
 				  	</div>
 				  </div>
-				  <!-- 채팅창 연결 버튼 -->
-				  <div class="row">
-				  	<div class="col-6 offset-4">
-				  		
-				  	</div>
-				  </div>
 				  <div class="row">
 				  	<div class="col-12">
-				  		<div class="card">
+				  		<div class="card dr-div">
 				  			<span class="badge badge-secondary">드라이버 차량 </span>
 				  			<div class="row">
 				  				<div class="col-10">
@@ -495,7 +526,7 @@
 				  			<c:forEach items="${cList }" var="c" varStatus="count">
 				  				<div class='row'>
 					  				<div class='col-12'>
-					  					<img src="${path }/resources/images/${c.CARIMAGERE}" class="img-fluid car-img "/>
+					  					<img src="${path }/resources/upload/car/${c.CARIMAGERE}" class="img-fluid car-img "/>
 						  			</div>
 		  						</div>
 				  			</c:forEach>
@@ -593,23 +624,38 @@
 				  	</div>
 				  </div>
 				   <!-- 드라이버 신고 버튼 -->
-				  <div class="row">
-				  	<div class="col-6 offset-4">
-				  		<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
-				  	</div>
-				  </div>
+				<c:if test="${logined != null }">
+				<c:set value='true' var='rFlag'/>
+					<c:forEach items='${pList }' var='p' varStatus="count">
+						<c:if test="${rFlag }">
+							<c:choose>
+								<c:when test='${logined.memberNum == driverNum }'>
+								  <div class="row">
+								  	<div class="col-6 offset-3">
+								  	</div>
+								  </div>
+								  <c:set value="false" var="rFlag"/>
+								</c:when>
+								<c:otherwise>
+									<div class="row">
+										<div class="col-6 offset-3">
+											<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
+										</div>
+									</div>
+									<c:set value="false" var="rFlag"/>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+					</c:forEach>
+				</c:if>
 			  </div>
 			</div>
 		</div>
-		<div class="col-12 col-md-2">
-		</div>
 	</div>
-
 </section>
 
 <!-- 채팅방 -->
 <script>
-
    function moveChatting(chatUser)
    {
 	   console.log(chatUser);
@@ -775,7 +821,7 @@ function checkIng(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myCarpool";
+		location.href="${path}/member/myInfo.do";
 	}
 }
 function checkSubmit(){
@@ -783,7 +829,7 @@ function checkSubmit(){
 		return;
 	}
 	else{
-		location.href="${path}/member/myCarpool";
+		location.href="${path}/member/myInfo.do";
 	}
 }
 </script>
