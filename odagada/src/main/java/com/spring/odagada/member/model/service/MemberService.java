@@ -6,6 +6,7 @@ import java.util.Map;
 import com.spring.odagada.member.model.vo.Member;
 
 public interface MemberService {
+	Member kakaoIdCK(Member m);
 	Map<String, String>login(Map<String, String> login);
 	Member selectMember(String memberId);
 	void insertMember(Member m) throws Exception;

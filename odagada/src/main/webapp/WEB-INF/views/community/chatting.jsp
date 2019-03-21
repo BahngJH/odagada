@@ -40,7 +40,7 @@
         	overflow:auto;
         }
         #chatRoom{
-            border-top: 1px solid black;
+            border-top: 1px solid #E7E7E7;
             padding:10px;
         }
         #chatRoom:hover{
@@ -60,7 +60,7 @@
         }
        	
         #selectUserInfo{
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #E7E7E7;
         }
         #selectName{
         	font-size: 180%;

@@ -81,14 +81,35 @@ public class MemberController {
 	@Autowired
 	CommunityService comService;
 	
-
+	
+	@RequestMapping("/member/kakaoIdCK")
+	public ModelAndView kakaoIdCK(String kakaoId, String kakaoName, ModelAndView mv) 
+	{
+		Member m = new Member();
+		
+		m.setMemberId("kakao_"+kakaoId);
+		logger.debug("카카오 아이디 디비 가기전"+m);
+		m = service.kakaoIdCK(m);
+		logger.debug("카카오 아이디 디비 다녀온 후"+m);
+		
+		if(m==null) 
+		{
+			mv.addObject("result", "N");
+		}else{
+			mv.addObject("logined", m);
+			mv.addObject("result", "Y");
+		}
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
 	@RequestMapping("/member/kakaoSignUpEnd.do")
-	public String kakaoSignUpEnd(String kakaoId, String kakaoName,Model model, Member m, HttpServletRequest request, MultipartFile upFile) 
+	public String kakaoSignUpEnd(String kakaoId, String kakaoName,Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception 
 	{
 		System.out.println(kakaoId+" "+kakaoName+" "+m);
 		m.setMemberId("kakao_"+kakaoId);
 		m.setMemberName(kakaoName);
-		m.setMemberPw("123");
+		m.setMemberPw(" ");
 		//암호화 전 패스워드
 		String oriPw=m.getMemberPw();
 		logger.debug("암호화 전:"+oriPw);
@@ -107,7 +128,7 @@ public class MemberController {
 		//프로필 사진 저장되는 장소
 		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
 
-		ModelAndView mv=new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		
 		if(!upFile.isEmpty()) {
 			//파일명 생성(ReName)
@@ -127,10 +148,11 @@ public class MemberController {
 			}		
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);
-			
 		}
 		
-
+		logger.debug("kakao 회원가입 : "+m);
+		service.insertMember(m);
+		
 		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
 		model.addAttribute("msg", msg);
