@@ -84,10 +84,13 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>
+                <c:set var="isAdmin" value="${logined.isAdmin}"/>
                 <c:if test="${sessionScope.driver.LICENSENUM eq null}">
-                	<li class="nav-item">
-                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
-	               	</li>
+                	<c:if test="${isAdmin eq '0'}">
+	                	<li class="nav-item">
+	                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
+		               	</li>
+	               	</c:if>
                	</c:if>       
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>

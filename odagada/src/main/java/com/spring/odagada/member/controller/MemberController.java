@@ -386,11 +386,21 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
+					if(m.getCarMsg()!=null)
+					{
+						mv.addObject("driver",driver);
+						mv.addObject("logined", m);
+						mv.addObject("msg",m.getCarMsg());
+						mv.addObject("loc","/");
+						mv.setViewName("common/msg");							
+					}
+					else {
+						logger.debug("로그인 드라이버"+driver);
+						mv.addObject("driver",driver);
+						mv.addObject("logined", m);
+						mv.setViewName("redirect:/");
+					}
 					
-					logger.debug("로그인 드라이버"+driver);
-					mv.addObject("driver",driver);
-					mv.addObject("logined", m);
-					mv.setViewName("redirect:/");
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
 					mv.addObject("loc", "/member/loginForm.do");

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.search.IntegerComparisonTerm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -64,6 +66,7 @@ public class DriverController {
 			else {
 				logger.debug("회원정보"+m);
 				logger.debug("앞자리 테스트"+m.getPhone().substring(0,3));
+				int result = memberService.deleteMsg(m);
 				if(m.getPhone().length()==11)
 				{
 					logger.debug("나머지테스트"+m.getPhone().substring(3,11));
@@ -185,8 +188,9 @@ public class DriverController {
 	   }
 
 	 @RequestMapping("/driver/driverForm")
-	 public ModelAndView driverForm(int memberNum,String carNum)
+	 public ModelAndView driverForm(int memberNum,String carNum,HttpSession session)
 	 {
+		 Member m = (Member)session.getAttribute("logined");
 		 System.out.println("여깅하ㅏ하하하하ㅏㅎ"+memberNum+" :"+carNum);
 		 ModelAndView mv = new ModelAndView();
 		 Map<String,String> map = service.selectDriverOne(memberNum);
@@ -203,6 +207,7 @@ public class DriverController {
 		 mv.addObject("driver",map);
 		 mv.addObject("carImg", carImg);
 		 mv.addObject("licenseNum",licenseNum);
+		 mv.addObject("member",m);
 		 mv.setViewName("driver/driverForm");
 		 
 		 logger.info("리턴 전"+map);
@@ -234,22 +239,32 @@ public class DriverController {
 	}
 	
 	@RequestMapping("driver/driverRefuse")
-	public String deleteDriver(@RequestParam(value="memberNum") int memberNum)
+	public String deleteDriver(Model model,HttpSession session,HttpServletRequest request)
 	{
+		Member m = (Member)session.getAttribute("logined");
+		
+		String carMsg = request.getParameter("carMsg");
+		int memberNum = Integer.parseInt(request.getParameter("memberNum"));
+		
+		logger.debug("거절 사유"+carMsg);	
+		
+		m.setCarMsg(carMsg);
+		m.setMemberNum(memberNum);
 		
 		int result = service.deleteDriver(memberNum);
-		
+		int refuse = memberService.updateMsg(m);
+				
 		return "redirect: driverList";
 	}
 	
-	@RequestMapping("/driver/driverWithdrawal")
-	public String driverWithdrawal(@RequestParam(value="memberNum") int memberNum)
+	@RequestMapping("driver/driverWithdrawal")
+	public String driverWithdrawal(int memberNum)
 	{
 		int result = service.deleteDriver(memberNum);
 		
-		return "redirect:";
+		return "/";
 	}
-	
+		
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
     public ModelAndView selectDriverCarpool(HttpSession session) {
