@@ -9,7 +9,7 @@ public interface MemberService {
 	Member kakaoIdCK(Member m);
 	Map<String, String>login(Map<String, String> login);
 	Member selectMember(String memberId);
-	void insertMember(Member m) throws Exception;
+	void insertMember(Member m, StringBuffer odagada) throws Exception;
 	int checkEmail(String email);	
 	int checkId(String memberId);
 	int updateMember(Member m);	

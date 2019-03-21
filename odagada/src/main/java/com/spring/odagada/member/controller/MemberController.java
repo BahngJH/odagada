@@ -212,7 +212,8 @@ public class MemberController {
 		}
 		
 		logger.debug("kakao 회원가입 : "+m);
-		service.insertMember(m);
+		StringBuffer odagada=request.getRequestURL();
+		service.insertMember(m, odagada);
 		
 		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
@@ -311,7 +312,9 @@ public class MemberController {
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);					
 		}
-		service.insertMember(m);
+		
+		StringBuffer odagada=request.getRequestURL();
+		service.insertMember(m, odagada);
 
 		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
