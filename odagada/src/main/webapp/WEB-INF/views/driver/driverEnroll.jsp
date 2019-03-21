@@ -9,7 +9,7 @@
 </jsp:include>
 <%
 	Member m = (Member) session.getAttribute("logined");
-	/* String phone = m.getPhone(); */
+	
 %>
 ​<style>
      div#enroll-container{width:400px; margin:0 auto; text-align:center;}
@@ -63,14 +63,7 @@
   		text-align: left;
   		padding-left : 0px;
   	}
-  	
-/*   	#memberName{
-  		width: 25%;
-  	}
-  	
-  	#birth {
-  		width: 33%;
-  	} */
+
   	#selectPhone{
   		width: 25%;
   	}
@@ -133,6 +126,7 @@
       var file_name2=$('.custom-file-label').val();
       
       var licenseNum = $('#licenseNum').val();
+      var incenseCon = licenseNum.substring(0,2);
       var licen = /([가-힣]|[0-9]){2}-{1}([0-9]{2})-{1}([0-9]){6}-{1}([0-9]){2}$/
       console.log("licenseNum");
       console.log($("input[name=licenseNum]").val());
@@ -142,6 +136,15 @@
     	  
     	  return false;
       }
+      
+    var license = ["서울","부산","경기","강원","충북","충남","전북","전남","경북","경남","제주","대구","인천","광주","대전","울산"];
+  	if(!license.includes(license))
+  	{
+  		alert("면허번호 지역을 제대로 입력해주세요.");
+  		
+  		return false;
+  	}
+ 
       
       var carNum = $('#carNum').val();
       var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
@@ -214,7 +217,7 @@
                       <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
                     </c:if>
             </div>
-            <div class="form-group row">            		
+            <div class="form-group row">      		
            		<input type="text" class="form-control" name="licenseNum" id="licenseNum" onchange="licenseCheck(this)" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
             </div>
             <div class="form-group row">            		

@@ -46,11 +46,11 @@ public class DriverController {
 		
 		Member m = (Member) session.getAttribute("logined");
 		ModelAndView mv = new ModelAndView();		
+		int memberNum = m.getMemberNum();
 		
-		
-		if(m!=null)
+		if(m!=null && m.getMemberNum()!=0)
 		{
-			int memberNum = m.getMemberNum();		
+					
 			Driver driver = service.selectOne(memberNum);	
 			
 			if(driver!=null)
