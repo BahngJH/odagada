@@ -165,7 +165,7 @@ padding-right:0px;
 		</div>
 	</div>
 <!-- 드라이버 이미지 -->
-	<div class="row">
+<%-- 	<div class="row">
 		<div class="col-12">
 			<div class="row">
 				<div class="col-12 col-md-7"> 
@@ -183,7 +183,7 @@ padding-right:0px;
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 <!-- 자주가는 경로 -->
 	<div class="row">
 		<div class="col-12 pop-div">
