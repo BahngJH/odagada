@@ -85,7 +85,7 @@
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>
                 <c:if test="${sessionScope.driver.LICENSENUM eq null}">
-	                <li class="nav-item">
+                	<li class="nav-item">
                  		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
 	               	</li>
                	</c:if>       

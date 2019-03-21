@@ -13,11 +13,6 @@ table thead th#title{
 	font-size: 30px;
 	text-align: center;
 }
-/* div div.col-md-6{
-	font-weight: bold;
-	font-size: 40px;
-	text-align: center;
-} */
 div div#bTITLE{
 	font-weight: bold;
 	font-size: 30px;

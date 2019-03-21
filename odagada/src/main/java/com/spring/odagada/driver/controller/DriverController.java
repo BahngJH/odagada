@@ -211,15 +211,16 @@ public class DriverController {
 	 }
 
 	@RequestMapping("/driver/driverFormEnd")
-	public String driverFormEnd(Driver driver,HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
+	public String driverFormEnd(HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
 	{
+		logger.debug("ㅎㅇㅎㅇㅁ");
 		Driver d = service.selectOne(memberNum);
 		String licenseNum = d.getLicenseNum();
 		
 		logger.debug("넘버= "+memberNum);
 		logger.debug("드라이버수락여부 = "+driverStatus);
 		logger.debug("면허 확인"+licenseNum);
-		logger.debug("멤버 = "+driver);
+//		logger.debug("멤버 = "+driver);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 			map.put("memberNum", memberNum);
@@ -242,6 +243,7 @@ public class DriverController {
 		
 		return "redirect: driverList";
 	}
+	
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
     public ModelAndView selectDriverCarpool(HttpSession session) {
