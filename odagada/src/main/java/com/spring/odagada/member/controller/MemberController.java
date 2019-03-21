@@ -290,6 +290,7 @@ public class MemberController {
 		m.setPhone(phone);		
 		//프로필 사진 저장되는 장소
 		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+		//임시 프로필 저장 장소
 
 		ModelAndView mv=new ModelAndView();
 		

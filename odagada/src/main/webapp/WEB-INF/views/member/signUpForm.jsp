@@ -149,8 +149,7 @@
         width: 100px; height: 40px;
         border: 1px solid #28a745;
 
-        /* width: 85px; height: 40px;
-        border: 1px solid gray; */
+     
 
         border-radius: 10px 10px 10px 10px;
         color : #28a745;
