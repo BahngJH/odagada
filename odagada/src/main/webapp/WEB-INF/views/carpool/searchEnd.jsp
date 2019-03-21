@@ -331,7 +331,7 @@ $(document).ready(function(){
 				});  
 			}
 			else{
-				$('#result-search').html("<h2>검색결과가 없습니다.</h2>")
+				$('#result-search').html("<h2>검색결과가 없습니다.</h2>");
 			}
 	     }    
 	  });
