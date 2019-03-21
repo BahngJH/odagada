@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,7 @@ import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
+@SessionAttributes(value= {"logined", "driver"})
 @Controller
 public class DriverController {
 	private Logger logger = LoggerFactory.getLogger(DriverController.class);
@@ -44,11 +46,11 @@ public class DriverController {
 		
 		Member m = (Member) session.getAttribute("logined");
 		ModelAndView mv = new ModelAndView();		
+		int memberNum = m.getMemberNum();
 		
-		
-		if(m!=null)
+		if(m!=null && m.getMemberNum()!=0)
 		{
-			int memberNum = m.getMemberNum();		
+					
 			Driver driver = service.selectOne(memberNum);	
 			
 			if(driver!=null)
@@ -92,7 +94,6 @@ public class DriverController {
 	public ModelAndView driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
 	{
 		ModelAndView mv = new ModelAndView();
-		
 		int memberNum = Integer.parseInt(request.getParameter("memberNum"));
 		String memberId = request.getParameter("memberId");
 		String memberName = request.getParameter("memberName");
@@ -152,6 +153,8 @@ public class DriverController {
 		if(imgOrder>0 && imgOrder<=4)
 		{
 			int result = service.enrollDriver(driver,files);
+			Map<String,String> d = service.selectDriverOne(memberNum);
+			mv.addObject("driver",d);
 			mv.setViewName("redirect:/");
 			return mv;
 		}
@@ -162,7 +165,7 @@ public class DriverController {
 			return mv;
 		}
 	}
-	
+
 	 @RequestMapping("/driver/driverList")
 	   public ModelAndView driverList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage,HttpSession session)
 	   {
@@ -180,7 +183,7 @@ public class DriverController {
 		      
 	      return mv;	      
 	   }
-	 
+
 	 @RequestMapping("/driver/driverForm")
 	 public ModelAndView driverForm(int memberNum,String carNum)
 	 {
@@ -206,6 +209,7 @@ public class DriverController {
 		 
 		 return mv;
 	 }
+
 	@RequestMapping("/driver/driverFormEnd")
 	public String driverFormEnd(Driver driver,HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
 	{
@@ -238,7 +242,6 @@ public class DriverController {
 		
 		return "redirect: driverList";
 	}
-	
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
     public ModelAndView selectDriverCarpool(HttpSession session) {
@@ -252,16 +255,22 @@ public class DriverController {
     
     //드라이버가 동승중인 이용객 보기
     @RequestMapping("/driver/selectDriverPas")
-    public ModelAndView selectDriverPas(String driverNum,String carpoolNum){
-    	ModelAndView mav = new ModelAndView();
-    	Map<String,String> m = new HashMap();
-    	m.put("driverNum", driverNum);
-    	m.put("carpoolNum", carpoolNum);
-    	List<Map<String,String>> dList =service.selectDriverPas(m);
-    	logger.debug(""+dList);
-    	mav.addObject("dList",dList);
-    	mav.setViewName("member/passengerCk");
-    	return mav; 
+    public ModelAndView selectDriverPas(String driverNum,String carpoolNum,String sta){
+       ModelAndView mav = new ModelAndView();
+       Map<String,String> m = new HashMap();
+       m.put("driverNum", driverNum);
+       m.put("carpoolNum", carpoolNum);
+       List<Map<String,String>> dList =service.selectDriverPas(m);
+       logger.debug(""+dList);
+       mav.addObject("dList",dList);
+       if(sta.equals("Y")) {
+    	   mav.setViewName("member/passengerCk");
+       }
+       else{
+    	   //이용이 끝난 경우 결제 받기
+    	   mav.setViewName("member/passengerFinish");   
+       }
+       return mav; 
     }
     //드라이버가 승차 승락한 경우
     @RequestMapping("/driver/updatePasOk")
@@ -280,7 +289,7 @@ public class DriverController {
     		msg="수락 실패하였습니다. 다시 시도해주세요.";
     	}
     	mav.addObject("msg",msg);
-    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y");
     	mav.setViewName("common/msg");
     	return mav;
     }
@@ -302,7 +311,7 @@ public class DriverController {
     		msg="거부 실패하였습니다. 다시 시도해주세요.";
     	}
     	mav.addObject("msg",msg);
-    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum);
+    	mav.addObject("loc","/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y");
     	mav.setViewName("common/msg");
     	return mav;
     }

@@ -7,9 +7,9 @@ import com.spring.odagada.carpool.model.vo.Carpool;
 import com.spring.odagada.carpool.model.vo.CarOption;
 
 public interface CarpoolService {
-	List<Map<String,String>> selectCarpoolList(Map<String,String> map);
+	List<Map<String,String>> selectCarpoolList(Map<String,String> map,int cPage,int numPerPage);
 	int insertCarpool(Carpool carpool, CarOption option);
-	List<Map<String,String>> selectCarOptionList(Map<String,String> map);
+	List<Map<String,String>> selectCarOptionList(Map<String,String> map,int cPage,int numPerPage);
 	List<Map<String,String>> selectCarOneList(int carpoolNum);
 	List<Map<String,String>> selectPasList(int carpoolNum);
 	List<Map<String,String>> selectImageList(int mem);

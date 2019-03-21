@@ -66,16 +66,16 @@ a#pay{
 
 <section class="container">
 	<div class="row">
-
-		<div class="col-12 col-md-2">
+		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
 				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
 				<a class="list-group-item list-group-item-action active">카풀 내역</a>
+	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
 			</div>
 		</div>
 		
-		<div class="col-12 col-md-10" id="enroll-container">	
+		<div class="col-12 col-md-9" id="enroll-container">	
 			<div class="info col-12 col-sm-12 col-md-10">
 				<!-- 조건만큼 검색 결과 출력 -->
 				<c:if test="${carpoolList.isEmpty() }">
@@ -195,7 +195,5 @@ a#pay{
 		${pageBar }
 	</nav>
       
-
 </section>
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

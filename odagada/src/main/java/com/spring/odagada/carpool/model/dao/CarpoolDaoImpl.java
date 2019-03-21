@@ -18,8 +18,9 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	SqlSessionTemplate session;
 	
 	@Override
-	public List<Map<String,String>> selectCarpoolList(Map<String, String> map) {
-		return session.selectList("carpool.selectCarpoolList", map);
+	public List<Map<String,String>> selectCarpoolList(Map<String, String> map,int cPage,int numPerPage) {
+		RowBounds rb = new RowBounds(cPage,numPerPage);
+		return session.selectList("carpool.selectCarpoolList", map,rb);
 	}
 
 	@Override
@@ -33,8 +34,9 @@ public class CarpoolDaoImpl implements CarpoolDao {
 	}
 
 	@Override
-	public List<Map<String,String>> selectCarOptionList(Map<String,String> map) {
-		return session.selectList("carpool.selectCarOptionList",map);
+	public List<Map<String,String>> selectCarOptionList(Map<String,String> map,int cPage,int numPerPage) {
+		RowBounds rb = new RowBounds(cPage,numPerPage);
+		return session.selectList("carpool.selectCarOptionList",map,rb);
 	}
 
 	@Override

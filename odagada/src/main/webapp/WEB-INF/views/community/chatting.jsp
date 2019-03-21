@@ -7,10 +7,13 @@
 <jsp:include page="/WEB-INF/views/common/headerWS.jsp">
 	<jsp:param value="채팅하기" name="pageTitle"/>
 </jsp:include>
+
 <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
+@font-face { font-family: 'S-CoreDream-9Black'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-9Black.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'YanoljaYacheR'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YanoljaYacheR.woff') format('woff'); font-weight: normal; font-style: normal; }    	
     	#container{
     		margin-top: 30px;
     		margin-bottom:60px;
@@ -31,20 +34,23 @@
         #chattingView{
             display: inline-block;
             width: 50%;
+            font-family: YanoljaYacheR;
+            font-size: 18px;
         }
         #roomTitle{
             text-align: center;
             margin-bottom: 50px;
+            font-family: S-CoreDream-9Black;
         }
         #insertContent{
         	overflow:auto;
         }
         #chatRoom{
-            border-top: 1px solid #E7E7E7;
+            border-top : 1px solid #C4C4C4;
             padding:10px;
         }
         #chatRoom:hover{
-            background-color: #D9E5FF;
+            background-color: #ebebeb;
         }
         #time{
             margin-top: 5px; 
@@ -53,20 +59,28 @@
         }
         #userName{
             margin-bottom: 10px;
-            font-size: 120%;
+            font-family: YanoljaYacheR;
+            font-size: 25px;
         }
         #userInfoBottom{
             margin-top: 10px;
+            font-family: YanoljaYacheR;
+            font-size: 20px;
         }
        	
         #selectUserInfo{
+<<<<<<< HEAD
+            border-bottom: 1px solid #E6E6E6;
+=======
             border-bottom: 1px solid #E7E7E7;
+>>>>>>> branch 'master' of https://github.com/BahngJH/odagada.git
         }
         #selectName{
         	font-size: 180%;
+        	font-family: S-CoreDream-9Black;
         }
         #chatContent{
-            background-color:#EAEAEA;
+            background-color:#FCFCFC;
         }
         #selectImage{
         	position:relative;
@@ -74,9 +88,13 @@
         }
         #messageInput{
             width: 100%;
+            border: 1px solid rgba(0,0,0,0);
+            border-top: 1px solid #B0B0B0;
+            
         }
         #myName{
             font-size: 200%;
+            font-family: S-CoreDream-9Black;
         }
         #myInfo{
             text-align: center;
@@ -86,19 +104,35 @@
         }
        	#searchList{
        		margin-top:15px;
+       		font-family: YanoljaYacheR;
+       		font-size: 20px;
        	}
         #selectListOne{
-        	border-top: 1px solid black;
+        	border-top : 1px solid #C4C4C4;
         }
         #selectListOne:hover{
-            background-color: #D9E5FF;
+            background-color: #ebebeb;
         }
         #searchId{
-        	border-top-left-radius: 5px;
-        	border-top-right-radius: 5px;        	
-		    border-bottom-right-radius: 5px;
-		    border-bottom-left-radius: 5px;
+        	border: 1px solid #CDCDCD;
+        	border-width: 0 0 1px 0;
+        	padding: 2px 0 4px 6px;
+        	background: none;
+        	font-size : 18px;
+        	font-family: YanoljaYacheR;
         }
+        .input-group-addon button{
+        	background: rgba(0,0,0,0) none repeat scroll 0 0;
+        	border : medium none;
+        	padding : 0;
+        	color : #707070;
+        	font-size: 15px;
+        }
+        
+        .input-group-addon { 
+      	  margin: 0 0 0 -5px;
+        }
+        
         p.searchId-p{
         	margin-bottom:0px;
         	padding:7px;
@@ -115,7 +149,7 @@
         	margin-left: 10px;
         }
         p.left{
-        	background-color:white;
+        	background-color:#EAEAEA;
         	border:2px soild white;
         	padding: 10px;
         	
@@ -130,7 +164,7 @@
         	word-break: break-all;
         	margin-right: 10px;
         	margin-left: 10px;
-        	background-color:yellow;
+        	background-color:#FFE400;
         	border:2px soild yellow;
         	padding: 10px;
         	
@@ -196,7 +230,7 @@
 	        	<span id="selectName">${memberName}</span>
                </c:if>
                <c:if test="${imageUrl==null }">
-               		<span id="selectImage"><img width="80px" height="80px" src="${path}/resources/images/odagadaLogo.png" alt="회사 로고"></span>
+               		<span id="selectImage"><img width="80px" height="80px" src="https://kr.seaicons.com/wp-content/uploads/2015/09/Paper-Plane-icon.png" alt="회사 로고"></span>
 	        		<span id="selectName">채팅방을 선택하세요</span>
                </c:if>                	
             </div>
@@ -236,8 +270,10 @@
                 <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
                 <span id="myName">${logined.memberName }</span>
                 <div id="searchMember"><br>
-                <span>채팅할 회원</span><br>
-            	<input id="searchId" type="text" placeholder="아이디를 입력 후 Enter">
+            	<input id="searchId" type="text" placeholder="채팅 아이디 입력 후 엔터">
+            	<span class="input-group-addon">
+            	<button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+            	</span>
             	<div id="searchList">
        
             	</div>
