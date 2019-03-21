@@ -179,6 +179,7 @@ tr::after {
 						          <div class="form-group">
 						          	 <div class="row"></div>
 						           		 <label for="answer" class="form-control-label">E-mail을 확인해주세요.</label>
+						           		 <p><%=m.getEmail() %></p>
 				           		 </div>
 					           		 <div>
 								        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>

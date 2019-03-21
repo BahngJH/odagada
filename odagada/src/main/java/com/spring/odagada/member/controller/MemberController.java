@@ -557,7 +557,7 @@ public class MemberController {
 	
 	// 비밀번호 찾기
 	@RequestMapping("/member/findPw.do")
-	public ModelAndView findPassword(String memberId, String email, String memberName) throws Exception {
+	public ModelAndView findPassword(HttpServletRequest request,String memberId, String email, String memberName) throws Exception {
 		Map<String, String>info=new HashMap();
 		info.put("memberId", memberId);
 		info.put("email", email);
@@ -574,8 +574,9 @@ public class MemberController {
 			String dbPw=pwEncoder.encode(sendPw);
 			info.put("memberPw", dbPw);
 			info.put("sendPw", sendPw);
-						
-			service.sendPw(info);
+			
+			StringBuffer odagada=request.getRequestURL();
+			service.sendPw(info, odagada);
 			msg="등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
 			mv.addObject("msg",msg);
 			mv.addObject("loc",loc);
@@ -590,9 +591,10 @@ public class MemberController {
 	
 	//메일 인증하기
 	@RequestMapping("/member/mailAuth")
-	public String mailAuth(HttpSession session) throws Exception {
+	public String mailAuth(HttpSession session, HttpServletRequest request) throws Exception {
 		Member m=(Member)session.getAttribute("logined");
-		service.mailAuth(m);
+		StringBuffer odagada=request.getRequestURL();
+		service.mailAuth(m,odagada);
 		return "redirect:/";
 	}
 		
@@ -884,10 +886,11 @@ public class MemberController {
    //이메일 변경
    @ResponseBody
    @RequestMapping("/member/changeEmail")
-   public String changeEmail(String email, HttpSession session) throws Exception {
+   public String changeEmail(String email,HttpServletRequest request, HttpSession session) throws Exception {
 	   Member m=(Member)session.getAttribute("logined");
 	   m.setEmail(email);
-	   service.mailUpdate(m);
+	   StringBuffer odagada=request.getRequestURL();
+	   service.mailUpdate(m,odagada);
 	   return "sent";	   
    }
    
