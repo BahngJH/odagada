@@ -145,13 +145,13 @@
     }
     #checkGender label {
         padding-top: 10px;
-<<<<<<< HEAD
+
         width: 100px; height: 40px;
         border: 1px solid #28a745;
-=======
-        width: 85px; height: 40px;
-        border: 1px solid gray;
->>>>>>> branch 'master' of https://github.com/BahngJH/odagada.git
+
+        /* width: 85px; height: 40px;
+        border: 1px solid gray; */
+
         border-radius: 10px 10px 10px 10px;
         color : #28a745;
         width: 80px;
@@ -261,8 +261,7 @@ $(function(){
    });
    
    //생년월일
-     $("#birth" ).datepicker({
-       changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
+     $("#birth" ).datepicker({changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
      });
               
    //이메일(아이디부분)    
@@ -333,6 +332,7 @@ $(function(){
         	alert('생일을 입력해주세요.')
         	return false;
         }
+        
         
   
    }

@@ -121,7 +121,7 @@ public class CommunityController {
 			for(ChatRoomVo i:chatRooms)
 			{
 				logger.debug("채팅방 정보들"+i);
-				i.setcDate(i.getcDate().substring(0, 14));
+				i.setcDate(i.getcDate().substring(9, 14));
 			}
 			
 			mv.addObject("chatRooms", chatRooms);
@@ -157,7 +157,7 @@ public class CommunityController {
 			for(ChatRoomVo i:chatRooms)
 			{
 				logger.debug("채팅방 정보들"+i);
-				i.setcDate(i.getcDate().substring(0, 14));
+				i.setcDate(i.getcDate().substring(9, 14));
 			}
 			mv.addObject("chatRooms", chatRooms);
 			List<Map<String,String>> member = service.bringUserInfo(roomIdData);
@@ -178,7 +178,7 @@ public class CommunityController {
 		for(ChatRoomVo i:chatRooms) 
 		{
 			logger.debug("채팅방 정보들"+i);
-			i.setcDate(i.getcDate().substring(0, 14));
+			i.setcDate(i.getcDate().substring(9, 14));
 		}
 		
 		mv.addObject("chatRooms", chatRooms);
