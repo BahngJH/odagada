@@ -65,21 +65,35 @@
 	div#finish-time{
 		border:2px solid rgb(50,50,50);
 	}
+	/*  */
+	#Progress_Loading
+	{
+	 text-align: center;
+	 margin: 0 auto;
+	}
+	#Progress_Loading
+	{
+	 position: absolute;
+	 left: 50%;
+	 top: 50%;
+	 background: #ffffff;
+	}
 </style>
-<section class="container">
+<section class="container" >
+<c:set value='0' var="listSize"/>
 	<div class="row">
-		<div class="col-12 col-md-8 offset-md-2">
+		<div class="col-12 offset-md-1 col-md-9 ">
 			<div class="input-group">
-				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
+				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" id="startCity" name="startCity" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
-				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
+				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }"  id="endCity" name="endCity" readonly>
 				<input type="text" class="form-control search-div" id="startDate" value="${search.startDate }" readonly>
 			</div>
 		</div>
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-12 col-md-3 offset-md-2">
+		<div class="col-12 col-md-4">
 			<div class="row">
 				<div class="col-12">
 					<div class="card"  id="option_flex">
@@ -88,13 +102,13 @@
 	    					<hr>
 	    					<div class="row">
 	    						<div class="col-12">
-	    							<span>시작 검색 반경: </span><br>
+	    							<span>출발지 반경: </span><br>
 									<select name="kmNumS" id="kmNumS" class="form-control">
 										<option value="3">3KM 이내 </option>
 										<option value="5">5KM 이내 </option>
 										<option value="10">10KM 이내</option>
 									</select>
-	    							<span>도착 검색 반경: </span><br>
+	    							<span>도착지 반경: </span><br>
 									<select name="kmNumE" id="kmNumE" class="form-control">
 										<option value="3">3KM 이내 </option>
 										<option value="5">5KM 이내 </option>
@@ -165,11 +179,14 @@
 			</div>
 		</div>
 		<!-- 검색 결과만큼 출력 -->
-		<div class="col-12 col-md-5" id="result-search">
+		<div class="col-12 col-md-8" id="result-search" class="result-search">
+			<div id = "Progress_Loading"><!-- 로딩바 -->
+				<img src="${path }/resources/images/option-icon/Progress_Loading.gif"/>
+			</div>
 			<!-- 조건만큼 검색 결과 출력 -->
 			<c:forEach items="${cList}" var="c">
-				<form method="post" action="${path}/carpool/oneSearch.do" id="form-onecar" onsubmit="return validate()">
-					<div id="div-pick" class="card border-success mb-3 div-pick" onclick="return oneck()">
+				<form method="post" action="${path}/carpool/oneSearch.do" class='form-onecar'>
+					<div id="div-pick" class="card border-success mb-3 div-pick" >
 					  <div class="card-body text-success click">
   					  <input type="hidden" value="${c.CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
 					  <input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
@@ -182,9 +199,6 @@
 					    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 					    		<span class="badge badge-success">도착</span><br>
 					    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
-					    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
-					    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
-					    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
 				    			<input type="hidden" name="startLat" id="startLat" value="${search.startLat }"/>
     							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
     							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
@@ -199,7 +213,7 @@
 					    		<div class="row">
 					    			<div class="col-12">
 					    				<span class="span-option">
-					    					<img class="driver-profile" src="${path }/resources/images/ilhoon2.jpg"/><br>
+					    					<img class="driver-profile" src="${path }/resources/upload/profile/${c.PROFILEIMAGERE}"/><br>
 					    					<span class="driver-name">${c.MEMBERNAME }</span>
 					    				</span>
 					    			</div>
@@ -248,85 +262,142 @@
 					</div>
 				</form>
 			</c:forEach>
-			<c:if test="${empty cList }">
+<%-- 			<c:if test="${fn:length(cList)==0 }">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 text-center">
 						<div>
 							<h2>검색결과가 없습니다.</h2>
 						</div>
 					</div>
 				</div>
-			</c:if>
+			</c:if> --%>
 		</div>
 	</div>
 </section>
 <script>
-//옵션바 고정
-$(function () { 
-	var wid=768;
-	var currentPosition = parseInt($("#option_flex").css("top"));
-	var win = $(window).innerWidth;
-	if(win<wid){
-		$(window).scroll(function () {
-			console.log(position + currentPosition + "px : "+win);
-		    var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-		    
-		    $("#option_flex").stop().animate({
-		        "top": position + currentPosition + "px"
-		    }, 400);
-		});
-	} 
+$(document).ready(function(){
+   $('#Progress_Loading').hide(); //첫 시작시 로딩바를 숨겨준다.
+})
+.ajaxStart(function(){
+	$('#Progress_Loading').show(); //ajax실행시 로딩바를 보여준다.
+})
+.ajaxStop(function(){
+	$('#Progress_Loading').hide(); //ajax종료시 로딩바를 숨겨준다.
 });
 
-function validate(){
-	return true;
-};
-function oneck(){
-	$('#form-onecar').submit();	
-}
-$(function () {
- 	$('.click').on("click",function(e){
-		var carpoolNum=$(this).find('#carpoolNum').val();
-		var seat=$(this).find('#seat').val();
-		var mem=$(this).find('#mem').val();
-		console.log(carpoolNum+" : "+seat+" : "+mem);
-		document.getElementById("carpoolNum").value=carpoolNum;
-		document.getElementById("seat").value=seat;
-		document.getElementById("mem").value=mem;
-	});
-
-}); 
-
- $(function(){ 
-	
- 	$('#btn-reset').on("click",function(){
- 		console.log($('#startLat').val());
- 		$.ajax({
-			url:"${path}/carpool/searchOption",
-			data:{"animal":$('#animal').is(":checked"),
-				"smoking":$('#smoking').is(":checked"),
-				"teenage":$('#teenage').is(":checked"),
-				"talking":$('#talking').is(":checked"),
-				"music":$('#music').is(":checked"),
-				"gender":$('#gender').val(),
-				"food":$('#food').is(":checked"),
-				"baggage":$('#baggage').is(":checked"),
-				"seatcount":$('#seatcount').val(),
-				"kmNumS":$('#kmNumS').val(),
-				"kmNumE":$('#kmNumE').val(),
-				"startLat":$('#startLat').val(),
-				"startLong":$('#startLong').val(),
-				"destLat":$('#destLat').val(),
-				"destLong":$('#destLong').val(),
-				"startDate":$('#startDate').val()
-			},
-			dataType:"html",
-			success:function(data){
-				$('#result-search').html(data);
+//무한스크롤
+ $(document).ready(function() {
+    // 스크롤 발생 이벤트 처리
+    $(document).on("scroll",document,function() {
+    	var frmLength = $('.div-pick').length;//반복문으로 생성된 div갯수
+    	var numPerPage=5;//한 페이지당 보여줄 갯수
+    	var cPage=Math.floor((frmLength)/numPerPage)*numPerPage;
+    	var scrollMax = $(document).height() - $(window).height() - $(window).scrollTop(); //
+    	
+    	console.log("frmLength: "+frmLength+" : "+cPage);
+    	
+	// 스크롤바가 맨 아래에 위치할 때   
+	if($(window).scrollTop() == $(document).height() - $(window).height()){
+		if (scrollMax<=0) {
+			if(frmLength%5==0&&frmLength>0){
+			    console.log("이벤트1: "+cPage);
+			    $.ajax({
+					url:"${path}/carpool/searchOption",
+					data:{"animal":$('#animal').is(":checked"),
+						"smoking":$('#smoking').is(":checked"),
+						"teenage":$('#teenage').is(":checked"),
+						"talking":$('#talking').is(":checked"),
+						"music":$('#music').is(":checked"),
+						"gender":$('#gender').val(),
+						"food":$('#food').is(":checked"),
+						"baggage":$('#baggage').is(":checked"),
+						"seatcount":$('#seatcount').val(),
+						"kmNumS":$('#kmNumS').val(),
+						"kmNumE":$('#kmNumE').val(),
+						"startLat":$('#startLat').val(),
+						"startLong":$('#startLong').val(),
+						"destLat":$('#destLat').val(),
+						"destLong":$('#destLong').val(),
+						"startDate":$('#startDate').val(),
+						"startCity":$('#startCity').val(),
+						"endCity":$('#endCity').val(),
+						"cPage":cPage
+					},
+					dataType:"html",
+					success:function(data){
+						$('#result-search').append(data);
+						console.log("success 이벤트2: "+cPage);
+					}
+				});  
 			}
-		});  
-	})
-	
+			else{
+				$('#result-search').html("<h2>검색결과가 없습니다.</h2>");
+			}
+	     }    
+	});
+ });
+//옵션바 고정
+$(function () {
+    var currentPosition = parseInt($("#option_flex").css("top"));
+    $(window).scroll(function () {
+        var width = $(window).width();
+        if (width >= 750) {
+            var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
+            
+            $("#option_flex").stop().animate({
+                "top": position + currentPosition + "px"
+            }, 500);
+        }
+    });
 });
+/* 카풀 한 개 선택 */
+$(document).on('click','.form-onecar',function(){
+	var carpoolNum=$(this).find('#carpoolNum').val();
+	var seat=$(this).find('#seat').val();
+	var mem=$(this).find('#mem').val();
+	console.log(carpoolNum+" : "+seat+" : "+mem);
+	document.getElementById("carpoolNum").value=carpoolNum;
+	document.getElementById("seat").value=seat;
+	document.getElementById("mem").value=mem;
+	$(this).submit();
+});
+/* 검색버튼 */
+$('#btn-reset').on("click",function(){
+	$.ajax({
+		url:"${path}/carpool/searchOption",
+		data:{"animal":$('#animal').is(":checked"),
+			"smoking":$('#smoking').is(":checked"),
+			"teenage":$('#teenage').is(":checked"),
+			"talking":$('#talking').is(":checked"),
+			"music":$('#music').is(":checked"),
+			"gender":$('#gender').val(),
+			"food":$('#food').is(":checked"),
+			"baggage":$('#baggage').is(":checked"),
+			"seatcount":$('#seatcount').val(),
+			"kmNumS":$('#kmNumS').val(),
+			"kmNumE":$('#kmNumE').val(),
+			"startLat":$('#startLat').val(),
+			"startLong":$('#startLong').val(),
+			"destLat":$('#destLat').val(),
+			"destLong":$('#destLong').val(),
+			"startDate":$('#startDate').val(),
+			"startCity":$('#startCity').val(),
+			"endCity":$('#endCity').val(),
+			"cPage":0
+		},
+		dataType:"html",
+		success:function(data){
+			$('#result-search').html(data);
+   				var offset = $('.container').offset();
+  		        $('html, body').animate({scrollTop : offset.top}, 400);
+		}
+	});  
+});
+/* 페이지 로딩과 동시에 검색버튼 클릭 */
+function fclick(){
+	$('#btn-reset').trigger("click");
+};
+fclick();
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

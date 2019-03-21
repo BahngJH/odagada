@@ -20,6 +20,13 @@ public class Interceptor extends HandlerInterceptorAdapter {
 		
 		Member m=(Member)request.getSession().getAttribute("logined");
 		
+		if(m== null) {
+			request.setAttribute("msg", "로그인 해주세요.");
+			request.setAttribute("loc", "/member/loginForm.do");
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+			return false;
+		}
+		
 		if(!(m.getIsEmailAuth().equals("Y")&&m.getIsPhoneAuth().equals("Y"))){
 			request.setAttribute("msg", "E-mail, phone 인증 후 이용하실 수 있습니다.");
 			request.setAttribute("loc", "/");

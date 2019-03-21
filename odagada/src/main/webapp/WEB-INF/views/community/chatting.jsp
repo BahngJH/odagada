@@ -69,7 +69,11 @@
         }
        	
         #selectUserInfo{
+<<<<<<< HEAD
             border-bottom: 1px solid #E6E6E6;
+=======
+            border-bottom: 1px solid #E7E7E7;
+>>>>>>> branch 'master' of https://github.com/BahngJH/odagada.git
         }
         #selectName{
         	font-size: 180%;

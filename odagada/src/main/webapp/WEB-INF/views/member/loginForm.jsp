@@ -13,6 +13,9 @@
     <!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
+	<!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <style>
 
@@ -109,10 +112,6 @@ margin-left: 4px;
 </style>
 
 
-
-
-
-
 <body>
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
@@ -159,18 +158,79 @@ margin-left: 4px;
 					<a href="${path}/member/findPw">비밀번호를 잊으셨나요? 비밀번호찾기</a>
 				</div>
 			</div>
+		<!-- 간편로그인 배너 -->	
+		<!-- <div id="naverIdLogin"></div>
+		<div id="kakaoLogin">  
+		    <a id="kakao-login-btn"></a>
+		    <a href="http://developers.kakao.com/logout"></a>
+		</div>  -->
+		
 		</div>
 	</div>
-	<div id="naverIdLogin">
-	</div>
+
+ 
+ 
+<script type='text/javascript'>
+	var kakaoName="";
+	var kakaoId="";
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('05f49b9ab4a2c1bc706682703a9c1bae');
+    // 카카오 로그인 버튼을 생성합니다.
+    Kakao.Auth.createLoginButton({
+      container: '#kakao-login-btn',
+      success: function(authObj) {
+          
+          //로그인 성공시, kakao API를 호출한다.(카카오에 있는 데이터 불러옴)
+          Kakao.API.request({
+              url: '/v2/user/me',
+              success: function(res){
+                  console.log(res);
+                  console.log(res.id);
+                  console.log(res.kakao_account);
+                  console.log(JSON.stringify(res.properties.nickname));
+                  
+                  kakaoId = res.id;
+                  kakaoName=JSON.stringify(res.properties.nickname);
+                  
+                  $.ajax({
+                	  url:"${path}/member/kakaoIdCK",
+                	  data:{"kakaoId":kakaoId,"kakaoName":kakaoName},
+                	  success:function(data){
+                		  console.log(data);
+                		  if(data.result=="N")
+                		  {
+                			 location.href='${path}/member/kakaoLogin.do?kakaoId='+kakaoId+'&kakaoName='+kakaoName;
+                		  		
+                		  }else
+                		  {
+                			 location.href='${path}/';
+                		  } 
+                		  
+                	  }
+                  });
+              
+              },
+              fail: function(error){
+                  alert(JSON.stringify(error));
+              }
+          });
+         
+      },
+      fail: function(err) {
+         alert(JSON.stringify(err));
+      }
+    });
+    
+</script>  
+	
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 	<script>
 		var naverLogin = new naver.LoginWithNaverId(
 				{
 					clientId: "vc3JlDx8OrM42I7Dhas4",
-					callbackUrl: "http://localhost:9090/odagada/member/moreinfo",
+					callbackUrl: "http://localhost:9090/odagada/member/naverSignup",
 					isPopup: false,
-					loginButton: {color: "green", type: 1, height: 60}
+					loginButton: {color: "green", type: 3, height: 60}
 					
 				});
 		naverLogin.init();

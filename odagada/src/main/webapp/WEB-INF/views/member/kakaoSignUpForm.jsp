@@ -16,6 +16,10 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
    <style>
+   #kakaoEnrollFrm {
+   	margin-top:50px;
+   }
+   
      div#enroll-container{width:350px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
     /*중복아이디체크관련*/
@@ -145,34 +149,20 @@
     }
     #checkGender label {
         padding-top: 10px;
-
-        width: 100px; height: 40px;
-        border: 1px solid #28a745;
-
-        /* width: 85px; height: 40px;
-        border: 1px solid gray; */
-
+        width: 85px; height: 40px;
+        border: 1px solid gray;
         border-radius: 10px 10px 10px 10px;
-        color : #28a745;
-        width: 80px;
     }
     #man:checked ~ label:nth-of-type(1) {
         color: white;
-        background: #28a745;
-        border-color: #28a745;
+        background: green;
+        border-color: green;
     }
     #woman:checked ~ label:nth-of-type(2) {
         color: white;
-        background: #28a745;
-        border-color: #28a745;
-    }
-    
-    #email2{
-    	width: 112px;
-    }
-    #phone2{
-    	width: 200px;
-    }
+        background: green;
+        border-color: green;
+    } 
     </style>
     
      
@@ -261,7 +251,8 @@ $(function(){
    });
    
    //생년월일
-     $("#birth" ).datepicker({changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
+     $("#birth" ).datepicker({
+       changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
      });
               
    //이메일(아이디부분)    
@@ -281,39 +272,13 @@ $(function(){
    });   
  });
  
- function validate() {
-  	 //ID 4자리~12자리 소문자, 숫자 가능 확인하기 
-      var idReg =/^[A-Za-z0-9]{4,12}$/;
-      if (!idReg.test($("input[name=memberId]").val())) {
-         alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
-         return false;
-      	}   
-     
-      //이름 유효성 검사
-      //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-      var name=$('#memberName').val().trim();
-       if(name.length>7){
-          alert("정확한 이름을 입력해주세요.");
-          return false;
-    	  }
+ function validate() {   
      	//이메일 도메인 정규식 받기    
         var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
         if(!mC.test($("input[name=email2]").val())){
           alert("정확한 이메일 형식을 입력해주세요.");
           return false;
-       }  
-        //비밀번호 체크 
-        var pw1=$("#password_").val().trim();
-        var pw2=$("#password2").val().trim();
-        if(pw1!=pw2){
-           alert("정확한 비밀번호 입력하세요.");
-          return false;       
-       } 
-        //ID 중복확인 체크
-        if($('#checkStatus').val()==0){
-           alert('ID 중복확인해주세요.');
-           return false;
-         }         
+       }          
         //E-mail 중복확인 체크
         if($('#emailStatus').val()==0){
         alert('e-mail 중복확인 해주세요.')
@@ -325,14 +290,12 @@ $(function(){
               alert("핸드폰 중복확인해주세요.");
               return false;
            }
-        
         //생년월일 받기
         var birth=$('#birth').val().trim();
         if(birth==''){
         	alert('생일을 입력해주세요.')
         	return false;
         }
-        
         
   
    }
@@ -421,52 +384,21 @@ $(function(){
 </script>
       
       <div id="enroll-container">
-         <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
-            <input type="text" class="form-control" placeholder="아이디 (4~12자리 영소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
-            <span class="guide ok">ID 사용 가능 </span>
-            <span class="guide error">ID 중복 사용 불가 </span>
-            <input type="hidden" name="checkId" value="0"/>
-            <input type="hidden" id="checkStatus" value="0"/>
-            <div class="row">
-               <div class="col-5 dL">
-                  <div>
-                     <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                
-                  </div>                       
-               </div>
-               <div class="col-7 dR">
-                  <div>
-                     <input type="password" class="form-control" placeholder="비밀번호확인" id="password2" maxlength="15" required>
-                     <span class="ck ckOk">비밀번호 일치</span>
-                     <span class="ck ckNo">비밀번호 불일치</span>                      
-                  </div>                       
-               </div>           
-            </div>
-            <div class="row passwordInfo">    	
-           		<div class="ptext col-5">
-           			<p class="badge badge-secondary p_pass">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
-       			</div>  
-       			<div class="col-7 p-div">      	
-          				<p>숫자/영문자/특수문자 조합 6~15자</p>
-          		</div> 		
-            </div>
+      	<h3>필수항목 받기</h3>
+         <form id="kakaoEnrollFrm" name="memberEnrollFrm" action="${path }/member/kakaoSignUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+            <input type="hidden" name="kakaoId" value="${kakaoId}">
+            <input type="hidden" name="kakaoName" value="${kakaoName}">
              <div class="row">                     
                   <div class="upFile-div custom-file col-12">
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-                      <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
+                      <label class="custom-file-label profile" for="upFile">내 사진 등록</label>                      
+                  </div>
+ 				  <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
+                  
+                  <div class="col-6">
                   </div>                      
              </div>           
-            <div class="row">
-               <div class="col-6 name-div">
-                  <div>
-                     <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
-                  </div>                       
-               </div>
-               <div class="col-6 dR">
-                  <div>
-                     <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
-                  </div>                       
-               </div>           
-            </div>    
+              
             <div class="row row-email">
                <div class="col-6 div-email">
                   <div class="input-group div-email">
@@ -509,7 +441,7 @@ $(function(){
              	   </div>
                </div>  -->
                 <div id="checkGender">
-	                <input type="radio" name="gender" value="M" id="man" checked>&nbsp;&nbsp;
+	                <input type="radio" name="gender" value="M" id="man" checked>
 	                <input type="radio" name="gender" value="F" id="woman">
 	                <label for="man">남자</label>
 	                <label for="woman">여자</label>

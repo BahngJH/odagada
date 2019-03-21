@@ -1,22 +1,17 @@
-  
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
    <style>
-     div#enroll-container{width:350px; margin:0 auto; text-align:center;}
+     div#enroll-container{width:350px; margin:0 auto; text-align:center; display: none;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
     /*중복아이디체크관련*/
     div#enroll-container{position:relative; padding:0px;}
@@ -134,45 +129,11 @@
   	.passwordInfo{
   	height:40px;
   	}
-  	.eck{padding-right:0; padding-left:0; font-size:15px; width:75px;}
+  	.eck{padding-right:0; padding-left:0; font-size:15px;}
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
   	.name-div{padding-right:3px;}
-  	
-   input[type='radio'] {
-            display: none;
-    }
-    #checkGender label {
-        padding-top: 10px;
-
-        width: 100px; height: 40px;
-        border: 1px solid #28a745;
-
-        /* width: 85px; height: 40px;
-        border: 1px solid gray; */
-
-        border-radius: 10px 10px 10px 10px;
-        color : #28a745;
-        width: 80px;
-    }
-    #man:checked ~ label:nth-of-type(1) {
-        color: white;
-        background: #28a745;
-        border-color: #28a745;
-    }
-    #woman:checked ~ label:nth-of-type(2) {
-        color: white;
-        background: #28a745;
-        border-color: #28a745;
-    }
-    
-    #email2{
-    	width: 112px;
-    }
-    #phone2{
-    	width: 200px;
-    }
     </style>
     
      
@@ -185,73 +146,7 @@
       $(this).next('.custom-file-label').html(filename);
    });
    
-    //ID 중복확인
-   $("#memberId_").keyup(function(){
-      var memberId=$("#memberId_").val().trim();
-      if(memberId.length<4)
-      {
-         $(".guide").hide();
-         return;
-      } 
-       $.ajax({
-         url:"${path}/member/checkId.do",
-         data:{"memberId":memberId},
-         success:function(data){         
-                                                  
-             if(data.isId==true)
-             {
-                $(".guide.ok").hide();
-                $(".guide.error").show();
-                document.getElementById('checkStatus').value='0';
-             }
-             else{
-                $(".guide.ok").show();
-                $(".guide.error").hide();
-                document.getElementById('checkStatus').value='1';
-             }
-         }
-      }); 
-   }); 
- }); 
- 
-    //비밀번호 유효성 검사
-   function passwordCheck(password){
-      var pw=$(password).val();
-      var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
-        if(!ckPw.test(pw)){        
-           alert('숫자,영문자,특수문자 조합으로 6~15자');
-           $('#password_').val('').focus();
-           return false;
-       }                  
-       return true;
-   }
-$(function(){
-    //비밀번호 일치 확인
-         $('#password2').keyup(function(){
-            var pw1=$("#password_").val().trim();
-            var pw2=$("#password2").val().trim();
-            if(pw2.length<1){
-               $(".ck").hide();
-               return;
-            }
-            if(pw1==pw2){
-               $(".ck.ckOk").show();
-               $(".ck.ckNo").hide();
-            }else{
-               $(".ck.ckOk").hide();
-               $(".ck.ckNo").show(); 
-            }
-         });
-    
-   //아이디  숫자,영소문자만 입력 가능하게 하는 함수      
-   $("#memberId_").keydown(function(event) {
-      if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-         var inputVal = $(this).val().trim();
-         $(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
-      }
-   });
-   
-      
+
    //이름 한글만 입력받게 하는 함수       
    $("#memberName").keyup(function(event) {
          if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
@@ -261,7 +156,8 @@ $(function(){
    });
    
    //생년월일
-     $("#birth" ).datepicker({changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
+     $("#birth" ).datepicker({
+       changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+200d"   
      });
               
    //이메일(아이디부분)    
@@ -282,13 +178,7 @@ $(function(){
  });
  
  function validate() {
-  	 //ID 4자리~12자리 소문자, 숫자 가능 확인하기 
-      var idReg =/^[A-Za-z0-9]{4,12}$/;
-      if (!idReg.test($("input[name=memberId]").val())) {
-         alert("아이디는 영문자 또는 숫자  4~12자리로 입력해주세요.");
-         return false;
-      	}   
-     
+  	      
       //이름 유효성 검사
       //var nameCk=/^[가-힣]{2,6}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
       var name=$('#memberName').val().trim();
@@ -302,18 +192,7 @@ $(function(){
           alert("정확한 이메일 형식을 입력해주세요.");
           return false;
        }  
-        //비밀번호 체크 
-        var pw1=$("#password_").val().trim();
-        var pw2=$("#password2").val().trim();
-        if(pw1!=pw2){
-           alert("정확한 비밀번호 입력하세요.");
-          return false;       
-       } 
-        //ID 중복확인 체크
-        if($('#checkStatus').val()==0){
-           alert('ID 중복확인해주세요.');
-           return false;
-         }         
+       
         //E-mail 중복확인 체크
         if($('#emailStatus').val()==0){
         alert('e-mail 중복확인 해주세요.')
@@ -332,7 +211,6 @@ $(function(){
         	alert('생일을 입력해주세요.')
         	return false;
         }
-        
         
   
    }
@@ -419,10 +297,54 @@ $(function(){
       
       
 </script>
-      
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+<script>
+	
+	$(function(){
+		
+	var naverLogin = new naver.LoginWithNaverId({
+				clientId: "vc3JlDx8OrM42I7Dhas4",
+				callbackUrl: "http://localhost:9090/odagada/member/naverSignup",
+				
+			});
+
+	naverLogin.init();
+	
+	
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			var loginStatus = naverLogin.loginStatus;
+			$("#enroll-container").hide();
+			$.ajax({
+				url:"${path}/member/checkNaver",
+				type:"post",
+				data:{
+					"id":"naver_"+loginStatus.naverUser.id,
+					"pw":loginStatus.accessToken.accessToken,
+				},
+				success:function(result){
+					if(result === 'true'){
+						location.href="${path}/";
+					}else{
+						$("#password_").val(loginStatus.accessToken.accessToken);
+						$("#memberId_").val("naver_"+loginStatus.naverUser.id);
+						$("#enroll-container").show();
+					}
+				}
+			});
+			
+			
+		} else {
+			console.log("callback 처리에 실패하였습니다.");
+		}
+	});
+	});
+
+</script>
       <div id="enroll-container">
+         <h3>추가 정보 입력</h3>
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
-            <input type="text" class="form-control" placeholder="아이디 (4~12자리 영소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
+            <input type="text" class="form-control" name="memberId" id="memberId_" maxlength="12" required hidden>
             <span class="guide ok">ID 사용 가능 </span>
             <span class="guide error">ID 중복 사용 불가 </span>
             <input type="hidden" name="checkId" value="0"/>
@@ -430,24 +352,9 @@ $(function(){
             <div class="row">
                <div class="col-5 dL">
                   <div>
-                     <input type="password" class="form-control" placeholder="비밀번호" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required>                
+                     <input type="password" class="form-control" name="memberPw" id="password_" onchange="passwordCheck(this)" maxlength="15" required hidden>                
                   </div>                       
-               </div>
-               <div class="col-7 dR">
-                  <div>
-                     <input type="password" class="form-control" placeholder="비밀번호확인" id="password2" maxlength="15" required>
-                     <span class="ck ckOk">비밀번호 일치</span>
-                     <span class="ck ckNo">비밀번호 불일치</span>                      
-                  </div>                       
-               </div>           
-            </div>
-            <div class="row passwordInfo">    	
-           		<div class="ptext col-5">
-           			<p class="badge badge-secondary p_pass">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
-       			</div>  
-       			<div class="col-7 p-div">      	
-          				<p>숫자/영문자/특수문자 조합 6~15자</p>
-          		</div> 		
+               </div>       
             </div>
              <div class="row">                     
                   <div class="upFile-div custom-file col-12">
@@ -479,7 +386,7 @@ $(function(){
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
-               		<button type="button" class="eck btn btn-success" onclick="checkEmail();">중복확인</button>
+               		<input type="button" class="eck btn btn-secondary" onclick="checkEmail();" value="중복확인">
                </div>
           </div>
           <div class="row row-email">
@@ -498,22 +405,16 @@ $(function(){
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
              <div class="col-2 phone-btn">
-             	<button type="button" class="eck btn btn-success" onclick="checkPhone();">중복확인</button>
+             	<input type="button" class="eck btn btn-secondary" onclick="checkPhone();" value="중복확인">	
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              
-               <!--  <div class="row genderRow">         
+               <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">성별 : &nbsp; 
 	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
 	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
              	   </div>
-               </div>  -->
-                <div id="checkGender">
-	                <input type="radio" name="gender" value="M" id="man" checked>&nbsp;&nbsp;
-	                <input type="radio" name="gender" value="F" id="woman">
-	                <label for="man">남자</label>
-	                <label for="woman">여자</label>
-            	</div>                
+               </div>                 
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
@@ -522,7 +423,5 @@ $(function(){
             </form>
          </div>
          
-      
 
-      
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

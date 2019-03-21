@@ -59,6 +59,67 @@ import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
 
+
+
+
+import static com.spring.odagada.common.PageFactory.getPageBar;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.common.exception.BoardException;
+import com.spring.odagada.community.model.service.CommunityService;
+import com.spring.odagada.driver.model.service.DriverService;
+import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.driver.model.vo.Driver;
+import com.spring.odagada.member.model.service.MemberService;
+import com.spring.odagada.member.model.vo.Member;
+
+
 @SessionAttributes(value= {"logined", "driver"})
 @Controller
 public class MemberController {
@@ -81,7 +142,96 @@ public class MemberController {
 	@Autowired
 	CommunityService comService;
 	
+	
+	@RequestMapping("/member/kakaoIdCK")
+	public ModelAndView kakaoIdCK(String kakaoId, String kakaoName, ModelAndView mv) 
+	{
+		Member m = new Member();
+		
+		m.setMemberId("kakao_"+kakaoId);
+		logger.debug("카카오 아이디 디비 가기전"+m);
+		m = service.kakaoIdCK(m);
+		logger.debug("카카오 아이디 디비 다녀온 후"+m);
+		
+		if(m==null) 
+		{
+			mv.addObject("result", "N");
+		}else{
+			mv.addObject("logined", m);
+			mv.addObject("result", "Y");
+		}
+		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	@RequestMapping("/member/kakaoSignUpEnd.do")
+	public String kakaoSignUpEnd(String kakaoId, String kakaoName,Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception 
+	{
+		System.out.println(kakaoId+" "+kakaoName+" "+m);
+		m.setMemberId("kakao_"+kakaoId);
+		m.setMemberName(kakaoName);
+		m.setMemberPw(" ");
+		//암호화 전 패스워드
+		String oriPw=m.getMemberPw();
+		logger.debug("암호화 전:"+oriPw);
+		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
+		m.setMemberPw(pwEncoder.encode(oriPw));		
+		//메일주소
+		String email1=request.getParameter("email1");
+		String email2=request.getParameter("email2");
+		String email=email1+"@"+email2;	
+		m.setEmail(email);			
+		//전화번호
+		String phone1=request.getParameter("phone1");
+		String phone2=request.getParameter("phone2");
+		String phone=phone1+phone2;
+		m.setPhone(phone);		
+		//프로필 사진 저장되는 장소
+		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
 
+		ModelAndView mv = new ModelAndView();
+		
+		if(!upFile.isEmpty()) {
+			//파일명 생성(ReName)
+			String oriFileName=upFile.getOriginalFilename();
+			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
+			
+			//rename 규칙
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv=(int)(Math.random()*1000);
+			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+			
+			//profile 사진 저장
+			try {
+				upFile.transferTo(new File(sd+"/"+reName));
+			}catch(IllegalStateException | IOException e){
+				e.printStackTrace();
+			}		
+			m.setProfileImageOri(oriFileName);
+			m.setProfileImageRe(reName);
+		}
+		
+		logger.debug("kakao 회원가입 : "+m);
+		service.insertMember(m);
+		
+		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
+		String loc="/";
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";	
+	}
+	
+	@RequestMapping("/member/kakaoLogin.do")
+	public ModelAndView kakaoLogin(String kakaoId, String kakaoName, ModelAndView mv) 
+	{
+		System.out.println(kakaoId+" "+kakaoName);
+		String[] kakaoName2 = kakaoName.split("\"");
+		mv.addObject("kakaoId", kakaoId);
+		mv.addObject("kakaoName", kakaoName2[1]);
+		mv.setViewName("/member/kakaoSignUpForm");
+		return mv;
+	}
+	
 	//email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
@@ -223,6 +373,7 @@ public class MemberController {
 	   ModelAndView mv=new ModelAndView();
 	   
 	   Member m=service.selectMember(memberId);   
+	   
 	         
 		if (m == null) {
 			mv.addObject("msg", "등록된 정보가 없습니다.");
@@ -235,6 +386,7 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
+					
 					logger.debug("로그인 드라이버"+driver);
 					mv.addObject("driver",driver);
 					mv.addObject("logined", m);
@@ -775,5 +927,27 @@ public class MemberController {
 	   }
    }
    
-}
 
+  
+   @RequestMapping("/member/naverSignup")
+   public ModelAndView naverLogin(ModelAndView mav) {
+	   mav.setViewName("member/naverSignup");
+	   return mav;
+   }
+   
+   @ResponseBody
+   @RequestMapping("/member/checkNaver")
+   public String checkNaver(HttpSession session, String id, String pw) {
+	   
+	   Member m=service.selectMember(id);   
+	         
+		if (m == null) {
+			return "false";
+		} else {
+			session.setAttribute("logined", m);
+			return "true";
+		}
+   }
+   
+   
+}
