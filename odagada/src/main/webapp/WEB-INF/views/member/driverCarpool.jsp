@@ -118,49 +118,16 @@ background-color:rgb(100,100,100);
 </style>
 <section class="container">
    <div class="row">
-       <div class="col-sm-12 col-md-3 mem-div">
-          <div class="col-12">
-             <img alt="logo" src="${path }/resources/images/mypage/logo2.png" class="img-fluid logo-img">
-          </div>
-          <div class="offset-1  col-10 my-div">
-             <p class="text-center my-p">ALL MY PAGE</p>
-          </div>
-          <div class="col-12 text-center subMy-div">
-             <span>
-                <img src="${path }/resources/images/mypage/my1.png" class="my-img">
-                <span>
-                   <a href="#" class="subMy-a">내 정보 관리</a>
-                </span>
-             </span>
-          </div>
-          <div class="col-12 text-center subMy-div">
-             <span>
-                <img src="${path }/resources/images/mypage/my5.png" class="my-img">
-                <span>
-                   <a href="${path }/member/myCarpool" class="subMy-a">내 카풀 내역</a>
-                </span>
-             </span>
-          </div>
-          <div class="col-12 text-center subMy-div">
-             <span>
-                <img src="${path }/resources/images/mypage/my3.png" class="my-img">
-                <span>
-                   <a href="#" class="subMy-a">드라이버 정보 관리</a>
-                </span>
-             </span>
-          </div>
-          <div class="col-12 text-center subMy-div  active-s">
-             <span>
-                <img src="${path }/resources/images/mypage/my4.png" class="my-img ">
-                <span>
-                   <a href="${path }/driver/driverCarpool" class="subMy-a">&nbsp;&nbsp;드라이버 카풀 등록 내역&nbsp;&nbsp;</a>
-                </span>
-             </span>
-          </div>
-      </div> 
-      
+   <div class="col-12 col-md-3">
+         <div class="menu_list info list-group">
+			<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
+            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+            <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+            <a href="#" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
+         </div>
+      </div>
       <!-- 리스트 -->
-      <div class="col-12 offset-md-1 col-md-7">
+      <div class="col-12 col-md-9">
          <div class="row">
             <c:forEach items="${dcarList }" var="dc">
                <c:if test='${dc.STATUS eq "N" }'>
