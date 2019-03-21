@@ -13,13 +13,9 @@
     <!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-<<<<<<< HEAD
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-=======
-
->>>>>>> branch 'master' of https://github.com/BahngJH/odagada
 <style>
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
