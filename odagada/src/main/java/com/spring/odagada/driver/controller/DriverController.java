@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,7 @@ import com.spring.odagada.driver.model.vo.Driver;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
+@SessionAttributes(value= {"logined", "driver"})
 @Controller
 public class DriverController {
 	private Logger logger = LoggerFactory.getLogger(DriverController.class);
@@ -44,11 +46,11 @@ public class DriverController {
 		
 		Member m = (Member) session.getAttribute("logined");
 		ModelAndView mv = new ModelAndView();		
+		int memberNum = m.getMemberNum();
 		
-		
-		if(m!=null)
+		if(m!=null && m.getMemberNum()!=0)
 		{
-			int memberNum = m.getMemberNum();		
+					
 			Driver driver = service.selectOne(memberNum);	
 			
 			if(driver!=null)
@@ -151,6 +153,8 @@ public class DriverController {
 		if(imgOrder>0 && imgOrder<=4)
 		{
 			int result = service.enrollDriver(driver,files);
+			Map<String,String> d = service.selectDriverOne(memberNum);
+			mv.addObject("driver",d);
 			mv.setViewName("redirect:/");
 			return mv;
 		}
