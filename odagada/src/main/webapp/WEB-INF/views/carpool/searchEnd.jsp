@@ -78,6 +78,13 @@
 	 top: 50%;
 	 background: #ffffff;
 	}
+	div#option_flex{
+		z-index:1;
+		background-color:white;
+	}
+	div#option_flex>div.card-body{
+		padding-bottom:5px;
+	}
 </style>
 <section class="container" >
 <c:set value='0' var="listSize"/>
@@ -262,15 +269,15 @@
 					</div>
 				</form>
 			</c:forEach>
-<%-- 			<c:if test="${fn:length(cList)==0 }">
+			<c:if test="${fn:length(cList)==0 }">
 				<div class="row">
 					<div class="col-12 text-center">
 						<div>
-							<h2>검색결과가 없습니다.</h2>
+							<h2>검색결과가 없습니다.123</h2>
 						</div>
 					</div>
 				</div>
-			</c:if> --%>
+			</c:if>
 		</div>
 	</div>
 </section>
@@ -284,7 +291,6 @@ $(document).ready(function(){
 .ajaxStop(function(){
 	$('#Progress_Loading').hide(); //ajax종료시 로딩바를 숨겨준다.
 });
-
 //무한스크롤
  $(document).ready(function() {
     // 스크롤 발생 이벤트 처리
@@ -292,50 +298,44 @@ $(document).ready(function(){
     	var frmLength = $('.div-pick').length;//반복문으로 생성된 div갯수
     	var numPerPage=5;//한 페이지당 보여줄 갯수
     	var cPage=Math.floor((frmLength)/numPerPage)*numPerPage;
-    	var scrollMax = $(document).height() - $(window).height() - $(window).scrollTop(); //
-    	
+    	var scrollMax = $(document).height() - $(window).height() - $(window).scrollTop();	
     	console.log("frmLength: "+frmLength+" : "+cPage);
-    	
-	// 스크롤바가 맨 아래에 위치할 때   
-	if($(window).scrollTop() == $(document).height() - $(window).height()){
-		if (scrollMax<=0) {
-			if(frmLength%5==0&&frmLength>0){
-			    console.log("이벤트1: "+cPage);
-			    $.ajax({
-					url:"${path}/carpool/searchOption",
-					data:{"animal":$('#animal').is(":checked"),
-						"smoking":$('#smoking').is(":checked"),
-						"teenage":$('#teenage').is(":checked"),
-						"talking":$('#talking').is(":checked"),
-						"music":$('#music').is(":checked"),
-						"gender":$('#gender').val(),
-						"food":$('#food').is(":checked"),
-						"baggage":$('#baggage').is(":checked"),
-						"seatcount":$('#seatcount').val(),
-						"kmNumS":$('#kmNumS').val(),
-						"kmNumE":$('#kmNumE').val(),
-						"startLat":$('#startLat').val(),
-						"startLong":$('#startLong').val(),
-						"destLat":$('#destLat').val(),
-						"destLong":$('#destLong').val(),
-						"startDate":$('#startDate').val(),
-						"startCity":$('#startCity').val(),
-						"endCity":$('#endCity').val(),
-						"cPage":cPage
-					},
-					dataType:"html",
-					success:function(data){
-						$('#result-search').append(data);
-						console.log("success 이벤트2: "+cPage);
-					}
-				});  
-			}
-			else{
-				$('#result-search').html("<h2>검색결과가 없습니다.</h2>");
-			}
-	     }    
-	  });
-	});
+    	console.log(scrollMax);
+		// 스크롤바가 맨 아래에 위치할 때   
+			if (scrollMax<=0.7) {
+				if(frmLength%5==0&&frmLength>0){
+				    console.log("이벤트1: "+cPage);
+				    $.ajax({
+						url:"${path}/carpool/searchOption",
+						data:{"animal":$('#animal').is(":checked"),
+							"smoking":$('#smoking').is(":checked"),
+							"teenage":$('#teenage').is(":checked"),
+							"talking":$('#talking').is(":checked"),
+							"music":$('#music').is(":checked"),
+							"gender":$('#gender').val(),
+							"food":$('#food').is(":checked"),
+							"baggage":$('#baggage').is(":checked"),
+							"seatcount":$('#seatcount').val(),
+							"kmNumS":$('#kmNumS').val(),
+							"kmNumE":$('#kmNumE').val(),
+							"startLat":$('#startLat').val(),
+							"startLong":$('#startLong').val(),
+							"destLat":$('#destLat').val(),
+							"destLong":$('#destLong').val(),
+							"startDate":$('#startDate').val(),
+							"startCity":$('#startCity').val(),
+							"endCity":$('#endCity').val(),
+							"cPage":cPage
+						},
+						dataType:"html",
+						success:function(data){
+							$('#result-search').append(data);
+							console.log("success 이벤트2: "+cPage);
+						}
+					});  
+				}
+		     } 
+		});
  });
 //옵션바 고정
 $(function () {
@@ -388,9 +388,13 @@ $('#btn-reset').on("click",function(){
 		},
 		dataType:"html",
 		success:function(data){
+			$("div#result-search").empty();
 			$('#result-search').html(data);
-   				var offset = $('.container').offset();
-  		        $('html, body').animate({scrollTop : offset.top}, 400);
+		 	var offset = $('#communityDiv').offset();
+		 	$(window).scrollTop("0");
+		 	if($("#result-search").children()[0].id =="cPage"){
+				$('#result-search').append("<h3>검색 결과가 없습니다.</h3>");
+			};
 		}
 	});  
 });
