@@ -220,7 +220,6 @@ public class DriverController {
 		logger.debug("넘버= "+memberNum);
 		logger.debug("드라이버수락여부 = "+driverStatus);
 		logger.debug("면허 확인"+licenseNum);
-//		logger.debug("멤버 = "+driver);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 			map.put("memberNum", memberNum);
@@ -231,17 +230,24 @@ public class DriverController {
 			map.put("driverStatus", driverStatus);
 			int result = service.updateStatus(map);
 		}
-		
 		return "redirect: driverList";
-		
 	}
 	
 	@RequestMapping("driver/driverRefuse")
 	public String deleteDriver(@RequestParam(value="memberNum") int memberNum)
 	{
+		
 		int result = service.deleteDriver(memberNum);
 		
 		return "redirect: driverList";
+	}
+	
+	@RequestMapping("/driver/driverWithdrawal")
+	public String driverWithdrawal(@RequestParam(value="memberNum") int memberNum)
+	{
+		int result = service.deleteDriver(memberNum);
+		
+		return "redirect:";
 	}
 	
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
