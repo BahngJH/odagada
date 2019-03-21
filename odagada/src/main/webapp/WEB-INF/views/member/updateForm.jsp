@@ -12,12 +12,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 
 
   <style>
-     div#enroll-container{width:850px; margin:0 auto; text-align:center;}
+     div#enroll-container{max-width:500px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
   
     /*비밀번호 체크 */
@@ -31,75 +30,71 @@
     .profileDiv{padding-right:0; width:100px;}
     .pPassword{font-size:13px; margin-top:1px;}
   	.passwordInfo{height:40px; align:left;}
-  	.oriEmail,.oriPhone,.oriName {font-size:20px; text-align:left;} 	
+  	.oriEmail,.oriPhone,.oriName {font-size:17px; text-align:left; padding-left:15%;} 	
   	.alert{padding:0; }
   	.cg {font-size:13px;}
   	.btns{padding-top:3px; padding-right:0; padding-left:0;}
-  	#chgMailInfoP{margin-top:10px; margin-bottom:15px;}
-    .chgBtnDiv{padding-right:15px;}
+  	#chgMailInfoP{margin-top:10px; margin-bottom:0;}
+  	#chgPhoneInfoP{margin-bottom:10px;}
+    .chgBtnDiv{padding-right:0px;} 
     #chgEmailBtn{width:117px;}
-    #sentEmailDiv, #sentTxtDiv, #sentPhoneDiv{margin-bottom:20px;}  
+    #sentEmailDiv, #sentTxtDiv, #sentPhoneDiv{margin-bottom:0; margin-top:20px;}  
     ul{list-style:none;} 
-    a{color:green;}
-    </style>
-    
+    p{margin-bottom:0;}
+    #chgName-btn{width:115px;} 
+    #upFile{height:3px;}
+    #nameInfo-div{padding-top:4px;}
+    </style>  
      
 <script>
+//프로필 사진을 이미지 타입 파일로만 받기
+function fileCheck(obj) {
+	var fileKind = obj.value.lastIndexOf('.');
+	var fileName = obj.value.substring(fileKind + 1, obj.length);
+	var fileType = fileName.toLowerCase();
 
- $(function(){
-	 //파일 업로드 함수
-   $('[name=upFile]').on('change',function(){
-        var filename=this.files[0].name;
+	var ckFileType = new Array();
+	ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
+
+	if (ckFileType.indexOf(fileType) == -1) {
+		alert("이미지 파일만 선택할 수 있습니다.");
+		var parentObj = obj.parentNode;
+		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+		return;
+	}
+	else{
+		var filenames=obj.files[0].name;
    		var fileReader = new FileReader();
  	
- 		fileReader.readAsDataURL(this.files[0]);
+ 		fileReader.readAsDataURL(obj.files[0]);
  		fileReader.onload = function(e){
 	 		var result = e.target.result;	
 	 		$('#pro_img').attr('src',result); 		
  		};
+      console.log(filenames);
+	}
+	console.log($('#upFile').val());
+}
 
-      $(this).next('.custom-file-label').html(filename);
-      console.log(filename);
-   });  
-  
-   //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
+  //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
+ $(function(){  
 	$('#pro_img').on('click', function() {
 			$('#upFile').trigger('click');			
 		})	 
 });
  
- 
- 
-//프로필 사진을 이미지 타입 파일로만 받기
-	function fileCheck(obj) {
-		var fileKind = obj.value.lastIndexOf('.');
-		var fileName = obj.value.substring(fileKind + 1, obj.length);
-		var fileType = fileName.toLowerCase();
-
-		var ckFileType = new Array();
-		ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
-
-		if (ckFileType.indexOf(fileType) == -1) {
-			alert("이미지 파일만 선택할 수 있습니다.");
-			var parentObj = obj.parentNode;
-			var node = parentObj.replaceChild(obj.cloneNode(true), obj);
-			return false;
-		}
-	}
- 
- 
- 
- 
-
  //비밀번호 유효성 검사
  function passwordCheck(password){
-    var pw=$(password).val();
+    var pw=$(password).val().trim();
     var ckPw =/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,15}$/;
       if(!ckPw.test(pw)){        
          alert('숫자,영문자,특수문자 조합으로 6~15자');
          $('#password1').val('').focus();
          return false;
-     }                  
+     }  
+      if(pw==null){
+    	  return false;
+      }
      return true;
  }
 
@@ -184,9 +179,6 @@
 		})
 
 	});
-
-
-	
 	
 //이메일 변경
 	function sendEmail(){		    
@@ -310,31 +302,31 @@ function changeName(){
 		}
 	});
 }		
-	 
-	
+	 	
 </script>
       <div id="enroll-container" class="container">
-         <form name="memberEnrollFrm" id="memberEnrollFrm" action="${path }/member/updateInfoEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">                	                     
 			<div class="card" >
 					  <ul class="list-group list-group-flush">
 						 <li>
-							 <div class="custom-file" > 
-								 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-								 <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" value="" onchange="fileCheck(this)" required>
-						  	 </div> 
+       						 <form action="${path }/member/updateProfile.do" method="post" enctype="multipart/form-data">                	                     
+								 <div class="custom-file" > 
+									 <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
+									 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+							  		 <input type="submit" class="btn btn-success btn-sm btn-block" id="img-btn" value="사진 저장">
+							  	 </div> 
+				  			 </form>
 					  	 </li>
 					    <li class="list-group-item">
-					    	<button type="button" class="btn btn-secondary btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
-					    </li>
-					    
-					    <!--이름 변경  -->
+					    	<button type="button" class="btn  btn-outline-success btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
+					    </li>					   
+					    <!--이름 변경  -->	
 					     <li class="list-group-item">
 						     <div class="row" id="oriName-div">    	
-					    		<div class="ptext col-6">
+					    		<div class="ptext col-6" id="nameInfo-div">
 					    			<p class="oriName font-weight-bold"><%=m.getMemberName() %></p>
 								</div>  
 								<div class="col-6 chgBtnDiv">
-									<button type="button" id="chgName-btn" class="cg btn btn-secondary btn-sm">이름 변경</button>      	
+									<button type="button" id="chgName-btn" class="cg btn   btn-outline-success btn-sm">이름 변경 </button>      	
 					   			</div> 		
 					   		 </div>			   		 			   		    		 
 				     		 <!--이름 변경 버튼 클릭시  -->
@@ -350,16 +342,16 @@ function changeName(){
 					    </li>  			        
 					    <li class="list-group-item">
 							<!--기존 Email 정보  -->
-						     <div class="row passwordInfo" id="oriEmailDiv">    	
+						     <div class="row" id="oriEmailDiv">    	
 					    		<div class="ptext col-6">
 					    			<p class="oriEmail font-weight-bold"><%=m.getEmail() %></p>
 								</div>  
 								<div class="col-6 chgBtnDiv">
-									<button type="button" id="chgEmailBtn" class="cg btn btn-secondary btn-sm">이메일변경</button>      	
+									<button type="button" id="chgEmailBtn" class="cg btn btn-outline-success btn-sm">이메일변경</button>      	
 					   			</div> 		
 					   		 </div>
 					   		 <!--Email 변경 버튼 클릭시  -->
-					   		 <div class="row passwordInfo" id="chgEmailInfo">    	
+					   		 <div class="row" id="chgEmailInfo">    	
 					    		<div class="ptext col-7">
 								  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
 								</div>  
@@ -380,12 +372,12 @@ function changeName(){
 					    </li>
 					    <li class="list-group-item">
 					    	   <!--기존 Phone 정보  -->
-		           			<div class="row passwordInfo" id="oriPhoneDiv">    	
+		           			<div class="row" id="oriPhoneDiv">    	
 				           		<div class="ptext col-6">
 				           			<p class="oriPhone font-weight-bold"><%=m.getPhone() %></p>
 				       			</div>  
-				       			<div class="col-6">
-				       				<button type="button" id="chgPhoneBtn" class="cg btn btn-secondary btn-sm">핸드폰 번호 변경</button>      	
+				       			<div class="col-6 chgBtnDiv">
+				       				<button type="button" id="chgPhoneBtn" class="cg btn  btn-outline-success btn-sm">핸드폰 번호 변경</button>      	
 				          		</div> 		
 		           			 </div>
 		           		 <!--핸드폰번호 변경 버튼 클릭시  -->
@@ -419,7 +411,7 @@ function changeName(){
 				       			  <div id="sentPhoneDiv">
 					    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
 				    			  	  <div class="row">
-							           	  <input type="text" class="col-8 form-control" id="smsAnswer" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk" required>
+							           	  <input type="text" class="col-8 form-control" id="smsAnswer" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk">
 							           	  <button type="button" class="col-4 cg btn btn-secondary btn-sm" onclick="phoneCheck();">인증하기</button>
 				    			      </div>
 				    			      <button type="button" class="cg btn btn-secondary btn-sm" onclick="sendSms();">인증 문자 재발송</button>
@@ -428,13 +420,9 @@ function changeName(){
 				       			  <input type="hidden" id="phoneNumber" value="0" required>
 					  		</div>			    
 				    </li> 
-				  </ul>
-		 		 <div class="card-body">			  
-				  	<input type="submit" class="btn btn-success" value="변경하기">
-		   			<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myInfo.do'">뒤로가기</button>			  
-		 		 </div>
+				  </ul>		 	
 			 </div>            
- 		 </form>
+ 		 
 	</div>       
 <script>
 function phoneCheck(){
@@ -464,13 +452,7 @@ function phoneCheck(){
 }
 
 
-
-
-
-
-
-</script>
-       
+</script>      
 <!--비밀번호 변경하기 모달창  -->
 <div class="modal fade" id="chgPass" tabindex="-1" role="dialog" aria-labelledby="chgPassLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -490,18 +472,19 @@ function phoneCheck(){
    				<p class="pPassword">숫자/영문자/특수문자 조합 6~15자</p>
       		</div> 		             
           </div>
-          <input type="password" class="form-control" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                         
-          <input type="password" class="form-control" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
+          <input type="password" class="form-control password" placeholder="새 비밀번호" name="memberPw" id="password1" onchange="passwordCheck(this)" maxlength="15" required>                         
+          <input type="password" class="form-control password" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
         <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="changePass();">변경하기</a>
          <script>
         	function changePass(){
-        		var pass1=$("#password1").val();
-        		var pass2=$("#password2").val();
-        		if(pass1==pass2){
-        			console.log("ajax실행 차례");
+        		var pass1=$("#password1").val().trim();
+        		var pass2=$("#password2").val().trim();
+        		console.log("패스워드 들어오는 값?"+pass1);
+        		if(pass1==pass2&&pass1!=''){
+        			console.log("ajax실행 차례");     			
         		 	$.ajax({
         				url:"${path}/member/changePass",
         				data:{"password":pass1},
@@ -515,7 +498,7 @@ function phoneCheck(){
        					}
         			});        			
         		}else{
-        			alert("비밀번호가 일치하지 않습니다.");
+        			alert("비밀번호가 올바르지 않습니다.");
         		 	return false; 
         		}
         	}

@@ -134,6 +134,11 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
+	public int selectQnaComCount() {
+		return sqlSession.selectOne("board.selectQnaComCount");
+	}
+
+	@Override
 	public List<Map<String, String>> selectQnaList(int cPage, int numPerPage) {
 		
 		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
@@ -142,9 +147,55 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
+	public int insertQna(Map<String, Object> qna) {
+		return sqlSession.insert("board.insertQna",qna);
+	}
+
+	@Override
 	public Map<String, String> selectQnaOne(int qnaNum) {
 		return sqlSession.selectOne("board.selectQnaOne",qnaNum);
 	}
+
+	@Override
+	public List<Map<String, String>> selectQnaComList(int cPage, int numPerPage, int qnaNum) {
+
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);		
+		return sqlSession.selectList("board.selectQnaComList",qnaNum,rb);
+	}
+
+	@Override
+	public int updateQna(Map<String, Object> qna) {
+		return sqlSession.update("board.updateQna",qna);
+	}
+
+	@Override
+	public int deleteQna(int qnaNum) {
+		return sqlSession.delete("board.deleteQna",qnaNum);
+	}
+
+	@Override
+	public int insertQnaCom(Map<String, Object> comment) {
+		return sqlSession.insert("board.insertQnaCom",comment);
+	}
+
+	@Override
+	public Map<String, Object> selectQnaComOne(int commentNum) {
+		return sqlSession.selectOne("board.selectQnaComOne",commentNum);
+	}
+
+	@Override
+	public int updateComment(Map<String, Object> com) {
+		return sqlSession.update("board.updateComment",com);
+	}
+
+	@Override
+	public int deleteQnaCom(int commentNum) {
+		return sqlSession.delete("board.deleteQnaCom",commentNum);
+	}
+	
+	
+	
+	
 	
 	
 	

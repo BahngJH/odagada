@@ -115,6 +115,40 @@ public class DriverServiceImpl implements DriverService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<String> selectImgRe(String oldCarNum) {
+		return dao.selectImgRe(oldCarNum);
+	}
+
+	@Override
+	public int updateDriver(Map<String, Object> driver){
+		return dao.updateDriver(driver);
+	}
+
+	@Override
+	public int deleteImg(String carNum) {
+		return dao.deleteImg(carNum);
+	}
+
+	@Override
+	public int insertImg(List<CarImage> files) throws BoardException {
+		int insertImg = 0;
+		for(CarImage cImg : files)
+		{
+			insertImg = dao.insertCarImage(cImg);
+		}
+		if(insertImg==0) throw new BoardException("사진 수정 실패");
+		
+		return insertImg;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

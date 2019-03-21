@@ -44,14 +44,9 @@
  	
  <!-- 회원 정보 수정  -->
 	<update id="updateMember" parameterType="member">
-	UPDATE MEMBER SET memberPw=#{memberPw},
-	                        phone=#{phone},
-	                        email=#{email},
-	                        #{profileImageOri},
-	                        #{profileImageRe},
-	                        #{isPhoneAuth},
-	                        #{isEmailAuth}
-	                        where memberNum=#{memberNum}                      
+	UPDATE MEMBER SET PROFILEIMAGEORI=#{profileImageOri},
+	                  PROFILEIMAGERE=#{profileImageRe}
+	                  where memberNum=#{memberNum}                      
 	</update> 
 	
 	<!-- 회원삭제  -->

@@ -280,7 +280,7 @@ tr::after {
 
 
 
-<div class="card" style="width: 20rem;">
+<%-- <div class="card" style="width: 20rem;">
   <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Cras justo odio</li>
@@ -292,7 +292,7 @@ tr::after {
     <a href="#" class="card-link">Another link</a>
   </div>
 </div>
-
+ --%>
 
 
 

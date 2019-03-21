@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="driver">
-   <select id="selectDriver" parameterType="_int" resultType="driver"> 
-      SELECT * FROM DRIVER WHERE MEMBERNUM = #{memberNum}
-   </select>
-   <resultMap type="map" id="driver"></resultMap>
-   <insert id="enrollDriver" parameterType="map">
-      insert into driver values(#{memberNum},#{licenseNum},#{carModel},#{carNum},default,#{driver_info},default,default)
-   </insert>
-   <insert id="insertCarImage" parameterType="com.spring.odagada.driver.model.vo.CarImage">
-      INSERT INTO CARIMAGE VALUES(#{carImageOri},#{carImageRe},#{carNum},#{imageOrder})
-   </insert>
-   <select id="selectJoinCount" resultType="_int">
-      SELECT count(*) FROM DRIVER
-   </select>
-   <select id="selectDriverList" resultType="map">
-      SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM
-   </select>
-   
-   <select id="selectDriverOne" resultType="map" parameterType="_int">
-      SELECT MEMBERNUM,M.MEMBERID, M.MEMBERNAME, M.BIRTH, M.PHONE,M.PROFILEIMAGERE, D.LICENSENUM, D.CARMODEL, D.CARNUM , D.ENROLLDATE, D.INTRODUCE, D.DRIVERSTATUS 
-      FROM MEMBER M JOIN DRIVER D USING(MEMBERNUM) WHERE MEMBERNUM = #{memberNum}
-   </select>
-   <select id="selectCarImg" resultType="map" parameterType="String">
-      SELECT * FROM CARIMAGE WHERE CARNUM = #{carNum} ORDER BY IMAGEORDER
-   </select>
-   <update id="updateStatus" parameterType="map">
-      UPDATE DRIVER SET DRIVERSTATUS=#{driverStatus} WHERE MEMBERNUM=#{memberNum}
-   </update>
-   <delete id="deleteDriver">
-      DELETE FROM DRIVER WHERE MEMBERNUM=#{memberNum}
-   </delete>
+	<select id="selectDriver" parameterType="_int" resultType="driver"> 
+		SELECT * FROM DRIVER WHERE MEMBERNUM = #{memberNum}
+	</select>
+	<resultMap type="map" id="driver"></resultMap>
+	<insert id="enrollDriver" parameterType="map">
+		insert into driver values(#{memberNum},#{licenseNum},#{carModel},#{carNum},default,#{driver_info},default,default)
+	</insert>
+	<insert id="insertCarImage" parameterType="com.spring.odagada.driver.model.vo.CarImage">
+		INSERT INTO CARIMAGE VALUES(#{carImageOri},#{carImageRe},#{carNum},#{imageOrder})
+	</insert>
+	<select id="selectJoinCount" resultType="_int">
+		SELECT count(*) FROM DRIVER
+	</select>
+	<select id="selectDriverList" resultType="map">
+		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM
+	</select>
+	
+	<select id="selectDriverOne" resultType="map" parameterType="_int">
+		SELECT MEMBERNUM,M.MEMBERID, M.MEMBERNAME, M.BIRTH, M.PHONE,M.PROFILEIMAGERE, D.LICENSENUM, D.CARMODEL, D.CARNUM , D.ENROLLDATE, D.INTRODUCE, D.DRIVERSTATUS 
+		FROM MEMBER M JOIN DRIVER D USING(MEMBERNUM) WHERE MEMBERNUM = #{memberNum}
+	</select>
+	<select id="selectCarImg" resultType="map" parameterType="String">
+		SELECT * FROM CARIMAGE WHERE CARNUM = #{carNum} ORDER BY IMAGEORDER
+	</select>
+	<update id="updateStatus" parameterType="map">
+		UPDATE DRIVER SET DRIVERSTATUS=#{driverStatus} WHERE MEMBERNUM=#{memberNum}
+	</update>
+	<delete id="deleteDriver">
+		DELETE FROM DRIVER WHERE MEMBERNUM=#{memberNum}
+	</delete>
    <!-- //드라이버가 등록한 카풀리스트  -->
    <resultMap type="map" id="driver_"></resultMap>
    <select id="selectDriverCarpool" parameterType="_int" resultMap="driver_">
@@ -45,10 +45,10 @@
       where  carpoolnum=#{carpoolNum} and c.membernum=#{driverNum}
    </select>
    <update id="updatePasOk" parameterType="_int">
-		update passenger set pstatus='Y' where membernum=#{memberNum} and carpoolnum=#{carpoolNum} and paystatus='N'
+		update passenger set pstatus='Y' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
    </update>
    <update id="updatePasNo" parameterType="_int">
-		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum} and paystatus='N'
+		update passenger set pstatus='R' where membernum=#{memberNum} and carpoolnum=#{carpoolNum}
    </update>
    <select id="selectCreditCode" parameterType="map" resultMap="driver_">
    		select * from passenger where paycode=#{paycode} and carpoolnum=#{carpoolNum} and membernum=#{passengerNum}
@@ -58,6 +58,15 @@
    		update driver set money=money+#{pay} where memberNum=#{driverNum}
    </update>
    <update id="updatePasPayStatus" parameterType="map">
-   		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum} and paystatus='N'
+   		update passenger set paystatus='Y' where carpoolNum=#{carpoolNum} and memberNum=#{passengerNum}
    </update>
+   <select id="selectImgRe" parameterType="string" resultType="string">
+   	SELECT CARIMAGERE FROM CARIMAGE WHERE CARNUM=#{oldCarNum}
+   </select>
+   <update id="updateDriver" parameterType="map">
+   	UPDATE DRIVER SET CARMODEL=#{carModel}, CARNUM=#{carNum} WHERE MEMBERNUM=#{memberNum}
+   </update>
+   <delete id="deleteImg">
+   	DELETE FROM CARIMAGE WHERE CARNUM=#{carNum}
+   </delete>
 </mapper>

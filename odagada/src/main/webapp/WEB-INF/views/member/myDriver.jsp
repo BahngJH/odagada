@@ -6,8 +6,7 @@
 <%
 	Member m = (Member) request.getAttribute("logined");
 	System.out.println(m);
-	
-	
+
 %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -77,15 +76,22 @@
                       <th scope="row">운전 면허 번호</th>
 				      <td colspan="2"><c:out value="${licenseNum}"></c:out></td>  
 				    </tr>
-				    <tr>
+				    <tr> 
 					   <th scope="row">자동차 모델</th>
 				       <td colspan="2"><c:out value="${d.CARMODEL}"></c:out></td>
 				    </tr>
 				    <tr>
 				       <th scope="row">자동차 번호</th>
 			     	   <td colspan="2"><c:out value="${d.CARNUM }"/></td>
-				    </tr>
-				</table> 
+				    </tr>		
+				</table>
+				<div class="row">
+					<div class="col-md-6 offset-md-3 text-center">
+						<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myDriverModify'">정보 변경</button>
+				 		<button type="button" class="btn btn-outline-success">회원 탈퇴</button>
+					</div>
+				</div>
+					
 				</c:if>
 				<c:if test="${driver.DRIVERSTATUS eq 'N'}">
 					<div class="card-body">

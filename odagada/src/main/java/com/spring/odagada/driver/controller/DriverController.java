@@ -31,129 +31,135 @@ import com.spring.odagada.member.model.vo.Member;
 
 @Controller
 public class DriverController {
-   
-   private Logger logger = LoggerFactory.getLogger(DriverController.class);
-   
-   @Autowired
-   DriverService service;
-   
-   @Autowired
-   MemberService memberService;
-   
-   @RequestMapping("/driver/driverEnroll")
-   public ModelAndView driverEnroll(HttpSession session) {
-      
-      Member m = (Member) session.getAttribute("logined");
-      ModelAndView mv = new ModelAndView();      
-      
-      
-      if(m!=null)
-      {
-         int memberNum = m.getMemberNum();      
-         Driver driver = service.selectOne(memberNum);   
-         
-         if(driver!=null)
-         {
-            mv.setViewName("/common/msg");
-            mv.addObject("msg","드라이버 등록되어있습니다.");
-            mv.addObject("loc","/");
-            
-            return mv;
-         }
-         else {
-            logger.debug("회원정보"+m);
-            logger.debug("앞자리 테스트"+m.getPhone().substring(0,3));
-            if(m.getPhone().length()==11)
-            {
-               logger.debug("나머지테스트"+m.getPhone().substring(3,11));
-            }
-            else if(m.getPhone().length()==10)
-            {
-               logger.debug("나머지테스트"+m.getPhone().substring(3,10));
-            }
-            mv.addObject("driver",driver);
-            mv.setViewName("driver/driverEnroll");
-            
-            
-            logger.debug("드라이버 있나요"+driver);
-            return mv;
-         }         
-      }
-      else {
-         mv.setViewName("/common/msg");
-         mv.addObject("msg","회원가입 후 이용해주세요.");
-         mv.addObject("loc","/member/loginForm.do");
-         
-         return mv;
-      }
-   }
-   // 파일에 대한 사이즈를 비교? 배열로 넘...ㄱ...ㅣ....ㅁ..
-   
-   @RequestMapping("/driver/driverEnrollEnd")
-   public String driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
-   {
-      int memberNum = Integer.parseInt(request.getParameter("memberNum"));
-      String memberId = request.getParameter("memberId");
-      String memberName = request.getParameter("memberName");
-      String birth = request.getParameter("birth");
-      
-      String phone1 = request.getParameter("phone1");
-      String phone2 = request.getParameter("phone2");
-      String phone = phone1+phone2;
-      
-      String licenseNum = request.getParameter("licenseNum");
-      String carModel = request.getParameter("carModel");
-      String carNum = request.getParameter("carNum");
-      String driver_info = request.getParameter("driver_info");
-      
-      int imgOrder = 0;
-      
-      logger.debug("멤버번호 테스트"+memberNum);
-      
-      
-      Map<String,Object> driver = new HashMap();
-      driver.put("memberNum", memberNum);
-      driver.put("licenseNum", licenseNum);
-      driver.put("carModel", carModel);
-      driver.put("carNum",carNum);
-      driver.put("driver_info", driver_info);
-
-      ArrayList<CarImage> files = new ArrayList();
-
-      String savDir = request.getSession().getServletContext().getRealPath("/resources/upload/car");
-
-      for(MultipartFile f : upFile) {
-
-         //파일명을 생성(rename)
-         String oriFileName = f.getOriginalFilename();
-         String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
-         //rename 규칙설정
-         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-         int rdv = (int)(Math.random()*1000);
-         String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
-         //파일을 저장해보쟈
-         try {
-            f.transferTo(new File(savDir+"/"+reName));
-         }catch(IllegalStateException | IOException e)
-         {
-            e.printStackTrace();
-         }
-         imgOrder = imgOrder+1;
-         CarImage cImg = new CarImage();
-         cImg.setCarImageOri(oriFileName);
-         cImg.setCarImageRe(reName);
-         logger.debug("자동차 번호 "+carNum);
-         cImg.setCarNum(carNum);
-         cImg.setImageOrder(imgOrder);
-         files.add(cImg);
-
-      }
+	private Logger logger = LoggerFactory.getLogger(DriverController.class);
+	
+	@Autowired
+	DriverService service;
+	
+	@Autowired
+	MemberService memberService;
+	
+	@RequestMapping("/driver/driverEnroll")
+	public ModelAndView driverEnroll(HttpSession session) {
 		
-		int result = service.enrollDriver(driver,files);
+		Member m = (Member) session.getAttribute("logined");
+		ModelAndView mv = new ModelAndView();		
 		
-		logger.debug("파일 확인"+files);
 		
-		return "redirect:/";
+		if(m!=null)
+		{
+			int memberNum = m.getMemberNum();		
+			Driver driver = service.selectOne(memberNum);	
+			
+			if(driver!=null)
+			{
+				mv.setViewName("/common/msg");
+				mv.addObject("msg","드라이버 등록되어있습니다.");
+				mv.addObject("loc","/");
+				
+				return mv;
+			}
+			else {
+				logger.debug("회원정보"+m);
+				logger.debug("앞자리 테스트"+m.getPhone().substring(0,3));
+				if(m.getPhone().length()==11)
+				{
+					logger.debug("나머지테스트"+m.getPhone().substring(3,11));
+				}
+				else if(m.getPhone().length()==10)
+				{
+					logger.debug("나머지테스트"+m.getPhone().substring(3,10));
+				}
+				mv.addObject("driver",driver);
+				mv.setViewName("driver/driverEnroll");
+				
+				
+				logger.debug("드라이버 있나요"+driver);
+				return mv;
+			}			
+		}
+		else {
+			mv.setViewName("/common/msg");
+			mv.addObject("msg","회원가입 후 이용해주세요.");
+			mv.addObject("loc","/member/loginForm.do");
+			
+			return mv;
+		}
+	}
+	// 파일에 대한 사이즈를 비교? 배열로 넘...ㄱ...ㅣ....ㅁ..
+	
+	@RequestMapping("/driver/driverEnrollEnd")
+	public ModelAndView driverEnrollEnd(HttpServletRequest request,MultipartFile[] upFile) throws BoardException
+	{
+		ModelAndView mv = new ModelAndView();
+		int memberNum = Integer.parseInt(request.getParameter("memberNum"));
+		String memberId = request.getParameter("memberId");
+		String memberName = request.getParameter("memberName");
+		String birth = request.getParameter("birth");
+		
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone = phone1+phone2;
+		
+		String licenseNum = request.getParameter("licenseNum");
+		String carModel = request.getParameter("carModel");
+		String carNum = request.getParameter("carNum");
+		String driver_info = request.getParameter("driver_info");
+		
+		int imgOrder = 0;
+		
+		Map<String,Object> driver = new HashMap();
+		driver.put("memberNum", memberNum);
+		driver.put("licenseNum", licenseNum);
+		driver.put("carModel", carModel);
+		driver.put("carNum",carNum);
+		driver.put("driver_info", driver_info);
+
+		
+		ArrayList<CarImage> files = new ArrayList();
+		
+		String savDir = request.getSession().getServletContext().getRealPath("/resources/upload/car");
+		
+		for(MultipartFile f : upFile) {
+		
+			//파일명을 생성(rename)
+			String oriFileName = f.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+			//rename 규칙설정
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv = (int)(Math.random()*1000);
+			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+			//파일을 저장해보쟈
+			try {
+				f.transferTo(new File(savDir+"/"+reName));
+			}catch(IllegalStateException | IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			imgOrder = imgOrder+1;
+			CarImage cImg = new CarImage();
+			cImg.setCarImageOri(oriFileName);
+			cImg.setCarImageRe(reName);
+			logger.debug("자동차 번호 "+carNum);
+			cImg.setCarNum(carNum);
+			cImg.setImageOrder(imgOrder);
+			files.add(cImg);
+		}
+		logger.debug("이미지 갯수확인"+imgOrder);
+		
+		if(imgOrder>0 && imgOrder<=4)
+		{
+			int result = service.enrollDriver(driver,files);
+			mv.setViewName("redirect:/");
+			return mv;
+		}
+		else {
+			mv.addObject("msg","이미지는 4개 이하로 올려주세요.");
+			mv.addObject("loc","/driver/driverEnroll");
+			mv.setViewName("common/msg");
+			return mv;
+		}
 	}
 
 	 @RequestMapping("/driver/driverList")
@@ -232,7 +238,6 @@ public class DriverController {
 		
 		return "redirect: driverList";
 	}
-	
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
     public ModelAndView selectDriverCarpool(HttpSession session) {
@@ -337,4 +342,5 @@ public class DriverController {
 			e.printStackTrace();
 		}
     }
+
 }

@@ -32,11 +32,10 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.checkId", memberId);
 	}
-	
+	//내 정보 변경(사진)
 	@Override
 	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
-		return session.selectOne("member.updateMember", m);
+		return session.update("member.updateMember", m);
 	}
 	
 	//이메일 중복확인
