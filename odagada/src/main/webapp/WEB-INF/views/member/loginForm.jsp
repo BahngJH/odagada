@@ -158,13 +158,16 @@ margin-left: 4px;
 					<a href="${path}/member/findPw">비밀번호를 잊으셨나요? 비밀번호찾기</a>
 				</div>
 			</div>
+		<!-- 간편로그인 배너 -->	
+		<!-- <div id="naverIdLogin"></div>
+		<div id="kakaoLogin">  
+		    <a id="kakao-login-btn"></a>
+		    <a href="http://developers.kakao.com/logout"></a>
+		</div>  -->
+		
 		</div>
 	</div>
 
-<div id="kakaoLogin">  
-    <a id="kakao-login-btn"></a>
-    <a href="http://developers.kakao.com/logout"></a>
-</div> 
  
  
 <script type='text/javascript'>
@@ -219,8 +222,7 @@ margin-left: 4px;
     });
     
 </script>  
-	<div id="naverIdLogin">
-	</div>
+	
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 	<script>
 		var naverLogin = new naver.LoginWithNaverId(
