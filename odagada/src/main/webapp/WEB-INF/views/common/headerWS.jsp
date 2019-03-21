@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -14,13 +15,23 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- 웹소켓 연결에 필요한 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>ODA-GADA</title>
 <style>
+@font-face { font-family: 'Binggrae-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'YanoljaYacheR'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YanoljaYacheR.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'S-CoreDream-8Heavy'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'SDKukdetopokki'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SDKukdetopokki.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'BMHANNAPro'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'netmarbleB'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleB.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	
+	
+	
 	body{
 		min-width: 350px;
-	}
+	} 
 
 	footer>div.row{
 		margin-right: 0px;
@@ -53,14 +64,17 @@
        text-align: center;
        color:white;
      }
+     .navbar{
+     	font-family : BMJUA;
+     	font-size: 25px;
+     }
      
     
 </style>
 </head>
-
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="${path }/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="${path}/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -69,16 +83,18 @@
               <ul class="navbar-nav">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>          
-               	<li class="nav-item">
+                </li>
+                <c:if test="${sessionScope.driver.LICENSENUM eq null}">
+	                <li class="nav-item">
                  		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
-               		 </li>
+	               	</li>
+               	</c:if>       
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
-                <li class="nav-item">
+<%--                 <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
-                </li>
+                </li> --%>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>

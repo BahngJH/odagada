@@ -69,11 +69,9 @@
         }
        	
         #selectUserInfo{
-<<<<<<< HEAD
-            border-bottom: 1px solid #E6E6E6;
-=======
+
             border-bottom: 1px solid #E7E7E7;
->>>>>>> branch 'master' of https://github.com/BahngJH/odagada.git
+
         }
         #selectName{
         	font-size: 180%;
@@ -300,7 +298,7 @@
     	jsonData.imageUrl = "${logined.profileImageRe}";
     	jsonData.sender ="${logined.memberId}";
     	
-    	var url="http://localhost:9090/odagada/echo";
+    	var url="http://192.168.20.226:9090/odagada/echo";
 		ws = new SockJS(url);
 		
 		//메세지를 받았을 때
