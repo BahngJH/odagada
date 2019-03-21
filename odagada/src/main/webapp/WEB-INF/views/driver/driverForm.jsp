@@ -91,12 +91,16 @@
 				<div class="col form_Title">
 					<span id="d_badge">자동차 사진</span><br><br>
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-						  <ol class="carousel-indicators">
+<%-- 						  <ol class="carousel-indicators">
+						  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+							${fn:length(list) }
+
+						  <c:for
 						    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 						    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 						    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 						    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-						  </ol>
+						  </ol> --%>
 						  <div class="carousel-inner">
 							  <c:forEach items="${carImg}" var="c" varStatus="t">					    
 									  <div class="carousel-item ${c.active }">
