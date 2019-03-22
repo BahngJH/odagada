@@ -13,11 +13,6 @@ table thead th#title{
 	font-size: 30px;
 	text-align: center;
 }
-/* div div.col-md-6{
-	font-weight: bold;
-	font-size: 40px;
-	text-align: center;
-} */
 div div#bTITLE{
 	font-weight: bold;
 	font-size: 30px;
@@ -66,8 +61,9 @@ hr {
 	    	<c:set var="isAdmin" value="${logined.isAdmin}"/>
 	    	<c:if test="${isAdmin eq '1'}">
 				<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardModify?boardNo=${board.BOARDNO}';">수정</button>
+				<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardDelete?boardNo=${board.BOARDNO}';">삭제</button>
 			</c:if>   	    	
-	    	<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/board/boardDelete?boardNo=${board.BOARDNO}';">삭제</button>
+	    	
 	    	</td>
 	    </tr>    
 	  </tbody>

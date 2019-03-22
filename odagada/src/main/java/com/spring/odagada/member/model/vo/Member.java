@@ -25,6 +25,8 @@ public class Member implements Serializable {
 	private String isEmailAuth;
 	private String mailCode;
 	private String phoneCode;
+	private String memberStatus;
+	private String carMsg;
 
 	public Member() {
 		super();
@@ -50,6 +52,31 @@ public class Member implements Serializable {
 		this.isEmailAuth = isEmailAuth;
 		this.mailCode = mailCode;
 		this.phoneCode = phoneCode;
+	}
+	
+	public Member(int memberNum, String memberId, String memberPw, String memberName, String birth, String phone,
+			String email, String enrollDate, int isAdmin, String gender, String profileImageOri, String profileImageRe,
+			String isPhoneAuth, String isEmailAuth, String mailCode, String phoneCode, String memberStatus,
+			String carMsg) {
+		super();
+		this.memberNum = memberNum;
+		this.memberId = memberId;
+		this.memberPw = memberPw;
+		this.memberName = memberName;
+		this.birth = birth;
+		this.phone = phone;
+		this.email = email;
+		this.enrollDate = enrollDate;
+		this.isAdmin = isAdmin;
+		this.gender = gender;
+		this.profileImageOri = profileImageOri;
+		this.profileImageRe = profileImageRe;
+		this.isPhoneAuth = isPhoneAuth;
+		this.isEmailAuth = isEmailAuth;
+		this.mailCode = mailCode;
+		this.phoneCode = phoneCode;
+		this.memberStatus = memberStatus;
+		this.carMsg = carMsg;
 	}
 
 	public int getMemberNum() {
@@ -214,6 +241,24 @@ public class Member implements Serializable {
 	public void setPhoneCode(String phoneCode) {
 		this.phoneCode = phoneCode;
 	}
+	
+	
+
+	public String getMemberStatus() {
+		return memberStatus;
+	}
+
+	public void setMemberStatus(String memberStatus) {
+		this.memberStatus = memberStatus;
+	}
+
+	public String getCarMsg() {
+		return carMsg;
+	}
+
+	public void setCarMsg(String carMsg) {
+		this.carMsg = carMsg;
+	}
 
 	@Override
 	public String toString() {
@@ -221,7 +266,10 @@ public class Member implements Serializable {
 				+ memberName + ", birth=" + birth + ", phone=" + phone + ", email=" + email + ", enrollDate="
 				+ enrollDate + ", isAdmin=" + isAdmin + ", gender=" + gender + ", profileImageOri=" + profileImageOri
 				+ ", profileImageRe=" + profileImageRe + ", isPhoneAuth=" + isPhoneAuth + ", isEmailAuth=" + isEmailAuth
-				+ ", mailCode=" + mailCode + ", phoneCode=" + phoneCode + "]";
+				+ ", mailCode=" + mailCode + ", phoneCode=" + phoneCode + ", memberStatus=" + memberStatus + ", carMsg="
+				+ carMsg + "]";
 	}
+
+	
 
 }

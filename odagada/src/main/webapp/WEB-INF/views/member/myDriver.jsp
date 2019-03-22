@@ -82,7 +82,7 @@
 				<div class="row">
 					<div class="col-md-6 offset-md-3 text-center">
 						<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myDriverModify'">정보 변경</button>
-				 		<button type="button" class="btn btn-outline-success">회원 탈퇴</button>
+				 		<button type="button" class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverWithdrawal?memberNum=${driver.MEMBERNUM}';">드라이버 탈퇴</button>
 					</div>
 				</div>
 					
