@@ -244,8 +244,5 @@ body{
             <hr>
             <div class='_1'>${error.MESSAGE }</div>
         </div>
-        <div class="c" onclick="location.href='${pageContext.request.contextPath}/'">
-        	메인으로 이동하기
-        </div>
 </body>
 </html>

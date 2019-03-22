@@ -35,8 +35,8 @@ public class ErrorController {
 			case "405": code="405"; msg="요청된 메소드가<br/> 허용되지 않습니다."; break;
 			case "500": code="500"; msg="서버에 오류가<br/> 발생하였습니다."; break;
 			case "503": code="503"; msg="서비스를<br/> 사용할 수 없습니다."; break;
-			case "Throwable" : msg="예외가<br/> 발생했습니다."; break;
-			case "Exception" : msg="예외가<br/> 발생했습니다."; break;
+			case "Throwable" : code=""; msg="예외가<br/> 발생했습니다."; break;
+			case "Exception" : code=""; msg="예외가<br/> 발생했습니다."; break;
 			default: msg="알 수 없는 오류가<br/> 발생하였습니다."; break;
 			}
 		} catch(Exception e)
