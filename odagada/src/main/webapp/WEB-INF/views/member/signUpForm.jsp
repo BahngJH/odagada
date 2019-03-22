@@ -172,17 +172,14 @@
     #phone2{
     	width: 200px;
     }
+    #proImg-div{width:350px; border:1px solid #48BAE4;}
+    #proImg-row{margin:0; margin-bottom:3%;display:none;}
+    img#pro_img{max-width:350px;max-height:300px;background-clip: content-box; }
     </style>
     
      
 <script>
  $(function(){
-   $('[name=upFile]').on('change',function(){
-      //var filename=$(this).val();
-      var filename=this.files[0].name;
-      //var filename=$(this).prop('files')[0].name;
-      $(this).next('.custom-file-label').html(filename);
-   });
    
     //ID 중복확인
    $("#memberId_").keyup(function(){
@@ -336,7 +333,7 @@ $(function(){
   
    }
  
-   //프로필 사진을 이미지 타입 파일로만 받기
+ /*   //프로필 사진을 이미지 타입 파일로만 받기
    function fileCheck(obj){
       var fileKind=obj.value.lastIndexOf('.');
       var fileName=obj.value.substring(fileKind+1, obj.length);
@@ -352,7 +349,7 @@ $(function(){
          return false;      
          }   
       }
-   
+    */
    
  //E-mail 중복 확인
    function checkEmail(){ 	
@@ -416,9 +413,64 @@ $(function(){
     	    }) ;   	  
       };
       
+    //프로필 사진을 이미지 타입 파일로만 받기
+     function fileCheck(obj) {
+     	var fileKind = obj.value.lastIndexOf('.');
+     	var fileName = obj.value.substring(fileKind + 1, obj.length);
+     	var fileType = fileName.toLowerCase();
+     	var ckFileType = new Array();
+     	ckFileType = [ 'jpg','png', 'jpeg', 'jpeg', 'bmp',' '];
+     	
+	if (ckFileType.indexOf(fileType) == -1) {
+     		alert("이미지 파일만 선택할 수 있습니다.");
+     		var parentObj = obj.parentNode;
+     		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+     		return;
+     	}else{
+     			var filenames=obj.files[0].name;
+        		var fileReader = new FileReader();    	
+     			/* var formData=new formData(); */
+      		/* fromData.append('upFile',obj.files[0]); */
+      		
+      		fileReader.readAsDataURL(obj.files[0]);      		
+      		fileReader.onload = function(e){
+     	 		var result = e.target.result;	
+     	 		$('#pro_img').attr('src',result);
+     	 		$('#proImg-row').show();
+     	 		
+     /* 	 		$.ajax({
+     	 			url:"${path}/member/profileTest.do",
+     	 			data:foraData,
+     	 			dataType:'text',
+     	 			processData:false,
+     	 			contentType:false,
+     	 			type:'POST',
+     	 			success:fuction(result){
+     	 				if(result){
+     	 					
+     	 				}else{
+     	 					
+     	 				}
+     	 					
+     	 			}
+     	 			
+     	 		}); */
+      		};
+           console.log(filenames);
+     	}
+     	console.log($('#upFile').val());
+     }
+
+       //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
+      $(function(){  
+     	$('#pro_img').on('click', function() {
+     			$('#upFile').trigger('click');			
+     		})	 
+     });      
       
-</script>
       
+      
+</script>     
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
             <input type="text" class="form-control" placeholder="아이디 (4~12자리 영소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
@@ -453,7 +505,12 @@ $(function(){
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
                       <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
                   </div>                      
-             </div>           
+             </div>
+             <div class="row" id="proImg-row">
+             	<div id="proImg-div">
+					<img  class="img-thumbnail mx-auto d-block" id="pro_img">            	
+             	</div>
+             </div>
             <div class="row">
                <div class="col-6 name-div">
                   <div>
