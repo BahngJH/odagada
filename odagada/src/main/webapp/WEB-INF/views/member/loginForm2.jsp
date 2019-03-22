@@ -14,9 +14,28 @@
     
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/loginFile/style.css">
+	<!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<style>
+	#easyLogin{
+		text-align: center;
+		margin-bottom:30px;
+	}
+	div#naverIdLogin > a#naverIdLogin_loginButton > img{
+   	width: 222px;
+   	height: 49px;
+	}
+	#naverIdLogin{
+		margin-top:20px;
+	}
+	</style>
 
 <body>
-    <form action="#">
+    <form  action="${path }/member/login.do" method="post">
         <svg id="ryan" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,150 C0,65 120,65 120,150" fill="#e0a243" stroke="#000" stroke-width="2.5" />
             <g class="ears">
@@ -39,12 +58,88 @@
             </g>
             <path d="M40,105 C10,140 110,140 80,105 L80,105 L70,111 L60,105 L50,111 L40,105" fill="#fff" />
         </svg>
-        <input id="tt" type="text" placeholder="아이디를 입력하세요">
-        <input type="password" placeholder="패스워드">
+        <input id="tt" type="text" name="memberId" placeholder="아이디를 입력하세요">
+        <input type="password" name="memberPw" placeholder="패스워드">
         <input type="submit" value="로그인">
-        <span class="searchAccount"><a href="#">회원가입</a> | <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a></span>
+        <span class="searchAccount"><a href="${pageContext.request.contextPath}/member/signUp.do">회원가입</a> | <a href="${path}/member/findId">아이디 찾기</a> | <a href="${path}/member/findPw">비밀번호 찾기</a></span>
     </form>
-    
+    <!-- 간편로그인 배너 -->
+	<div id="easyLogin">
+	
+		<div id="kakaoLogin">  
+		    <a id="kakao-login-btn"></a>
+		    <a href="http://developers.kakao.com/logout"></a>
+		</div>
+		<div id="naverIdLogin"></div>
+	</div>    
 	<script src="${pageContext.request.contextPath }/resources/loginFile/script.js"></script>
+	
+	<!-- 카카오 스크립트문 -->
+	<script type='text/javascript'>
+	var kakaoName="";
+	var kakaoId="";
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('05f49b9ab4a2c1bc706682703a9c1bae');
+    // 카카오 로그인 버튼을 생성합니다.
+    Kakao.Auth.createLoginButton({
+      container: '#kakao-login-btn',
+      success: function(authObj) {
+          
+          //로그인 성공시, kakao API를 호출한다.(카카오에 있는 데이터 불러옴)
+          Kakao.API.request({
+              url: '/v2/user/me',
+              success: function(res){
+                  console.log(res);
+                  console.log(res.id);
+                  console.log(res.kakao_account);
+                  console.log(JSON.stringify(res.properties.nickname));
+                  
+                  kakaoId = res.id;
+                  kakaoName=JSON.stringify(res.properties.nickname);
+                  
+                  $.ajax({
+                	  url:"${path}/member/kakaoIdCK",
+                	  data:{"kakaoId":kakaoId,"kakaoName":kakaoName},
+                	  success:function(data){
+                		  console.log(data);
+                		  if(data.result=="N")
+                		  {
+                			 location.href='${path}/member/kakaoLogin.do?kakaoId='+kakaoId+'&kakaoName='+kakaoName;
+                		  		
+                		  }else
+                		  {
+                			 location.href='${path}/';
+                		  } 
+                		  
+                	  }
+                  });
+              
+              },
+              fail: function(error){
+                  alert(JSON.stringify(error));
+              }
+          });
+         
+      },
+      fail: function(err) {
+         alert(JSON.stringify(err));
+      }
+    });
+    
+</script>  
+	
+	<!-- 네이버 간편 로그인 스크립트 -->
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+	<script>
+		var naverLogin = new naver.LoginWithNaverId(
+				{
+					clientId: "vc3JlDx8OrM42I7Dhas4",
+					callbackUrl: "http://localhost:9090/odagada/member/naverSignup",
+					isPopup: false,
+					loginButton: {color: "green", type: 3, height: 60}
+					
+				});
+		naverLogin.init();
+	</script>
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
