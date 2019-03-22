@@ -174,9 +174,7 @@
         	width:400px;
         }
          .msgCount{
-         	margin-left:40px;
-        	position:absolute;
-        	top:-15%;
+        	float:right;
         	border:1px solid red;
         	background-color:red;
         	border-radius: 100%;
