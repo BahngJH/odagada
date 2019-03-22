@@ -224,4 +224,18 @@ public class MemberServiceImple implements MemberService {
 	public int updateName(Member m) {
 		return dao.updateName(m);
 	}
+
+	@Override
+	public int updateMsg(Member m) {
+		return dao.updateMsg(m);
+	}
+
+	@Override
+	public int deleteMsg(Member m) {
+		return dao.deleteMsg(m);
+	}
+	
+	
+	
+	
 }

@@ -153,4 +153,18 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateName(Member m) {
 		return session.update("member.updateName",m);
 	}
+
+	@Override
+	public int updateMsg(Member m) {
+		return session.update("member.updateMsg",m);
+	}
+
+	@Override
+	public int deleteMsg(Member m) {
+		return session.update("member.deleteMsg",m);
+	}
+	
+	
+	
+	
 }

@@ -136,16 +136,7 @@
     	  
     	  return false;
       }
-      
-/*     var license = ["서울","부산","경기","강원","충북","충남","전북","전남","경북","경남","제주","대구","인천","광주","대전","울산"];
-  	if(!license.includes(license))
-  	{
-  		alert("면허번호 지역을 제대로 입력해주세요.");
-  		
-  		return false;
-  	} */
- 
-      
+
       var carNum = $('#carNum').val();
       var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
       
