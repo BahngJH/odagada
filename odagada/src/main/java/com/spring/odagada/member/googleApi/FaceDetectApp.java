@@ -45,17 +45,17 @@ public class FaceDetectApp {
       System.exit(1);
     }
     Path inputPath = Paths.get(args[0]);
-    Path outputPath = Paths.get(args[1]);
+/*    Path outputPath = Paths.get(args[1]);
     if (!outputPath.toString().toLowerCase().endsWith(".jpg")) {
       System.err.println("outputImagePath must have the file extension 'jpg'.");
       System.exit(1);
-    }
+    }*/
 
     FaceDetectApp app = new FaceDetectApp(getVisionService());
     List<FaceAnnotation> faces = app.detectFaces(inputPath, MAX_RESULTS);
     System.out.printf("Found %d face%s\n", faces.size(), faces.size() == 1 ? "" : "s");
-    System.out.printf("Writing to file %s\n", outputPath);
-    app.writeWithFaces(inputPath, outputPath, faces);
+   /* System.out.printf("Writing to file %s\n", outputPath);
+    app.writeWithFaces(inputPath, outputPath, faces);*/
   }
   
   public static Vision getVisionService() throws IOException, GeneralSecurityException {

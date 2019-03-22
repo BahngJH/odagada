@@ -172,7 +172,7 @@
     #phone2{
     	width: 200px;
     }
-    #proImg-div{width:350px; border:1px solid #48BAE4;}
+    #proImg-div{width:350px; border:1px solid #4BAF4B;}
     #proImg-row{margin:0; margin-bottom:3%;display:none;}
     img#pro_img{max-width:350px;max-height:300px;background-clip: content-box; }
     </style>
@@ -332,24 +332,6 @@ $(function(){
         
   
    }
- 
- /*   //프로필 사진을 이미지 타입 파일로만 받기
-   function fileCheck(obj){
-      var fileKind=obj.value.lastIndexOf('.');
-      var fileName=obj.value.substring(fileKind+1, obj.length);
-      var fileType=fileName.toLowerCase();
-      
-      var ckFileType=new Array();
-      ckFileType=['jpg','gif','png','jpeg','jpeg','bmp'];
-      
-      if(ckFileType.indexOf(fileType)==-1){
-         alert("이미지 파일만 선택할 수 있습니다.");
-         var parentObj=obj.parentNode;
-         var node=parentObj.replaceChild(obj.cloneNode(true), obj);
-         return false;      
-         }   
-      }
-    */
    
  //E-mail 중복 확인
    function checkEmail(){ 	
@@ -421,41 +403,41 @@ $(function(){
      	var ckFileType = new Array();
      	ckFileType = [ 'jpg','png', 'jpeg', 'jpeg', 'bmp',' '];
      	
-	if (ckFileType.indexOf(fileType) == -1) {
-     		alert("이미지 파일만 선택할 수 있습니다.");
-     		var parentObj = obj.parentNode;
-     		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
-     		return;
-     	}else{
+		if (ckFileType.indexOf(fileType) == -1) {
+	   		alert("이미지 파일만 선택할 수 있습니다.");
+	   		var parentObj = obj.parentNode;
+	   		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+	   		return;
+	     }
+		 else{
      			var filenames=obj.files[0].name;
-        		var fileReader = new FileReader();    	
-     			/* var formData=new formData(); */
-      		/* fromData.append('upFile',obj.files[0]); */
-      		
-      		fileReader.readAsDataURL(obj.files[0]);      		
-      		fileReader.onload = function(e){
+        		var fileReader = new FileReader();    
+        		var temp=$('#temp').val();
+	      		fileReader.readAsDataURL(obj.files[0]);      		
+	      		fileReader.onload = function(e){
      	 		var result = e.target.result;	
      	 		$('#pro_img').attr('src',result);
      	 		$('#proImg-row').show();
      	 		
-     /* 	 		$.ajax({
+     		 	var formData=new FormData();
+      		 		formData.append('upFile',obj.files[0]);  
+      		 		formData.append('temp',temp);
+      		 		
+      		
+      	 	 	$.ajax({
      	 			url:"${path}/member/profileTest.do",
-     	 			data:foraData,
+     	 			data:formData,
      	 			dataType:'text',
      	 			processData:false,
      	 			contentType:false,
      	 			type:'POST',
-     	 			success:fuction(result){
-     	 				if(result){
-     	 					
-     	 				}else{
-     	 					
-     	 				}
-     	 					
+     	 			success:function(data){
+     	 				console.log(data);
+     	 				temp=data[0];
+     	 				
      	 			}
-     	 			
-     	 		}); */
-      		};
+     	 		});  
+      		}
            console.log(filenames);
      	}
      	console.log($('#upFile').val());
@@ -503,6 +485,7 @@ $(function(){
              <div class="row">                     
                   <div class="upFile-div custom-file col-12">
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
+                      <input type="hidden" id="temp" name="temp" value=""/>
                       <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
                   </div>                      
              </div>

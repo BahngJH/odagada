@@ -5,11 +5,13 @@ import static com.spring.odagada.common.PageFactory.getPageBar;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,11 +52,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Feature.Type;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.protobuf.ByteString;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.driver.model.vo.CarImage;
+import com.spring.odagada.member.googleApi.FaceDetectApp;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -208,10 +220,52 @@ public class MemberController {
 		return "member/signUpForm";
 	}
 	//프로필이미지 테스트
+	@ResponseBody
 	@RequestMapping("/member/profileTest.do")
-	public String prifileTeset(MultipartHttpServletRequest mr) {
-		return "hi";	
-	}
+	public String[] prifileTeset(MultipartFile upFile, MultipartHttpServletRequest mr,HttpServletRequest request) throws GeneralSecurityException {
+		logger.debug("업파일은 뭔가요?"+upFile);
+		//임시 프로필 사진 저장소
+		String sav=request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");
+/*		//임시 프로필 체크 사진 저장소
+		String savOut=request.getSession().getServletContext().getRealPath("");	*/			
+		
+		  //임시 프로필
+	      String temp=mr.getParameter("temp");
+	      //임시 프로필 체크 값
+	      /*String tempOut=mr.getParameter("tempOut");
+	      
+	      logger.debug(temp);
+	      
+	      ModelAndView mv=new ModelAndView();
+	      logger.debug(""+upFile);
+	      */
+	      String[] result= new String[2];
+	      
+	      if(!upFile.isEmpty()) {
+	         //파일명 생성(ReName)
+	         String oriFileName=upFile.getOriginalFilename();
+	         String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
+	         
+	         //rename 규칙
+	         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+	         int rdv=(int)(Math.random()*1000);
+	         String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
+	         
+	         //profile 사진 저장
+	         try {
+	            upFile.transferTo(new File(sav+"/"+reName));
+	            String path=sav+"/"+reName;
+	            result[0]=path;
+	            /*result[1]=sav+"/checkFace.jpg";*/
+	            FaceDetectApp.main(result);
+	         }catch(IllegalStateException e){
+	            e.printStackTrace();
+	         }catch( IOException e) {
+	        	 result[1]="사용할 수 없는 사진입니다.";
+	         }
+	      }
+	      return result;
+	   }
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
@@ -266,6 +320,39 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		return "common/msg";		
 	}
+	 @RequestMapping("/member/imageTest")
+	   public static void cloudVision(HttpServletRequest req) throws Exception, IOException {
+	        List<AnnotateImageRequest> requests = new ArrayList<>();
+	        String sd=req.getSession().getServletContext().getRealPath("/resources/upload/profile");
+
+	        String path=sd+"/itzy.jpg";
+
+	        ByteString imgBytes = ByteString.readFrom(new FileInputStream(path));
+	        Image img = Image.newBuilder().setContent(imgBytes).build();
+	        Feature feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
+	        AnnotateImageRequest request =
+	            AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+	        requests.add(request);
+
+	        try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
+	          BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+	          List<AnnotateImageResponse> responses = response.getResponsesList();
+
+	          for (AnnotateImageResponse res : responses) {
+	            if (res.hasError()) {
+	             System.out.printf("Error: %s\n", res.getError().getMessage());
+	              return;
+	            }
+
+	            // For full list of available annotations, see http://g.co/cloud/vision/docs
+
+	            for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
+	                annotation.getAllFields().forEach((k, v) -> 
+	                System.out.println(k+":"+ v));
+	              }
+	          }
+	        }
+	 }
 
 
 	 //이메일 인증 완료 업데이트
