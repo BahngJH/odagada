@@ -592,7 +592,7 @@ img.driver-img:before {
 								  							</c:when>
 								  							<c:when test="${rg >4.0 && rg <= 4.5 }">
 								  								<span class="star-rating">
-										  							<span style="width:68.4%"></span>
+										  							<span style="width:68.4%"></span>;
 										  						</span>
 								  							</c:when>
 								  							<c:when test="${rg >4.5 && rg <= 5.0 }">

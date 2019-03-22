@@ -85,6 +85,10 @@
 	div#option_flex>div.card-body{
 		padding-bottom:5px;
 	}
+	img.nosearch-img{
+		width:90%;
+		height:auto;
+	}
 </style>
 <section class="container" >
 <c:set value='0' var="listSize"/>
@@ -104,7 +108,7 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="card"  id="option_flex">
-						<div class="card-body" >
+						<div class="card-body" style="position:relative;">
 	    					<h4 class="card-title">옵션(option)</h4>
 	    					<hr>
 	    					<div class="row">
@@ -269,15 +273,6 @@
 					</div>
 				</form>
 			</c:forEach>
-			<c:if test="${fn:length(cList)==0 }">
-				<div class="row">
-					<div class="col-12 text-center">
-						<div>
-							<h2>검색결과가 없습니다.123</h2>
-						</div>
-					</div>
-				</div>
-			</c:if>
 		</div>
 	</div>
 </section>
@@ -387,13 +382,14 @@ $('#btn-reset').on("click",function(){
 			"cPage":0
 		},
 		dataType:"html",
-		success:function(data){
+		success:function(data){w
 			$("div#result-search").empty();
 			$('#result-search').html(data);
 		 	var offset = $('#communityDiv').offset();
 		 	$(window).scrollTop("0");
 		 	if($("#result-search").children()[0].id =="cPage"){
-				$('#result-search').append("<h3>검색 결과가 없습니다.</h3>");
+		 		$('#result-search').append("<img class='nosearch-img' src='${path}/resources/images/nosearch2.gif'/>");
+				$('#result-search').append("<h3 style='text-align:center;'>검색 결과가 없습니다.</h3>");
 			};
 		}
 	});  
