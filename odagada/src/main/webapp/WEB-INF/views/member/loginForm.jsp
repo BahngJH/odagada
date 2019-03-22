@@ -17,6 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
+
 <style>
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
@@ -168,7 +169,6 @@ margin-left: 4px;
 		</div>
 	</div>
 
- 
  
 <script type='text/javascript'>
 	var kakaoName="";
