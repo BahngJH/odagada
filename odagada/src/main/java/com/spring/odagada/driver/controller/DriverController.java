@@ -273,6 +273,7 @@ public class DriverController {
        int memberNum = m.getMemberNum();
 	   Map<String,String> d = service.selectDriverOne(memberNum);
        
+	   
        List<Map<String,String>> dcarList = service.selectDriverCarPool(m.getMemberNum());
        logger.debug("카풀내역 드라이버"+d);
        mav.addObject("driver",d);
