@@ -377,7 +377,7 @@ public class MemberController {
 	         
 		if (m == null) {
 			mv.addObject("msg", "등록된 정보가 없습니다.");
-			mv.addObject("loc", "/member/loginForm.do");
+			mv.addObject("loc", "/member/loginForm2.do");
 			mv.setViewName("common/msg");
 		} else {
 			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
@@ -403,7 +403,7 @@ public class MemberController {
 					
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm.do");
+					mv.addObject("loc", "/member/loginForm2.do");
 					mv.setViewName("common/msg");
 				}
 			}
