@@ -63,6 +63,7 @@
             font-size: 25px;
         }
         #userInfoBottom{
+        	position:relative;
             margin-top: 10px;
             font-family: YanoljaYacheR;
             font-size: 20px;
@@ -138,9 +139,7 @@
         img{
             border-radius: 100%;
         }
-        div.recentMsg{
-        	
-        }
+       
         .left{
         	float:left;
         	word-break: break-all;
@@ -175,13 +174,23 @@
         	width:400px;
         }
          .msgCount{
-        	float:right;
+         	margin-left:40px;
+        	position:absolute;
+        	top:-15%;
         	border:1px solid red;
         	background-color:red;
         	border-radius: 100%;
         	width: 30px;
             text-align: center;
             color:white;
+        }
+        .recentMsg{
+        	white-space:nowrap;
+        	overflow:hidden;
+        	text-overflow:ellipsis;
+        	display:inline-block;
+        	position:relative;
+        	width:70%;
         }
     </style>
 <div id="container" class="container-fluid">
@@ -298,7 +307,7 @@
     	jsonData.imageUrl = "${logined.profileImageRe}";
     	jsonData.sender ="${logined.memberId}";
     	
-    	var url="http://192.168.20.226:9090/odagada/echo";
+    	var url="http://localhost:9090/odagada/echo";
 		ws = new SockJS(url);
 		
 		//메세지를 받았을 때
