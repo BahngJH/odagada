@@ -153,7 +153,7 @@ function search(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
+	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
 	console.log($("#startDate").val());
 	
 	if(!($("#startDate").val() > nowDate)){
