@@ -220,7 +220,7 @@ function carpoolValidate(){
 		return false;
 	}
 	
-	return false;
+	return true;
 };
 
 var map;
