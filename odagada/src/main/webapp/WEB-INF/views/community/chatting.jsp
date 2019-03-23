@@ -63,6 +63,7 @@
             font-size: 25px;
         }
         #userInfoBottom{
+        	position:relative;
             margin-top: 10px;
             font-family: YanoljaYacheR;
             font-size: 20px;
@@ -138,9 +139,7 @@
         img{
             border-radius: 100%;
         }
-        div.recentMsg{
-        	
-        }
+       
         .left{
         	float:left;
         	word-break: break-all;
@@ -182,6 +181,14 @@
         	width: 30px;
             text-align: center;
             color:white;
+        }
+        .recentMsg{
+        	white-space:nowrap;
+        	overflow:hidden;
+        	text-overflow:ellipsis;
+        	display:inline-block;
+        	position:relative;
+        	width:70%;
         }
     </style>
 <div id="container" class="container-fluid">
