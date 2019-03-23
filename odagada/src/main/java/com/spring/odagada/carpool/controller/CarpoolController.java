@@ -75,14 +75,18 @@ public class CarpoolController {
 			l.debug("로그인 필요");
 			mav.setViewName("/common/msg");
 			mav.addObject("msg", "로그인 해주세요.");
-			mav.addObject("loc", "/member/loginForm.do");
+			mav.addObject("loc", "/member/loginForm2.do");
 		}		
 		
 		return mav;
 	}
 
 	@RequestMapping("/carpool/registerEnd")
-	public String carpoolRegisterEnd(HttpSession session, Carpool carpool, CarOption option) {
+	public ModelAndView carpoolRegisterEnd(ModelAndView mav, HttpSession session, Carpool carpool, CarOption option) {
+		mav.setViewName("common/msg");
+		mav.addObject("msg", "카풀 등록을 완료했습니다.");
+		mav.addObject("loc", "/carpool");
+		
 		Member m = (Member) session.getAttribute("logined");
 		carpool.setMemberNum(m.getMemberNum());
 		
@@ -94,7 +98,7 @@ public class CarpoolController {
 		
 		int result = service.insertCarpool(carpool, option);
 		
-		return "redirect:/";
+		return mav;
 	}
 	
 	private CarOption setOption(CarOption option) {
