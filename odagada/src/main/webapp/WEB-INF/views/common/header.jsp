@@ -18,9 +18,12 @@
     <!-- 웹소켓 연결에 필요한 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>ODA-GADA</title>
+
 <style>
+@font-face { font-family: 'MyLotteLight'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.0/MyLotteLight.woff') format('woff'); font-weight: normal; font-style: normal; }
 	body{
 		min-width: 350px;
+		font-family: 'MyLotteLight';
 	} 
 
 	footer>div.row{
@@ -61,6 +64,7 @@
 <body>
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="${path}/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
+           <%--  <a class="navbar-brand" href="${path}/"><img src="${path }/resources/images/t-logo.png" style="width: 200px; height: 70px;"></a> --%>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>

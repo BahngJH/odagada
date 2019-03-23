@@ -13,9 +13,10 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 <style>
+@font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 /* 섹션 패딩 삭제 */
 section.section-st{
-font-family:'a시나브로L';
+font-family: 'TmonMonsori';
 padding:0px;
 }
 /* 메인 상단부 */
@@ -111,6 +112,9 @@ img#driver-img{
 width:400px;
 height:300px;
 }
+.row{
+	margin:0px;
+}
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->
@@ -121,7 +125,7 @@ height:300px;
             <form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
             <div class="row card-img-overlay search-div">
                <div class="col-12">
-                  <h1 class="text-center text-h1">Welcome to Odagada</h1>
+                  <h1 class="text-center text-h1">오다, 가다!</h1>
                   <h3 class="text-center text-h3">Search for your travel</h3>
                </div>
                <br><br>
@@ -183,6 +187,7 @@ height:300px;
          </div>
       </div>
    </div>
+
 <!-- 자주가는 경로 -->
    <div class="row">
       <div class="col-12 pop-div">
