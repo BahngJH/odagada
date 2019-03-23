@@ -7,10 +7,11 @@
 <title>${code } 에러</title>
 <style>
 	@import url(https://fonts.googleapis.com/css?family=opensans:500);
+	@font-face { font-family: 'netmarbleM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleM.woff') format('woff'); font-weight: normal; font-style: normal; }
 body{
                 background: #33cc99;
                 color:#fff;
-                font-family: 'Open Sans', sans-serif;
+                font-family: 'netmarbleM', sans-serif;
                 max-height:700px;
                 overflow: hidden;
             }
@@ -35,7 +36,7 @@ body{
                 position:relative;
                 letter-spacing: 12px;
                 font-size: 4em;
-                line-height: 80%;
+                line-height: 100%;
             }
             ._2{
                 text-align:center;
@@ -82,8 +83,8 @@ body{
                 color: #fff;
                 text-align: center;
                 margin: 0px auto;
-                width: 420px;
-                height:10px;
+                width: 450px;
+                height:20px;
                 z-index: -10;
             }
             
@@ -215,7 +216,11 @@ body{
                 -moz-animation: moveclouds 20s linear infinite;
                 -o-animation: moveclouds 20s linear infinite;
             }
-
+			._a{
+				text-decoration: none;
+				font-size:20px;
+				color:white;
+			}
             @-webkit-keyframes moveclouds {
                 0% {margin-left: 1000px;}
                 100% {margin-left: -1000px;}
@@ -243,6 +248,11 @@ body{
             <div class='_404'>${code }</div>
             <hr>
             <div class='_1'>${error.MESSAGE }</div>
+        </div>
+        <div>
+        	<div class='_1'>
+        		<a class="_a" href="${path }/odagada/">메인으로 돌아가기</a>
+       		</div>
         </div>
 </body>
 </html>
