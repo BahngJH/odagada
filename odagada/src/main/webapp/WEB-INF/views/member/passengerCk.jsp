@@ -513,32 +513,46 @@ margin-left:13px;
 						var carpoolNum=$('#carpoolNum').val();
 						var driverNum=$('#driverNum').val();
 						var pay=$('#pay').val();
+						var reg=/^[0-9]+$/g;
+						var check=reg.test(paycode)
+						console.log(reg.test(paycode));
 						if(paycode.length==0)
 						{
-							alert('코드를 정확히 입력해 주세요.');
+							alert('코드를 입력해 주세요.');
 						}
-						else{
-							$.ajax({
-								url:"${path}/driver/updateDriverCredit",
-								data:{"carpoolNum":carpoolNum,
-									"passengerNum":passengerNum,
-									"paycode":paycode,
-									"driverNum":driverNum,
-									"pay":pay
-								},
-								type:"post",
-								success:function(data){
-									console.log(data);
-									if(data==='Y'){
-										alert('결제를 완료하였습니다.');
-										location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y";
+						else
+						{
+							if(check)
+							{
+								$.ajax({
+									url:"${path}/driver/updateDriverCredit",
+									data:{"carpoolNum":carpoolNum,
+										"passengerNum":passengerNum,
+										"paycode":paycode,
+										"driverNum":driverNum,
+										"pay":pay
+									},
+									type:"post",
+									success:function(data){
+										console.log(data);
+										if(data==='Y'){
+											alert('결제를 완료하였습니다.');
+											location.href="${path}/driver/selectDriverPas?driverNum="+driverNum+"&carpoolNum="+carpoolNum+"&sta=Y";
+										}
+										else{
+											alert('결제에 실패하였습니다. 다시 시도해주세요.');
+											document.getElementById('credit-code').value='';
+											return;
+										}
 									}
-									else{
-										alert('결제에 실패하였습니다. 다시 시도해주세요.');
-										return;
-									}
-								}
-							});
+								});
+							}
+							else
+							{
+								alert('정확한 코드를 입력해주세요.');
+								document.getElementById('credit-code').value='';
+								return;
+							}
 						}
 						
 					}
