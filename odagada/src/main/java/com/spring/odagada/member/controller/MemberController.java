@@ -222,54 +222,42 @@ public class MemberController {
 	//프로필이미지 테스트
 	@ResponseBody
 	@RequestMapping("/member/profileTest.do")
-	public String[] prifileTeset(MultipartFile upFile, MultipartHttpServletRequest mr,HttpServletRequest request) throws GeneralSecurityException {
-		//임시 프로필 사진 저장소
-		String sav=request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");		
-		
-		  //임시 프로필 저장경로
-	/*      String[] temp=mr.getParameterValues("temp");
-	      logger.debug("temp는?"+temp[0]);*/
-	   
-	      String[] result= new String[2];
-	      
-	      if(!upFile.isEmpty()) {
-	         //파일명 생성(ReName)
-	         String oriFileName=upFile.getOriginalFilename();
-	         String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
-	         
-	         //rename 규칙
-	         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-	         int rdv=(int)(Math.random()*1000);
-	         String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
-	         
-	         //profile 사진 저장
-	         try {
-	            upFile.transferTo(new File(sav+"/"+reName));
-	            String path=sav+"/"+reName;
-	            result[0]=path;
-	            FaceDetectApp.main(result);	            
-	        		            	        
-	         }catch(IllegalStateException e){
-	            e.printStackTrace();
-	         }catch(IOException e) {
-	        	 result[1]="no";
-	        	 logger.debug("사람이 아닙니다.");
-	         }catch(IndexOutOfBoundsException e) {
-	        	 result[1]="many";
-	        	 logger.debug("다수입니다.");
-	         }
-			// 임시 프로필 이미지 삭제
-			File file = new File(sav+"/"+reName);
-			System.out.println("파일경로어디니?" + sav+"/"+reName);
+	public String[] prifileTeset(MultipartFile upFile,HttpServletRequest request) throws GeneralSecurityException {
+		// 임시 프로필 사진 저장소
+		String sav = request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");
+
+		String[] result = new String[2];
+
+		if (!upFile.isEmpty()) {
+			// 파일명 생성(ReName)
+			String oriFileName = upFile.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+			// rename 규칙
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv = (int) (Math.random() * 1000);
+			String reName = sdf.format(System.currentTimeMillis()) + "_" + rdv + ext;
+			// profile 사진 저장
+			try {
+				upFile.transferTo(new File(sav + "/" + reName));
+				String path = sav + "/" + reName;
+				result[0] = path;
+				FaceDetectApp.main(result);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				result[1] = "no";
+				logger.debug("사람이 아닙니다.");
+			} catch (IndexOutOfBoundsException e) {
+				result[1] = "many";
+				logger.debug("다수입니다.");
+			}
+			File file = new File(sav + "/" + reName);// 임시 프로필 이미지 삭제
 			if (file.exists()) {
 				file.delete();
-				System.out.println("딜리트가 실행되면 여기" + sav+"/"+reName);
 			}
-
 		}
-	      
-	      return result;
-	   }
+		return result;
+	}
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
@@ -289,9 +277,8 @@ public class MemberController {
 		String phone2=request.getParameter("phone2");
 		String phone=phone1+phone2;
 		m.setPhone(phone);		
-		//프로필 사진 저장되는 장소
+		//프로필 사진 저장소
 		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
-		//임시 프로필 저장 장소
 
 		ModelAndView mv=new ModelAndView();
 		

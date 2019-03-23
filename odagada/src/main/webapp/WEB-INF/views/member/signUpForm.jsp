@@ -292,6 +292,11 @@ $(function(){
           alert("정확한 이름을 입력해주세요.");
           return false;
     	  }
+       //프로필 이미지 검사
+       if($('#temp').val()==0){
+    	   alert("알맞은 사진을 넣어주세요.");
+    	   return false;
+       }
      	//이메일 도메인 정규식 받기    
         var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
         if(!mC.test($("input[name=email2]").val())){
@@ -370,7 +375,7 @@ $(function(){
     	    var phone1=$('#selectPhone option:selected').val();
     	    var phone2=$('#phone2').val();
     	    var phone=phone1+phone2;
-    	    console.log(phone);
+    	    console.log($('#temp').val());
     	  //핸드폰 유효성 검사 
           var regExp = /([0-9]{7,8})$/;
           if (!regExp.test($("input[name=phone2]").val())) {
@@ -423,7 +428,6 @@ $(function(){
 		 else{
      			var filenames=obj.files[0].name;
         		var fileReader = new FileReader();    
-        		var temp=$("#temp").val();
         		
 	      		fileReader.readAsDataURL(obj.files[0]);   	      		
 	      		fileReader.onload = function(e){
@@ -433,7 +437,6 @@ $(function(){
      	 		
      		 	var formData=new FormData();
       		 		formData.append('upFile',obj.files[0]);  
-      		 		formData.append('temp',temp);  		 		
       		
       	 	 	$.ajax({
      	 			url:"${path}/member/profileTest.do",
@@ -443,17 +446,16 @@ $(function(){
      	 			contentType:false,
      	 			type:'POST',
      	 			success:function(data){
-     	 				console.log("데이타[0]은?"+data[0]);
-     	 				
-     	 				/* document.getElementById('temp').value=data[0]; */
-     	 					 				
      	 				if(data[1]=='no'){
+     	 					document.getElementById('temp').value='0'; 
      	 					alert("인물 사진을 넣어주세요.");
      	 					return false;
      	 				}if(data[1]=='many'){
-     	 					alert("하나의 인물 나온 사진을 넣어주세요.");
+     	 					document.getElementById('temp').value='0'; 
+     	 					alert("하나의 인물이 나온 사진을 넣어주세요.");
      	 					return false;
      	 				} else{
+     	 					document.getElementById('temp').value='1'; 
      	 					return true;
      	 				}      	 			
      	 			}
@@ -498,7 +500,7 @@ $(function(){
              <div class="row">                     
                   <div class="upFile-div custom-file col-12">
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-                      <input type="hidden" id="temp" name="temp" value=""/>
+                      <input type="hidden" id="temp" name="temp" value="0"/>
                       <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
                   </div>                      
              </div>
