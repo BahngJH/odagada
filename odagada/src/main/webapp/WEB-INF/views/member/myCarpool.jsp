@@ -62,6 +62,14 @@ div.driver>span{
 a#pay{
 	color: #FFFFFF;
 }
+.re-btn{
+	width:60px;
+	height:30px;
+	font-size:11px;
+	text-align: center;
+	float:right;
+	padding:0px;
+}
 </style>
 
 <section class="container">
@@ -96,8 +104,22 @@ a#pay{
 				             </div>
 				             <div class="col-12">
 				                <div class="row">
-				                	<div class="col driver">
+				                	<div class="col-8 driver">
 				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
+				                   </div>
+				                   <div class="offset-2 col-2">
+				                   		<c:choose>
+											<c:when test="${list.WRITERNUM != null }">
+												<span>
+													<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-success re-btn' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}&carpoolNum=${list.CARPOOLNUM }&driverName=${list.MEMBERNAME }"'/>
+												</span>
+											</c:when>
+											<c:otherwise>
+												<span>
+													<input type="button" class="btn btn-outline-success re-btn" value="리뷰작성" onclick="location.href='${path}/community/reviewForm.do?memberNum=${logined.memberNum }&driverNum=${list.MEMBERNUM }&memberName=${list.MEMBERNAME}&carpoolNum=${list.CARPOOLNUM }';">
+												</span>
+											</c:otherwise>
+										</c:choose>
 				                   </div>
 				                   <div class="col status_option">
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
@@ -162,23 +184,11 @@ a#pay{
 										</c:if>
 										<c:if test='${list.PSTATUS == "R"}'>
 											<span class="badge badge-warning">승인거절</span>
-                    </c:if>
+                   						</c:if>
 										<c:if test='${list.PSTATUS == "C" }'>
 											<span class="badge badge-warning">결제 취소</span>
 										</c:if>
 										<span>&nbsp;&nbsp;</span>
-											<c:choose>
-												<c:when test="${list.WRITERNUM != null }">
-													<span>
-														<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-outline-success' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}&carpoolNum=${list.CARPOOLNUM }&driverName=${list.MEMBERNAME }"'/>
-													</span>
-												</c:when>
-												<c:otherwise>
-													<span>
-														<input type="button" class="btn btn-outline-success" value="리뷰작성" onclick="location.href='${path}/community/reviewForm.do?memberNum=${logined.memberNum }&driverNum=${list.MEMBERNUM }&memberName=${list.MEMBERNAME}&carpoolNum=${list.CARPOOLNUM }';">
-													</span>
-												</c:otherwise>
-											</c:choose>
 				                   </div>
 				                </div>
 				             </div>
