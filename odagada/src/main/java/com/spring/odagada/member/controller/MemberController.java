@@ -436,7 +436,7 @@ public class MemberController {
   
 	   if(pwEncoder.matches(password, m.getMemberPw())) {
 		   if(answer.equals("delete")) {
-			   //delete 실행
+			   //delete 실행(딜리트>>업데이트로 바꾸기)
 			   int rs=service.deleteMember(m.getMemberNum());
 			   
 				if (rs != 0) {

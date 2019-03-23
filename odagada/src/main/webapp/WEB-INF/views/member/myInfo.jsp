@@ -16,19 +16,16 @@
 
 <style>
 
-  div#enroll-container{width:400px; margin:0 auto;}
-  div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-  .menu{text-align:center; font-weight:bold;}
-  .info{margin-top:50px; margin-bottom: 50px;}
-  #answer{height:50%;}
-  .alert-div{size:10px;}
-  #ttMessage-div{padding-bottom:0px;}
-  #pw-modal-div{padding-bottom:0px; padding-top:0px;}
-  #ttQ{margin-left:60%;}
- tr::before,
-tr::after {
-  box-sizing: none; // 1
-}
+ div#enroll-container{width:400px; margin:0 auto;}
+ div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
+ .menu{text-align:center; font-weight:bold;}
+ .info{margin-top:50px; margin-bottom: 50px;}
+ #answer{height:50%;}
+ .alert-div{size:10px;}
+ #ttMessage-div{padding-bottom:0px;}
+ #pw-modal-div{padding-bottom:0px; padding-top:0px;}
+ #ttQ{margin-left:60%;}
+ tr::before,tr::after {box-sizing: none; // 1}
 </style>
 
 <section class="container">
@@ -237,6 +234,7 @@ tr::after {
 				</div>		
 			</div>
 		</div>
+	</section>
 <script>
 
  function updateCheck(answer) {

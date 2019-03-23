@@ -590,8 +590,8 @@ $(function(){
            <input type="hidden" id="phoneStatus" value="0"/>              
                <div class="row genderRow">         
              		<div class="gender form-check-inline from-control">
-             	   		 <input id="radio1" name="radio" type="radio" class="radio" name="gender" value="M" checked="checked"> <label for="radio1">남자</label>&nbsp;
-           				 <input id="radio2" name="radio" type="radio" class="radio" name="gender" value="F"> <label for="radio2">여자</label>&nbsp;
+             	   		 <input id="radio1" type="radio" class="radio" name="gender" value="M" checked="checked"> <label for="radio1">남자</label>&nbsp;
+           				 <input id="radio2" type="radio" class="radio" name="gender" value="F"> <label for="radio2">여자</label>&nbsp;
              	   </div>
                </div>  	                 	                
                 <br/>
