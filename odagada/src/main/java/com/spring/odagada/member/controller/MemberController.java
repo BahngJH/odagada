@@ -226,9 +226,9 @@ public class MemberController {
 		//임시 프로필 사진 저장소
 		String sav=request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");		
 		
-		  //임시 프로필
-	      String temp=mr.getParameter("temp");
-	      logger.debug("temp는?"+temp);
+		  //임시 프로필 저장경로
+	/*      String[] temp=mr.getParameterValues("temp");
+	      logger.debug("temp는?"+temp[0]);*/
 	   
 	      String[] result= new String[2];
 	      
@@ -247,7 +247,8 @@ public class MemberController {
 	            upFile.transferTo(new File(sav+"/"+reName));
 	            String path=sav+"/"+reName;
 	            result[0]=path;
-	            FaceDetectApp.main(result);
+	            FaceDetectApp.main(result);	            
+	        		            	        
 	         }catch(IllegalStateException e){
 	            e.printStackTrace();
 	         }catch(IOException e) {
@@ -257,7 +258,16 @@ public class MemberController {
 	        	 result[1]="many";
 	        	 logger.debug("다수입니다.");
 	         }
-	      }
+			// 임시 프로필 이미지 삭제
+			File file = new File(sav+"/"+reName);
+			System.out.println("파일경로어디니?" + sav+"/"+reName);
+			if (file.exists()) {
+				file.delete();
+				System.out.println("딜리트가 실행되면 여기" + sav+"/"+reName);
+			}
+
+		}
+	      
 	      return result;
 	   }
 	//회원가입
@@ -314,41 +324,6 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		return "common/msg";		
 	}
-	 @RequestMapping("/member/imageTest")
-	   public static void cloudVision(HttpServletRequest req) throws Exception, IOException {
-	        List<AnnotateImageRequest> requests = new ArrayList<>();
-	        String sd=req.getSession().getServletContext().getRealPath("/resources/upload/profile");
-
-	        String path=sd+"/itzy.jpg";
-
-	        ByteString imgBytes = ByteString.readFrom(new FileInputStream(path));
-	        Image img = Image.newBuilder().setContent(imgBytes).build();
-	        Feature feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
-	        AnnotateImageRequest request =
-	            AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
-	        requests.add(request);
-
-	        try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
-	          BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
-	          List<AnnotateImageResponse> responses = response.getResponsesList();
-
-	          for (AnnotateImageResponse res : responses) {
-	            if (res.hasError()) {
-	             System.out.printf("Error: %s\n", res.getError().getMessage());
-	              return;
-	            }
-
-	            // For full list of available annotations, see http://g.co/cloud/vision/docs
-
-	            for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
-	                annotation.getAllFields().forEach((k, v) -> 
-	                System.out.println(k+":"+ v));
-	              }
-	          }
-	        }
-	 }
-
-
 	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public ModelAndView emailConfirm(String email, String memberId) {

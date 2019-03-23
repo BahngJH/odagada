@@ -411,9 +411,7 @@ $(function(){
      	var fileType = fileName.toLowerCase();
      	var ckFileType = new Array();
      	ckFileType = ['jpg','png', 'jpeg', 'jpeg', 'bmp'];
-     		console.log("파일타입?"+fileType);
-			console.log(ckFileType.indexOf(fileType));
-			console.log("파일이름?"+fileName);
+     	
 			
 		if(fileName==''){return true;}	
 		if (ckFileType.indexOf(fileType) == -1) {
@@ -425,7 +423,7 @@ $(function(){
 		 else{
      			var filenames=obj.files[0].name;
         		var fileReader = new FileReader();    
-        		var temp=$('#temp').val().trim();
+        		var temp=$("#temp").val();
         		
 	      		fileReader.readAsDataURL(obj.files[0]);   	      		
 	      		fileReader.onload = function(e){
@@ -445,17 +443,19 @@ $(function(){
      	 			contentType:false,
      	 			type:'POST',
      	 			success:function(data){
-     	 				temp=data[0];
+     	 				console.log("데이타[0]은?"+data[0]);
+     	 				
+     	 				/* document.getElementById('temp').value=data[0]; */
+     	 					 				
      	 				if(data[1]=='no'){
      	 					alert("인물 사진을 넣어주세요.");
      	 					return false;
      	 				}if(data[1]=='many'){
      	 					alert("하나의 인물 나온 사진을 넣어주세요.");
      	 					return false;
-     	 				}/* else(data[1]==null){
+     	 				} else{
      	 					return true;
-     	 				} */     	 			
-     	 				console.log("temp: "+temp);   	 				
+     	 				}      	 			
      	 			}
      	 		});  
       		}

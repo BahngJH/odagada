@@ -233,7 +233,6 @@ function sendSms(){
 	 	var p1=$('#selectPhone option:selected').val(); 
 		var p2=$('#phone2').val().trim();
 		var phone=p1+p2;
-		console.log(phone);  
 	 	//핸드폰 유효성 검사 		
 		var regExp = /([0-9]{7,8})$/;
 		if (!regExp.test(p2)) {
@@ -276,7 +275,7 @@ $(function(){
 	      if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 	         var inputVal = $(this).val();
 	         $(this).val(inputVal.replace(/[^가-힣]/gis, ''));
-	   }
+		   }
 	});		
 });
 		
