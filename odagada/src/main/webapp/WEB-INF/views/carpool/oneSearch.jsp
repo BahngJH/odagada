@@ -80,7 +80,7 @@ img.driver-img:before {
 		margin-top:40px;
 	}
 	img.seat-img{
-		width:45px;height:45px;
+		width:60px;height:60px;
 		margin:8px;
 	}
 	div.seat-div{
@@ -471,7 +471,6 @@ img.driver-img:before {
 								  					<c:forEach items='${pList }' var='p' varStatus="count">
 									  					<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
 								  							<div class="row" id="pas-toggle${count.index }" style="display:none;">
-								  								<hr/>
 									  							<div class="col-4 ">
 										  							<div class="text-center " >
 										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%"/>
@@ -691,7 +690,7 @@ img.driver-img:before {
 								<c:otherwise>
 									<div class="row">
 										<div class="col-6 offset-3">
-											<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
+											<button class="btn btn-danger search-div btn-chat" onclick="location.href='${path}/community/notifyForm.do?driverId=${oList.get(0).MEMBERID }&driverName=${oList.get(0).MEMBERNAME }'">드라이버 신고하기</button>
 										</div>
 									</div>
 									<c:set value="false" var="rFlag"/>
