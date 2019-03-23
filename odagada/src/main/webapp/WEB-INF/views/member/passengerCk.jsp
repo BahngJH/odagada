@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -254,7 +253,7 @@ margin-left:13px;
 																</div>
 																<div class="col-12 text-center check-div">
 																	<span>
-																		<button class="btn btn-success" onclick="moveChatting(${d.PMEMBERNUM})">채팅하기</button>
+																		<button class="btn btn-success chatting-btn" value="${d.MEMBERID }">채팅하기</button>
 																		<c:if test='${d.PAYSTATUS eq "N" }'>
 																			<button class="btn btn-warning credit-id" data-toggle="modal" data-target="#credit" value='${d.PMEMBERNUM }'>결제 받기</button>
 																		</c:if>
@@ -565,16 +564,20 @@ margin-left:13px;
 </section>
 <script>
 var mNum;
+var mId;
 $('.credit-id').on('click',function(){
 	mNum=this.value;
-	console.log(mNum);
 });
+$('.chatting-btn').on('click',function(){
+	mId=this.value;
+	location.href="${path}/community/createRoomClick.do?chatUser="+mId;
+})
 /* 채팅방 */
-   function moveChatting(chatUser)
+/*    function moveChatting(chatUser)
    {
 	   console.log(chatUser);
        location.href="${path}/community/createRoomClick.do?chatUser="+chatUser;
-   }
+   } */
 /* 승차 수락  */
 function pasOk(e){
 	var tt=e.split(' ');
