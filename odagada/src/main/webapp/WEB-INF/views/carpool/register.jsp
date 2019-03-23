@@ -118,7 +118,7 @@
 								좌석수 <input type="number" class="form-control" name="seatcount" id="seatcount" min="1" max="11" placeHolder="최소 1개" required/>
 							</div>
 							<div class="col-6 col-sm-3 ml-auto">
-								가격 <input type="number" placeholder="최소 단위 1000원" class="form-control" name="pay" id="pay" min="0" step="1000" required/>
+								가격 <input type="number" placeholder="최소 단위 1000원" class="form-control" name="pay" id="pay" min="0" step="1000" max="1000000" required/>
 							</div>
 						</div>
 								
@@ -219,7 +219,7 @@ function carpoolValidate(){
 		return false;
 	}
 	
-	return true;
+	return false;
 };
 
 var map;

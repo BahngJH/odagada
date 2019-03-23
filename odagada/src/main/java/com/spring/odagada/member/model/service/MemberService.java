@@ -6,6 +6,7 @@ import java.util.Map;
 import com.spring.odagada.member.model.vo.Member;
 
 public interface MemberService {
+	Member kakaoIdCK(Member m);
 	Map<String, String>login(Map<String, String> login);
 	Member selectMember(String memberId);
 	void insertMember(Member m) throws Exception;
@@ -26,5 +27,7 @@ public interface MemberService {
 	void mailUpdate(Member m)throws Exception;//이메일 변경 인증 코드
 	int updatePhone(Member m);//핸드폰 번호 변경
 	int updateName(Member m);//이름 변경
+	int updateMsg(Member m);//메세지 등록
+	int deleteMsg(Member m);//메세지 삭제
 	 
 }

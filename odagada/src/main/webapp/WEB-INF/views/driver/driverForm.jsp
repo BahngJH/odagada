@@ -91,12 +91,6 @@
 				<div class="col form_Title">
 					<span id="d_badge">자동차 사진</span><br><br>
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-						  <ol class="carousel-indicators">
-						    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-						    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-						    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-						    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-						  </ol>
 						  <div class="carousel-inner">
 							  <c:forEach items="${carImg}" var="c" varStatus="t">					    
 									  <div class="carousel-item ${c.active }">
@@ -121,11 +115,31 @@
 						<form action="${path}/driver/driverFormEnd?memberNum=${driver.MEMBERNUM}&&driverStatus=${driver.DRIVERSTATUS}" method="post">
 							<input type="submit" class="btn btn-outline-success" value="드라이버 승인">
 						</form>
-						<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverRefuse?memberNum=${driver.MEMBERNUM}';">드라이버 승인 거절</button>
+						<button class="btn btn-outline-success" data-toggle="modal" data-target="#MsgModal" data-membernum="${driver.MEMBERNUM}">드라이버 승인 거절</button>		
 					</c:if>
 					<c:if test="${driver.DRIVERSTATUS eq 'Y'}">
 						<button class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverList';">목록</button>
 					</c:if>
+				</div>
+				<!-- Modal -->
+				<div class="modal fade" id="MsgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">승인거절 메세지를 입력해주세요.</h5>
+<!-- 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">X</span>
+				        </button> -->
+				      </div>
+				      <div class="modal-body">
+				        <input type="text" id="carMsg" name="carMsg" placeholder="ex) 잘못된 자동차 사진입니다.">
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				        <button type="button" class="btn btn-primary" onclick="insertCarMsg();">전송</button>
+				      </div>
+				    </div>
+				  </div>
 				</div>
 			</div>		
 		</div>
@@ -142,6 +156,30 @@ $(function(){
 		location.href="${path}/board/filedownLoad.do?oName="+oName+"&rName="+rName;
 	}
 });
+	var MEMBERNUM ="";
+
+	$(document).ready(function(){
+		$('#MsgModal').on('show.bs.modal',function(event){
+			MEMBERNUM = $(event.relatedTarget).data('membernum');
+		});
+	});
+	
+	function insertCarMsg()
+	{
+		var carMsg = $('#carMsg').val();
+		if(carMsg==""){
+			alert("승인 거절 사유를 입력하세요.");
+			return false;
+		}
+		var msg = /[ㄱ-ㅎ가-힣,.\s]/g;
+		if(!msg.test($("input[name=carMsg]").val())){
+			alert("한글,',','.',' '만 입력 가능합니다.");
+			return false;
+		}
+		
+		location.href='${path}/driver/driverRefuse?memberNum='+MEMBERNUM+'&carMsg='+carMsg;
+	}
+
 </script>
 ​
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>​

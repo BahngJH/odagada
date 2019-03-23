@@ -26,27 +26,21 @@
 
 <section class="container">
    <div class="row">
-
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
             <a class="list-group-item list-group-item-action active" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
          </div>
       </div>
       
-      <div class="col-12 col-md-8" id="enroll-container">   
+      <div class="col-12 col-md-9" id="enroll-container">   
          <div class="info col-12 col-sm-12 col-md-9">
          <c:set value="${driver}" var="d"/>         
          <div id ="row">
          	<div id="col">
          	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-			  <ol class="carousel-indicators">
-				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-			    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-			  </ol>
 			  <div class="carousel-inner">
 				  <c:forEach items="${carImg}" var="c" varStatus="t">					    
 					  <div class="carousel-item ${c.active}">
@@ -88,7 +82,7 @@
 				<div class="row">
 					<div class="col-md-6 offset-md-3 text-center">
 						<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myDriverModify'">정보 변경</button>
-				 		<button type="button" class="btn btn-outline-success">회원 탈퇴</button>
+				 		<button type="button" class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverWithdrawal?memberNum=${driver.MEMBERNUM}';">드라이버 탈퇴</button>
 					</div>
 				</div>
 					

@@ -20,7 +20,14 @@
 <title>ODA-GADA</title>
 
 <style>
-@font-face { font-family: 'MyLotteLight'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.0/MyLotteLight.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Binggrae-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'YanoljaYacheR'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YanoljaYacheR.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'S-CoreDream-8Heavy'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'SDKukdetopokki'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SDKukdetopokki.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'BMHANNAPro'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'netmarbleB'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleB.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	
 	body{
 		min-width: 350px;
 		font-family: 'MyLotteLight';
@@ -57,6 +64,10 @@
        text-align: center;
        color:white;
      }
+     .navbar{
+     	font-family : BMJUA;
+     	font-size: 25px;
+     }
      
     
 </style>
@@ -74,20 +85,23 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>
+                <c:set var="isAdmin" value="${logined.isAdmin}"/>
                 <c:if test="${sessionScope.driver.LICENSENUM eq null}">
-	                <li class="nav-item">
-                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
-	               	</li>
+                	<c:if test="${isAdmin eq '0'}">
+	                	<li class="nav-item">
+	                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
+		               	</li>
+	               	</c:if>
                	</c:if>       
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
-                <li class="nav-item">
+<%--                 <li class="nav-item">
                   <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
-                </li>
+                </li> --%>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
-	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
+	                	  <a class="nav-link" href="${path }/member/loginForm2.do">로그인</a>
 	                </li>
 	                  <li class="nav-item">
 	                 	 <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
@@ -134,6 +148,7 @@
 		if(<%=request.getSession().getAttribute("logined")!=null && !request.getSession().getAttribute("logined").equals("")%>){
 			//로그인 되어 있을 때만 실행
 			var url="http://localhost:9090/odagada/echo";
+			
 			ws = new SockJS(url);
 			
 			//메세지를 받았을 때

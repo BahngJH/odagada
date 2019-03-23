@@ -109,7 +109,7 @@ tr::after {
 				      </td>
 				    </tr>		 
 				</table>
-				<a href="${path }/member/updateInfo.do" class="btn btn-primary" >정보변경하자좀</a>		
+				<!--  <a href="${path }/member/updateInfo.do" class="btn btn-primary" >정보변경하자좀</a>		 -->
 			  <div class="menu card-body">		 	   
 			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#changeInfo">정보 변경</button>
 				 <button type="button" class="btn btn-outline-success" id="tt-btn" data-toggle="modal" data-target="#delete">회원 탈퇴</button>						

@@ -16,6 +16,12 @@ public class MemberDaoImpl implements MemberDao {
 	SqlSessionTemplate session;
 
 	@Override
+	public Member kakaoIdCK(Member m) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.kakaoIdCK",m);
+	}
+
+	@Override
 	public Map<String, String> login(Map<String, String> login) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.login", login);
@@ -147,4 +153,18 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateName(Member m) {
 		return session.update("member.updateName",m);
 	}
+
+	@Override
+	public int updateMsg(Member m) {
+		return session.update("member.updateMsg",m);
+	}
+
+	@Override
+	public int deleteMsg(Member m) {
+		return session.update("member.deleteMsg",m);
+	}
+	
+	
+	
+	
 }

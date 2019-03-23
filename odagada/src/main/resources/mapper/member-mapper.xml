@@ -7,6 +7,11 @@
 		SELECT*FROM MEMBER WHERE MEMBERID=#{memberId}	
 	</select>
 	
+	<!-- 카카오아아디 체크 -->
+	<select id="kakaoIdCK" parameterType="member" resultType="member">
+		select * from member where memberid=#{memberId}
+	</select>
+	
 	<!--멤버 정보 갖고오기  -->
 	<select id="selectMember" parameterType="string" resultType="member">
 		SELECT*FROM MEMBER WHERE MEMBERID=#{memberId}
@@ -14,7 +19,7 @@
 	
 	<!--회원 등록 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default, default, '""')
 	</insert>
 	
 	<!--메일 인증 코드 생성 -->
@@ -95,5 +100,13 @@
 	 <!--이름 변경  -->
 	 <update id="updateName" parameterType="member">
 	 UPDATE MEMBER SET MEMBERNAME=#{memberName} WHERE MEMBERNUM=#{memberNum}
+	 </update>
+	 <!-- 메세지 변경 -->
+	 <update id="updateMsg" parameterType="member">
+	 UPDATE MEMBER SET CARMSG=#{carMsg} WHERE MEMBERNUM=#{memberNum}
+	 </update>
+	 <!-- 메세지 삭제 -->
+	 <update id="deleteMsg" parameterType="member">
+	 UPDATE MEMBER SET CARMSG='' WHERE MEMBERNUM=#{memberNum}
 	 </update>
 </mapper>

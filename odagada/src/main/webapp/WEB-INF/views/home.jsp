@@ -187,7 +187,6 @@ height:300px;
          </div>
       </div>
    </div>
-
 <!-- 자주가는 경로 -->
    <div class="row">
       <div class="col-12 pop-div">

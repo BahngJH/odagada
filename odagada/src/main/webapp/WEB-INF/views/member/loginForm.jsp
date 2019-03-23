@@ -15,7 +15,9 @@
 
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+
 <style>
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
@@ -157,14 +159,16 @@ margin-left: 4px;
 					<a href="${path}/member/findPw">비밀번호를 잊으셨나요? 비밀번호찾기</a>
 				</div>
 			</div>
+		<!-- 간편로그인 배너 -->	
+		<!-- <div id="naverIdLogin"></div>
+		<div id="kakaoLogin">  
+		    <a id="kakao-login-btn"></a>
+		    <a href="http://developers.kakao.com/logout"></a>
+		</div>  -->
+		
 		</div>
 	</div>
 
-<!-- 	<div id="kakaoLogin">  
-    <a id="kakao-login-btn"></a>
-    <a href="http://developers.kakao.com/logout"></a>
-</div> -->
- 
  
 <script type='text/javascript'>
 	var kakaoName="";
@@ -185,10 +189,26 @@ margin-left: 4px;
                   console.log(res.kakao_account);
                   console.log(JSON.stringify(res.properties.nickname));
                   
-                  kakaoId=res.id;
+                  kakaoId = res.id;
                   kakaoName=JSON.stringify(res.properties.nickname);
-                  location.href='${path}/member/kakaoLogin.do?kakaoId='+kakaoId+'&kakaoName='+kakaoName;     
-
+                  
+                  $.ajax({
+                	  url:"${path}/member/kakaoIdCK",
+                	  data:{"kakaoId":kakaoId,"kakaoName":kakaoName},
+                	  success:function(data){
+                		  console.log(data);
+                		  if(data.result=="N")
+                		  {
+                			 location.href='${path}/member/kakaoLogin.do?kakaoId='+kakaoId+'&kakaoName='+kakaoName;
+                		  		
+                		  }else
+                		  {
+                			 location.href='${path}/';
+                		  } 
+                		  
+                	  }
+                  });
+              
               },
               fail: function(error){
                   alert(JSON.stringify(error));
@@ -202,8 +222,7 @@ margin-left: 4px;
     });
     
 </script>  
-	<div id="naverIdLogin">
-	</div>
+	
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 	<script>
 		var naverLogin = new naver.LoginWithNaverId(

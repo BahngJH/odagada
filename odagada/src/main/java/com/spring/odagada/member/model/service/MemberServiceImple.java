@@ -23,6 +23,12 @@ public class MemberServiceImple implements MemberService {
     private JavaMailSender mailSender;
 
 	@Override
+	public Member kakaoIdCK(Member m) {
+		// TODO Auto-generated method stub
+		return dao.kakaoIdCK(m);
+	}
+
+	@Override
 	public Map<String, String> login(Map<String, String> login) {
 		return dao.login(login);
 	}
@@ -210,4 +216,18 @@ public class MemberServiceImple implements MemberService {
 	public int updateName(Member m) {
 		return dao.updateName(m);
 	}
+
+	@Override
+	public int updateMsg(Member m) {
+		return dao.updateMsg(m);
+	}
+
+	@Override
+	public int deleteMsg(Member m) {
+		return dao.deleteMsg(m);
+	}
+	
+	
+	
+	
 }

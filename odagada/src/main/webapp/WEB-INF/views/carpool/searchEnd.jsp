@@ -92,6 +92,7 @@
 </style>
 <section class="container" >
 <c:set value='0' var="listSize"/>
+<<<<<<< HEAD
 	<div class="row">
 		<div class="col-12 offset-md-1 col-md-9 ">
 			<div class="input-group">
@@ -281,10 +282,10 @@ $(document).ready(function(){
    $('#Progress_Loading').hide(); //첫 시작시 로딩바를 숨겨준다.
 })
 .ajaxStart(function(){
-	$('#Progress_Loading').show(); //ajax실행시 로딩바를 보여준다.
+   $('#Progress_Loading').show(); //ajax실행시 로딩바를 보여준다.
 })
 .ajaxStop(function(){
-	$('#Progress_Loading').hide(); //ajax종료시 로딩바를 숨겨준다.
+   $('#Progress_Loading').hide(); //ajax종료시 로딩바를 숨겨준다.
 });
 //무한스크롤
  $(document).ready(function() {
@@ -348,14 +349,14 @@ $(function () {
 });
 /* 카풀 한 개 선택 */
 $(document).on('click','.form-onecar',function(){
-	var carpoolNum=$(this).find('#carpoolNum').val();
-	var seat=$(this).find('#seat').val();
-	var mem=$(this).find('#mem').val();
-	console.log(carpoolNum+" : "+seat+" : "+mem);
-	document.getElementById("carpoolNum").value=carpoolNum;
-	document.getElementById("seat").value=seat;
-	document.getElementById("mem").value=mem;
-	$(this).submit();
+   var carpoolNum=$(this).find('#carpoolNum').val();
+   var seat=$(this).find('#seat').val();
+   var mem=$(this).find('#mem').val();
+   console.log(carpoolNum+" : "+seat+" : "+mem);
+   document.getElementById("carpoolNum").value=carpoolNum;
+   document.getElementById("seat").value=seat;
+   document.getElementById("mem").value=mem;
+   $(this).submit();
 });
 /* 검색버튼 */
 $('#btn-reset').on("click",function(){
@@ -396,7 +397,7 @@ $('#btn-reset').on("click",function(){
 });
 /* 페이지 로딩과 동시에 검색버튼 클릭 */
 function fclick(){
-	$('#btn-reset').trigger("click");
+   $('#btn-reset').trigger("click");
 };
 fclick();
 
