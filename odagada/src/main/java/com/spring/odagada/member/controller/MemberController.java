@@ -223,23 +223,13 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping("/member/profileTest.do")
 	public String[] prifileTeset(MultipartFile upFile, MultipartHttpServletRequest mr,HttpServletRequest request) throws GeneralSecurityException {
-		logger.debug("업파일은 뭔가요?"+upFile);
 		//임시 프로필 사진 저장소
-		String sav=request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");
-/*		//임시 프로필 체크 사진 저장소
-		String savOut=request.getSession().getServletContext().getRealPath("");	*/			
+		String sav=request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");		
 		
 		  //임시 프로필
 	      String temp=mr.getParameter("temp");
 	      logger.debug("temp는?"+temp);
-	      //임시 프로필 체크 값
-	      /*String tempOut=mr.getParameter("tempOut");
-	      
-	      logger.debug(temp);
-	      
-	      ModelAndView mv=new ModelAndView();
-	      logger.debug(""+upFile);
-	      */
+	   
 	      String[] result= new String[2];
 	      
 	      if(!upFile.isEmpty()) {
@@ -257,12 +247,15 @@ public class MemberController {
 	            upFile.transferTo(new File(sav+"/"+reName));
 	            String path=sav+"/"+reName;
 	            result[0]=path;
-	            /*result[1]=sav+"/checkFace.jpg";*/
 	            FaceDetectApp.main(result);
 	         }catch(IllegalStateException e){
 	            e.printStackTrace();
-	         }catch( IOException e) {
-	        	 result[1]="사용할 수 없는 사진입니다.";
+	         }catch(IOException e) {
+	        	 result[1]="no";
+	        	 logger.debug("사람이 아닙니다.");
+	         }catch(IndexOutOfBoundsException e) {
+	        	 result[1]="many";
+	        	 logger.debug("다수입니다.");
 	         }
 	      }
 	      return result;

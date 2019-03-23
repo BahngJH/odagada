@@ -395,6 +395,15 @@ $(function(){
     	    }) ;   	  
       };
       
+      
+
+  //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
+  $(function(){  
+ 	$('#pro_img').on('click', function() {
+ 			$('#upFile').trigger('click');			
+ 		})	 
+ });
+         
     //프로필 사진을 이미지 타입 파일로만 받기
      function fileCheck(obj) {
      	var fileKind = obj.value.lastIndexOf('.');
@@ -405,6 +414,7 @@ $(function(){
      		console.log("파일타입?"+fileType);
 			console.log(ckFileType.indexOf(fileType));
 			console.log("파일이름?"+fileName);
+			
 		if(fileName==''){return true;}	
 		if (ckFileType.indexOf(fileType) == -1) {
 	   		alert("이미지 파일만 선택할 수 있습니다. 'gif' 파일은 불가합니다.");
@@ -415,8 +425,9 @@ $(function(){
 		 else{
      			var filenames=obj.files[0].name;
         		var fileReader = new FileReader();    
-        		var temp=$('#temp').val();
-	      		fileReader.readAsDataURL(obj.files[0]);      		
+        		var temp=$('#temp').val().trim();
+        		
+	      		fileReader.readAsDataURL(obj.files[0]);   	      		
 	      		fileReader.onload = function(e){
      	 		var result = e.target.result;	
      	 		$('#pro_img').attr('src',result);
@@ -424,21 +435,27 @@ $(function(){
      	 		
      		 	var formData=new FormData();
       		 		formData.append('upFile',obj.files[0]);  
-      		 		formData.append('temp',temp);
-      		 		
+      		 		formData.append('temp',temp);  		 		
       		
       	 	 	$.ajax({
      	 			url:"${path}/member/profileTest.do",
      	 			data:formData,
-     	 			dataType:'text',
+     	 			dataType:'json',
      	 			processData:false,
      	 			contentType:false,
      	 			type:'POST',
      	 			success:function(data){
-     	 				console.log("data는?"+data);
      	 				temp=data[0];
-     	 				console.log("temp: "+temp);
-     	 				
+     	 				if(data[1]=='no'){
+     	 					alert("인물 사진을 넣어주세요.");
+     	 					return false;
+     	 				}if(data[1]=='many'){
+     	 					alert("하나의 인물 나온 사진을 넣어주세요.");
+     	 					return false;
+     	 				}/* else(data[1]==null){
+     	 					return true;
+     	 				} */     	 			
+     	 				console.log("temp: "+temp);   	 				
      	 			}
      	 		});  
       		}
@@ -446,16 +463,8 @@ $(function(){
      	}
      	console.log("올릴 파일 이름은?"+$('#upFile').val());
      }
-
-       //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
-      $(function(){  
-     	$('#pro_img').on('click', function() {
-     			$('#upFile').trigger('click');			
-     		})	 
-     });      
       
-      
-      
+     
 </script>     
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">

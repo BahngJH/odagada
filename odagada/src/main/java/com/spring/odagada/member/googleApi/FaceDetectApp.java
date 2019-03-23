@@ -33,9 +33,8 @@ public class FaceDetectApp {
 	
   private static final String APPLICATION_NAME = "Google-VisionFaceDetectSample/1.0";
 
-  private static final int MAX_RESULTS = 4;
-
-  
+  private static final int MAX_RESULTS = 7;
+ 
   public static void main(String[] args) throws IOException, GeneralSecurityException {
     if (args.length != 2) {
       System.err.println("Usage:");
@@ -45,18 +44,16 @@ public class FaceDetectApp {
       System.exit(1);
     }
     Path inputPath = Paths.get(args[0]);
-/*    Path outputPath = Paths.get(args[1]);
-    if (!outputPath.toString().toLowerCase().endsWith(".jpg")) {
-      System.err.println("outputImagePath must have the file extension 'jpg'.");
-      System.exit(1);
-    }*/
 
-    FaceDetectApp app = new FaceDetectApp(getVisionService());
-    List<FaceAnnotation> faces = app.detectFaces(inputPath, MAX_RESULTS);
-    System.out.printf("Found %d face%s\n", faces.size(), faces.size() == 1 ? "" : "s");
-   /* System.out.printf("Writing to file %s\n", outputPath);
-    app.writeWithFaces(inputPath, outputPath, faces);*/
-  }
+		FaceDetectApp app = new FaceDetectApp(getVisionService());
+		List<FaceAnnotation> faces = app.detectFaces(inputPath, MAX_RESULTS);
+		System.out.printf("Found %d face%s\n", faces.size(), faces.size() == 1 ? "" : "s");
+		//사람 1명 이상일 때 exception 처리. 
+		if (faces.size() > 1) {
+			throw new IndexOutOfBoundsException();
+		}
+	}
+  
   
   public static Vision getVisionService() throws IOException, GeneralSecurityException {
     GoogleCredential credential =
@@ -65,6 +62,7 @@ public class FaceDetectApp {
     return new Vision.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, credential)
             .setApplicationName(APPLICATION_NAME)
             .build();
+    
   }
 
   private final Vision vision;
@@ -86,7 +84,6 @@ public class FaceDetectApp {
     Vision.Images.Annotate annotate =
         vision.images()
             .annotate(new BatchAnnotateImagesRequest().setRequests(ImmutableList.of(request)));
-    // Due to a bug: requests to Vision API containing large images fail when GZipped.
     annotate.setDisableGZipContent(true);
 
     BatchAnnotateImagesResponse batchResponse = annotate.execute();
@@ -99,30 +96,5 @@ public class FaceDetectApp {
               : "Unknown error getting image annotations");
     }
     return response.getFaceAnnotations();
-  }
-
-  private static void writeWithFaces(Path inputPath, Path outputPath, List<FaceAnnotation> faces)
-      throws IOException {
-    BufferedImage img = ImageIO.read(inputPath.toFile());
-    annotateWithFaces(img, faces);
-    ImageIO.write(img, "jpg", outputPath.toFile());
-  }
-
- 
-  public static void annotateWithFaces(BufferedImage img, List<FaceAnnotation> faces) {
-    for (FaceAnnotation face : faces) {
-      annotateWithFace(img, face);
-    }
-  }
-  
-  private static void annotateWithFace(BufferedImage img, FaceAnnotation face) {
-    Graphics2D gfx = img.createGraphics();
-    Polygon poly = new Polygon();
-    for (Vertex vertex : face.getFdBoundingPoly().getVertices()) {
-      poly.addPoint(vertex.getX(), vertex.getY());
-    }
-    gfx.setStroke(new BasicStroke(5));
-    gfx.setColor(new Color(0x00ff00));
-    gfx.draw(poly);
   }
 }
