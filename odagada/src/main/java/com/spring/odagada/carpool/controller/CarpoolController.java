@@ -151,7 +151,8 @@ public class CarpoolController {
 		m.put("destLong",endLon);
 		m.put("destLat",endLat);
 		m.put("kmNum", kmNum);
-
+		
+		
 		List<Map<String,String>> carlist = service.selectCarpoolList(m,cPage,numPerPage);
 		
 		mav.addObject("cList",carlist);
@@ -300,10 +301,9 @@ public class CarpoolController {
 		map.put("startCity", startCity);
 		map.put("endCity",endCity);
 		
-		
-		l.debug(map.toString());
 		int numPerPage=5;
 		List<Map<String,String>> cList = service.selectCarOptionList(map,cPage,numPerPage);
+		
 		map.put("cPage", Integer.toString(cPage));
 		req.setAttribute("search", map);
 		req.setAttribute("coList", cList);

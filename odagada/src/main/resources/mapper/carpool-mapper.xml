@@ -3,7 +3,7 @@
 <mapper namespace="carpool">
 	<resultMap type="map" id="carpool"></resultMap>
 	<select id="selectCarpoolList" parameterType="map" resultMap="carpool">
-		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member m using(membernum) full join black b on(m.memberid=b.blackid)
 		<![CDATA[
 			where (startlat >= (#{startLat} - 0.0272830231094096) and startlat <= (#{startLat}  + 0.0272830231094096)) 
 			and (startlong >= (#{startLong} - 0.0338066260987153) and startlong <= (#{startLong} + 0.0338066260987153))
@@ -14,7 +14,7 @@
 		order by startdate desc
 	</select>
 	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
-		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member m using(membernum) full join black b on(m.memberid=b.blackid)
 		<choose>
 			<when test='kmNumS eq "3"'>
 			<![CDATA[
@@ -142,4 +142,7 @@
 	<update id="updateCPayStatus" parameterType="map">
 		UPDATE PASSENGER SET PAYSTATUS = 'C', PSTATUS = 'C' WHERE CARPOOLNUM = #{carpoolNum} AND MEMBERNUM = #{memberNum}
 	</update>
+	<select id="selectReportMember" parameterType="String" resultMap="carpool">
+		SELECT REPORT FROM BLACK WHERE MEMBERID=#{memberId}
+	</select>
 </mapper>
