@@ -19,6 +19,10 @@ section.section-st{
 font-family: 'TmonMonsori';
 padding:0px;
 }
+/* 이미지 패딩 삭제 */
+.tt{
+padding:0px;
+}
 /* 메인 상단부 */
 div.main-div{
    /* box-shadow: inset -60px 0 100px #fff;  */
