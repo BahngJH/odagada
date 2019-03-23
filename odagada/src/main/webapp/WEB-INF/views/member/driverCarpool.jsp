@@ -164,7 +164,7 @@ background-color:rgb(100,100,100);
          <div class="row">
             <c:forEach items="${dcarList }" var="dc">
                <c:if test='${dc.STATUS eq "N" }'>
-                  <div class="col-md-6" style="margin-top:30px">
+                  <div class="col-md-12" style="margin-top:30px">
                      <div class="card a-card">
                      	<div class="card-header head-div">
                      	</div>
@@ -180,7 +180,7 @@ background-color:rgb(100,100,100);
                   </div>
                </c:if>
                <c:if test='${dc.STATUS eq "Y" }'>
-                  <div class="col-md-6" style="margin-top:30px">
+                  <div class="col-md-12" style="margin-top:30px">
                      <div class="card">
                      	<div class="card-header headN-div">
                      	</div>
