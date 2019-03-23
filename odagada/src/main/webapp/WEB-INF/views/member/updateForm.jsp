@@ -48,7 +48,7 @@
      
 <script>
 //프로필 사진을 이미지 타입 파일로만 받기
-function fileCheck(obj) {
+/* function fileCheck(obj) {
 	var fileKind = obj.value.lastIndexOf('.');
 	var fileName = obj.value.substring(fileKind + 1, obj.length);
 	var fileType = fileName.toLowerCase();
@@ -75,13 +75,76 @@ function fileCheck(obj) {
 	}
 	console.log($('#upFile').val());
 }
-
+*/
+//프로필 이미지 검사
+function validate(){
+    if($('#temp').val()==0){
+ 	   alert("알맞은 사진을 넣어주세요.");
+ 	   return false;
+    }
+}
   //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
  $(function(){  
 	$('#pro_img').on('click', function() {
 			$('#upFile').trigger('click');			
 		})	 
 });
+ 
+ 
+ function fileCheck(obj) {
+  	var fileKind = obj.value.lastIndexOf('.');
+  	var fileName = obj.value.substring(fileKind + 1, obj.length);
+  	var fileType = fileName.toLowerCase();
+  	var ckFileType = new Array();
+  	ckFileType = ['jpg','png', 'jpeg', 'jpeg', 'bmp'];
+  				
+		if(fileName==''){return true;}	
+		if (ckFileType.indexOf(fileType) == -1) {
+	   		alert("이미지 파일만 선택할 수 있습니다. 'gif' 파일은 불가합니다.");
+	   		var parentObj = obj.parentNode;
+	   		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+	   		return;
+	     }
+		 else{
+  			var filenames=obj.files[0].name;
+     		var fileReader = new FileReader();    
+     		
+	      		fileReader.readAsDataURL(obj.files[0]);   	      		
+	      		fileReader.onload = function(e){
+  	 		var result = e.target.result;	
+  	 		$('#pro_img').attr('src',result);
+  	 	
+  	 		
+  		 	var formData=new FormData();
+   		 		formData.append('upFile',obj.files[0]);  
+   		
+   	 	 	$.ajax({
+  	 			url:"${path}/member/profileTest.do",
+  	 			data:formData,
+  	 			dataType:'json',
+  	 			processData:false,
+  	 			contentType:false,
+  	 			type:'POST',
+  	 			success:function(data){
+  	 				if(data[1]=='no'){
+  	 					document.getElementById('temp').value='0'; 
+  	 					alert("인물 사진을 넣어주세요.");
+  	 					return false;
+  	 				}if(data[1]=='many'){
+  	 					document.getElementById('temp').value='0'; 
+  	 					alert("하나의 인물이 나온 사진을 넣어주세요.");
+  	 					return false;
+  	 				} else{
+  	 					document.getElementById('temp').value='1'; 
+  	 					return true;
+  	 				}      	 			
+  	 			}
+  	 		});  
+   		}
+  	}
+  }
+ 
+ 
  
  //비밀번호 유효성 검사
  function passwordCheck(password){
@@ -233,7 +296,6 @@ function sendSms(){
 	 	var p1=$('#selectPhone option:selected').val(); 
 		var p2=$('#phone2').val().trim();
 		var phone=p1+p2;
-		console.log(phone);  
 	 	//핸드폰 유효성 검사 		
 		var regExp = /([0-9]{7,8})$/;
 		if (!regExp.test(p2)) {
@@ -276,7 +338,7 @@ $(function(){
 	      if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 	         var inputVal = $(this).val();
 	         $(this).val(inputVal.replace(/[^가-힣]/gis, ''));
-	   }
+		   }
 	});		
 });
 		
@@ -307,15 +369,18 @@ function changeName(){
       <div id="enroll-container" class="container">
 			<div class="card" >
 					  <ul class="list-group list-group-flush">
-						 <li>
-       						 <form action="${path }/member/updateProfile.do" method="post" enctype="multipart/form-data">                	                     
+						 <li class="list-group-item">
+       						 <form action="${path }/member/updateProfile.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">                	                     
 								 <div class="custom-file" > 
 									 <input type="file" class="custom-file-input" accept="image/*" id="upFile" name="upFile" onchange="fileCheck(this)" required>
 									 <img class="img-thumbnail mx-auto d-block" id="pro_img" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
+				                     <input type="hidden" id="temp" name="temp" value="0"/>
 							  		 <input type="submit" class="btn btn-success btn-sm btn-block" id="img-btn" value="사진 저장">
+							  	 </div>
+							  	 <div>
 							  	 </div> 
-				  			 </form>
-					  	 </li>
+				  			 </form>				  			 				  		 				  			 
+					  	 </li>				  
 					    <li class="list-group-item">
 					    	<button type="button" class="btn  btn-outline-success btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
 					    </li>					   
