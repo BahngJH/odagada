@@ -382,14 +382,14 @@ $('#btn-reset').on("click",function(){
 			"cPage":0
 		},
 		dataType:"html",
-		success:function(data){w
+		success:function(data){
 			$("div#result-search").empty();
 			$('#result-search').html(data);
 		 	var offset = $('#communityDiv').offset();
 		 	$(window).scrollTop("0");
 		 	if($("#result-search").children()[0].id =="cPage"){
 		 		$('#result-search').append("<img class='nosearch-img' src='${path}/resources/images/nosearch2.gif'/>");
-				$('#result-search').append("<h3 style='text-align:center;'>검색 결과가 없습니다.</h3>");
+				$('#result-search').append("<h3 style='text-align:center;'>검색 결과가 없습니다.</h3>"); 	
 			};
 		}
 	});  
