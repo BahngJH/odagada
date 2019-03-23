@@ -167,16 +167,4 @@ background-color:rgb(100,100,100);
       </div>
    </div>
 </section>
-<script>
-   function updateCredit(){
-      var code = $('#credit-code').val().trim();
-      var driverNum = ${logined.memberNum};
-      if(code.length==0)
-      {
-         alert('코드를 정확히 입력해주세요.');
-         return;
-      }
-      location.href="${path}/driver/updateDriverCredit?"
-   }
-</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
