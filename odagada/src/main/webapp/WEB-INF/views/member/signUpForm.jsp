@@ -461,9 +461,7 @@ $(function(){
      	 			}
      	 		});  
       		}
-           console.log("filename은??"+filenames);
      	}
-     	console.log("올릴 파일 이름은?"+$('#upFile').val());
      }
       
      

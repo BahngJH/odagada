@@ -226,8 +226,7 @@ tr::after {
 										alert("번호 인증 성공");
 									}else{
 										alert("번호 인증 실패");ㅣ
-									}
-									
+									}							
 									location.reload();
 								}
 							})							
