@@ -23,6 +23,9 @@ padding:0px;
 .tt{
 padding:0px;
 }
+.row{
+	margin:0px;
+}
 /* 메인 상단부 */
 div.main-div{
    /* box-shadow: inset -60px 0 100px #fff;  */
@@ -116,9 +119,8 @@ img#driver-img{
 width:400px;
 height:300px;
 }
-.row{
-	margin:0px;
-}
+
+
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->

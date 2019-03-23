@@ -15,18 +15,25 @@
 				<input type="hidden" value="${c.SEATCOUNT }" id="seat" name="seat"/>
 				<input type="hidden" value="${c.MEMBERNUM }" id="mem" name="mem"/>
 	    		<div class="row">
-			    	<div class="col-6">
-			    	 <span class="span_city">${c.STARTDATE }</span><br>
+			    	<div class="col-9">
+				    	<div class="row">
+	                       <div class="col-6">
+	                        	<div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p>${fn:substring(c.STARTDATE,0,10)}</p><hr>
+	                       </div>
+	                       <div class="col-6">
+	                        	<div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p>${fn:substring(c.STARTDATE,11,20)}</p><hr>
+	                       </div>
+                        </div>
 			    		<span class="badge badge-primary">출발</span><br>
-			    		<span class="span_city">${c.STARTCITY}${c.STARTDETAIL }</span><br>
+			    		<span class="span_city">${c.STARTCITY}&nbsp;${c.STARTDETAIL }</span><br>
 			    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 			    		<span class="badge badge-success">도착</span><br>
-			    		<span class="span_city">${c.ENDCITY}${c.ENDDETAIL }</span> <br>
+			    		<span class="span_city">${c.ENDCITY}&nbsp;${c.ENDDETAIL }</span> <br>
 			    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
 			    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
 			    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
 		    		</div>
-			    	<div class="col-6">
+			    	<div class="col-3">
 			    		<div class="row">
 			    			<div class="col-12">
 			    				<span class="span-option col-text">￦${c.PAY}</span>

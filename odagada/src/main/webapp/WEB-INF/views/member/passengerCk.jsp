@@ -10,69 +10,9 @@
 </jsp:include>
 
 <style>
-div.mem-div{
-/* background:url(${pageContext.request.contextPath}/resources/images/mypage/my2.png); */
-max-width:100%;
-height:100%;
-background-repeat:repeat-y;
-overflow: hidden;
-background-color:rgba(200,200,200,0.8);
-border-right: 2px solid rgba(200,200,200,0.6);
-border-left: 7px solid rgba(180,180,180,0);
-}
-/* .transition{
-    transition-property: all;
-    transition-duration: 1s;
-    transition-timing-function: linear;
-    transition-delay:0.2;
-} */
-img.logo-img{
-   padding-left:18%;
-   padding-top:20%;
-   padding-bottom:18%;
-   color:white;
-}
-div.my-div{
-   border-bottom:1px solid rgb(200,200,200);
-}
-p.my-p{
-   color: rgb(255,255,255);
-   font-size: 22px;
-   font-family: "a어린왕자B";
-}
-img.my-img{
-   width:20px;
-   heigth:20px;
-   float:left;
-}
-div.subMy-div{
-padding-top:8%;
-padding-bottom:8%;
-padding-left:10%;
-padding-right:10%;
-/* border-bottom:1px solid rgb(240,240,240); */
-}
-div.subMy-div:hover{
-/* background-color:rgba(150,150,150,); */
-color:white;
-box-shadow: 0px 2px 1px white,0px -2px 1px white;
-border-radius: 3px;
-transform: perspective(250px) translateZ(7px);
-}   
-.active-s{
-background-color:rgba(180,180,180,1);
-color:white;
-box-shadow: 0px 2px 1px white,0px -2px 1px white;
-border-radius: 3px;
-}   
-a.subMy-a{
-   text-decoration:none;
-   font-size: 15px;
-   font-family: "a이끌림M";
-   color:white;
-}
-div#start{
-margin-top:20px;
+.info {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 button.credit-btn{
 text-decoration: none;
@@ -148,50 +88,18 @@ margin-left:13px;
 }
 </style>
 <section class="container">
-   <div class="row">
-       <div class="col-12 col-md-3 mem-div">
-          <div class="col-12">
-             <img alt="logo" src="${path }/resources/images/mypage/logo2.png" class="img-fluid logo-img">
-          </div>
-          <div class="offset-1  col-10 my-div">
-             <p class="text-center my-p">ALL MY PAGE</p>
-          </div>
-          <div class="col-12 text-center subMy-div">
-             <span>
-                <img src="${path }/resources/images/mypage/my1.png" class="my-img">
-                <span>
-                   <a href="#" class="subMy-a">내 정보 관리</a>
-                </span>
-             </span>
-          </div>
-          <div class="col-12 text-center subMy-div">
-             <span>
-                <img src="${path }/resources/images/mypage/my5.png" class="my-img">
-                <span>
-                   <a href="${path }/member/myCarpool" class="subMy-a">내 카풀 내역</a>
-                </span>
-             </span>
-          </div>
-          <div class="col-12 text-center subMy-div">
-             <span>
-                <img src="${path }/resources/images/mypage/my3.png" class="my-img">
-                <span>
-                   <a href="#" class="subMy-a">드라이버 정보 관리</a>
-                </span>
-             </span>
-          </div>
-          <div class="col-12 text-center subMy-div  active-s">
-             <span>
-                <img src="${path }/resources/images/mypage/my4.png" class="my-img ">
-                <span>
-                   <a href="${path }/driver/driverCarpool" class="subMy-a">&nbsp;&nbsp;드라이버 카풀 등록 내역&nbsp;&nbsp;</a>
-                </span>
-             </span>
-          </div>
-      </div> 
+	<div class="row">
+		<div class="col-12 col-md-3">
+			<div class="menu_list info list-group">
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
+			</div>
+		</div>
       <!-- 탑승 내역 -->
       <div class="col-12 col-md-9" id="start">
-         <div class="row">
+         <div class="row info">
             <div class="col-12">
                <div class="card">
                   <div class="card-header">

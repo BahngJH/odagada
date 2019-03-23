@@ -10,63 +10,9 @@
 </jsp:include>
 
 <style>
-div.mem-div{
-/* background:url(${pageContext.request.contextPath}/resources/images/mypage/my2.png); */
-max-width:100%;
-height:100%;
-background-repeat:repeat-y;
-overflow: hidden;
-background-color:rgba(200,200,200,0.8);
-border-right: 2px solid rgba(200,200,200,0.6);
-border-left: 7px solid rgba(180,180,180,0);
-}
-img.logo-img{
-   padding-left:18%;
-   padding-top:20%;
-   padding-bottom:18%;
-   color:white;
-}
-div.my-div{
-   border-bottom:1px solid rgb(200,200,200);
-}
-p.my-p{
-   color: rgb(255,255,255);
-   font-size: 22px;
-   font-family: "a어린왕자B";
-}
-img.my-img{
-   width:20px;
-   heigth:20px;
-   float:left;
-}
-div.subMy-div{
-padding-top:8%;
-padding-bottom:8%;
-padding-left:10%;
-padding-right:10%;
-/* border-bottom:1px solid rgb(240,240,240); */
-}
-div.subMy-div:hover{
-/* background-color:rgba(150,150,150,); */
-color:white;
-box-shadow: 0px 2px 1px white,0px -2px 1px white;
-border-radius: 3px;
-transform: perspective(250px) translateZ(7px);
-}   
-.active-s{
-background-color:rgba(180,180,180,1);
-color:white;
-box-shadow: 0px 2px 1px white,0px -2px 1px white;
-border-radius: 3px;
-}   
-a.subMy-a{
-   text-decoration:none;
-   font-size: 15px;
-   font-family: "a이끌림M";
-   color:white;
-}
-div#start{
-margin-top:20px;
+.info {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 button.credit-btn{
 text-decoration: none;
@@ -141,7 +87,7 @@ margin-left:13px;
 		</div>
       <!-- 탑승 내역 -->
       <div class="col-12 col-md-9" id="start">
-         <div class="row">
+         <div class="row info">
             <div class="col-12">
                <div class="card">
                   <div class="card-header">

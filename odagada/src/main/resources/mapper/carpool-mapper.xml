@@ -11,7 +11,7 @@
 			and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
 		]]>
 		and startdate >= #{startDate}
-		order by startdate desc
+		order by startdate
 	</select>
 	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
 		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member m using(membernum) full join black b on(m.memberid=b.blackid)
@@ -91,7 +91,7 @@
 			and seatcount <![CDATA[>=]]> #{seatcount} 
 		</if>
 		and startdate >= #{startDate}
-		order by startdate desc
+		order by startdate
 	</select>
 	<select id="selectCarOneList" parameterType="_int" resultMap="carpool">
 		select * from carpool join caroption using(carpoolnum) join driver using(membernum) join member using(membernum) where carpoolnum=#{carpoolNum}
@@ -142,7 +142,4 @@
 	<update id="updateCPayStatus" parameterType="map">
 		UPDATE PASSENGER SET PAYSTATUS = 'C', PSTATUS = 'C' WHERE CARPOOLNUM = #{carpoolNum} AND MEMBERNUM = #{memberNum}
 	</update>
-	<select id="selectReportMember" parameterType="String" resultMap="carpool">
-		SELECT REPORT FROM BLACK WHERE MEMBERID=#{memberId}
-	</select>
 </mapper>

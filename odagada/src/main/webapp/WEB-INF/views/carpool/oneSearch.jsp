@@ -198,6 +198,15 @@ img.driver-img:before {
 		padding-left:18px;
 		font-size:15px;
 	}
+	span.start-p{
+		color: rgb(0,175,76);
+	}
+	button.chat-btn{
+		max-width:80px;
+		padding:0px;
+		font-size:12px;
+		margin-top:50px;
+	}
 </style>
 <section class="container">
 	<div class="row">
@@ -332,7 +341,7 @@ img.driver-img:before {
 					  	</div>
 					  	<div class="row">
 					  		<div class="col-12">
-					  			<div class="card seat-div">
+					  			<div class="seat-div">
 					  				<div class="row">
 					  					<div class="col-9">
 					  						<span>
@@ -440,6 +449,11 @@ img.driver-img:before {
 					  					</div>
 					  				</div>
 					  				<hr>
+					  				<div class="row">
+						  				<div class="col-12 text-center">
+						  					<button class="badge badge-light pasAll-btn">탑승객 정보 보기</button>
+						  				</div>
+						  			</div>
 					  				<!-- 이용객 정보 -->
 								  	<div class="row">
 								  		<div class="col-12">
@@ -447,11 +461,26 @@ img.driver-img:before {
 								  				<c:when test='${fn:length(pList) != 0 }'>
 								  					<c:forEach items='${pList }' var='p' varStatus="count">
 									  					<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
-									  						<div id="pas${count.index }" onclick="pas(${count.index});">
+<%-- 									  						<div id="pas${count.index }" onclick="pas(${count.index});">
 										  						<span class="card pas-span">
 										  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img" title="회원 정보보기" /><br>
 										  							<span class="text-center pas-name" >${p.MEMBERNAME }</span>
 									  							</span>
+								  							</div> --%>
+								  							<div class="row" id="pas-toggle${count.index }" data-toggle="button" aria-pressed="false" autocomplete="off">
+									  							<div class="col-4 ">
+										  							<div class="text-center " >
+										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%"/>
+										  							</div>
+									  							</div>
+									  							<div class="col-5" style="margin-top:5%;">
+									  								<span class="start-p"><b>이름:&nbsp;</b></span><span>${p.MEMBERNAME }</span><br>
+									  								<span class="start-p"><b>나이:&nbsp;</b></span><span>${p.BIRTH }</span><br>
+									  								<span class="start-p"><b>성별:&nbsp;</b></span><span>${p.GENDER }</span><br>
+									  							</div>
+									  							<div class="col=3">
+									  								<button class="btn btn-success chat-btn" onclick="moveChatting('${p.MEMBERID}')">회원 채팅하기</button>
+									  							</div>
 								  							</div>
 							  							</c:if>
 								  					</c:forEach>
@@ -461,31 +490,6 @@ img.driver-img:before {
 								  						<p><b>이용중인 탑승객이 없습니다.</b></p>
 								  					</div>
 								  				</c:otherwise>
-								  			</c:choose>
-								  		</div>
-								  	</div>
-								  	<div class="row">
-								  		<div class="col-12">
-								  			<c:choose>
-								  				<c:when test='${fn:length(pList) != 0 }'>
-								  					<c:forEach items='${pList }' var='p' varStatus="count">
-									  					<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
-								  							<div class="row" id="pas-toggle${count.index }" style="display:none;">
-									  							<div class="col-4 ">
-										  							<div class="text-center " >
-										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%"/>
-										  							</div>
-									  							</div>
-									  							<div class="col-7">
-									  								<p>이름:${p.MEMBERNAME }</p>
-									  								<p>나이:${p.BIRTH }</p>
-									  								<p>성별:${p.GENDER }</p>
-									  								<button class="btn btn-success" onclick="moveChatting('${p.MEMBERID}')">회원 채팅하기</button>
-									  							</div>
-								  							</div>
-							  							</c:if>
-								  					</c:forEach>
-								  				</c:when>
 								  			</c:choose>
 								  		</div>
 								  	</div>
@@ -811,17 +815,6 @@ img.driver-img:before {
 	</div>
 </section>
 <script>
-	var pasFlag=true;
-	function pas(count){
-		if(pasFlag){
-			pasFlag=false;
-			$('#pas-toggle'+count).slideDown();
-		}else{
-			pasFlag=true;
-			$('#pas-toggle'+count).slideUp();
-		}
-		
-	}
 </script>
 <!-- 채팅방 -->
 <script>
