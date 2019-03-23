@@ -231,6 +231,7 @@ public class MemberController {
 		
 		  //임시 프로필
 	      String temp=mr.getParameter("temp");
+	      logger.debug("temp는?"+temp);
 	      //임시 프로필 체크 값
 	      /*String tempOut=mr.getParameter("tempOut");
 	      

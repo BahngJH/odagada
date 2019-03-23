@@ -401,10 +401,13 @@ $(function(){
      	var fileName = obj.value.substring(fileKind + 1, obj.length);
      	var fileType = fileName.toLowerCase();
      	var ckFileType = new Array();
-     	ckFileType = [ 'jpg','png', 'jpeg', 'jpeg', 'bmp',' '];
-     	
+     	ckFileType = ['jpg','png', 'jpeg', 'jpeg', 'bmp'];
+     		console.log("파일타입?"+fileType);
+			console.log(ckFileType.indexOf(fileType));
+			console.log("파일이름?"+fileName);
+		if(fileName==''){return true;}	
 		if (ckFileType.indexOf(fileType) == -1) {
-	   		alert("이미지 파일만 선택할 수 있습니다.");
+	   		alert("이미지 파일만 선택할 수 있습니다. 'gif' 파일은 불가합니다.");
 	   		var parentObj = obj.parentNode;
 	   		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
 	   		return;
@@ -432,15 +435,16 @@ $(function(){
      	 			contentType:false,
      	 			type:'POST',
      	 			success:function(data){
-     	 				console.log(data);
+     	 				console.log("data는?"+data);
      	 				temp=data[0];
+     	 				console.log("temp: "+temp);
      	 				
      	 			}
      	 		});  
       		}
-           console.log(filenames);
+           console.log("filename은??"+filenames);
      	}
-     	console.log($('#upFile').val());
+     	console.log("올릴 파일 이름은?"+$('#upFile').val());
      }
 
        //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
