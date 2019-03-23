@@ -248,13 +248,15 @@ public class CommunityController {
 	}
 
 	@RequestMapping("/community/notifyForm.do")
-	public ModelAndView notifyForm(HttpServletRequest request, HttpSession session)
+	public ModelAndView notifyForm(HttpServletRequest request, HttpSession session,String driverId,String driverName)
 	{
 		ModelAndView mv=new ModelAndView();
 		Member m = (Member)session.getAttribute("logined");
 		
 		if(m!=null)
 		{
+			mv.addObject("driverName", driverName);
+			mv.addObject("driverId",driverId);
 			mv.setViewName("community/notifyForm");
 			return mv;
 		}

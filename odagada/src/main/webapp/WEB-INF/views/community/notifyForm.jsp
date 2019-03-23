@@ -39,9 +39,11 @@
 	<form name="notifyFrm" action="${path}/community/notifyFormEnd.do" method="post" onsubmit="return validate();"> 
 	<h1>신고</h1>
 		<%-- <input type="text" class="form-control" name="notifyNum" id="notifyNum" value="${logined.memberId}" readonly required> --%>
+		<h4>${driverName }님 신고하기</h4>
 		<textarea class="form-control" name="nContent" placeholder="신고사유" required></textarea>
 		<br/>
 		<input type="hidden" name="memberNum" value="${logined.memberNum}">
+		<input type="hidden" name="driverId" id="driverId" value="${driverId }"/>
 		<input type="submit" class="btn btn-outline-success" value="등록" >
 		<input type="reset" class="btn btn-outline-success" value="취소" >
 	</form>
