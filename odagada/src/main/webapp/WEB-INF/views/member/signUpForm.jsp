@@ -32,10 +32,8 @@
     div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
     div#enroll-container span.ckOk{color:green;}
     div#enroll-container span.ckNo{color:red;}
-    
-    .ckOk, .ckNo{
-    padding-right:13px;
-    }
+    #birth-div{padding-right:13px;}
+   .ckOk,.ckNo{padding-right:13px;}
        
   .emailC{     
     display: block;
@@ -64,93 +62,48 @@
     width: 100%; 
     }
    
-   .div-email{
-   padding : 0px;
-   }
+   .div-email{padding : 0px;}
    .row-email{
       padding: 0px;
       margin-left: 0px;
-      margin-right: 0px;
-   }
+      margin-right: 0px;}
     
-   .addon-email{
-      margin-bottom: 10px;
-   }
-   
+   .addon-email{margin-bottom: 10px;}  
    .profile{
    margin-left:13px;
-   margin-right:13px;
-   }
+   margin-right:13px;}
    
-   .gender{
-   padding-left:28%;
-   }
-   
-   .genderRow{
-   margin-top: 10px;
-   }
-   
+   .gender{ padding-left:28%;}   
+   .genderRow{margin-top: 10px;} 
    .submitB{
    margin-top:5%;
    margin-left:30%;
-   margin-bottom: 10%;
-   }
-   
-   #enrollBtn{
-   margin-right:15%; 
-   }
-   
-   #memberId_{
-   margin-top:20%;
-   }
-   
-   .genderC{
-   padding-left:0;
-   }
-   
-   #gender1{
-   margin-left:20px;
-   } 
-   .dR{
-   padding-left:1%;
-   }
-   .dL{
-   padding-right:1%;
-   }
-   .phone2C{
-   padding-left:0px;
-   }
-   
-   li { list-style: none }
-  
-  	li.li_pass{
+   margin-bottom: 10%;}
+   .eck{width:2;height:29pt;}
+   #enrollBtn{margin-right:15%;}  
+   #memberId_{margin-top:20%;}     
+   .dR{padding-left:1%;}
+   .dL{padding-right:1%;}
+   .phone2C{padding-left:0px;}  
+   li { list-style: none } 
+   li.li_pass{
   		font-size:14px;
   		margin-top:-10px;
   		margin-left:-10px;
   	}
-  	p{
-  	font-size:12px;
-  	}
-  	.passwordInfo{
-  	height:40px;
-  	}
+  	p{font-size:12px;}
+  	.passwordInfo{height:40px;}
   	.eck{padding-right:0; padding-left:0; font-size:15px; width:75px;}
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
   	.name-div{padding-right:3px;}
   	
-   input[type='radio'] {
-            display: none;
-    }
+   input[type='radio'] {display: none;}
     #checkGender label {
         padding-top: 10px;
-
         width: 100px; height: 40px;
-        border: 1px solid #28a745;
-
-     
-
+        border: 1px solid #28a745;    
         border-radius: 10px 10px 10px 10px;
         color : #28a745;
         width: 80px;
@@ -164,17 +117,95 @@
         color: white;
         background: #28a745;
         border-color: #28a745;
-    }
-    
-    #email2{
-    	width: 112px;
-    }
-    #phone2{
-    	width: 200px;
-    }
+    }   
+    #email2{width: 112px;}
+    #phone2{width: 200px;}
     #proImg-div{width:350px; border:1px solid #4BAF4B;}
     #proImg-row{margin:0; margin-bottom:3%;display:none;}
-    img#pro_img{max-width:350px;max-height:300px;background-clip: content-box; }
+    img#pro_img{max-width:350px;max-height:300px;background-clip: content-box;}
+      
+input[type="radio"] {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+input[type="radio"]:focus + label:before,
+input[type="radio"]:hover + label:before {border-color: black;}
+
+input[type="radio"]:active + label:before {
+    -webkit-transition-duration: 0;
+    transition-duration: 0;
+    -webkit-filter: brightness(0.2);
+    filter: brightness(0.2);
+}
+
+input[type="radio"] + label {
+    position: relative;
+    padding: 10px;
+    padding-left: 2em;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input[type="radio"] + label:before {
+    box-sizing: content-box;
+    content: '';
+    color: #04B431;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    border: 2px solid grey;
+    text-align: center;
+}
+
+input[type="radio"] + label:after {
+    box-sizing: content-box;
+    content: '';
+    background-color: #04B431;
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    -webkit-transition: -webkit-transform 200ms ease-out;
+    transition: -webkit-transform 200ms ease-out;
+    transition: transform 200ms ease-out;
+    transition: transform 200ms ease-out, -webkit-transform 200ms ease-out;
+}
+
+input[type="radio"]:checked + label:before {
+    -webkit-animation: borderscale 300ms ease-in;
+    animation: borderscale 300ms ease-in;
+    background-color: white;
+}
+
+input[type="radio"]:checked + label:after {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+input[type="radio"] + label:before,
+input[type="radio"] + label:after {border-radius: 50%;}
+
+
+
+    
     </style>
     
      
@@ -513,7 +544,7 @@ $(function(){
                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
                   </div>                       
                </div>
-               <div class="col-6 dR">
+               <div class="col-6 dR" id="birth-div">
                   <div>
                      <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
                   </div>                       
@@ -554,18 +585,12 @@ $(function(){
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              
-               <!--  <div class="row genderRow">         
-             		<div class="gender form-check-inline from-control">성별 : &nbsp; 
-	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
-	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
+               <div class="row genderRow">         
+             		<div class="gender form-check-inline from-control">
+             	   		 <input id="radio1" name="radio" type="radio" class="radio" name="gender" value="M" checked="checked"> <label for="radio1">남자</label>&nbsp;
+           				 <input id="radio2" name="radio" type="radio" class="radio" name="gender" value="F"> <label for="radio2">여자</label>&nbsp;
              	   </div>
-               </div>  -->
-                <div id="checkGender">
-	                <input type="radio" name="gender" value="M" id="man" checked>&nbsp;&nbsp;
-	                <input type="radio" name="gender" value="F" id="woman">
-	                <label for="man">남자</label>
-	                <label for="woman">여자</label>
-            	</div>                
+               </div>  	                 	                
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
