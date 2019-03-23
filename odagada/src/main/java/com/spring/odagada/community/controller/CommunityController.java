@@ -272,14 +272,16 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/notifyFormEnd.do")
-	public String notifyFormEnd(HttpServletRequest request, String nContent, Model model)
+	public String notifyFormEnd(HttpSession session, HttpServletRequest request, String nContent, Model model,String driverId)
 	{
-		int memberNum=Integer.parseInt(request.getParameter("memberNum"));
+		Member m = (Member)session.getAttribute("logined");
+		String memberId=m.getMemberId();
 		
 		Map<String,Object> notify=new HashMap();
 		notify.put("nContent",nContent);
-		notify.put("memberNum", memberNum);
-		
+		notify.put("memberId", memberId);
+		notify.put("driverId", driverId);
+		logger.debug("notify: "+notify);
 		int result=service.insertNotify(notify);
 		String msg="";
 		String loc="/";
