@@ -202,7 +202,10 @@ input[type="radio"]:checked + label:after {
 
 input[type="radio"] + label:before,
 input[type="radio"] + label:after {border-radius: 50%;}
-
+button.check-btn{
+    max-width: 58px;
+    font-size: 14px
+}
 
 
     
@@ -562,7 +565,7 @@ $(function(){
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
-               		<button type="button" class="eck btn btn-success" onclick="checkEmail();">중복확인</button>
+               		<button type="button" class="eck btn btn-success check-btn" onclick="checkEmail();">중복확인</button>
                </div>
           </div>
           <div class="row row-email">
@@ -581,7 +584,7 @@ $(function(){
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
              <div class="col-2 phone-btn">
-             	<button type="button" class="eck btn btn-success" onclick="checkPhone();">중복확인</button>
+             	<button type="button" class="eck btn btn-success check-btn" onclick="checkPhone();">중복확인</button>
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              
