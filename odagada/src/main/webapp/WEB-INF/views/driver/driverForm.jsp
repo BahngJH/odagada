@@ -132,7 +132,7 @@
 				        </button> -->
 				      </div>
 				      <div class="modal-body">
-				        <input type="text" id="carMsg" name="carMsg" placeholder="ex) 잘못된 자동차 사진입니다.">
+				        <input type="text" id="carMsg" name="carMsg" style="width: 300px;" placeholder="ex) 잘못된 자동차 사진입니다.">
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>

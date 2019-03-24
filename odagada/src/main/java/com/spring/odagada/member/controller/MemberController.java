@@ -417,10 +417,16 @@ public class MemberController {
 	   mav.setViewName("member/myInfo");
 	   
 	   Member m = (Member)session.getAttribute("logined");
-	   
+	   int memberNum = m.getMemberNum();
+	   Map<String,String> d1 = dService.selectDriverOne(memberNum);
+	   /*Driver d = (Driver)session.getAttribute("driver");*/
 	   m = service.selectMember(m.getMemberId()); 
 	   
+	  /* logger.debug("혹시 드라이버?"+d);*/
+	   logger.debug("혹시 드라이버?"+d1);
 	   mav.addObject("logined", m);
+	 /*  mav.addObject("driver",d);*/
+	   mav.addObject("driver",d1);
 	   return mav;
    }
 
@@ -638,11 +644,16 @@ public class MemberController {
 	   ModelAndView mav = new ModelAndView("member/myCarpool");
 	   
 	   Member m = (Member)session.getAttribute("logined");
+	   int memberNum = m.getMemberNum();
+	   Map<String,String> d = dService.selectDriverOne(memberNum);
+	   
+	   logger.debug("카풀에도 드라이버 "+d);
 	   
 	   List<Map<String, String>> list = cService.selectCarpoolList(m.getMemberNum(), cPage, numPerPage);
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
 	   
 	   mav.addObject("carpoolList", list);
+	   mav.addObject("driver",d);
 	   mav.addObject("pageBar", getPageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;

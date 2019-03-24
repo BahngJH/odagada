@@ -223,7 +223,7 @@
             </div>
 	       	 <div class="custom-file form-group row">
 	               <input multiple="multiple" type="file" class="custom-file-input" accept="image/*" name="upFile" id="upFile1" onchange="fileCheck(this)" required>
-	               <label class="custom-file-label profile" for="upFile1">자동차 사진</label>
+	               <label class="custom-file-label profile" for="upFile1">자동차 정면1장, 측면2장, 후면1장</label>
 	          </div>
 
    
