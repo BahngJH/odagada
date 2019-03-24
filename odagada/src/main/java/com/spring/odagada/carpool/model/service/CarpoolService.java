@@ -22,3 +22,4 @@ public interface CarpoolService {
 	String getImpUid(Map<String, Integer> map);
 	int updateCPayStatus(Map<String, Integer> map);
 }
+ 

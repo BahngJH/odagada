@@ -18,6 +18,7 @@
 <style>
 	.div-search{
 		margin:20px;
+		height:50px;
 	}
 	button.btn-search{
 		width:100px;
@@ -28,6 +29,9 @@
 	}
 	div#date-div{
 		margin-right:0px;
+	}
+	input.date-div{
+	height:50px;
 	}
 	input#startDate{
 		margin-right:0px;
@@ -42,6 +46,9 @@
 	div.div-icon{
 		margin-right:20px;
 	}
+	div.date-btn{
+		padding-right:20px; 
+	}
 </style>
 <section class="container">
 	<div class="row">
@@ -51,11 +58,10 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="input-group">
-							<input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="출발지" readonly/>
+							<input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="○ 출발지 입력" onclick="sample6_execDaumPostcode1()" readonly/>
 							<input type="text" name="startLon" id="startLon" value="" hidden/>
 							<input type="text" name="startLat" id="startLat" value="" hidden/>
 							<input type="text" name="kmNum" id="kmNum" value="3" hidden/>
-							<input type="button" class="btn btn-outline-success road-btn" onclick="sample6_execDaumPostcode1()" value="출발지 검색">
 							<br>
 						</div>
 					</div>
@@ -63,29 +69,30 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="input-group">
-							<input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="도착지" readonly/>
-							<input type="hidden" name="endLon" id="endLon" value=""/>
-							<input type="hidden" name="endLat" id="endLat" value=""/>
-							<input type="button" class="btn btn-outline-success road-btn" onclick="sample6_execDaumPostcode2()" value="도착지 검색"><br>
+							 <input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="○ 도착지 입력"  onclick="sample6_execDaumPostcode2()"  readonly/>
+		                     <input type="hidden" name="endLon" id="endLon" value=""/>
+		                     <input type="hidden" name="endLat" id="endLat" value=""/>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 			        <div class="col-sm-12">
-			            <div class="form-group">
-			                <div class="input-group date div-search" id="datetimepicker1" data-target-input="nearest">
-			                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="startDate" id="startDate"/>
-			                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-			                        <div class="input-group-text div-icon" ><i class="fa fa-calendar" ></i></div>
-			                    </div>
-			                </div>
-			            </div>
+						<div class="form-group">
+						    <div class="input-group date div-search " id="datetimepicker1" data-target-input="nearest">
+						        <input type="text" class="form-control datetimepicker-input date-div" data-target="#datetimepicker1" name="startDate" id="startDate" placeholder="○ 출발일 입력" />
+						        <div class="input-group-append date date-btn" data-target="#datetimepicker1" data-toggle="datetimepicker">
+						            <div class="input-group-text div-icon date-icon" ><i class="fa fa-calendar" ></i></div>
+						        </div>
+						    </div>
+						</div>
 			        </div>
 			    </div>
 				<div class="row">
 				 	<div class="col-sm-12">
 						<div class="input-group-btn">
-							<button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">검색</button>
+							<button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
+							&nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
+							</button>
 						</div>
 					</div>
 				</div>
@@ -146,7 +153,7 @@ function search(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
+	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
 	console.log($("#startDate").val());
 	
 	if(!($("#startDate").val() > nowDate)){
