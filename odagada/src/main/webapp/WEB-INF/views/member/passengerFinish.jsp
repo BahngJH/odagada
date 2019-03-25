@@ -179,9 +179,11 @@ margin-left:13px;
          </div>
       </div>
    </div>
-	<input type="hidden" value="${dList.get(0).CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
-	<input type="hidden" value="${dList.get(0).CMEMBERNUM }" id="driverNum" name="driverNum"/>
-	<input type="hidden" value="${dList.get(0).PAY }" id="pay" name="pay"/>
+   <c:if test="${dList.get(0)!=null }">
+		<input type="hidden" value="${dList.get(0).CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
+		<input type="hidden" value="${dList.get(0).CMEMBERNUM }" id="driverNum" name="driverNum"/>
+		<input type="hidden" value="${dList.get(0).PAY }" id="pay" name="pay"/>
+	</c:if>
 	<!--번호 받기 -->
 	<div class="modal fade" id="credit" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
