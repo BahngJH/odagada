@@ -176,6 +176,36 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteQnaCom(int commentNum) {
 		return dao.deleteQnaCom(commentNum);
 	}
+
+	@Override
+	public List<Map<String, String>> selectFaqList(String faqNo) {
+		return dao.selectFaqList(faqNo);
+	}
+
+	@Override
+	public int insertFaq(Map<String, String> faq) {
+		return dao.insertFaq(faq);
+	}
+
+	@Override
+	public Map<String, String> selectFaqOne(String faqNo) {
+		return dao.selectFaqOne(faqNo);
+	}
+	
+	@Override
+	public int updateFaq(Map<String, String> faq) {
+		return dao.updateFaq(faq);
+	}
+
+	@Override
+	public int deleteFaq(String faqNo) {
+		return dao.deleteFaq(faqNo);
+	}
+	
+	
+	
+	
+	
 	
 	
 	

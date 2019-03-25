@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
@@ -5,6 +6,11 @@
 	<!--로그인  -->
 	<select id="login" parameterType="map" resultMap="memberMap">
 		SELECT*FROM MEMBER WHERE MEMBERID=#{memberId}	
+	</select>  
+  
+	<!-- 로그인할 때 블랙회원인지 확인 -->
+	<select id="checkBlack" parameterType="string" resultType="map">
+		select blackid,blackcontent,to_char(blackpunish, 'YYYY-mm-DD') as blackpunish from black where blackId=#{checkId}
 	</select>
 	
 	<!-- 카카오아아디 체크 -->
@@ -83,7 +89,6 @@
 	<select id="selectPhoneCode" parameterType="_int" resultType="string">
 		SELECT PHONECODE FROM MEMBER WHERE MEMBERNUM = #{memberNum}
 	</select>
-	
 	<update id="updateYPhoneStatus" parameterType="_int">
 		UPDATE MEMBER SET ISPHONEAUTH = 'Y' WHERE MEMBERNUM=#{memberNum}
 	</update>
