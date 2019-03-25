@@ -41,4 +41,10 @@ public interface BoardDao {
 	Map<String,Object> selectQnaComOne(int commentNum);
 	int updateComment(Map<String,Object> com);
 	int deleteQnaCom(int commentNum);
+	
+	List<Map<String,String>> selectFaqList(String faqNo);
+	int insertFaq(Map<String,String> faq);
+	Map<String,String> selectFaqOne(String faqNo);
+	int updateFaq(Map<String,String> faq);
+	int deleteFaq(String faqNo);
 }
