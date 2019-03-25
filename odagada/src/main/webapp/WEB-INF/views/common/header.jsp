@@ -80,7 +80,7 @@
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>
+                </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
                 <c:if test="${sessionScope.driver.LICENSENUM eq null}">
                 	<c:if test="${isAdmin eq '0'}">
@@ -92,12 +92,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
-<%--                 <li class="nav-item">
-                  <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
-                </li> --%>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
-	                	  <a class="nav-link" href="${path }/member/loginForm2.do">로그인</a>
+	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
 	                </li>
 	                  <li class="nav-item">
 	                 	 <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>

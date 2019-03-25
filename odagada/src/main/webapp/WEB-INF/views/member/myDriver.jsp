@@ -77,6 +77,10 @@
 				    <tr>
 				       <th scope="row">자동차 번호</th>
 			     	   <td colspan="2"><c:out value="${d.CARNUM }"/></td>
+				    </tr>
+				    <tr>
+				       <th scope="row">내게 달린 리뷰</th>
+			     	   <td colspan="2"><input type="button" value="리뷰보기" id='btn-reviewView' class='btn btn-success re-btn' onclick="location.href='${path}/community/reviewView.do?memberNum=${logined.memberNum}&writerName=${list.MEMBERNAME }&writerId=${logined.memberId }';"/></td>
 				    </tr>		
 				</table>
 				<div class="row">

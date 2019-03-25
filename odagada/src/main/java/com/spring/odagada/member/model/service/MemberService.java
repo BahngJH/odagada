@@ -6,6 +6,7 @@ import java.util.Map;
 import com.spring.odagada.member.model.vo.Member;
 
 public interface MemberService {
+	Map<String,String> checkBlack(String checkId);
 	Member kakaoIdCK(Member m);
 	Map<String, String>login(Map<String, String> login);
 	Member selectMember(String memberId);
@@ -29,5 +30,6 @@ public interface MemberService {
 	int updateName(Member m);//이름 변경
 	int updateMsg(Member m);//메세지 등록
 	int deleteMsg(Member m);//메세지 삭제
+	void deleteLeaveMember();//회원테이블에서 삭제
 	 
 }
