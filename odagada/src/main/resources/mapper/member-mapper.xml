@@ -7,6 +7,11 @@
 		SELECT*FROM MEMBER WHERE MEMBERID=#{memberId}	
 	</select>
 	
+	<!-- 로그인할 때 블랙회원인지 확인 -->
+	<select id="checkBlack" parameterType="string" resultType="map">
+		select blackid,blackcontent,to_char(blackpunish, 'YYYY-mm-DD') as blackpunish from black where blackId=#{checkId}
+	</select>
+	
 	<!-- 카카오아아디 체크 -->
 	<select id="kakaoIdCK" parameterType="member" resultType="member">
 		select * from member where memberid=#{memberId}
@@ -19,7 +24,7 @@
 	
 	<!--회원 등록 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default,default,default)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default, default, '""')
 	</insert>
 	
 	<!--메일 인증 코드 생성 -->
