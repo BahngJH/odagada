@@ -77,8 +77,10 @@ a#pay{
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
 				<a class="list-group-item list-group-item-action active">카풀 내역</a>
+				<c:if test="${driver ne null}">
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+				</c:if>
 	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
 			</div>
 		</div>
