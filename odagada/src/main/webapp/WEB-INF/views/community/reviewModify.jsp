@@ -8,10 +8,6 @@
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <style>
-	div#review-container {
-	width: 600px;
-	margin: 0;
-	}
 	div#review-container ul{
 	list-style:none;
 	padding-left:0px;
@@ -36,13 +32,17 @@
 	}
 	#rContent{
 	width:560px;
+	} 
+	/* .info {
+	margin-top: 50px;
+	margin-bottom: 50px;
 	}
-	
+	 */
 .star-input>.input, .star-input>.input>label:hover, .star-input>.input>input:focus+label,
 	.star-input>.input>input:checked+label {
 	display: inline-block;
 	vertical-align: top;
-	background:url(${pageContext.request.contextPath}/resources/images/star1.png)no-repeat;
+	background:url(${pageContext.request.contextPath}/resources/images/option-icon/star.png)no-repeat;
 }
 
 .star-input {
@@ -161,21 +161,27 @@
 	.menu{text-align:center; font-weight:bold;}
 	.info{margin-top:50px; margin-bottom: 50px;}
 	#answer{height:50%;}
+	
+	#rtitle{
+	text-align:center;
+	font-size:40px;
+	}
 </style>
 
 <section class="container">
 	<div class="row">
-		<div class="col-12 col-md-4">
+		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-			   <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
-			   <a href="#" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-			   <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
-			   <a href="${path }/community/myReviewView.do?memberNum=${logined.memberNum}" class="list-group-item list-group-item-action">리뷰 관리</a>
-	        </div>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
+				<a class="list-group-item list-group-item-action active">카풀 내역</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+			</div>
 		</div>
-		<div id="review-container">
-			<form name="reviewFrm" action="${path}/community/reviewModifyEnd.do" method="post" onsubmit="return validate();"> 
-			<h3>내가 작성한 리뷰</h3>
+		<div class="col-12 col-md-9" id="review-container">	
+			<div class="info col-12 col-sm-12 col-md-9">
+			<form name="reviewFrm" action="${path}/community/reviewModifyEnd.do?driverName=${driverName }" method="post" onsubmit="return validate1();"> 
+			<span id="rtitle">리뷰 수정</span>
 				<div style="overflow:scroll; height:500px;">
 					<ul id="review-list">
 						<div id="review-context">
@@ -184,7 +190,7 @@
 							</div>
 								 <span class="star-input">
 									<span class="input">
-										<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5" ><label for="p1">0.5</label>
+										<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5" checked><label for="p1">0.5</label>
 										<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
 										<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
 										<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
@@ -201,13 +207,14 @@
 									<br/>
 									<input type="hidden" id="memberNum" name="memberNum" value="${review.WRITERNUM }" />
 									<input type="hidden" id="carpoolNum" name="carpoolNum" value="${review.CARPOOLNUM}" />
-									<input type="submit" class="btn btn-outline-success" value="완료" onclick="location.href='${path}/community/myReviewView.do?memberNum=${logined.memberNum }&carpoolNum=${carpoolNum }';"style="margin-left: 440px;"> 
+									<input type="submit" class="btn btn-outline-success" value="완료" style="margin-left: 400px;"> 
 									<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';">
 								</div>
 							</div>
-					</ul>
-				</div>
-			</form>
+						</ul>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </section>
@@ -249,17 +256,11 @@
 	};
 	starRating();
 	
-	/* function validate()
+	function validate1()
 	{
-		var rating = $("[name=rGrade]").val();
-		if(rating.trim().val==0)
-		{
-			alert("별점을 입력하세요");
-			return false;
-		}
 		return true;
 		
-	} */
+	}
 	
 	function validate()
 	{

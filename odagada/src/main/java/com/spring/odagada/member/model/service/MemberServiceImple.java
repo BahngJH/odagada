@@ -23,6 +23,12 @@ public class MemberServiceImple implements MemberService {
     private JavaMailSender mailSender;
 
 	@Override
+	public Map<String, String> checkBlack(String checkId) {
+		// TODO Auto-generated method stub
+		return dao.checkBlack(checkId);
+	}
+
+	@Override
 	public Member kakaoIdCK(Member m) {
 		// TODO Auto-generated method stub
 		return dao.kakaoIdCK(m);
@@ -41,7 +47,7 @@ public class MemberServiceImple implements MemberService {
 
 	//아이디 중복체크
 	@Override
-	public int checkId(String memberId) {
+	public int checkId(String memberId) {	
 		return dao.checkId(memberId);
 	}
 
@@ -85,7 +91,7 @@ public class MemberServiceImple implements MemberService {
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
-        sendMail.send();  
+        sendMail.send();
     }
 
    //메일 인증상태 업데이트
@@ -233,6 +239,11 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int deleteMsg(Member m) {
 		return dao.deleteMsg(m);
+	}
+
+	@Override
+	public void deleteLeaveMember() {
+		 dao.deleteLeaveMember();
 	}
 	
 	

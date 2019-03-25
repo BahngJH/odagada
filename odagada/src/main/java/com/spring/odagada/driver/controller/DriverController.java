@@ -24,6 +24,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.common.PageFactory;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.driver.model.service.DriverService;
@@ -42,6 +49,9 @@ public class DriverController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	CarpoolService cService;
 	
 	@RequestMapping("/driver/driverEnroll")
 	public ModelAndView driverEnroll(HttpSession session) {
@@ -335,6 +345,34 @@ public class DriverController {
     	if(rs>0)
     	{
     		msg=memberName+"님을 거부하였습니다.";
+    		String impUid = cService.getImpUid(map);
+    		
+    		if(impUid != null) {
+    			final String APIKey = "8371442165887262";
+    			final String APISecret = "3BcZ8LhZ715zulG8TuZGMBYDoUyGBWBEyNEHzVGGWMgq8Wz1rzIdaHRyBpfcmQRVEvCerjVo6bPe8ogz";
+    			
+    			IamportClient client = new IamportClient(APIKey, APISecret);
+    			String accessToken = null;
+    			try {
+    				IamportResponse<AccessToken> authResponse = client.getAuth();
+    				
+    				accessToken = authResponse.getResponse().getToken();
+    			}catch (IamportResponseException e) {
+    				e.printStackTrace();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			
+    			CancelData cancelData = new CancelData(impUid, true);
+    			
+    			try {
+    				IamportResponse<Payment> paymentResponse = client.cancelPaymentByImpUid(cancelData);
+    			}catch (IamportResponseException e) {
+    				e.printStackTrace();
+    			}catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		}
     	}
     	else {
     		msg="거부 실패하였습니다. 다시 시도해주세요.";

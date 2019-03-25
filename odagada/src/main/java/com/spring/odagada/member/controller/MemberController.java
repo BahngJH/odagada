@@ -52,15 +52,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.cloud.vision.v1.AnnotateImageRequest;
-import com.google.cloud.vision.v1.AnnotateImageResponse;
-import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
-import com.google.cloud.vision.v1.EntityAnnotation;
-import com.google.cloud.vision.v1.Feature;
-import com.google.cloud.vision.v1.Feature.Type;
-import com.google.cloud.vision.v1.Image;
-import com.google.cloud.vision.v1.ImageAnnotatorClient;
-import com.google.protobuf.ByteString;
+
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.community.model.service.CommunityService;
@@ -219,6 +211,7 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
+  
 	//프로필이미지 테스트
 	@ResponseBody
 	@RequestMapping("/member/profileTest.do")
@@ -264,6 +257,7 @@ public class MemberController {
 		}
 		return result;
 	}
+  
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
@@ -367,39 +361,49 @@ public class MemberController {
 	   Map<String, String>result=service.login(login);
 	   	   
 	   ModelAndView mv=new ModelAndView();
-	   
-	   Member m=service.selectMember(memberId);   
-	   
-	         
-		if (m == null) {
-			mv.addObject("msg", "등록된 정보가 없습니다.");
+     
+	   Member m=service.selectMember(memberId);
+	   logger.debug("멤버: "+m);
+	    if(m == null) {
+	    	mv.addObject("msg", "등록된 정보가 없습니다.");
 			mv.addObject("loc", "/member/loginForm.do");
 			mv.setViewName("common/msg");
-		} else {
-			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
-			
+	    }else if(m.getMemberStatus().equals("N")) {
+	    	mv.addObject("msg", "탈퇴한 회원 입니다.");
+			mv.addObject("loc", "/");
+			mv.setViewName("common/msg");
+	    }else{	    
+			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());		
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					if(m.getCarMsg()!=null)
-					{
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.addObject("msg",m.getCarMsg());
-						mv.addObject("loc","/");
-						mv.setViewName("common/msg");							
-					}
-					else {
-						logger.debug("로그인 드라이버"+driver);
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.setViewName("redirect:/");
-					}
+					Map<String,String> black = service.checkBlack(result.get("MEMBERID"));
 					
+					//블랙된 회원인지 확인하는 로직
+					if(black!=null && black.get("BLACKID").equals(result.get("MEMBERID"))) {
+						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
+						mv.addObject("loc", "/member/loginForm2.do");
+						mv.setViewName("common/msg");
+					}else {
+						if(m.getCarMsg()!=null)
+						{
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.addObject("msg",m.getCarMsg());
+							mv.addObject("loc","/");
+							mv.setViewName("common/msg");							
+						}
+						else {
+							logger.debug("로그인 드라이버"+driver);
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.setViewName("redirect:/");
+						}
+					}
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm.do");
+					mv.addObject("loc", "/member/loginForm2.do");
 					mv.setViewName("common/msg");
 				}
 			}
@@ -437,7 +441,7 @@ public class MemberController {
    }
 
    
-   //비밀번호 체크(ajax ...)
+   //비밀번호 체크(ajax ...), 회원 탈퇴
    @ResponseBody
    @RequestMapping("/member/checkPw.do")
    public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session, SessionStatus status) {
@@ -665,7 +669,7 @@ public class MemberController {
 	   return mav;
    }
    
-    @ResponseBody
+  @ResponseBody
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
