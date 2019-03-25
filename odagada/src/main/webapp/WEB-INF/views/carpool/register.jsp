@@ -212,15 +212,14 @@ function carpoolValidate(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
-	console.log($("#startDate").val());
+	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
 	
-	if(!($("#startDate").val() > nowDate)){
+	if(($("#startDate").val() < nowDate)){
 		alert("날짜를 확인해주세요.");
 		return false;
 	}
 	
-	return false;
+	return true;
 };
 
 var map;

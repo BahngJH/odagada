@@ -53,7 +53,6 @@ function validate(){
             </div>
             <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="7" required>
             <input type="text" class="form-control email-input" placeholder="등록한 이메일" name="email" id="email" maxlength="25" required>                    
-            <a href="#" id="mail-a">등록된 이메일 주소 변경하기</a>
                 <br/>
             <div class="row submitB">
             	<div class="col-6 find-div"> 

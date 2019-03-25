@@ -60,22 +60,24 @@ public class MemberServiceImple implements MemberService {
 	//회원가입&회원가입 인증메일 전송(트랜잭션처리)
    @Transactional
    @Override
-    public void insertMember(Member m) throws Exception {	
-        System.out.println("서비스레지스");
+    public void insertMember(Member m, StringBuffer odagada) throws Exception {	
+        System.out.println("서비스레지스, 메일 보내는 곳");
         dao.insertMember(m);//회원가입 
             
         // 인증키 생성
         String key = new TemKey().getKey(50,false); 
         //인증키 db 저장        
         dao.createAuthKey(m.getEmail(),key);
+        String path=odagada.toString().split("member")[0];
+        //path >> http://localhost:9090/odagada/
         
         //메일 전송
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("[odagada] 가입 인증 메일");
         sendMail.setText(
-                new StringBuffer().append("<h1>메일인증</h1>")
+                new StringBuffer().append("<h1>[odagada]메일인증</h1>")
                 .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-                .append("<a href='http://localhost:9090/odagada/emailConfirm.do?memberId=")
+                .append("<a href='"+path+"emailConfirm.do?memberId=")
                 .append(m.getMemberId())
 				.append("&email=")
 				.append(m.getEmail())
@@ -83,7 +85,7 @@ public class MemberServiceImple implements MemberService {
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
-        sendMail.send();     
+        sendMail.send();  
     }
 
    //메일 인증상태 업데이트
@@ -112,12 +114,13 @@ public class MemberServiceImple implements MemberService {
 
 	//임시 비밀번호 발급
 	@Override
-	public void sendPw(Map info) throws Exception {
+	public void sendPw(Map info, StringBuffer odagada) throws Exception {
 		     dao.updateTempPw(info);//임시 비밀번호로 업데이트.
 		     
+		     String path=odagada.toString().split("member")[0];
 		     //만들어놓은 임시 비밀번호
 		     String newPw=(String)info.get("sendPw");
-		            	        
+		            	   
 	        //메일 전송
 	        MailHandler sendMail = new MailHandler(mailSender);
 	        sendMail.setSubject("[odagada] 임시 비밀번호 발송");
@@ -125,7 +128,7 @@ public class MemberServiceImple implements MemberService {
 	                new StringBuffer().append("<h2>임시 비밀번호 안내입니다.</h2>")
 	                .append("<h2>임시 비밀번호를 발송해드립니다.</h2>")
 	                .append("<h2>임시 비밀번호는 "+newPw+"입니다</h2>")
-	                .append("<a href='http://localhost:9090/odagada/member/loginForm.do")
+	                .append("<a href='"+path+"member/loginForm.do")
 	                .append("' target='_blank'>로그인 하러가기</a>")
 					.toString());
 	        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
@@ -135,18 +138,20 @@ public class MemberServiceImple implements MemberService {
 
 	//메일 코드 만들어서 업데이트 시키기. 
 	@Override
-	public void mailAuth(Member m) throws Exception {
+	public void mailAuth(Member m,StringBuffer odagada) throws Exception {
 		 //인증키 생성
 	    String key = new TemKey().getKey(50,false); 
 		//인증키 db 저장        
-        dao.createAuthKey(m.getEmail(),key);      
+        dao.createAuthKey(m.getEmail(),key);  
+        //path 받아오기
+        String path=odagada.toString().split("member")[0];
         //메일 전송
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("[odagada] 메일 인증하기 입니다.");
         sendMail.setText(
                 new StringBuffer().append("<h1>메일인증</h1>")
                 .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-                .append("<a href='http://localhost:9090/odagada/emailConfirm.do?memberId=")
+                .append("<a href='"+path+"emailConfirm.do?memberId=")
                 .append(m.getMemberId())
 				.append("&email=")
 				.append(m.getEmail())
@@ -184,18 +189,21 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public void mailUpdate(Member m) throws Exception {
+	public void mailUpdate(Member m,StringBuffer odagada) throws Exception {
 		 //인증키 생성
 	    String key = new TemKey().getKey(50,false); 
 		//새로운 인증키로 db 입력        
         dao.updateEmailCode(key, m.getMemberId());      
         //메일 전송
         MailHandler sendMail = new MailHandler(mailSender);
+        
+        String path=odagada.toString().split("member")[0];
+        
         sendMail.setSubject("[odagada] 메일 인증하기 입니다.");
         sendMail.setText(
                 new StringBuffer().append("<h1>메일인증</h1>")
                 .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-                .append("<a href='http://localhost:9090/odagada/emailConfirm.do?memberId=")
+                .append("<a href='"+path+"emailConfirm.do?memberId=")
                 .append(m.getMemberId())
 				.append("&email=")
 				.append(m.getEmail())

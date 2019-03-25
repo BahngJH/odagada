@@ -5,11 +5,13 @@ import static com.spring.odagada.common.PageFactory.getPageBar;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,75 +49,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Feature.Type;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.protobuf.ByteString;
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.community.model.service.CommunityService;
 import com.spring.odagada.driver.model.service.DriverService;
 import com.spring.odagada.driver.model.vo.CarImage;
-import com.spring.odagada.driver.model.vo.Driver;
-import com.spring.odagada.member.model.service.MemberService;
-import com.spring.odagada.member.model.vo.Member;
-
-
-
-
-
-import static com.spring.odagada.common.PageFactory.getPageBar;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicAuthCache;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.spring.odagada.carpool.model.service.CarpoolService;
-import com.spring.odagada.common.exception.BoardException;
-import com.spring.odagada.community.model.service.CommunityService;
-import com.spring.odagada.driver.model.service.DriverService;
-import com.spring.odagada.driver.model.vo.CarImage;
-import com.spring.odagada.driver.model.vo.Driver;
+import com.spring.odagada.member.googleApi.FaceDetectApp;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
@@ -212,7 +163,8 @@ public class MemberController {
 		}
 		
 		logger.debug("kakao 회원가입 : "+m);
-		service.insertMember(m);
+		StringBuffer odagada=request.getRequestURL();
+		service.insertMember(m, odagada);
 		
 		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
@@ -267,7 +219,45 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
+	//프로필이미지 테스트
+	@ResponseBody
+	@RequestMapping("/member/profileTest.do")
+	public String[] prifileTeset(MultipartFile upFile,HttpServletRequest request) throws GeneralSecurityException {
+		// 임시 프로필 사진 저장소
+		String sav = request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");
 
+		String[] result = new String[2];
+
+		if (!upFile.isEmpty()) {
+			// 파일명 생성(ReName)
+			String oriFileName = upFile.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+			// rename 규칙
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv = (int) (Math.random() * 1000);
+			String reName = sdf.format(System.currentTimeMillis()) + "_" + rdv + ext;
+			// profile 사진 저장
+			try {
+				upFile.transferTo(new File(sav + "/" + reName));
+				String path = sav + "/" + reName;
+				result[0] = path;
+				FaceDetectApp.main(result);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				result[1] = "no";
+				logger.debug("사람이 아닙니다.");
+			} catch (IndexOutOfBoundsException e) {
+				result[1] = "many";
+				logger.debug("다수입니다.");
+			}
+			File file = new File(sav + "/" + reName);// 임시 프로필 이미지 삭제
+			if (file.exists()) {
+				file.delete();
+			}
+		}
+		return result;
+	}
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
@@ -287,7 +277,7 @@ public class MemberController {
 		String phone2=request.getParameter("phone2");
 		String phone=phone1+phone2;
 		m.setPhone(phone);		
-		//프로필 사진 저장되는 장소
+		//프로필 사진 저장소
 		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
 
 		ModelAndView mv=new ModelAndView();
@@ -311,7 +301,9 @@ public class MemberController {
 			m.setProfileImageOri(oriFileName);
 			m.setProfileImageRe(reName);					
 		}
-		service.insertMember(m);
+		
+		StringBuffer odagada=request.getRequestURL();
+		service.insertMember(m, odagada);
 
 		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
 		String loc="/";
@@ -319,8 +311,6 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		return "common/msg";		
 	}
-
-
 	 //이메일 인증 완료 업데이트
     @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
     public ModelAndView emailConfirm(String email, String memberId) {
@@ -427,10 +417,16 @@ public class MemberController {
 	   mav.setViewName("member/myInfo");
 	   
 	   Member m = (Member)session.getAttribute("logined");
-	   
+	   int memberNum = m.getMemberNum();
+	   Map<String,String> d1 = dService.selectDriverOne(memberNum);
+	   /*Driver d = (Driver)session.getAttribute("driver");*/
 	   m = service.selectMember(m.getMemberId()); 
 	   
+	  /* logger.debug("혹시 드라이버?"+d);*/
+	   logger.debug("혹시 드라이버?"+d1);
 	   mav.addObject("logined", m);
+	 /*  mav.addObject("driver",d);*/
+	   mav.addObject("driver",d1);
 	   return mav;
    }
 
@@ -446,7 +442,7 @@ public class MemberController {
   
 	   if(pwEncoder.matches(password, m.getMemberPw())) {
 		   if(answer.equals("delete")) {
-			   //delete 실행
+			   //delete 실행(딜리트>>업데이트로 바꾸기)
 			   int rs=service.deleteMember(m.getMemberNum());
 			   
 				if (rs != 0) {
@@ -564,7 +560,7 @@ public class MemberController {
 	
 	// 비밀번호 찾기
 	@RequestMapping("/member/findPw.do")
-	public ModelAndView findPassword(String memberId, String email, String memberName) throws Exception {
+	public ModelAndView findPassword(HttpServletRequest request,String memberId, String email, String memberName) throws Exception {
 		Map<String, String>info=new HashMap();
 		info.put("memberId", memberId);
 		info.put("email", email);
@@ -581,8 +577,9 @@ public class MemberController {
 			String dbPw=pwEncoder.encode(sendPw);
 			info.put("memberPw", dbPw);
 			info.put("sendPw", sendPw);
-						
-			service.sendPw(info);
+			
+			StringBuffer odagada=request.getRequestURL();
+			service.sendPw(info, odagada);
 			msg="등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
 			mv.addObject("msg",msg);
 			mv.addObject("loc",loc);
@@ -597,9 +594,10 @@ public class MemberController {
 	
 	//메일 인증하기
 	@RequestMapping("/member/mailAuth")
-	public String mailAuth(HttpSession session) throws Exception {
+	public String mailAuth(HttpSession session, HttpServletRequest request) throws Exception {
 		Member m=(Member)session.getAttribute("logined");
-		service.mailAuth(m);
+		StringBuffer odagada=request.getRequestURL();
+		service.mailAuth(m,odagada);
 		return "redirect:/";
 	}
 		
@@ -646,11 +644,16 @@ public class MemberController {
 	   ModelAndView mav = new ModelAndView("member/myCarpool");
 	   
 	   Member m = (Member)session.getAttribute("logined");
+	   int memberNum = m.getMemberNum();
+	   Map<String,String> d = dService.selectDriverOne(memberNum);
+	   
+	   logger.debug("카풀에도 드라이버 "+d);
 	   
 	   List<Map<String, String>> list = cService.selectCarpoolList(m.getMemberNum(), cPage, numPerPage);
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
 	   
 	   mav.addObject("carpoolList", list);
+	   mav.addObject("driver",d);
 	   mav.addObject("pageBar", getPageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;
@@ -891,10 +894,11 @@ public class MemberController {
    //이메일 변경
    @ResponseBody
    @RequestMapping("/member/changeEmail")
-   public String changeEmail(String email, HttpSession session) throws Exception {
+   public String changeEmail(String email,HttpServletRequest request, HttpSession session) throws Exception {
 	   Member m=(Member)session.getAttribute("logined");
 	   m.setEmail(email);
-	   service.mailUpdate(m);
+	   StringBuffer odagada=request.getRequestURL();
+	   service.mailUpdate(m,odagada);
 	   return "sent";	   
    }
    

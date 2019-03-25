@@ -19,7 +19,7 @@
 	
 	<!--회원 등록 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default, default, '""')
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default,default,default)
 	</insert>
 	
 	<!--메일 인증 코드 생성 -->
