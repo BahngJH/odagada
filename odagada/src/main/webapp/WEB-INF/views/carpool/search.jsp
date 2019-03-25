@@ -49,11 +49,31 @@
 	div.date-btn{
 		padding-right:20px; 
 	}
+	a{
+	text-decoration: none;
+	}
+	a.info-a{
+		text-decoration: none;
+		color:rgb(100,100,100);
+		font-size:15px;
+		float:right;
+	}
+	.info-img{
+	width:100%;
+	height:100%;
+	}
+	.modal-dialog{
+		max-width:780px;
+	}
 </style>
 <section class="container">
 	<div class="row">
-		<div class="col-3"></div>
-		<div class="col-6">
+		 <div class="col-9">
+		 	<a class="info-a" style="text-decoration: none;color: rgb(140,140,140);"href="" data-toggle="modal" data-target="#info">◎ 검색 방법 알아보기</a>
+		 </div>
+	</div>
+	<div class="row">
+		<div class="offset-3 col-6">
 			<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
 				<div class="row">
 					<div class="col-12">
@@ -99,6 +119,36 @@
 			</form>
 		</div>
 		<div class="col-3">
+		</div>
+	</div>
+	<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><b>검색하기 이용법</b></h4>                    
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="ttMessage-div">
+					<div class="row">
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body">
+										<img src="${path }/resources/images/guide-1.png" class="info-img"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
