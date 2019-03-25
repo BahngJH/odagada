@@ -228,6 +228,12 @@ public class MemberController {
 
 		String[] result = new String[2];
 
+		File f = new File(sav);
+		
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		
 		if (!upFile.isEmpty()) {
 			// 파일명 생성(ReName)
 			String oriFileName = upFile.getOriginalFilename();
