@@ -49,9 +49,18 @@
 	div.date-btn{
 		padding-right:20px; 
 	}
+/* 	#search-section{
+		/* background-image: url(${pageContext.request.contextPath}/resources/images/david-marcu-125458-unsplash.jpg); */
+		background-image: url(${pageContext.request.contextPath}/resources/images/dominik-jirovsky-749482-unsplash.jpg);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	} */
 </style>
-<section class="container">
-	<div class="row">
+<section class="container" id="search-section">
+	<div class="row" >
 		<div class="col-3"></div>
 		<div class="col-6">
 			<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
