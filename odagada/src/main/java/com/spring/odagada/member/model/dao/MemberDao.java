@@ -30,4 +30,5 @@ public interface MemberDao {
 	int updateName(Member m);//이름 변경
 	int updateMsg(Member m);//메세지 등록
 	int deleteMsg(Member m);//메세지 삭제
-}
+	void deleteLeaveMember();
+	}

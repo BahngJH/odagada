@@ -47,7 +47,7 @@ public class MemberServiceImple implements MemberService {
 
 	//아이디 중복체크
 	@Override
-	public int checkId(String memberId) {
+	public int checkId(String memberId) {	
 		return dao.checkId(memberId);
 	}
 
@@ -78,7 +78,7 @@ public class MemberServiceImple implements MemberService {
         //path >> http://localhost:9090/odagada/
         
         //메일 전송
-        MailHandler sendMail = new MailHandler(mailSender);
+   /*     MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("[odagada] 가입 인증 메일");
         sendMail.setText(
                 new StringBuffer().append("<h1>[odagada]메일인증</h1>")
@@ -91,7 +91,7 @@ public class MemberServiceImple implements MemberService {
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
-        sendMail.send();  
+        sendMail.send(); */ 
     }
 
    //메일 인증상태 업데이트
@@ -239,6 +239,11 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int deleteMsg(Member m) {
 		return dao.deleteMsg(m);
+	}
+
+	@Override
+	public void deleteLeaveMember() {
+		 dao.deleteLeaveMember();
 	}
 	
 	

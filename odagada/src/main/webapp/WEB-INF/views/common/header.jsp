@@ -84,7 +84,7 @@
               <ul class="navbar-nav">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>
+                </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
                 <c:if test="${sessionScope.driver.LICENSENUM eq null}">
                 	<c:if test="${isAdmin eq '0'}">
