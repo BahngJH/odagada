@@ -213,9 +213,8 @@ function carpoolValidate(){
 	}
 
 	var nowDate = moment().format('YYYY.MM.DD. a hh:mm');
-	console.log($("#startDate").val());
 	
-	if(!($("#startDate").val() > nowDate)){
+	if(($("#startDate").val() < nowDate)){
 		alert("날짜를 확인해주세요.");
 		return false;
 	}
