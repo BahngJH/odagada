@@ -236,8 +236,8 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public void deleteLeaveMember(String leaveDate) {
-		 dao.deleteLeaveMember(leaveDate);
+	public void deleteLeaveMember() {
+		 dao.deleteLeaveMember();
 	}
 	
 	

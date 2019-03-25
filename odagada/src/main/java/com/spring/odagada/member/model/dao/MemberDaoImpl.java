@@ -151,10 +151,9 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public void deleteLeaveMember(String leaveDate) {
-		session.delete("member.deleteLeaveMember",leaveDate);
+	public void deleteLeaveMember() {
+		session.delete("member.deleteLeaveMember");
 	}
-	
 	
 	
 	

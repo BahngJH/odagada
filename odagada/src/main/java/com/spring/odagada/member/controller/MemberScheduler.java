@@ -17,18 +17,20 @@ public class MemberScheduler {
 	private Logger logger=LoggerFactory.getLogger(MemberScheduler.class);
 	@Autowired
 	MemberService service;
-	
-	@RequestMapping("member/do")
-	@Scheduled(cron="0 0 12 1/1 * ?")
+		
+	/*@Scheduled(cron="0 0 12 1/1 * ?")
 	public void deleteLeaveMember() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd. a h:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//오늘 시간?
 		Calendar cal = Calendar.getInstance();
-		logger.debug("sdf가 뭐에요?"+sdf);
-		logger.debug("cal뭐에요?"+cal);
-		logger.debug(sdf.format(cal.getTime()).toString());
-		
-		service.deleteLeaveMember(sdf.format(cal.getTime()).toString());
-		
+		cal.add(Calendar.DAY_OF_MONTH, -14);
+		service.deleteLeaveMember(sdf.format(cal.getTime()).toString());	
+	}*/
+	
+	@Scheduled(cron="0/1 1/1 * 1/1 * ? ")//1초마다 계산. 테스트용*/
+	/*@Scheduled(cron="0 0 12 1/1 * ?")*/
+	public void deleteLeaveMember() {
+		service.deleteLeaveMember();		
 	}
+
 
 }

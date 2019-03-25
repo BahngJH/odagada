@@ -29,5 +29,5 @@ public interface MemberDao {
 	int updateName(Member m);//이름 변경
 	int updateMsg(Member m);//메세지 등록
 	int deleteMsg(Member m);//메세지 삭제
-	void deleteLeaveMember(String leaveDate);//테이블에서 회원정보 삭제(스케줄러)
-}
+	void deleteLeaveMember();
+	}

@@ -113,6 +113,6 @@
 	 </update>
 	 <!--테이블에서 회원정보 삭제  -->
 	 <delete id="deleteLeaveMember" parameterType="string">
-	 DELETE FROM MEMBER WHERE MEMBERSTATUS='N' AND LEAVEDATE <![CDATA[=]]> #{nowDate}
+	 DELETE FROM MEMBER WHERE MEMBERSTATUS='N' AND LEAVEDATE <![CDATA[<]]> sysdate-14
 	 </delete>
 </mapper>
