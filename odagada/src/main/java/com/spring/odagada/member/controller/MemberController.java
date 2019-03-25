@@ -211,6 +211,7 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUpForm";
 	}
+  
 	//프로필이미지 테스트
 	@ResponseBody
 	@RequestMapping("/member/profileTest.do")
@@ -220,6 +221,12 @@ public class MemberController {
 
 		String[] result = new String[2];
 
+		File f = new File(sav);
+		
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		
 		if (!upFile.isEmpty()) {
 			// 파일명 생성(ReName)
 			String oriFileName = upFile.getOriginalFilename();
@@ -250,6 +257,7 @@ public class MemberController {
 		}
 		return result;
 	}
+  
 	//회원가입
 	@RequestMapping("/member/signUpEnd.do")
 	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
