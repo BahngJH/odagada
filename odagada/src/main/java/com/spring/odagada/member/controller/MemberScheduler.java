@@ -26,8 +26,8 @@ public class MemberScheduler {
 		service.deleteLeaveMember(sdf.format(cal.getTime()).toString());	
 	}*/
 	
-	@Scheduled(cron="0/1 1/1 * 1/1 * ? ")//1초마다 계산. 테스트용*/
-	/*@Scheduled(cron="0 0 12 1/1 * ?")*/
+	/*@Scheduled(cron="0/1 1/1 * 1/1 * ? ")//1초마다 계산. 테스트용*/
+	@Scheduled(cron="0 0 12 1/1 * ?")
 	public void deleteLeaveMember() {
 		service.deleteLeaveMember();		
 	}

@@ -34,7 +34,7 @@
 	
 	<!--ID중복 체크 -->
 	<select id="checkId" parameterType="string" resultType="_int">
-	SELECT COUNT(*) FROM MEMBER WHERE MEMBERID=#{memberId}
+	SELECT COUNT(*) FROM (SELECT*FROM MEMBER UNION SELECT*FROM LEAVE)WHERE MEMBERID=#{memberId}
 	</select>
 	
 	<!--Email중복 체크  -->

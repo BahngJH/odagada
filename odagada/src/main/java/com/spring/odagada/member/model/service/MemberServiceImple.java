@@ -41,7 +41,7 @@ public class MemberServiceImple implements MemberService {
 
 	//아이디 중복체크
 	@Override
-	public int checkId(String memberId) {
+	public int checkId(String memberId) {	
 		return dao.checkId(memberId);
 	}
 
