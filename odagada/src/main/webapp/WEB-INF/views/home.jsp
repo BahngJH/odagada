@@ -110,13 +110,6 @@ margin-left:10%;
 </style>
 <!-- 중앙 드라이버 등록/카풀 등록 부분 -->
 <style>
-/* 	.c2{
-		border:5px solid rgb(50,50,50);
-		width:100%;
-		height:250px;
-		position:absolute;
-		padding-right:5%;
-	} */
 	.c4{
 		width: 100%;
 	    background-color: rgba(223,255,220,0.2);
@@ -381,32 +374,30 @@ margin-left:10%;
 	</div>
 </div>
 <!-- 드라이버 등록/카풀등록 -->
-<div class="wrapper">
-	<div class="row">
-		<div class="col-12 c4" >
-			
-		</div>
-		<div class="col-12">
-			<div class="row">
-				<div class="col-12 offset-md-2 col-md-2 c3 oda-text">
-					<div class="col-12">
-						<h3 class="gada-h"><b>오다, 가다</b></h3>
-					</div>
-					<div class="col-12">
-						<p class="gada-p">오다가다의 베스트 드라이버가 되어보세요.</p>
-					</div>
-					<div class="col-8 col-sm-7">
-						<div class="form-control div-search text-center oda-div">이용하기 <b>></b></div>
-					</div>
+<div class="row">
+	<div class="col-12 c4" >
+		
+	</div>
+	<div class="col-12">
+		<div class="row">
+			<div class="col-12 offset-md-2 col-md-2 c3 oda-text">
+				<div class="col-12">
+					<h3 class="gada-h"><b>오다, 가다</b></h3>
 				</div>
-				<div class="col-6 offset-md-1 col-md-3 c3 car-div">
-					<a href="${path}/driver/driverEnroll" class="text-d">드라이버 등록</a>
-					<img src="${path }/resources/images/main/driver-1.png" class="driver-img transition" />
+				<div class="col-12">
+					<p class="gada-p">오다가다의 베스트 드라이버가 되어보세요.</p>
 				</div>
-				<div class="col-6 col-md-3 c3 car-div">
-					<a class="text-d" href="${path }/carpool/register">카풀 등록하기</a>
-					<img src="${path }/resources/images/main/carpool-1.png" class="driver-img transition"/>
+				<div class="col-8 col-sm-7">
+					<div class="form-control div-search text-center oda-div">이용하기 <b>></b></div>
 				</div>
+			</div>
+			<div class="col-6 offset-md-1 col-md-3 c3 car-div">
+				<a href="${path}/driver/driverEnroll" class="text-d">드라이버 등록</a>
+				<img src="${path }/resources/images/main/driver-1.png" class="driver-img transition" />
+			</div>
+			<div class="col-6 col-md-3 c3 car-div">
+				<a class="text-d" href="${path }/carpool/register">카풀 등록하기</a>
+				<img src="${path }/resources/images/main/carpool-1.png" class="driver-img transition"/>
 			</div>
 		</div>
 	</div>
