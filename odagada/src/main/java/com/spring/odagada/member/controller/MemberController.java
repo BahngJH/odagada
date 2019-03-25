@@ -371,7 +371,7 @@ public class MemberController {
 					Map<String,String> black = service.checkBlack(result.get("MEMBERID"));
 					
 					//블랙된 회원인지 확인하는 로직
-					if(black.get("BLACKID").equals(result.get("MEMBERID"))) {
+					if(black!=null && black.get("BLACKID").equals(result.get("MEMBERID"))) {
 						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
 						mv.addObject("loc", "/member/loginForm2.do");
 						mv.setViewName("common/msg");
