@@ -16,19 +16,16 @@
 
 <style>
 
-  div#enroll-container{width:400px; margin:0 auto;}
-  div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-  .menu{text-align:center; font-weight:bold;}
-  .info{margin-top:50px; margin-bottom: 50px;}
-  #answer{height:50%;}
-  .alert-div{size:10px;}
-  #ttMessage-div{padding-bottom:0px;}
-  #pw-modal-div{padding-bottom:0px; padding-top:0px;}
-  #ttQ{margin-left:60%;}
- tr::before,
-tr::after {
-  box-sizing: none; // 1
-}
+ div#enroll-container{width:400px; margin:0 auto;}
+ div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
+ .menu{text-align:center; font-weight:bold;}
+ .info{margin-top:50px; margin-bottom: 50px;}
+ #answer{height:50%;}
+ .alert-div{size:10px;}
+ #ttMessage-div{padding-bottom:0px;}
+ #pw-modal-div{padding-bottom:0px; padding-top:0px;}
+ #ttQ{margin-left:60%;}
+ tr::before,tr::after {box-sizing: none; // 1}
 </style>
 
 <section class="container">
@@ -37,8 +34,10 @@ tr::after {
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
-            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+            <c:if test="${driver ne null}">
+            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+            </c:if>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
          </div>
       </div>
@@ -179,6 +178,7 @@ tr::after {
 						          <div class="form-group">
 						          	 <div class="row"></div>
 						           		 <label for="answer" class="form-control-label">E-mail을 확인해주세요.</label>
+						           		 <p><%=m.getEmail() %></p>
 				           		 </div>
 					           		 <div>
 								        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -225,8 +225,7 @@ tr::after {
 										alert("번호 인증 성공");
 									}else{
 										alert("번호 인증 실패");ㅣ
-									}
-									
+									}							
 									location.reload();
 								}
 							})							
@@ -237,6 +236,7 @@ tr::after {
 				</div>		
 			</div>
 		</div>
+	</section>
 <script>
 
  function updateCheck(answer) {

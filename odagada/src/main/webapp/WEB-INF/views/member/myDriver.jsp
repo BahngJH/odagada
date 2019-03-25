@@ -29,8 +29,8 @@
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-            <a class="list-group-item list-group-item-action active" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+            <a class="list-group-item list-group-item-action active" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
          </div>
       </div>
@@ -82,7 +82,7 @@
 				<div class="row">
 					<div class="col-md-6 offset-md-3 text-center">
 						<button type="button" class="btn btn-outline-success" onclick="location.href='${path}/member/myDriverModify'">정보 변경</button>
-				 		<button type="button" class="btn btn-outline-success">회원 탈퇴</button>
+				 		<button type="button" class="btn btn-outline-success" onclick="javascript:location.href='${path}/driver/driverWithdrawal?memberNum=${driver.MEMBERNUM}';">드라이버 탈퇴</button>
 					</div>
 				</div>
 					

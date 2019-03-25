@@ -15,7 +15,7 @@
 		SELECT count(*) FROM DRIVER
 	</select>
 	<select id="selectDriverList" resultType="map">
-		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM
+		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM ORDER BY D.ENROLLDATE DESC
 	</select>
 	
 	<select id="selectDriverOne" resultType="map" parameterType="_int">
@@ -34,7 +34,7 @@
    <!-- //드라이버가 등록한 카풀리스트  -->
    <resultMap type="map" id="driver_"></resultMap>
    <select id="selectDriverCarpool" parameterType="_int" resultMap="driver_">
-      select * from carpool where membernum=#{memberNum} order by startdate desc
+      select * from carpool where membernum=#{memberNum} order by startdate
    </select>
    <select id="selectDriverPas" parameterType="map" resultMap="driver_">
       select carpoolnum, c.membernum as cmembernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,t.seatcount,p.membernum as pmembernum, paycode,pstatus, paystatus, impuid ,m.* 

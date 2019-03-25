@@ -28,7 +28,7 @@
 	img.option-icon{
 		width:50px;height:50px;
 		float:left;
-		margin:14px;
+		margin:12px;
 	}
 	button.btn-chat{
 		font-size: 13px;
@@ -80,7 +80,7 @@ img.driver-img:before {
 		margin-top:40px;
 	}
 	img.seat-img{
-		width:45px;height:45px;
+		width:60px;height:60px;
 		margin:8px;
 	}
 	div.seat-div{
@@ -105,8 +105,8 @@ img.driver-img:before {
 	}
 	img.re-img{
 		margin:10px;
-		max-width:100%;height:70px;
-		border-radius: 30px;
+		max-width:70px;height:70px;
+		border-radius: 100px;
 	}
 	div.re-div{
 		margin-top:12px;
@@ -121,9 +121,17 @@ img.driver-img:before {
 		float:left;
 		border:none;
 		margin-bottom:10px;
+		padding-left:5px;
+		padding-right:5px;
+	}
+	span.pas-span:hover{
+		background-color: rgb(240,240,240);
 	}
 	span.pas-name{
 		margin-top:-30px;
+	}
+	div#pas-toggle{
+		display:none;
 	}
 	div.star-div{
 		margin-top:20px;
@@ -175,11 +183,34 @@ img.driver-img:before {
       border-right: 26px solid #FFFFC2;
       border-bottom: 13px solid transparent;
 	}
+	button.reAll-btn{
+		margin-top:15px;
+		margin-bottom:10px;
+		border:0px;
+	}
+	.modal-dialog{
+		max-width:700px;
+	}
+	.modal-footer{
+		border-top:0px;
+	}
+	p.pas-p{
+		padding-left:18px;
+		font-size:15px;
+	}
+	span.start-p{
+		color: rgb(0,175,76);
+	}
+	button.chat-btn{
+		max-width:80px;
+		padding:0px;
+		font-size:12px;
+		margin-top:50px;
+	}
 </style>
-<section id="container">
+<section class="container">
 	<div class="row">
-		<div class="col-12 col-md-2"></div>
-		<div class="col-12 col-md-8">
+		<div class="col-12 offset-md-1 col-md-9 ">
 			<div class="input-group">
 				<input class="form-control search-div" type="text" placeholder="출발지" value="${search.startCity }" readonly>
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
@@ -187,12 +218,10 @@ img.driver-img:before {
 				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
 			</div>
 		</div>
-		<div class="col-12 col-md-2"></div>
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-12 col-md-2"></div>
-		<div class="col-12 col-md-5">
+		<div class="col-12 col-md-8">
 			<div class="card"  id="li-div">
 			  <div class="card-header">
 			    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -312,7 +341,7 @@ img.driver-img:before {
 					  	</div>
 					  	<div class="row">
 					  		<div class="col-12">
-					  			<div class="card seat-div">
+					  			<div class="seat-div">
 					  				<div class="row">
 					  					<div class="col-9">
 					  						<span>
@@ -420,17 +449,39 @@ img.driver-img:before {
 					  					</div>
 					  				</div>
 					  				<hr>
+					  				<div class="row">
+						  				<div class="col-12 text-center">
+						  					<button class="badge badge-light pasAll-btn">탑승객 정보 보기</button>
+						  				</div>
+						  			</div>
 					  				<!-- 이용객 정보 -->
 								  	<div class="row">
 								  		<div class="col-12">
 								  			<c:choose>
 								  				<c:when test='${fn:length(pList) != 0 }'>
 								  					<c:forEach items='${pList }' var='p' varStatus="count">
-									  					<c:if test='${pList[count.index-1].PSTATUS eq "Y" }'>
-									  						<span class="card pas-span">
-									  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img"><br>
-									  							<span class="text-center pas-name">${p.MEMBERNAME }</span>
-								  							</span>
+									  					<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
+<%-- 									  						<div id="pas${count.index }" onclick="pas(${count.index});">
+										  						<span class="card pas-span">
+										  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img" title="회원 정보보기" /><br>
+										  							<span class="text-center pas-name" >${p.MEMBERNAME }</span>
+									  							</span>
+								  							</div> --%>
+								  							<div class="row" id="pas-toggle${count.index }" data-toggle="button" aria-pressed="false" autocomplete="off">
+									  							<div class="col-4 ">
+										  							<div class="text-center " >
+										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%"/>
+										  							</div>
+									  							</div>
+									  							<div class="col-5" style="margin-top:5%;">
+									  								<span class="start-p"><b>이름:&nbsp;</b></span><span>${p.MEMBERNAME }</span><br>
+									  								<span class="start-p"><b>나이:&nbsp;</b></span><span>${p.BIRTH }</span><br>
+									  								<span class="start-p"><b>성별:&nbsp;</b></span><span>${p.GENDER }</span><br>
+									  							</div>
+									  							<div class="col=3">
+									  								<button class="btn btn-success chat-btn" onclick="moveChatting('${p.MEMBERID}')">회원 채팅하기</button>
+									  							</div>
+								  							</div>
 							  							</c:if>
 								  					</c:forEach>
 								  				</c:when>
@@ -451,7 +502,7 @@ img.driver-img:before {
 			</div>
 		</div>
 		<!-- 왼쪽바 : 드라이버 정보창 -->
-		<div class="col-12 col-md-3">
+		<div class="col-12 col-md-4">
 			<div class="card bg-light mb-3">
 			  <div class="card-header">
 				 <div class="row">
@@ -459,8 +510,8 @@ img.driver-img:before {
 				 		<p class='dhead-p'>드라이버 정보</p>
 				 	</div>
 				 	<c:if test="${logined.memberId != driverId}">
-				 	<div class='col-12 col-xl-5 offset-xl-1'>
-				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${driverId}')">드라이버와 채팅</button>
+				 	<div class='col-12 col-xl-4 offset-xl-1'>
+				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${oList.get(0).MEMBERID}')">드라이버와 채팅</button>
 				 	</div>
 				 	</c:if>
 				 </div> 
@@ -543,8 +594,8 @@ img.driver-img:before {
 						  				<c:forEach items="${rList }" var="r" varStatus="count">
 						  					<c:if test="${count.index <2}">
 								  				<div class="col-4 col-sm-4 col-md-12 col-lg-4">
-								  					<%-- <img src="${path }/resources/images/${r.PROFILEIMAGERE}" class="re-img"/> --%>
-								  					<img src="${path }/resources/images/ilhoon2.jpg" class="re-img"/>
+								  					<img src="${path }/resources/upload/profile/${r.PROFILEIMAGERE}" class="re-img"/>
+								  					<p class="pas-p">${r.MEMBERNAME }</p>
 								  				</div>
 								  				<div class="col-8 col-sm-8 col-md-12 col-lg-8 re-size">
 								  					<div class="star-div">
@@ -592,7 +643,7 @@ img.driver-img:before {
 								  							</c:when>
 								  							<c:when test="${rg >4.0 && rg <= 4.5 }">
 								  								<span class="star-rating">
-										  							<span style="width:68.4%"></span>
+										  							<span style="width:68.4%"></span>;
 										  						</span>
 								  							</c:when>
 								  							<c:when test="${rg >4.5 && rg <= 5.0 }">
@@ -608,6 +659,10 @@ img.driver-img:before {
 								  				</div>
 							  				</c:if>
 						  				</c:forEach>
+						  				<br>
+					  					<div class="col-12 text-center">
+					  						<button class="badge badge-light reAll-btn" data-toggle="modal" data-target="#review" >전체 리뷰</button>
+					  					</div>
 						  			</div>
 					  			</c:when>
 					  			<c:otherwise>
@@ -639,7 +694,7 @@ img.driver-img:before {
 								<c:otherwise>
 									<div class="row">
 										<div class="col-6 offset-3">
-											<button class="btn btn-danger search-div btn-chat">드라이버 신고하기</button>
+											<button class="btn btn-danger search-div btn-chat" onclick="location.href='${path}/community/notifyForm.do?driverId=${oList.get(0).MEMBERID }&driverName=${oList.get(0).MEMBERNAME }'">드라이버 신고하기</button>
 										</div>
 									</div>
 									<c:set value="false" var="rFlag"/>
@@ -652,8 +707,115 @@ img.driver-img:before {
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="review" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><b>드라이버 리뷰보기</b></h4>                    
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="ttMessage-div">
+					<div class="row">
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12">
+							<!-- 여기부터 리뷰 전체보기 바디 -->
+								<div class="card">
+									<div class="card-header">
+										<h5>${oList.get(0).MEMBERNAME}님의 리뷰</h5>
+									</div>
+									<div class="card-body">
+										<c:choose>
+								  			<c:when test="${fn:length(rList) !=0}">
+									  				<c:forEach items="${rList }" var="r" varStatus="count">
+									  					<div class="row">
+											  				<div class="col-4 col-sm-4 col-md-12 col-lg-4 text-center">
+											  					<img src="${path }/resources/upload/profile/${r.PROFILEIMAGERE}" class="re-img"/>
+											  					<p>${r.MEMBERNAME }</p>
+											  				</div>
+											  				<div class="col-8 col-sm-8 col-md-12 col-lg-8 re-size">
+											  					<div class="star-div">
+											  						<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg"/>
+											  						<c:choose>
+											  							<c:when test="${rg >=0 && rg <= 0.5 }">
+											  								<span class="star-rating">
+													  							<span style="width:7.6%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >0.5 && rg <= 1 }">
+											  								<span class="star-rating">
+													  							<span style="width:15.2%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >1 && rg <= 1.5 }">
+											  								<span class="star-rating">
+													  							<span style="width:22.8%"> </span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >1.5 && rg <= 2 }">
+											  								<span class="star-rating">
+													  							<span style="width:30.4%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >2 && rg <= 2.5 }">
+											  								<span class="star-rating">
+													  							<span style="width:38%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >2.5 && rg <=3.0 }">
+											  								<span class="star-rating">
+													  							<span style="width:45.6%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >3.0 && rg <= 3.5 }">
+											  								<span class="star-rating">
+													  							<span style="width:53.2%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >3.5 && rg <= 4.0 }">
+											  								<span class="star-rating">
+													  							<span style="width:60.8%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >4.0 && rg <= 4.5 }">
+											  								<span class="star-rating">
+													  							<span style="width:68.4%"></span>
+													  						</span>
+											  							</c:when>
+											  							<c:when test="${rg >4.5 && rg <= 5.0 }">
+											  								<span class="star-rating">
+													  							<span style="width:76%;"></span>
+													  						</span>
+											  							</c:when>
+											  						</c:choose>
+											  					</div>
+											  					<div class="text-center" style="margin-top:10px;background-color:rgb(248,248,248);border-radius:10px;">
+											  						${r.RCONTENT }
+										  						</div>
+											  				</div>
+										  				</div>
+										  				<hr/>
+									  				</c:forEach>
+								  			</c:when>
+							  			</c:choose>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
-
+<script>
+</script>
 <!-- 채팅방 -->
 <script>
    function moveChatting(chatUser)

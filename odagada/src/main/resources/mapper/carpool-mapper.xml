@@ -3,7 +3,7 @@
 <mapper namespace="carpool">
 	<resultMap type="map" id="carpool"></resultMap>
 	<select id="selectCarpoolList" parameterType="map" resultMap="carpool">
-		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member m using(membernum) full join black b on(m.memberid=b.blackid)
 		<![CDATA[
 			where (startlat >= (#{startLat} - 0.0272830231094096) and startlat <= (#{startLat}  + 0.0272830231094096)) 
 			and (startlong >= (#{startLong} - 0.0338066260987153) and startlong <= (#{startLong} + 0.0338066260987153))
@@ -11,10 +11,10 @@
 			and (destlong >= (#{destLong} - 0.0338066260987153) and destlong <= (#{destLong} + 0.0338066260987153))
 		]]>
 		and startdate >= #{startDate}
-		order by startdate desc
+		order by startdate
 	</select>
 	<select id="selectCarOptionList" parameterType="map" resultMap="carpool">
-		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member using(membernum)
+		SELECT * FROM CARPOOL join caroption o using(carpoolnum) join driver using(membernum) join member m using(membernum) full join black b on(m.memberid=b.blackid)
 		<choose>
 			<when test='kmNumS eq "3"'>
 			<![CDATA[
@@ -91,7 +91,7 @@
 			and seatcount <![CDATA[>=]]> #{seatcount} 
 		</if>
 		and startdate >= #{startDate}
-		order by startdate desc
+		order by startdate
 	</select>
 	<select id="selectCarOneList" parameterType="_int" resultMap="carpool">
 		select * from carpool join caroption using(carpoolnum) join driver using(membernum) join member using(membernum) where carpoolnum=#{carpoolNum}
