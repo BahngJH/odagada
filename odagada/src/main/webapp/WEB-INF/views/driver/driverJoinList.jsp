@@ -41,7 +41,7 @@
 			</td>
 			<td>
 				<c:if test="${d.DRIVERSTATUS == 'N'}">
-					<p>승인대기</p>
+					<p style="color: red;">승인대기</p>
 					<!-- <input type="text" id= "enrollResult" value="승인대기"/> -->
 				</c:if>
 				<c:if test="${d.DRIVERSTATUS == 'Y'}">

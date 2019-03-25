@@ -48,7 +48,7 @@
 
 
   <insert id="insertNotify" parameterType="map">
-  	INSERT INTO NOTIFY VALUES(#{memberNum},19,#{nContent},sysdate)
+  	INSERT INTO NOTIFY VALUES(#{nContent},sysdate,#{memberId},#{driverId})
   </insert>
   <insert id="insertReview" parameterType="map">
   	INSERT INTO REVIEW VALUES(#{memberNum},#{driverNum},#{carpoolNum},#{rContent},sysdate,#{rGrade})

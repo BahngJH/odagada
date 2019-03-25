@@ -73,7 +73,6 @@
 		<div id="naverIdLogin"></div>
 	</div>    
 	<script src="${pageContext.request.contextPath }/resources/loginFile/script.js"></script>
-	
 
 	<!-- 카카오 스크립트문 -->
 	<script type='text/javascript'>

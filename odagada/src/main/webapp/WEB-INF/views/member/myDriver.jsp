@@ -29,8 +29,8 @@
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-            <a class="list-group-item list-group-item-action active" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+            <a class="list-group-item list-group-item-action active" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
          </div>
       </div>
@@ -77,6 +77,10 @@
 				    <tr>
 				       <th scope="row">자동차 번호</th>
 			     	   <td colspan="2"><c:out value="${d.CARNUM }"/></td>
+				    </tr>
+				    <tr>
+				       <th scope="row">내게 달린 리뷰</th>
+			     	   <td colspan="2"><input type="button" value="리뷰보기" id='btn-reviewView' class='btn btn-success re-btn' onclick="location.href='${path}/community/reviewView.do?memberNum=${logined.memberNum}&writerName=${list.MEMBERNAME }&writerId=${logined.memberId }';"/></td>
 				    </tr>		
 				</table>
 				<div class="row">

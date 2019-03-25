@@ -85,7 +85,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 	//리뷰카운트
 	@Override
-	public int selectReviewCount(int memberNum) {
+	public int selectReviewCount(String memberNum) {
 		return dao.selectReviewCount(memberNum);
 	}
 	//리뷰 불러오기
@@ -100,8 +100,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 	//내게 달린 리뷰 리스트
 	@Override
-	public List<Map<String, Object>> selectReviewList(int memberNum) {
-		return dao.selectReviewList(memberNum);
+	public List<Map<String, Object>> selectReviewList(Map<String,String> map) {
+		return dao.selectReviewList(map);
 	}
 	//리뷰 수정
 	@Override

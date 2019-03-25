@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.search.IntegerComparisonTerm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -270,7 +269,13 @@ public class DriverController {
     public ModelAndView selectDriverCarpool(HttpSession session) {
        ModelAndView mav = new ModelAndView();
        Member m = (Member) session.getAttribute("logined");
+       int memberNum = m.getMemberNum();
+	   Map<String,String> d = service.selectDriverOne(memberNum);
+       
+	   
        List<Map<String,String>> dcarList = service.selectDriverCarPool(m.getMemberNum());
+       logger.debug("카풀내역 드라이버"+d);
+       mav.addObject("driver",d);
        mav.addObject("dcarList",dcarList);
        mav.setViewName("member/driverCarpool");
         return mav;

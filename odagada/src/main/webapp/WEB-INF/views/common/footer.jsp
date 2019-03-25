@@ -17,12 +17,14 @@
 		<footer>
 			<div class="row" id="btn">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				<a href="${pageContext.request.contextPath}/board/boardList"><strong>공지사항</strong></a>
+					<a href="${pageContext.request.contextPath}/board/boardList"><strong>공지사항</strong></a>
 				</div>
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				<a href="${pageContext.request.contextPath}/board/qnaList"><strong>Q&A</strong></a>
+					<a href="${pageContext.request.contextPath}/board/qnaList"><strong>Q&A</strong></a>
 				</div>
-				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>자주 묻는 질문</strong></div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<a href="${pageContext.request.contextPath }/board/faqList.do"><strong>FAQ</strong></a>
+				</div>
 			</div>
 			<hr/>
 			<div class="row">

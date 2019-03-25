@@ -23,6 +23,12 @@ public class MemberServiceImple implements MemberService {
     private JavaMailSender mailSender;
 
 	@Override
+	public Map<String, String> checkBlack(String checkId) {
+		// TODO Auto-generated method stub
+		return dao.checkBlack(checkId);
+	}
+
+	@Override
 	public Member kakaoIdCK(Member m) {
 		// TODO Auto-generated method stub
 		return dao.kakaoIdCK(m);

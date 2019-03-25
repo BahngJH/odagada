@@ -52,15 +52,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.cloud.vision.v1.AnnotateImageRequest;
-import com.google.cloud.vision.v1.AnnotateImageResponse;
-import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
-import com.google.cloud.vision.v1.EntityAnnotation;
-import com.google.cloud.vision.v1.Feature;
-import com.google.cloud.vision.v1.Feature.Type;
-import com.google.cloud.vision.v1.Image;
-import com.google.cloud.vision.v1.ImageAnnotatorClient;
-import com.google.protobuf.ByteString;
+
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.community.model.service.CommunityService;
@@ -361,7 +353,7 @@ public class MemberController {
 	   Map<String, String>result=service.login(login);
 	   	   
 	   ModelAndView mv=new ModelAndView();
-	   
+     
 	   Member m=service.selectMember(memberId);
 	   logger.debug("멤버: "+m);
 	    if(m == null) {
@@ -378,24 +370,32 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					if(m.getCarMsg()!=null)
-					{
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.addObject("msg",m.getCarMsg());
-						mv.addObject("loc","/");
-						mv.setViewName("common/msg");							
-					}
-					else {
-						logger.debug("로그인 드라이버"+driver);
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.setViewName("redirect:/");
-					}
+					Map<String,String> black = service.checkBlack(result.get("MEMBERID"));
 					
+					//블랙된 회원인지 확인하는 로직
+					if(black!=null && black.get("BLACKID").equals(result.get("MEMBERID"))) {
+						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
+						mv.addObject("loc", "/member/loginForm2.do");
+						mv.setViewName("common/msg");
+					}else {
+						if(m.getCarMsg()!=null)
+						{
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.addObject("msg",m.getCarMsg());
+							mv.addObject("loc","/");
+							mv.setViewName("common/msg");							
+						}
+						else {
+							logger.debug("로그인 드라이버"+driver);
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.setViewName("redirect:/");
+						}
+					}
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm.do");
+					mv.addObject("loc", "/member/loginForm2.do");
 					mv.setViewName("common/msg");
 				}
 			}
@@ -419,10 +419,16 @@ public class MemberController {
 	   mav.setViewName("member/myInfo");
 	   
 	   Member m = (Member)session.getAttribute("logined");
-	   
+	   int memberNum = m.getMemberNum();
+	   Map<String,String> d1 = dService.selectDriverOne(memberNum);
+	   /*Driver d = (Driver)session.getAttribute("driver");*/
 	   m = service.selectMember(m.getMemberId()); 
 	   
+	  /* logger.debug("혹시 드라이버?"+d);*/
+	   logger.debug("혹시 드라이버?"+d1);
 	   mav.addObject("logined", m);
+	 /*  mav.addObject("driver",d);*/
+	   mav.addObject("driver",d1);
 	   return mav;
    }
 
@@ -640,17 +646,22 @@ public class MemberController {
 	   ModelAndView mav = new ModelAndView("member/myCarpool");
 	   
 	   Member m = (Member)session.getAttribute("logined");
+	   int memberNum = m.getMemberNum();
+	   Map<String,String> d = dService.selectDriverOne(memberNum);
+	   
+	   logger.debug("카풀에도 드라이버 "+d);
 	   
 	   List<Map<String, String>> list = cService.selectCarpoolList(m.getMemberNum(), cPage, numPerPage);
 	   int totalCount = cService.selectCarpoolCount(m.getMemberNum());
 	   
 	   mav.addObject("carpoolList", list);
+	   mav.addObject("driver",d);
 	   mav.addObject("pageBar", getPageBar(totalCount, cPage, numPerPage, "/odagada/member/myCarpool"));	   
 	   
 	   return mav;
    }
    
-    @ResponseBody
+  @ResponseBody
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
