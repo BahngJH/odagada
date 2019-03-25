@@ -11,7 +11,7 @@
 <style>
 div#review-container {
 	text-align: center;
-	width: 500px;
+	width: 50%;
 }
 
 div#review-container input {
@@ -23,6 +23,10 @@ div#review-container input {
 }
 div#review-container textarea {
 	height: 150px;
+}
+.info {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 
@@ -146,7 +150,7 @@ div#review-container textarea {
 	}
 </style>
 <section class="container">
-	<div class="row info">
+	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>

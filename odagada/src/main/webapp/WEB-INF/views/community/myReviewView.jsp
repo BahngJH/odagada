@@ -33,6 +33,10 @@
 	span#review-content{
 	text-align: Left;
 	}
+	.info {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	}
 	/* 별점 css 테스트 */
 	.star-rating 
 	{ 
@@ -65,7 +69,7 @@
 </style>
 
 <section class="container">
-	<div class="row info">
+	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>

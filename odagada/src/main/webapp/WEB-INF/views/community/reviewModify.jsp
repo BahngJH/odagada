@@ -8,10 +8,6 @@
    <jsp:param value="오다가다 타는 카풀" name="pageTitle"/>
 </jsp:include>
 <style>
-	div#review-container {
-	width: 600px;
-	margin: 0;
-	}
 	div#review-container ul{
 	list-style:none;
 	padding-left:0px;
@@ -36,8 +32,12 @@
 	}
 	#rContent{
 	width:560px;
+	} 
+	/* .info {
+	margin-top: 50px;
+	margin-bottom: 50px;
 	}
-	
+	 */
 .star-input>.input, .star-input>.input>label:hover, .star-input>.input>input:focus+label,
 	.star-input>.input>input:checked+label {
 	display: inline-block;
@@ -169,7 +169,7 @@
 </style>
 
 <section class="container">
-	<div class="row info">
+	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
