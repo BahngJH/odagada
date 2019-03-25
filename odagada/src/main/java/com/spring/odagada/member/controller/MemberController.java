@@ -52,15 +52,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.cloud.vision.v1.AnnotateImageRequest;
-import com.google.cloud.vision.v1.AnnotateImageResponse;
-import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
-import com.google.cloud.vision.v1.EntityAnnotation;
-import com.google.cloud.vision.v1.Feature;
-import com.google.cloud.vision.v1.Feature.Type;
-import com.google.cloud.vision.v1.Image;
-import com.google.cloud.vision.v1.ImageAnnotatorClient;
-import com.google.protobuf.ByteString;
+
 import com.spring.odagada.carpool.model.service.CarpoolService;
 import com.spring.odagada.common.exception.BoardException;
 import com.spring.odagada.community.model.service.CommunityService;
@@ -367,7 +359,7 @@ public class MemberController {
 	         
 		if (m == null) {
 			mv.addObject("msg", "등록된 정보가 없습니다.");
-			mv.addObject("loc", "/member/loginForm.do");
+			mv.addObject("loc", "/member/loginForm2.do");
 			mv.setViewName("common/msg");
 		} else {
 			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
@@ -376,24 +368,32 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					if(m.getCarMsg()!=null)
-					{
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.addObject("msg",m.getCarMsg());
-						mv.addObject("loc","/");
-						mv.setViewName("common/msg");							
-					}
-					else {
-						logger.debug("로그인 드라이버"+driver);
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.setViewName("redirect:/");
-					}
+					Map<String,String> black = service.checkBlack(result.get("MEMBERID"));
 					
+					//블랙된 회원인지 확인하는 로직
+					if(black.get("BLACKID").equals(result.get("MEMBERID"))) {
+						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
+						mv.addObject("loc", "/member/loginForm2.do");
+						mv.setViewName("common/msg");
+					}else {
+						if(m.getCarMsg()!=null)
+						{
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.addObject("msg",m.getCarMsg());
+							mv.addObject("loc","/");
+							mv.setViewName("common/msg");							
+						}
+						else {
+							logger.debug("로그인 드라이버"+driver);
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.setViewName("redirect:/");
+						}
+					}
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm.do");
+					mv.addObject("loc", "/member/loginForm2.do");
 					mv.setViewName("common/msg");
 				}
 			}
