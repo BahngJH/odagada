@@ -12,7 +12,6 @@
 div#review-container {
 	text-align: center;
 	width: 500px;
-	margin: 0 auto;
 }
 
 div#review-container input {
@@ -31,7 +30,7 @@ div#review-container textarea {
 	.star-input>.input>input:checked+label {
 	display: inline-block;
 	vertical-align: top;
-	background:url(${pageContext.request.contextPath}/resources/images/star1.png)no-repeat;
+	background:url(${pageContext.request.contextPath}/resources/images/option-icon/star.png)no-repeat;
 }
 
 .star-input {
@@ -141,39 +140,57 @@ div#review-container textarea {
 	font: bold 18px Helvetica, Arial, sans-serif;
 	vertical-align: middle;
 }
+#rtitle{
+	text-align:center;
+	font-size:40px;
+	}
 </style>
-
-<div id="review-container">
-	<form name="reviewFrm" action="${path}/community/reviewFormEnd.do" method="post" onsubmit="return validate();"> 
-		<h1>리뷰</h1>
-		<br/>
-		<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>
-		<br/>
-		<span class="star-input">
-			<span class="input">
-				<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5"><label for="p1">0.5</label>
-				<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
-				<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
-				<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
-				<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
-				<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
-				<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
-				<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
-				<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
-				<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
-			</span>
-		<output for="star-input"><b>0</b>점</output>
-		</span>
-		<br/>
-		<br/>
-		<input type="hidden" name="memberNum" value="${logined.memberNum}">
-		<input type="hidden" name="driverNum" id="driverNum" value="${review.driverNum }"/>
-		<input type="hidden" name="carpoolNum" id="carpoolNum" value="${review.carpoolNum }"/>
-		<input type="hidden" name="memberName" id="memberName" value="${review.memberName }"/>
-		<input type="submit" class="btn btn-outline-success" value="등록" >
-		<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/';">
-	</form>
-</div>
+<section class="container">
+	<div class="row info">
+		<div class="col-12 col-md-3">
+			<div class="menu_list info list-group">
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
+				<a class="list-group-item list-group-item-action active">카풀 내역</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+			</div>
+		</div>
+		<div class="col-12 col-md-9" id="review-container">	
+			<div class="info col-12 col-sm-12 col-md-9">
+				<form name="reviewFrm" action="${path}/community/reviewFormEnd.do?driverName=${review.driverName }" method="post" onsubmit="return validate();"> 
+					<span id="rtitle">리뷰 작성</span>
+					<br/>
+					<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>
+					<br/>
+					<span class="star-input">
+						<span class="input">
+							<input class="form-control" type="radio" name="rGrade" id="p1" value="0.5" required><label for="p1">0.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p2" value="1"><label for="p2">1</label>
+							<input class="form-control" type="radio" name="rGrade" id="p3" value="1.5"><label for="p3">1.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p4" value="2"><label for="p4">2</label>
+							<input class="form-control" type="radio" name="rGrade" id="p5" value="2.5"><label for="p5">2.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p6" value="3"><label for="p6">3</label>
+							<input class="form-control" type="radio" name="rGrade" id="p7" value="3.5"><label for="p7">3.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p8" value="4"><label for="p8">4</label>
+							<input class="form-control" type="radio" name="rGrade" id="p9" value="4.5"><label for="p9">4.5</label>
+							<input class="form-control" type="radio" name="rGrade" id="p10" value="5"><label for="p10">5</label>
+						</span>
+					<output for="star-input"><b>0</b>점</output>
+					</span>
+					<br/>
+					<br/>
+					<input type="hidden" name="memberNum" value="${logined.memberNum}">
+					<input type="hidden" name="driverNum" id="driverNum" value="${review.driverNum }"/>
+					<input type="hidden" name="carpoolNum" id="carpoolNum" value="${review.carpoolNum }"/>
+					<input type="hidden" name="memberName" id="memberName" value="${review.memberName }"/>
+					<input type="hidden" name="driverName" id="driverName" value="${review.driverName }"/>
+					<input type="submit" class="btn btn-outline-success" value="등록" >
+					<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';">
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
 <script>
 	/*별점 */
 	var starRating = function(){

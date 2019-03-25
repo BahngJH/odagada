@@ -19,10 +19,10 @@ public interface CommunityDao {
 	
 	int insertNotify(Map<String,Object>map);
 	int insertReview(Map<String,String>map);
-	int selectReviewCount(int memberNum);
+	int selectReviewCount(String memberNum);
 	Map<String,Object> selectReview(Map<String,String> m);
 	List<Map<String,Object>> selectMyReviewList(Map<String,String> map);
-	List<Map<String,Object>> selectReviewList(int memberNum);
+	List<Map<String,Object>> selectReviewList(Map<String,String> map);
 	int updateReview(Map<String,String>map);
 	int deleteReview(Map<String, String>map);
 
