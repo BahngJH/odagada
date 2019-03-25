@@ -74,6 +74,7 @@
 	</div>    
 	<script src="${pageContext.request.contextPath }/resources/loginFile/script.js"></script>
 	
+
 	<!-- 카카오 스크립트문 -->
 	<script type='text/javascript'>
 	var kakaoName="";
@@ -141,5 +142,6 @@
 				});
 		naverLogin.init();
 	</script>
+
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

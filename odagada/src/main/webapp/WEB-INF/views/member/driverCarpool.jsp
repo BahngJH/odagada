@@ -10,6 +10,10 @@
 </jsp:include>
 
 <style>
+.info {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
 div.mem-div{
 /* background:url(${pageContext.request.contextPath}/resources/images/mypage/my2.png); */
 max-width:100%;
@@ -115,68 +119,87 @@ background-color:rgb(100,100,100);
       border-right: 20px solid transparent;
       float:left;
 }
+div.list-div{
+margin-bottom:20px;
+}
+span.start-span{
+color: rgb(0,175,76);
+}
 </style>
 <section class="container">
    <div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
 				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
-	            <a id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
+				<c:if test="${driver ne null}">
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+				</c:if>
+        <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
 			</div>
 		</div>
       <!-- 리스트 -->
       <div class="col-12 col-md-9">
-         <div class="row">
-            <c:forEach items="${dcarList }" var="dc">
-               <c:if test='${dc.STATUS eq "N" }'>
-                  <div class="col-md-6" style="margin-top:30px">
-                     <div class="card a-card">
-                     	<div class="card-header head-div">
-                     	</div>
-                        <div class="card-body N-div">
-                           <div class="mark-p"></div><span><b>출발일</b></span><br> <p>${dc.STARTDATE }</p><hr>
-                           <div class="mark-p"></div><span><b>출발지</b></span><br> <p>${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
-                           <div class="mark-p"></div><span><b>도착지</b></span><br> <p>${dc.ENDCITY } ${dc.ENDDETAIL }</p>
-                           <span> 
-                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=Y'" class="checkPass-btn">동승자 확인</button>
-                           </span>
-                        </div>
-                     </div>
-                  </div>
-               </c:if>
-               <c:if test='${dc.STATUS eq "Y" }'>
-                  <div class="col-md-6" style="margin-top:30px">
-                     <div class="card">
-                     	<div class="card-header headN-div">
-                     	</div>
-                        <div class="card-body Y-div">
-                           <div class="markN-p"></div><span><b>출발일</b></span><br> <p>${dc.STARTDATE }</p><hr>
-                           <div class="markN-p"></div><span><b>출발지</b></span><br> <p>${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
-                           <div class="markN-p"></div><span><b>도착지</b></span><br> <p>${dc.ENDCITY } ${dc.ENDDETAIL }</p>
-                           <span>
-                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=N'" class="checkPass-btn">동승자 결제</button>
-                           </span>
-                        </div>
-                     </div>
-                  </div>
-               </c:if>
-            </c:forEach>
+         <div class="row info">
+	         <c:choose>
+	         	<c:when test="${dcarList[0] !=null }">
+	         		<c:forEach items="${dcarList }" var="dc">
+		               <c:if test='${dc.STATUS eq "N" }'>
+		                  <div class="col-md-12 list-div">
+		                     <div class="card a-card">
+		                     	<div class="card-header head-div">
+		                     	</div>
+		                        <div class="card-body N-div">
+		                        <div class="row">
+			                        <div class="col-6">
+			                        	 <div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(dc.STARTDATE,0,10)}</p><hr>
+			                        </div>
+			                        <div class="col-6">
+			                        	 <div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(dc.STARTDATE,11,20)}</p><hr>
+			                        </div>
+		                        </div>
+		                        	<div class="mark-p"></div><span class="start-span"><b>출발지</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
+		                        	<div class="mark-p"></div><span class="start-span"><b>도착지</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${dc.ENDCITY } ${dc.ENDDETAIL }</p>
+		                           <span> 
+		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=Y'" class="checkPass-btn">동승자 확인</button>
+		                           </span>
+		                        </div>
+		                     </div>
+		                  </div>
+		               </c:if>
+		               <c:if test='${dc.STATUS eq "Y" }'>
+		                  <div class="col-md-12" style="margin-top:30px">
+		                     <div class="card">
+		                     	<div class="card-header headN-div">
+		                     	</div>
+		                        <div class="card-body Y-div">
+		                           <div class="markN-p"></div><span><b>출발일</b></span><br> <p>${dc.STARTDATE }</p><hr>
+		                           <div class="markN-p"></div><span><b>출발지</b></span><br> <p>${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
+		                           <div class="markN-p"></div><span><b>도착지</b></span><br> <p>${dc.ENDCITY } ${dc.ENDDETAIL }</p>
+		                           <span>
+		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=N'" class="checkPass-btn">동승자 결제</button>
+		                           </span>
+		                        </div>
+		                     </div>
+		                  </div>
+		               </c:if>
+		            </c:forEach>
+	         	</c:when>
+	        	<c:otherwise>
+	        		<div class="col-12 info">
+	        			<div class="card" >
+	        				<div class="card-header">
+	        					<h4><b>등록 된 카풀 내역이 없습니다.</b></h4>
+	        				</div>
+	        				<div class="card-body  text-center">
+      							<p><b>카풀 등록</b>을 이용해서 카풀서비스를 등록해보세요!</p>
+      						</div>
+      					</div>
+       				</div>
+	       		</c:otherwise>
+	         </c:choose>
          </div>
       </div>
    </div>
 </section>
-<script>
-   function updateCredit(){
-      var code = $('#credit-code').val().trim();
-      var driverNum = ${logined.memberNum};
-      if(code.length==0)
-      {
-         alert('코드를 정확히 입력해주세요.');
-         return;
-      }
-      location.href="${path}/driver/updateDriverCredit?"
-   }
-</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

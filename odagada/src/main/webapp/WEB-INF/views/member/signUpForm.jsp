@@ -32,10 +32,8 @@
     div#enroll-container span.ck {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
     div#enroll-container span.ckOk{color:green;}
     div#enroll-container span.ckNo{color:red;}
-    
-    .ckOk, .ckNo{
-    padding-right:13px;
-    }
+    #birth-div{padding-right:13px;}
+   .ckOk,.ckNo{padding-right:13px;}
        
   .emailC{     
     display: block;
@@ -64,94 +62,48 @@
     width: 100%; 
     }
    
-   .div-email{
-   padding : 0px;
-   }
+   .div-email{padding : 0px;}
    .row-email{
       padding: 0px;
       margin-left: 0px;
-      margin-right: 0px;
-   }
+      margin-right: 0px;}
     
-   .addon-email{
-      margin-bottom: 10px;
-   }
-   
+   .addon-email{margin-bottom: 10px;}  
    .profile{
    margin-left:13px;
-   margin-right:13px;
-   }
+   margin-right:13px;}
    
-   .gender{
-   padding-left:28%;
-   }
-   
-   .genderRow{
-   margin-top: 10px;
-   }
-   
+   .gender{ padding-left:28%;}   
+   .genderRow{margin-top: 10px;} 
    .submitB{
    margin-top:5%;
    margin-left:30%;
-   margin-bottom: 10%;
-   }
-   
-   #enrollBtn{
-   margin-right:15%; 
-   }
-   
-   #memberId_{
-   margin-top:20%;
-   }
-   
-   .genderC{
-   padding-left:0;
-   }
-   
-   #gender1{
-   margin-left:20px;
-   } 
-   .dR{
-   padding-left:1%;
-   }
-   .dL{
-   padding-right:1%;
-   }
-   .phone2C{
-   padding-left:0px;
-   }
-   
-   li { list-style: none }
-  
-  	li.li_pass{
+   margin-bottom: 10%;}
+   .eck{width:2;height:29pt;}
+   #enrollBtn{margin-right:15%;}  
+   #memberId_{margin-top:20%;}     
+   .dR{padding-left:1%;}
+   .dL{padding-right:1%;}
+   .phone2C{padding-left:0px;}  
+   li { list-style: none } 
+   li.li_pass{
   		font-size:14px;
   		margin-top:-10px;
   		margin-left:-10px;
   	}
-  	p{
-  	font-size:12px;
-  	}
-  	.passwordInfo{
-  	height:40px;
-  	}
+  	p{font-size:12px;}
+  	.passwordInfo{height:40px;}
   	.eck{padding-right:0; padding-left:0; font-size:15px; width:75px;}
   	.upFile-div{margin-bottom:10px;}
   	.select-div, .phone-div, .phone-btn{padding:0;} 
   	.p-div{margin-top:4px;}
   	.name-div{padding-right:3px;}
   	
-   input[type='radio'] {
-            display: none;
-    }
+   input[type='radio'] {display: none;}
     #checkGender label {
         padding-top: 10px;
-
         width: 100px; height: 40px;
-        border: 1px solid #28a745;
-
-        /* width: 85px; height: 40px;
-        border: 1px solid gray; */
-
+        border: 1px solid #28a745;    
         border-radius: 10px 10px 10px 10px;
         color : #28a745;
         width: 80px;
@@ -165,25 +117,103 @@
         color: white;
         background: #28a745;
         border-color: #28a745;
-    }
+    }   
+    #email2{width: 112px;}
+    #phone2{width: 200px;}
+    #proImg-div{width:350px; border:1px solid #4BAF4B;}
+    #proImg-row{margin:0; margin-bottom:3%;display:none;}
+    img#pro_img{max-width:350px;max-height:300px;background-clip: content-box;}
+      
+input[type="radio"] {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+input[type="radio"]:focus + label:before,
+input[type="radio"]:hover + label:before {border-color: black;}
+
+input[type="radio"]:active + label:before {
+    -webkit-transition-duration: 0;
+    transition-duration: 0;
+    -webkit-filter: brightness(0.2);
+    filter: brightness(0.2);
+}
+
+input[type="radio"] + label {
+    position: relative;
+    padding: 10px;
+    padding-left: 2em;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input[type="radio"] + label:before {
+    box-sizing: content-box;
+    content: '';
+    color: #04B431;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    border: 2px solid grey;
+    text-align: center;
+}
+
+input[type="radio"] + label:after {
+    box-sizing: content-box;
+    content: '';
+    background-color: #04B431;
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    -webkit-transition: -webkit-transform 200ms ease-out;
+    transition: -webkit-transform 200ms ease-out;
+    transition: transform 200ms ease-out;
+    transition: transform 200ms ease-out, -webkit-transform 200ms ease-out;
+}
+
+input[type="radio"]:checked + label:before {
+    -webkit-animation: borderscale 300ms ease-in;
+    animation: borderscale 300ms ease-in;
+    background-color: white;
+}
+
+input[type="radio"]:checked + label:after {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+input[type="radio"] + label:before,
+input[type="radio"] + label:after {border-radius: 50%;}
+button.check-btn{
+    max-width: 58px;
+    font-size: 14px
+}
+
+
     
-    #email2{
-    	width: 112px;
-    }
-    #phone2{
-    	width: 200px;
-    }
     </style>
     
      
 <script>
  $(function(){
-   $('[name=upFile]').on('change',function(){
-      //var filename=$(this).val();
-      var filename=this.files[0].name;
-      //var filename=$(this).prop('files')[0].name;
-      $(this).next('.custom-file-label').html(filename);
-   });
    
     //ID 중복확인
    $("#memberId_").keyup(function(){
@@ -296,6 +326,11 @@ $(function(){
           alert("정확한 이름을 입력해주세요.");
           return false;
     	  }
+       //프로필 이미지 검사
+       if($('#temp').val()==0){
+    	   alert("알맞은 사진을 넣어주세요.");
+    	   return false;
+       }
      	//이메일 도메인 정규식 받기    
         var mC= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
         if(!mC.test($("input[name=email2]").val())){
@@ -336,24 +371,6 @@ $(function(){
         
   
    }
- 
-   //프로필 사진을 이미지 타입 파일로만 받기
-   function fileCheck(obj){
-      var fileKind=obj.value.lastIndexOf('.');
-      var fileName=obj.value.substring(fileKind+1, obj.length);
-      var fileType=fileName.toLowerCase();
-      
-      var ckFileType=new Array();
-      ckFileType=['jpg','gif','png','jpeg','jpeg','bmp'];
-      
-      if(ckFileType.indexOf(fileType)==-1){
-         alert("이미지 파일만 선택할 수 있습니다.");
-         var parentObj=obj.parentNode;
-         var node=parentObj.replaceChild(obj.cloneNode(true), obj);
-         return false;      
-         }   
-      }
-   
    
  //E-mail 중복 확인
    function checkEmail(){ 	
@@ -392,7 +409,7 @@ $(function(){
     	    var phone1=$('#selectPhone option:selected').val();
     	    var phone2=$('#phone2').val();
     	    var phone=phone1+phone2;
-    	    console.log(phone);
+    	    console.log($('#temp').val());
     	  //핸드폰 유효성 검사 
           var regExp = /([0-9]{7,8})$/;
           if (!regExp.test($("input[name=phone2]").val())) {
@@ -418,8 +435,71 @@ $(function(){
       };
       
       
-</script>
+
+  //프로필 사진 클릭시 파일 업로드 가능하게 하는 이벤트.
+  $(function(){  
+ 	$('#pro_img').on('click', function() {
+ 			$('#upFile').trigger('click');			
+ 		})	 
+ });
+         
+    //프로필 사진을 이미지 타입 파일로만 받기
+     function fileCheck(obj) {
+     	var fileKind = obj.value.lastIndexOf('.');
+     	var fileName = obj.value.substring(fileKind + 1, obj.length);
+     	var fileType = fileName.toLowerCase();
+     	var ckFileType = new Array();
+     	ckFileType = ['jpg','png', 'jpeg', 'jpeg', 'bmp'];
+     	
+			
+		if(fileName==''){return true;}	
+		if (ckFileType.indexOf(fileType) == -1) {
+	   		alert("이미지 파일만 선택할 수 있습니다. 'gif' 파일은 불가합니다.");
+	   		var parentObj = obj.parentNode;
+	   		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+	   		return;
+	     }
+		 else{
+     			var filenames=obj.files[0].name;
+        		var fileReader = new FileReader();    
+        		
+	      		fileReader.readAsDataURL(obj.files[0]);   	      		
+	      		fileReader.onload = function(e){
+     	 		var result = e.target.result;	
+     	 		$('#pro_img').attr('src',result);
+     	 		$('#proImg-row').show();
+     	 		
+     		 	var formData=new FormData();
+      		 		formData.append('upFile',obj.files[0]);  
+      		
+      	 	 	$.ajax({
+     	 			url:"${path}/member/profileTest.do",
+     	 			data:formData,
+     	 			dataType:'json',
+     	 			processData:false,
+     	 			contentType:false,
+     	 			type:'POST',
+     	 			success:function(data){
+     	 				if(data[1]=='no'){
+     	 					document.getElementById('temp').value='0'; 
+     	 					alert("인물 사진을 넣어주세요.");
+     	 					return false;
+     	 				}if(data[1]=='many'){
+     	 					document.getElementById('temp').value='0'; 
+     	 					alert("하나의 인물이 나온 사진을 넣어주세요.");
+     	 					return false;
+     	 				} else{
+     	 					document.getElementById('temp').value='1'; 
+     	 					return true;
+     	 				}      	 			
+     	 			}
+     	 		});  
+      		}
+     	}
+     }
       
+     
+</script>     
       <div id="enroll-container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
             <input type="text" class="form-control" placeholder="아이디 (4~12자리 영소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
@@ -452,16 +532,22 @@ $(function(){
              <div class="row">                     
                   <div class="upFile-div custom-file col-12">
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
+                      <input type="hidden" id="temp" name="temp" value="0"/>
                       <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
                   </div>                      
-             </div>           
+             </div>
+             <div class="row" id="proImg-row">
+             	<div id="proImg-div">
+					<img  class="img-thumbnail mx-auto d-block" id="pro_img">            	
+             	</div>
+             </div>
             <div class="row">
                <div class="col-6 name-div">
                   <div>
                      <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
                   </div>                       
                </div>
-               <div class="col-6 dR">
+               <div class="col-6 dR" id="birth-div">
                   <div>
                      <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
                   </div>                       
@@ -479,7 +565,7 @@ $(function(){
                   <input type="text" class="emailC form-control" name="email2" id="email2" placeholder="도메인" maxlength="20" required>                                 
                </div>
                <div class="div-email col-2">
-               		<button type="button" class="eck btn btn-success" onclick="checkEmail();">중복확인</button>
+               		<button type="button" class="eck btn btn-success check-btn" onclick="checkEmail();">중복확인</button>
                </div>
           </div>
           <div class="row row-email">
@@ -498,22 +584,16 @@ $(function(){
           		<input type="text" class="tel" name="phone2" id="phone2" maxlength="8" placeholder="' - ' 제외" required>         
              </div>
              <div class="col-2 phone-btn">
-             	<button type="button" class="eck btn btn-success" onclick="checkPhone();">중복확인</button>
+             	<button type="button" class="eck btn btn-success check-btn" onclick="checkPhone();">중복확인</button>
              </div>
           </div>
            <input type="hidden" id="phoneStatus" value="0"/>              
-               <!--  <div class="row genderRow">         
-             		<div class="gender form-check-inline from-control">성별 : &nbsp; 
-	                     <input type="radio" class="form-check-input" name="gender" id="gender0" value="F" checked><label for="gender0" class="form-check-label genderC">여자</label>&nbsp;
-	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
+               <div class="row genderRow">         
+             		<div class="gender form-check-inline from-control">
+             	   		 <input id="radio1" type="radio" class="radio" name="gender" value="M" checked="checked"> <label for="radio1">남자</label>&nbsp;
+           				 <input id="radio2" type="radio" class="radio" name="gender" value="F"> <label for="radio2">여자</label>&nbsp;
              	   </div>
-               </div>  -->
-                <div id="checkGender">
-	                <input type="radio" name="gender" value="M" id="man" checked>&nbsp;&nbsp;
-	                <input type="radio" name="gender" value="F" id="woman">
-	                <label for="man">남자</label>
-	                <label for="woman">여자</label>
-            	</div>                
+               </div>  	                 	                
                 <br/>
                 <div class="row submitB">  
                   <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;

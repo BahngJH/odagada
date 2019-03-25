@@ -10,7 +10,7 @@ public interface MemberService {
 	Member kakaoIdCK(Member m);
 	Map<String, String>login(Map<String, String> login);
 	Member selectMember(String memberId);
-	void insertMember(Member m) throws Exception;
+	void insertMember(Member m, StringBuffer odagada) throws Exception;
 	int checkEmail(String email);	
 	int checkId(String memberId);
 	int updateMember(Member m);	
@@ -21,11 +21,11 @@ public interface MemberService {
 	String getPhoneCode(int memberNum);
 	int updateYPhoneStatus(int memberNum); 
 	Map<String,String>findPw(Map info); //패스워드 찾기 
-	void sendPw(Map info)throws Exception;//임시 비밀번호 발급	 
-	void mailAuth(Member m)throws Exception;//메일 인증	
+	void sendPw(Map info, StringBuffer odagada)throws Exception;//임시 비밀번호 발급	 
+	void mailAuth(Member m,StringBuffer odagada)throws Exception;//메일 인증	
 	int checkPhone(String phone); //핸드폰 중복확인
 	int updatePassword(Member m);//비밀번호 변경
-	void mailUpdate(Member m)throws Exception;//이메일 변경 인증 코드
+	void mailUpdate(Member m, StringBuffer odagada)throws Exception;//이메일 변경 인증 코드
 	int updatePhone(Member m);//핸드폰 번호 변경
 	int updateName(Member m);//이름 변경
 	int updateMsg(Member m);//메세지 등록
