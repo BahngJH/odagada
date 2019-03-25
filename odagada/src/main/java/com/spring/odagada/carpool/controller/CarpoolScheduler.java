@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.spring.odagada.carpool.model.service.CarpoolService;
+import com.spring.odagada.member.model.service.MemberService;
 
 public class CarpoolScheduler {
-	@Autowired
-	CarpoolService service;
-	
 	private Logger l = LoggerFactory.getLogger(CarpoolScheduler.class);
+	
+	@Autowired
+	CarpoolService service;	
 	
 	@Scheduled(cron="0 0 0/1 1/1 * ?")
 	public void setCarpoolStatus() {
@@ -23,4 +24,7 @@ public class CarpoolScheduler {
 		l.debug(sdf.format(cal.getTime()).toString());
 		service.setCarpoolStatus(sdf.format(cal.getTime()).toString());
 	}
+	
+
+	
 }

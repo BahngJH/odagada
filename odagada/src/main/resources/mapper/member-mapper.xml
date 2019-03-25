@@ -19,7 +19,7 @@
 	
 	<!--회원 등록 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default,default,default)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, #{memberId}, #{memberPw}, #{memberName}, #{birth}, #{phone}, #{email},  sysdate, #{gender}, default, #{profileImageOri}, #{profileImageRe}, default, default, default, default,default,default,default,default)
 	</insert>
 	
 	<!--메일 인증 코드 생성 -->
@@ -55,9 +55,11 @@
 	</update> 
 	
 	<!-- 회원삭제  -->
-	<delete id="memberDelete" parameterType="int">
-	DELETE FROM MEMBER WHERE MEMBERNUM=#{memberNum} 	
-	</delete> 
+	<update id="memberDelete" parameterType="int">
+	UPDATE MEMBER SET MEMBERSTATUS ='N',
+					  LEAVEDATE=SYSDATE
+					  WHERE MEMBERNUM=#{memberNum} 	
+	</update> 
 	
 	<!-- 아이디 찾기  -->
 	<select id="findId" parameterType="map" resultMap="memberMap">
@@ -109,4 +111,8 @@
 	 <update id="deleteMsg" parameterType="member">
 	 UPDATE MEMBER SET CARMSG='' WHERE MEMBERNUM=#{memberNum}
 	 </update>
+	 <!--테이블에서 회원정보 삭제  -->
+	 <delete id="deleteLeaveMember" parameterType="string">
+	 DELETE FROM MEMBER WHERE MEMBERSTATUS='N' AND LEAVEDATE <![CDATA[=]]> #{nowDate}
+	 </delete>
 </mapper>

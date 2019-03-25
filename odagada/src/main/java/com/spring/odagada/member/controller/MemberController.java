@@ -362,16 +362,18 @@ public class MemberController {
 	   	   
 	   ModelAndView mv=new ModelAndView();
 	   
-	   Member m=service.selectMember(memberId);   
-	   
-	         
-		if (m == null) {
-			mv.addObject("msg", "등록된 정보가 없습니다.");
+	   Member m=service.selectMember(memberId);
+	   logger.debug("멤버: "+m);
+	    if(m == null) {
+	    	mv.addObject("msg", "등록된 정보가 없습니다.");
 			mv.addObject("loc", "/member/loginForm.do");
 			mv.setViewName("common/msg");
-		} else {
-			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
-			
+	    }else if(m.getMemberStatus().equals("N")) {
+	    	mv.addObject("msg", "탈퇴한 회원 입니다.");
+			mv.addObject("loc", "/");
+			mv.setViewName("common/msg");
+	    }else{	    
+			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());		
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
@@ -425,7 +427,7 @@ public class MemberController {
    }
 
    
-   //비밀번호 체크(ajax ...)
+   //비밀번호 체크(ajax ...), 회원 탈퇴
    @ResponseBody
    @RequestMapping("/member/checkPw.do")
    public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session, SessionStatus status) {
