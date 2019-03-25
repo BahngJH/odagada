@@ -38,11 +38,15 @@ margin:0px;
   position:relative;
 }
 .wrapper {
-  height: 90vh;
+  height: 100vh;
+}
+.row{
+margin-left:0px;
+margin-right:0px;
 }
 .row,.col-12{
 padding:0px;
-margin:0px;
+/* margin:0px; */
 }
 .t1{
 position:relative;
@@ -51,7 +55,7 @@ color:white;
 .input-group>.form-control:not(:last-child){
    border-top-right-radius: 40px;
     border-bottom-right-radius: 40px;
-      border-top-left-radius: 40px;
+    border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
     width:50px;
     height:55px;
@@ -71,7 +75,7 @@ input#startDate{
 .dot-L,.dot-R{
 color:white;
 font-size:12px;
-padding:5%;
+padding:3%;
 }
 .dot-L{
 float:left;
@@ -80,15 +84,18 @@ float:left;
 float:right;
 }
 .text-div{
-padding:20%;
+padding:10%;
 padding-bottom:0px;
+padding-top:26%;
 }
 .text-h4{
-font-size:35px;
-float:left;
+font-size:50px;
+text-shadow:2px 2px 8px rgb(30,30,30);
+text-align: center;
 }
 .text-h3{
-font-size:55px;
+font-size:70px;
+text-shadow:2px 2px 8px rgb(30,30,30);
 float:right;
 }
 .search-row{
@@ -113,13 +120,9 @@ background-color: rgb(240,240,240);
 			<div class="parallax-img">
 				<div class="row text-div">
 					<div class="col-12">
-<!-- 						<div class="row" >
-							<div class="offset-2 col-8"style="width:100%;border-bottom:2px solid white;" >
-							</div>
-						</div> -->
 						<div class="row">
-							<div class="col-2 dot-R">●</div>
-							<div class="col-8">
+							<div class="col-1 dot-R">●</div>
+							<div class="col-10">
 								<div class="row">
 									<div class="col-sm-12 t1 text-h4">
 										<h4 class="text-h4">SEARCH FOR YOUR TRIP FROM</h4>
@@ -129,10 +132,10 @@ background-color: rgb(240,240,240);
 									</div>
 								</div>
 							</div>
-							<div class="col-2 dot-L">●</div>
+							<div class="col-1 dot-L">●</div>
 						</div>
 						<div class="row t1" style="width:100%;border-top:2px solid white;">
-							<div class="offset-2 col-8" >
+							<div class="offset-1 col-10" >
 							</div>
 						</div>
 					</div>
@@ -182,23 +185,29 @@ background-color: rgb(240,240,240);
 </div>
 <div class="wrapper">
 	<div class="row">
-		<div class="col-12 c4">
-		</div>
-		<div class="col-12" style="margin-top:10%;">
+		<div class="col-12 c4" >
 			
 		</div>
 		<div class="col-12">
 			<div class="row">
-				<div class="offset-5 col-4 c2">
-					                  <c:if test="${logined==null || dList[0].DRIVERSTATUS eq 'N'}"> <!-- 드라이버가 아니면 status N -->
-                     <button class="btn btn-success" onclick='location.href="${path}/driver/driverEnroll"'>드라이버 신청</button>
-                  </c:if>
-                  <c:if test="${ logined!=null && dList[0].DRIVERSTATUS eq 'Y'}"> <!-- 드라이버가 맞을 경우 Y -->
-                     <button class="btn btn-success" onclick="location.href='${path }/carpool/register'">카풀 등록</button>
-                  </c:if>
+				<div class="col-12 offset-md-2 col-md-2 c3 oda-text">
+					<div class="col-12">
+						<h3 class="gada-h"><b>오다, 가다</b></h3>
+					</div>
+					<div class="col-12">
+						<p class="gada-p">오다가다의 베스트 드라이버가 되어보세요.</p>
+					</div>
+					<div class="col-8 col-sm-7">
+						<div class="form-control div-search text-center oda-div">이용하기 <b>></b></div>
+					</div>
 				</div>
-				<div class="offset-3 col-5 c3">
-					<img src="${path }/resources/images/main/menu_01.png" class="driver-img"/>
+				<div class="col-6 offset-md-1 col-md-3 c3 car-div">
+					<a href="${path}/driver/driverEnroll" class="text-d">드라이버 등록</a>
+					<img src="${path }/resources/images/main/driver-1.png" class="driver-img transition" />
+				</div>
+				<div class="col-6 col-md-3 c3 car-div">
+					<a class="text-d" href="${path }/carpool/register">카풀 등록하기</a>
+					<img src="${path }/resources/images/main/carpool-1.png" class="driver-img transition"/>
 				</div>
 			</div>
 		</div>
@@ -206,30 +215,203 @@ background-color: rgb(240,240,240);
 </div>
 </section>
 <style>
-	.c2{
+/* 	.c2{
 		border:5px solid rgb(50,50,50);
 		width:100%;
 		height:250px;
 		position:absolute;
 		padding-right:5%;
+	} */
+	.c4{
+		width: 100%;
+	    background-color: rgba(223,255,220,0.2);
+	    height: 60vh;
+	    position: absolute;
+	}
+	a:not([href]):not([tabindex]) {
+		color:white;
+	}
+	a:hover{
+		text-decoration: none;
+		color:white;
+		text-shadow: 1px 1px 2px white;
+	}
+	.oda-text{
+		padding-top:10%;
+	}
+	.oda-div{
+		border-bottom-left-radius: 30px;
+		border-bottom-right-radius: 30px;
+		border-top-left-radius: 30px;
+		border-top-right-radius: 30px;
+		width:120px;
+	}
+	.text-d{
+		font-size:30px;
+		position:absolute;
+		z-index:1;
+		padding-top:90%;
+		padding-left:20%;
+		max-width:100%;
+		color:white;
+		text-decoration: none;
 	}
 	.c3{
-		margin-top:6%;
-		margin-left:20%;
+		padding-right:10px;
+		display: block;
+	    position: relative;
+	    width: 100%;
+	    overflow: hidden;
+	    height: 60vh;
+	    margin-top:10%;
 	}
-	.c4{
-		width:100%;
-		height:300px;
-		background-color:rgb(200,200,200);
-		z-index:-1;
-		margin-top:17%;
-		position: absolute;
-	}
+/* 	.car-div{
+		margin-left:30px;
+	} */
 	.driver-img{
-		width:100%;
-		height:360px;
+		overflow:hidden;
+		max-width:90%;
+		/* height:100%; */
 		position:absolute;
-		border:8px solid white;
+		border:4px solid white;
+		margin-left:5px;
+		border-radius:2px;
+	    display: block;
 	}
+	.driver-img:hover{
+		transform: scale(1.02,1.02);
+	}
+    .transition{
+     	transition: .1s ;
+    }
+    /* 드라이버 등록/카풀 등록 */
+    @media all and (max-width: 1100px){
+	    .text-d{
+			font-size:25px;
+			position:absolute;
+			z-index:1;
+			padding-top:90%;
+			padding-left:18%;
+			max-width:100%;
+			color:white;
+			text-decoration: none;
+		}
+		.c4{
+			width: 100%;
+		    background-color: rgba(223,255,220,0.2);
+		    height: 45vh;
+		    position: absolute;
+		}
+    }
+    @media all and (max-width: 840px){
+   	    .text-d{
+			font-size:20px;
+			position:absolute;
+			z-index:1;
+			padding-top:90%;
+			padding-left:17%;
+			max-width:100%;
+			color:white;
+			text-decoration: none;
+		}
+		.gada-h{
+			font-size:25px;
+		}
+		.gada-p{
+			font-size:15px;
+		}
+		.oda-div{
+		border-bottom-left-radius: 30px;
+		border-bottom-right-radius: 30px;
+		border-top-left-radius: 30px;
+		border-top-right-radius: 30px;
+		width:100px;
+		font-size:15px;
+		clear:right;
+		}
+		.c4{
+			width: 100%;
+		    background-color: rgba(223,255,220,0.2);
+		    height: 35vh;
+		    position: absolute;
+		}
+    }
+    @media all and (max-width: 768px){
+   		.oda-text{
+			padding-top:0;
+		}
+		.oda-div{
+			float:right;
+		}
+		.c3{
+			display: block;
+		    position: relative;
+		    width: 100%;
+		    overflow: hidden; 
+		    height:auto;
+		    text-align: center;
+		}
+		.car-div{
+			height: 60vh;
+		}
+		.text-d{
+			padding: 0;
+		    margin: 0;
+		    font-size:18px;
+		    padding-top: 90%;
+		    float: left;
+		    margin-left: -65px;
+		}
+    }
+    /* 검색하기 버튼들 */
+    @media all and (max-width: 810px){
+	    .input-group>.form-control:not(:last-child){
+		   border-top-right-radius: 40px;
+		    border-bottom-right-radius: 40px;
+		    border-top-left-radius: 40px;
+		    border-bottom-left-radius: 40px;
+		    width:40px;
+		    height:50px;
+		}
+    }
+    /* 메인 이미지 안에 요소들 */
+    @media all and (max-width: 768px){
+    	.text-h4{
+    	margin-top:10%;
+		font-size:35px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		text-align: center;
+		}
+		.text-h3{
+		font-size:45px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		float:right;
+		}
+		.dot-L,.dot-R{
+		margin-top:25%;
+		color:white;
+		font-size:8px;
+		padding:3%;
+		}
+    }
+    @media all and (max-width: 550px){
+    	.text-h4{
+    	margin-top:30%;
+		font-size:30px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		text-align: center;
+		}
+		.text-h3{
+		font-size:35px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		float:right;
+		}
+		.dot-L,.dot-R{
+		margin-top:50%;
+		color:white;
+		font-size:6px;
+		padding:3%;
+		}
+    }
 </style>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

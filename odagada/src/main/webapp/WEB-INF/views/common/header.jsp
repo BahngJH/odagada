@@ -64,7 +64,9 @@
      	font-family : BMJUA;
      	font-size: 25px;
      }
-     
+     .container{
+     	margin-top:100px;
+     }
     
 </style>
 </head>
