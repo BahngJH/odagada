@@ -386,21 +386,29 @@ public class MemberController {
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					if(m.getCarMsg()!=null)
-					{
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.addObject("msg",m.getCarMsg());
-						mv.addObject("loc","/");
-						mv.setViewName("common/msg");							
-					}
-					else {
-						logger.debug("로그인 드라이버"+driver);
-						mv.addObject("driver",driver);
-						mv.addObject("logined", m);
-						mv.setViewName("redirect:/");
-					}
+					Map<String,String> black = service.checkBlack(result.get("MEMBERID"));
 					
+					//블랙된 회원인지 확인하는 로직
+					if(black.get("BLACKID").equals(result.get("MEMBERID"))) {
+						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
+						mv.addObject("loc", "/member/loginForm2.do");
+						mv.setViewName("common/msg");
+					}else {
+						if(m.getCarMsg()!=null)
+						{
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.addObject("msg",m.getCarMsg());
+							mv.addObject("loc","/");
+							mv.setViewName("common/msg");							
+						}
+						else {
+							logger.debug("로그인 드라이버"+driver);
+							mv.addObject("driver",driver);
+							mv.addObject("logined", m);
+							mv.setViewName("redirect:/");
+						}
+					}
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
 					mv.addObject("loc", "/member/loginForm2.do");

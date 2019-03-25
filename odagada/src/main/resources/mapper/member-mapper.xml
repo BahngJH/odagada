@@ -7,6 +7,11 @@
 		SELECT*FROM MEMBER WHERE MEMBERID=#{memberId}	
 	</select>
 	
+	<!-- 로그인할 때 블랙회원인지 확인 -->
+	<select id="checkBlack" parameterType="string" resultType="map">
+		select blackid,blackcontent,to_char(blackpunish, 'YYYY-mm-DD') as blackpunish from black where blackId=#{checkId}
+	</select>
+	
 	<!-- 카카오아아디 체크 -->
 	<select id="kakaoIdCK" parameterType="member" resultType="member">
 		select * from member where memberid=#{memberId}
