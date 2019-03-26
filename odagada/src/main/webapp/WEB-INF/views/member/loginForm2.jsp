@@ -61,7 +61,7 @@
         <input id="tt" type="text" name="memberId" placeholder="아이디를 입력하세요">
         <input type="password" name="memberPw" placeholder="패스워드">
         <input type="submit" value="로그인">
-        <span class="searchAccount"><a href="${pageContext.request.contextPath}/member/signUp.do">회원가입</a> | <a href="${path}/member/findId">아이디 찾기</a> | <a href="${path}/member/findPw">비밀번호 찾기</a></span>
+        <span class="searchAccount"><a href="${path}/member/signUp.do">회원가입</a> | <a href="${path}/member/findId">아이디 찾기</a> | <a href="${path}/member/findPw">비밀번호 찾기</a></span>
     </form>
     <!-- 간편로그인 배너 -->
 	<div id="easyLogin">
