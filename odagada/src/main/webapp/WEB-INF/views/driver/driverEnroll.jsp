@@ -116,9 +116,10 @@
     	  alert('자동차 사진을 첨부해주세요.');
     	  return false;
       }
+      
       //자동차모델
-      var carModelExp = /[ㄱ-ㅎ가-힣A-Za-z]/g;
-      if(!carModelExp.test($("input[name=carModel]").val())){
+      var carModelExp = /^[가-힣a-zA-Z0-9\s]+$/;
+      if(!carModelExp.test($("input[name=carModel]").val().trim())) {
     	  alert("자동차모델은 한글/영어만 입력해주세요");
     	  return false;
       }
@@ -192,7 +193,7 @@
 			<div class="form-group row">                  
                  <label for="memberName" class="col-sm-3 col-form-label" id="label_tel">전화번호</label>                 
                   <c:set var="phone" value="${logined.phone}"/>
-                     <select class="tel" name="phone1" id="selectPhone" required>                                                                                        
+                     <select class="tel" name="phone1" id="selectPhone" readonly required>                                                                                        
                         <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>  >010</option>
                         <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
                         <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
@@ -202,10 +203,10 @@
                         <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
                      </select>
                      <c:if test="${fn:length(phone) eq 11}">
-                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}"required>
+                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" readonly required>
                     </c:if>
                     <c:if test="${fn:length(phone) eq 10}">
-                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}"required>
+                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" readonly required>
                     </c:if>
             </div>
             <div class="form-group row">      		

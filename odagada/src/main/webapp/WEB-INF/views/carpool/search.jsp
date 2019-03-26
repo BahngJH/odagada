@@ -58,7 +58,7 @@
 		margin: 20px 0 20px 0;
 	}
 	.photo-backround{
-		background-image: url(${pageContext.request.contextPath}/resources/images/blackList.png);
+		background-image: url(${pageContext.request.contextPath}/resources/images/search.png);
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: cover;
@@ -74,7 +74,7 @@
 	</div>
 </section>
 
-<section class="photo-backround" data-image="${path}/resources/images/nicki-eliza-schinow-1266553-unsplash.jpg">
+<section class="photo-backround" data-image="${path}/resources/images/search.png">
 </section>
 
 
