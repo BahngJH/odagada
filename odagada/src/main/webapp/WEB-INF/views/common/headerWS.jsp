@@ -18,6 +18,7 @@
     <!-- 웹소켓 연결에 필요한 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>ODA-GADA</title>
+
 <style>
 @font-face { font-family: 'Binggrae-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae-Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
 @font-face { font-family: 'YanoljaYacheR'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YanoljaYacheR.woff') format('woff'); font-weight: normal; font-style: normal; }	
@@ -27,15 +28,10 @@
 @font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }	
 @font-face { font-family: 'netmarbleB'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleB.woff') format('woff'); font-weight: normal; font-style: normal; }	
 	
-	
-	
 	body{
 		min-width: 350px;
+		font-family: 'MyLotteLight';
 	} 
-
-	footer>div.row{
-		margin-right: 0px;
-	}
 
     header button.btn.btn-success{
       background-color: rgb(0, 175, 76);
@@ -68,33 +64,36 @@
      	font-family : BMJUA;
      	font-size: 25px;
      }
-     
+     body{
+     	margin-top:100px;
+     }
     
 </style>
 </head>
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light justify-content-between">
             <a class="navbar-brand" href="${path}/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a>
+           <%--  <a class="navbar-brand" href="${path}/"><img src="${path }/resources/images/t-logo.png" style="width: 200px; height: 70px;"></a> --%>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul class="navbar-nav">
+              <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>
+                </li>               
+                <c:set var="isAdmin" value="${logined.isAdmin}"/>
                 <c:if test="${sessionScope.driver.LICENSENUM eq null}">
-	                <li class="nav-item">
-                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
-	               	</li>
+                	<c:if test="${isAdmin eq '0'}">
+	                	<li class="nav-item">
+	                 		<a class="nav-link" href="${path}/driver/driverEnroll">드라이버등록</a>
+		               	</li>
+	               	</c:if>
                	</c:if>       
                 <li class="nav-item">
                   <a class="nav-link" href="${path }/carpool/register">카풀 등록</a>
                 </li>
-<%--                 <li class="nav-item">
-                  <a class="nav-link" href="${path }/community/notifyForm.do">신고</a>
-                </li> --%>
             	<c:if test="${sessionScope.logined==null }">   
 	                 <li class="nav-item">
 	                	  <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
