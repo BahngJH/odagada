@@ -150,7 +150,7 @@ margin-left: 4px;
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-				아이디가 없으신가요?<a href="${pageContext.request.contextPath}/o/signUp.do">회원가입</a>
+				아이디가 없으신가요?<a href="${pageContext.request.contextPath}/member/signUp.do">회원가입</a>
 				</div>
 				<div class="d-flex justify-content-center">
 					<a href="${path}/member/findId">ID 잊으셨나요? ID찾기</a>

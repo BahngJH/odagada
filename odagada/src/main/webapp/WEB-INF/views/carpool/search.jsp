@@ -236,12 +236,15 @@ function search(){
       
     var time = setDates[2].split(":");
    
-    if(setDates[1] === "오후"){
-	    time[0] = Number(time[0]) + 12;
+    if(setDates[1] === "오전" && time[0] === "12"){
+    	time[0] = Number(time[0]) - 12;
+    }
+    
+    if(setDates[1] === "오후" && time[0] != "12"){
+	    time[0] = Number(time[0]) + 12;    		
     }
    
     var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
-  
     if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
        alert("날짜를 확인해주세요.");
        return false;
