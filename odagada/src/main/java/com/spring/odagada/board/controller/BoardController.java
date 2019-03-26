@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -593,5 +594,116 @@ public class BoardController {
 	   
    }
    
+   @RequestMapping("/board/faqList.do")
+   public ModelAndView faqList(HttpSession session,String faqNo)
+   {
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   ModelAndView mv = new ModelAndView();
+	   
+	   if(m!=null)
+	   {
+		   List<Map<String,String>> list = service.selectFaqList(faqNo);
+		   
+		   mv.addObject("list",list);
+		   mv.setViewName("board/faqList");
+		   
+		   return mv;
+	   }
+	   else
+	   {
+		   mv.addObject("msg","로그인 후 이용해주세요!");
+		   mv.addObject("loc","/member/loginForm.do");
+		   mv.setViewName("/common/msg");
+		   
+		   return mv;
+	   }
+   }
+   
+   @RequestMapping("board/faqForm.do")
+   public String faqForm()
+   {
+	   return "board/faqForm";
+   }
+   @RequestMapping("/board/faqFormEnd.do")
+   public String boardFormEnd (HttpServletRequest request,HttpServletResponse response,String faqNo, String fTitle, String fContent, Model model)
+	{
+		Map<String, String> faq=new HashMap();
+		faq.put("faqNo", faqNo);
+		faq.put("fTitle", fTitle);
+		faq.put("fContent", fContent);
+		int result=service.insertFaq(faq);
+		
+		String msg="";
+		String loc="/board/faqList.do?faqNo="+faqNo;
+		if(result>0)
+		{
+			msg="등록성공";
+		}
+		else
+		{
+			msg="등록실패";
+		}
+		model.addAttribute("faqNo",faqNo);
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+		return "common/msg";
+	}
+   @RequestMapping("/board/faqModify.do")
+   public ModelAndView faqModify(HttpServletRequest request,HttpServletResponse response,String faqNo) 
+   {
+	   ModelAndView mv = new ModelAndView();
+	  
+	   Map<String,String> faq = service.selectFaqOne(faqNo);
+	   mv.addObject("faq",faq);
+	   mv.setViewName("board/faqModify");
+	  
+	   return mv;
+   }
+   
+   @RequestMapping("/board/faqModifyEnd.do")
+   public String faqModifyEnd(HttpServletRequest request,HttpServletResponse response,HttpSession session,String faqNo, String fTitle,String fContent,Model model) 
+   {
+	  
+	   Map<String,String> faq = new HashMap();
+	   faq.put("faqNo", faqNo);
+	   faq.put("fTitle", fTitle);
+	   faq.put("fContent", fContent);
+	   logger.debug("넘버 : "+faqNo+"타이틀 : "+fTitle+"냉요 : "+fContent);
+	  
+	  int result = service.updateFaq(faq);
+	  
+	  String msg="";
+	  String loc="/board/faqList.do?";
+	  if(result>0)
+	  {
+		  msg="수정성공";
+	  }
+	  else
+	  {
+		  msg="수정실패";
+	  }
+	  model.addAttribute("msg",msg);
+	  model.addAttribute("loc",loc);
+	  return "common/msg";
+	  }
+   
+   @RequestMapping("/board/faqDelete.do")
+	public String faqDelete(String faqNo, Model model) {
+		
+		int result = service.deleteFaq(faqNo);
+		
+		String msg = "";
+		String loc = "/board/faqList.do?faqNo="+faqNo;
+		if (result > 0) {
+			msg = "삭제성공";
+		} else {
+			msg = "삭제실패";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+
+		return "common/msg";
+	}
 
 }

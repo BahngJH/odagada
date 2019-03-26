@@ -113,6 +113,22 @@
   	DELETE FROM QNACOMMENT WHERE COMMENTNUM=#{commentNum}
   </delete>
   
+  <select id="selectFaqList" resultType="map">
+  	SELECT * FROM FAQ ORDER BY FAQNO DESC
+  </select>
+  <insert id="insertFaq" parameterType="map">
+  	INSERT INTO FAQ VALUES(SEQ_FAQ.NEXTVAL,#{fTitle},#{fContent})
+  </insert>
+  <select id="selectFaqOne" resultType="map">
+  	SELECT * FROM FAQ WHERE FAQNO=#{faqNo}
+  </select>
+  <update id="updateFaq" parameterType="map">
+  	UPDATE FAQ SET FTITLE=#{fTitle}, FCONTENT=#{fContent} WHERE FAQNO=#{faqNo}
+  </update>
+  <delete id="deleteFaq">
+  	DELETE FROM FAQ WHERE FAQNO=#{faqNo}
+  </delete>
+  
   
   
 </mapper>
