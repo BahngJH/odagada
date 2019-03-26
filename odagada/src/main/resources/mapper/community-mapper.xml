@@ -3,7 +3,7 @@
 <mapper namespace="community">
 
   <select id="searchId" parameterType="string" resultType="map">
-  	select * from member where memberid like '%' || #{searchId} || '%'
+  	select * from member where memberstatus='Y' and memberid like '%' || #{searchId} || '%'
   </select>
 
   <insert id="insertRoomId">
