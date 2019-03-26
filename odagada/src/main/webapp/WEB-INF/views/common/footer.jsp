@@ -89,7 +89,7 @@
                      <a href="${pageContext.request.contextPath}/board/qnaList"><strong>Q&A</strong></a>
                   </li>
                   <li class="menu_list">
-                     <strong>자주 묻는 질문</strong>
+                     <a href="${pageContext.request.contextPath}/board/faqList.do"><strong>자주 묻는 질문</strong></a>
                   </li>                  
                </ul>
             </div>
