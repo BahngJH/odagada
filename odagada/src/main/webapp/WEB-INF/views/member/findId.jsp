@@ -44,7 +44,7 @@ function validate(){
     
 </script>
     
-   <div id="enroll-container">
+   <div id="enroll-container" class="container">
          <form name="memberEnrollFrm" id="enroll-form" action="${path }/member/findId.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 	      	<h3>아이디 찾기</h3>
             <div class="row info">  
