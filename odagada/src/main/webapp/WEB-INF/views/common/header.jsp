@@ -64,7 +64,9 @@
      	font-family : BMJUA;
      	font-size: 25px;
      }
-     
+     .container{
+     	margin-top:100px;
+     }
     
 </style>
 </head>
@@ -78,7 +80,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
@@ -127,7 +129,7 @@
                <!-- 채팅 부분 추가함  -->
                <c:if test="${sessionScope.logined!=null }">   
 	                <li class="nav-item" id="communityDiv">
-	                  <a class="nav-link" href="${path }/community/chatting.do">소통해요</a>
+	                  <a class="nav-link" style="color:rgb(241,145,73);" href="${path }/community/chatting.do">소통해요</a>
 	            	</li>
 	            	<li><div id="msgDiv"></div></li>          
                 </c:if>       
