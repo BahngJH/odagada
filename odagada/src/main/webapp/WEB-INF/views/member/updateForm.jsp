@@ -432,7 +432,6 @@ function changeName(){
 					 			 <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
 					  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
 					   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
-								    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
 							  </div> 
 					    </li>
 					    <li class="list-group-item">

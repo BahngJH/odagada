@@ -383,7 +383,8 @@ public class MemberController {
 					//블랙된 회원인지 확인하는 로직
 					if(black!=null && black.get("BLACKID").equals(result.get("MEMBERID"))) {
 						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
-						mv.addObject("loc", "/member/loginForm2.do");
+						/*mv.addObject("loc", "/member/loginForm2.do");*/
+						mv.addObject("loc", "/member/loginForm.do");
 						mv.setViewName("common/msg");
 					}else {
 						if(m.getCarMsg()!=null)
@@ -403,7 +404,8 @@ public class MemberController {
 					}
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					mv.addObject("loc", "/member/loginForm2.do");
+					/*mv.addObject("loc", "/member/loginForm2.do");*/
+					mv.addObject("loc", "/member/loginForm.do");
 					mv.setViewName("common/msg");
 				}
 			}

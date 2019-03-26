@@ -63,9 +63,34 @@
 	div.loc>div, div.div-search, div.div_option>div div, div.btn_submit>div{
 		margin-top: 13px;
 	}
+	a{
+		text-decoration: none;
+	}
+	a.info-a{
+		text-decoration: none;
+		color:rgb(100,100,100);
+		font-size:15px;
+		float:right;
+		font-family: 'silgothic';
+	}
+	.info-img{
+	width:100%;
+	height:100%;
+	}
+	.modal-dialog{
+		max-width:780px;
+	}
+	section{
+	font-family: 'silgothic';
+	}
 </style>
 
 <section class="container">
+	<div class="row">
+		 <div class="col-12">
+		 	<a class="info-a" style="text-decoration: none;color: rgb(140,140,140);"href="" data-toggle="modal" data-target="#info">◎ 카풀 등록 방법 알아보기</a>
+		 </div>
+	</div>
 	<div class="row schedule">
 		<div class="col-12 col-md-6">
 			<div class="input-group">
@@ -163,6 +188,36 @@
 		
 		
 	</div>
+	<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><b>카풀 등록하기 이용법</b></h4>                    
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="ttMessage-div">
+					<div class="row">
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body">
+										<img src="${path }/resources/images/guide-2.png" class="info-img"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
@@ -216,12 +271,23 @@ function carpoolValidate(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
-	
-	if(($("#startDate").val() < nowDate)){
-		alert("날짜를 확인해주세요.");
-		return false;
-	}
+	var nowDate = moment().format('YYYY.MM.DD. hh:mm');
+    var setDate = $("#startDate").val();
+    var setDates = setDate.split(" ");
+    var nowDates = nowDate.toString().split(" ");
+      
+    var time = setDates[2].split(":");
+   
+    if(setDates[1] === "오후"){
+	    time[0] = Number(time[0]) + 12;
+    }
+   
+    var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
+  
+    if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
+       alert("날짜를 확인해주세요.");
+       return false;
+    }
 	
 	return true;
 };

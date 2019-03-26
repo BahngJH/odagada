@@ -68,6 +68,10 @@
      .container{
         margin-top:100px;
      }
+  
+     .container{
+     	margin-top:100px;
+     }
     
 </style>
 </head>
@@ -83,7 +87,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
@@ -105,15 +109,24 @@
                         <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
                      </li> 
                 </c:if>
-                  <c:if test="${sessionScope.logined!=null }">   
-                    <li class="nav-item">
-                     <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
-                   </li> 
-                   <li class="nav-item">
-                     <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
-                   </li>          
-                </c:if> 
-               
+               	<c:if test="${sessionScope.logined!=null }">   
+	                 <li class="nav-item">
+	                  <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
+	                </li>
+	                <li class="nav-item dropdown">
+	                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                 		  마이페이지
+	                  </a>
+	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	                    <a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
+	                    <a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
+	                    <c:if test="${sessionScope.driver.LICENSENUM != null}">
+	                    	<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
+	                   		<a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
+	                    </c:if>	                    
+	                  </div>
+	                </li>
+                </c:if>         
                <c:if test="${isAdmin eq '1'}">
                    <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -131,10 +144,11 @@
                </c:if>
                <!-- 채팅 부분 추가함  -->
                <c:if test="${sessionScope.logined!=null }">   
-                   <li class="nav-item" id="communityDiv">
-                     <a class="nav-link" href="${path }/community/chatting.do">소통해요</a>
-                  </li>
-                  <li><div id="msgDiv"></div></li>          
+                 
+	                <li class="nav-item" id="communityDiv">
+	                  <a class="nav-link" style="color:rgb(241,145,73);" href="${path }/community/chatting.do">소통해요</a>
+	            	</li>
+	            	<li><div id="msgDiv"></div></li>      
                 </c:if>       
    
 
