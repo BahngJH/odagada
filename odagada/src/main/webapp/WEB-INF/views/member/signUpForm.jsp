@@ -500,7 +500,7 @@ $(function(){
       
      
 </script>     
-      <div id="enroll-container">
+      <div id="enroll-container" class="container">
          <form name="memberEnrollFrm" action="${path }/member/signUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
             <input type="text" class="form-control" placeholder="아이디 (4~12자리 영소문자,숫자만 가능)" name="memberId" id="memberId_" maxlength="12" required>
             <span class="guide ok">ID 사용 가능 </span>
