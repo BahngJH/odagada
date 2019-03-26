@@ -64,17 +64,33 @@ ul.qanda {
 .qanda .active:before {
 	content: "-"
 }
+.photo-backround{
+	background-image: url(${pageContext.request.contextPath}/resources/images/boardList3.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 300px;
+	margin-bottom: 30px;
+	margin-top: 10px;
+}
 </style>
-
+<section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1> 자주 묻는 질문들! </h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
+</section>
 <section id="faq-container">
-	<div class="col-md-6 offset-md-3">
+	<div class="col-md-6 offset-md-3" style="margin-top:100px;">
 		<span>
 		<c:set var="isAdmin" value="${logined.isAdmin}" />
 		<c:if test="${isAdmin eq '1'}">
-			<button type="button" class="btn btn-success" style="float: right; margin-bottom: 5px; font-size:10px;" onclick="location.href='${path}/board/faqForm.do';">글쓰기</button>
+			<button type="button" class="btn btn-outline-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/faqForm.do';">글쓰기</button>
 		</c:if>
 		</span>
-		<p id="faqFrm">FAQ</p>
+		<br/>
+		<!-- <p id="faqFrm">자주 묻는 질문들!</p> -->
 		<div>
 		<ul class="qanda">
 			<c:forEach var="f" items="${list}">
