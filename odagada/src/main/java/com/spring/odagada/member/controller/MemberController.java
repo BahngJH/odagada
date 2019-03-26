@@ -176,57 +176,56 @@ public class MemberController {
 		return mv;
 	}
 	
-	//email 중복확인
+	// email 중복확인
 	@ResponseBody
 	@RequestMapping("/member/checkEmail.do")
 	public String checkEmail(String email) {
-		logger.debug("받아오는 메일:"+email);
-		int emailNum=service.checkEmail(email);
-		String result="";
-		if(emailNum==0) {
-			result="ok";
-		}else {
-			result="no";
+		logger.debug("받아오는 메일:" + email);
+		int emailNum = service.checkEmail(email);
+		String result = "";
+		if (emailNum == 0) {
+			result = "ok";
+		} else {
+			result = "no";
 		}
 		return result;
 	}
 			
-	//아이디 중복확인
+	// 아이디 중복확인
 	@RequestMapping("/member/checkId.do")
-	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException
-	{
-		Map map=new HashMap();
-		boolean isId=service.checkId(memberId)==0?false:true;
+	public ModelAndView checkId(String memberId, ModelAndView mv) throws UnsupportedEncodingException {
+		Map map = new HashMap();
+		boolean isId = service.checkId(memberId) == 0 ? false : true;
 		map.put("isId", isId);
-		
+
 		mv.addAllObjects(map);
-		mv.addObject("char",URLEncoder.encode("문자열","UTF-8"));
-		mv.addObject("num",1);
+		mv.addObject("char", URLEncoder.encode("문자열", "UTF-8"));
+		mv.addObject("num", 1);
 		mv.setViewName("jsonView");
-		return mv;	
+		return mv;
 	}
-	
-	//회원가입페이지 전환
+
+	// 회원가입페이지 전환
 	@RequestMapping("/member/signUp.do")
 	public String signUp() {
 		return "member/signUpForm";
 	}
-  
-	//프로필이미지 테스트
+
+	// 프로필이미지 테스트
 	@ResponseBody
 	@RequestMapping("/member/profileTest.do")
-	public String[] prifileTeset(MultipartFile upFile,HttpServletRequest request) throws GeneralSecurityException {
+	public String[] prifileTeset(MultipartFile upFile, HttpServletRequest request) throws GeneralSecurityException {
 		// 임시 프로필 사진 저장소
 		String sav = request.getSession().getServletContext().getRealPath("/resources/upload/profile/temp");
 
 		String[] result = new String[2];
 
 		File f = new File(sav);
-		
-		if(!f.exists()) {
+		// 폴더가 없으면 만들기
+		if (!f.exists()) {
 			f.mkdirs();
 		}
-		
+
 		if (!upFile.isEmpty()) {
 			// 파일명 생성(ReName)
 			String oriFileName = upFile.getOriginalFilename();
@@ -258,154 +257,152 @@ public class MemberController {
 		return result;
 	}
   
-	//회원가입
+	// 회원가입
 	@RequestMapping("/member/signUpEnd.do")
-	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {		
-		logger.debug("뉴비: "+m);
-		//암호화 전 패스워드
-		String oriPw=m.getMemberPw();
-		logger.debug("암호화 전:"+oriPw);
-		logger.debug("암호화 후: "+pwEncoder.encode(oriPw));	
-		m.setMemberPw(pwEncoder.encode(oriPw));		
-		//메일주소
-		String email1=request.getParameter("email1");
-		String email2=request.getParameter("email2");
-		String email=email1+"@"+email2;	
-		m.setEmail(email);			
-		//전화번호
-		String phone1=request.getParameter("phone1");
-		String phone2=request.getParameter("phone2");
-		String phone=phone1+phone2;
-		m.setPhone(phone);		
-		//프로필 사진 저장소
-		String sd=request.getSession().getServletContext().getRealPath("/resources/upload/profile");
+	public String signUpEnd(Model model, Member m, HttpServletRequest request, MultipartFile upFile) throws Exception {
+		logger.debug("뉴비: " + m);
+		// 암호화 전 패스워드
+		String oriPw = m.getMemberPw();
+		logger.debug("암호화 전:" + oriPw);
+		logger.debug("암호화 후: " + pwEncoder.encode(oriPw));
+		m.setMemberPw(pwEncoder.encode(oriPw));
+		// 메일주소
+		String email1 = request.getParameter("email1");
+		String email2 = request.getParameter("email2");
+		String email = email1 + "@" + email2;
+		m.setEmail(email);
+		// 전화번호
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone = phone1 + phone2;
+		m.setPhone(phone);
+		// 프로필 사진 저장소
+		String sd = request.getSession().getServletContext().getRealPath("/resources/upload/profile");
 
-		ModelAndView mv=new ModelAndView();
-		
-		if(!upFile.isEmpty()) {
-			//파일명 생성(ReName)
-			String oriFileName=upFile.getOriginalFilename();
-			String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
-			
-			//rename 규칙
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-			int rdv=(int)(Math.random()*1000);
-			String reName=sdf.format(System.currentTimeMillis())+"_"+rdv+ext;
-			
-			//profile 사진 저장
+		ModelAndView mv = new ModelAndView();
+
+		if (!upFile.isEmpty()) {
+			// 파일명 생성(ReName)
+			String oriFileName = upFile.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+
+			// rename 규칙
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdv = (int) (Math.random() * 1000);
+			String reName = sdf.format(System.currentTimeMillis()) + "_" + rdv + ext;
+
+			// profile 사진 저장
 			try {
-				upFile.transferTo(new File(sd+"/"+reName));
-			}catch(IllegalStateException | IOException e){
+				upFile.transferTo(new File(sd + "/" + reName));
+			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
-			}		
+			}
 			m.setProfileImageOri(oriFileName);
-			m.setProfileImageRe(reName);					
+			m.setProfileImageRe(reName);
 		}
-		
-		StringBuffer odagada=request.getRequestURL();
+
+		StringBuffer odagada = request.getRequestURL();
 		service.insertMember(m, odagada);
 
-		String msg="회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
-		String loc="/";
+		String msg = "회원가입이 완료되었습니다. 이용하시려면 인증 메일을 확인해주세요.";
+		String loc = "/";
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
-		return "common/msg";		
+		return "common/msg";
 	}
-	 //이메일 인증 완료 업데이트
-    @RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
-    public ModelAndView emailConfirm(String email, String memberId) {
-    	Map<String, String>map=new HashMap();
-    	
-    	//컨트롤러 실행되므로 Y 값 넣어서 보내줘도 되고, 쿼리문으로 Y 업데이트 시켜도 된다.
-    	map.put("isEmailAuth", "Y");
-    	map.put("email", email);
-    	map.put("memberId", memberId);
-               
-        int result=service.updateStatus(map);  
-        ModelAndView mv=new ModelAndView();
-        
-        String msg="";
-		String loc="/";
-		
-		logger.debug("이메일 상태 업데이트의 결과??"+result);
-        if(result>0) {
-        	msg="이메일 인증이 완료되었습니다.";
-        }else {       	
-        	mv.addObject("비정상적인 접근입니다.", msg);
-        	mv.setViewName("redirect:/");
-        }       
-        mv.addObject("msg", msg);
+
+	// 이메일 인증 완료 업데이트
+	@RequestMapping(value = "/emailConfirm.do", method = RequestMethod.GET)
+	public ModelAndView emailConfirm(String email, String memberId) {
+		Map<String, String> map = new HashMap();
+
+		// 컨트롤러 실행되므로 Y 값 넣어서 보내줘도 되고, 쿼리문으로 Y 업데이트 시켜도 된다.
+		map.put("isEmailAuth", "Y");
+		map.put("email", email);
+		map.put("memberId", memberId);
+
+		int result = service.updateStatus(map);
+		ModelAndView mv = new ModelAndView();
+
+		String msg = "";
+		String loc = "/";
+
+		logger.debug("이메일 상태 업데이트의 결과??" + result);
+		if (result > 0) {
+			msg = "이메일 인증이 완료되었습니다.";
+		} else {
+			mv.addObject("비정상적인 접근입니다.", msg);
+			mv.setViewName("redirect:/");
+		}
+		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("member/successAuth");
 		return mv;
-    }
+	}
     
-	//로그인 페이지
+	// 로그인 페이지
 	@RequestMapping("/member/loginForm.do")
 	public String loginForm() {
 		return "member/loginForm";
 	}
-	//로그인 페이지
-		@RequestMapping("/member/loginForm2.do")
-		public String loginForm2() {
-			return "member/loginForm2";
-		}
-	
-	//로그인
-   @RequestMapping("/member/login.do")
-   public ModelAndView login(String memberId, String memberPw, Model model) {	   
-	   Map<String, String>login=new HashMap();
-	   login.put("memberId", memberId);
-	   login.put("memberPw", memberPw);
-	   
-	   Map<String, String>result=service.login(login);
-	   	   
-	   ModelAndView mv=new ModelAndView();
-     
-	   Member m=service.selectMember(memberId);
-	   logger.debug("멤버: "+m);
-	    if(m == null) {
-	    	mv.addObject("msg", "등록된 정보가 없습니다.");
-			mv.addObject("loc", "/member/loginForm.do");
+
+	// 로그인 페이지
+	@RequestMapping("/member/loginForm2.do")
+	public String loginForm2() {
+		return "member/loginForm2";
+	}
+
+	// 로그인
+	@RequestMapping("/member/login.do")
+	public ModelAndView login(String memberId, String memberPw, Model model) {
+		Map<String, String> login = new HashMap();
+		login.put("memberId", memberId);
+		login.put("memberPw", memberPw);
+
+		Map<String, String> result = service.login(login);
+
+		ModelAndView mv = new ModelAndView();
+
+		Member m = service.selectMember(memberId);
+		logger.debug("멤버: " + m);
+		if (m == null) {
+			mv.addObject("msg", "등록된 정보가 없습니다.");
+			mv.addObject("loc", "/member/loginForm2.do");
 			mv.setViewName("common/msg");
-	    }else if(m.getMemberStatus().equals("N")) {
-	    	mv.addObject("msg", "탈퇴한 회원 입니다.");
+		} else if (m.getMemberStatus().equals("N")) {
+			mv.addObject("msg", "탈퇴한 회원 입니다.");
 			mv.addObject("loc", "/");
 			mv.setViewName("common/msg");
-	    }else{	    
-			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());		
+		} else {
+			Map<String, String> driver = dService.selectDriverOne(m.getMemberNum());
 			logger.debug("로그인 멤버 정보" + m);
 			logger.debug("관리자 테스트" + m.getIsAdmin());
 			if (result != null) {
 				if (pwEncoder.matches(memberPw, result.get("MEMBERPW"))) {
-					Map<String,String> black = service.checkBlack(result.get("MEMBERID"));
-					
-					//블랙된 회원인지 확인하는 로직
-					if(black!=null && black.get("BLACKID").equals(result.get("MEMBERID"))) {
-						mv.addObject("msg", "블랙된 회원입니다. 해제일 "+black.get("BLACKPUNISH"));
-						/*mv.addObject("loc", "/member/loginForm2.do");*/
-						mv.addObject("loc", "/member/loginForm.do");
+					Map<String, String> black = service.checkBlack(result.get("MEMBERID"));
+
+					// 블랙된 회원인지 확인하는 로직
+					if (black != null && black.get("BLACKID").equals(result.get("MEMBERID"))) {
+						mv.addObject("msg", "블랙된 회원입니다. 해제일 " + black.get("BLACKPUNISH"));
+						mv.addObject("loc", "/member/loginForm2.do");
 						mv.setViewName("common/msg");
-					}else {
-						if(m.getCarMsg()!=null)
-						{
-							mv.addObject("driver",driver);
+					} else {
+						if (m.getCarMsg() != null) {
+							mv.addObject("driver", driver);
 							mv.addObject("logined", m);
-							mv.addObject("msg",m.getCarMsg());
-							mv.addObject("loc","/");
-							mv.setViewName("common/msg");							
-						}
-						else {
-							logger.debug("로그인 드라이버"+driver);
-							mv.addObject("driver",driver);
+							mv.addObject("msg", m.getCarMsg());
+							mv.addObject("loc", "/");
+							mv.setViewName("common/msg");
+						} else {
+							logger.debug("로그인 드라이버" + driver);
+							mv.addObject("driver", driver);
 							mv.addObject("logined", m);
 							mv.setViewName("redirect:/");
 						}
 					}
 				} else {
 					mv.addObject("msg", "패스워드가 일치하지 않습니다.");
-					/*mv.addObject("loc", "/member/loginForm2.do");*/
-					mv.addObject("loc", "/member/loginForm.do");
+					mv.addObject("loc", "/member/loginForm2.do");
 					mv.setViewName("common/msg");
 				}
 			}
@@ -414,49 +411,47 @@ public class MemberController {
 	}
 
    
-   //로그아웃(세션끊기)
-   @RequestMapping("/member/logout.do")
-   public String logout(SessionStatus status) {
-	   	if(!status.isComplete()) {
-	   		status.setComplete();
-	   	}
-	   	return "redirect:/";
-   }
+	// 로그아웃(세션끊기)
+	@RequestMapping("/member/logout.do")
+	public String logout(SessionStatus status) {
+		if (!status.isComplete()) {
+			status.setComplete();
+		}
+		return "redirect:/";
+	}
    
-   //마이페이지 
-   @RequestMapping("/member/myInfo.do")
-   public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
-	   mav.setViewName("member/myInfo");
-	   
-	   Member m = (Member)session.getAttribute("logined");
-	   int memberNum = m.getMemberNum();
-	   Map<String,String> d1 = dService.selectDriverOne(memberNum);
-	   /*Driver d = (Driver)session.getAttribute("driver");*/
-	   m = service.selectMember(m.getMemberId()); 
-	   
-	  /* logger.debug("혹시 드라이버?"+d);*/
-	   logger.debug("혹시 드라이버?"+d1);
-	   mav.addObject("logined", m);
-	 /*  mav.addObject("driver",d);*/
-	   mav.addObject("driver",d1);
-	   return mav;
-   }
+	// 마이페이지
+	@RequestMapping("/member/myInfo.do")
+	public ModelAndView myInfo(HttpSession session, ModelAndView mav) {
+		mav.setViewName("member/myInfo");
 
+		Member m = (Member) session.getAttribute("logined");
+		int memberNum = m.getMemberNum();
+		Map<String, String> d1 = dService.selectDriverOne(memberNum);
+		/* Driver d = (Driver)session.getAttribute("driver"); */
+		m = service.selectMember(m.getMemberId());
+
+		/* logger.debug("혹시 드라이버?"+d); */
+		logger.debug("혹시 드라이버?" + d1);
+		mav.addObject("logined", m);
+		/* mav.addObject("driver",d); */
+		mav.addObject("driver", d1);
+		return mav;
+	}
    
-   //비밀번호 체크(ajax ...), 회원 탈퇴
-   @ResponseBody
-   @RequestMapping("/member/checkPw.do")
-   public String checkPw(HttpServletResponse response,String password, String answer, HttpSession session, SessionStatus status) {
-	   logger.debug("받아오는 pw 값: "+password);
-	   
-	   Member m = (Member)session.getAttribute("logined");
-	   String result="";
-  
-	   if(pwEncoder.matches(password, m.getMemberPw())) {
-		   if(answer.equals("delete")) {
-			   //delete 실행(딜리트>>업데이트로 바꾸기)
-			   int rs=service.deleteMember(m.getMemberNum());
-			   
+	// 비밀번호 체크(ajax ...), 회원 탈퇴
+	@ResponseBody
+	@RequestMapping("/member/checkPw.do")
+	public String checkPw(HttpServletResponse response, String password, String answer, HttpSession session,
+			SessionStatus status) {
+		logger.debug("받아오는 pw 값: " + password);
+		Member m = (Member) session.getAttribute("logined");
+		String result = "";
+
+		if (pwEncoder.matches(password, m.getMemberPw())) {
+			if (answer.equals("delete")) {
+				// delete 실행(딜리트>>업데이트로 바꾸기)
+				int rs = service.deleteMember(m.getMemberNum());
 				if (rs != 0) {
 					status.setComplete();
 					result = "delete";
@@ -472,29 +467,29 @@ public class MemberController {
 			result = "no";
 		}
 		return result;
-   }
+	}
 
-   //내 정보 변경페이지
-   @RequestMapping("/member/updateInfo.do")
-   public String updateInfo(Model model) {
-	   return "member/updateForm";
-   }
-  
-   //내 사진변경
-   @RequestMapping("/member/updateProfile.do")
-   public ModelAndView updateInfoEnd(HttpServletRequest request,HttpSession session, MultipartFile upFile) {
-	   
-	   logger.debug("넘어오는  파일?"+upFile);
+	// 내 정보 변경페이지
+	@RequestMapping("/member/updateInfo.do")
+	public String updateInfo(Model model) {
+		return "member/updateForm";
+	}
+
+	// 내 사진변경
+	@RequestMapping("/member/updateProfile.do")
+	public ModelAndView updateInfoEnd(HttpServletRequest request, HttpSession session, MultipartFile upFile) {
+
+		logger.debug("넘어오는  파일?" + upFile);
 		// 프로필 사진 저장되는 장소
 		String sd = request.getSession().getServletContext().getRealPath("/resources/upload/profile");
-		
-		ModelAndView mv=new ModelAndView("common/msg");
 
-		Member m=(Member)session.getAttribute("logined");
-		
-		//원래 있던 프로필 이미지 이름
+		ModelAndView mv = new ModelAndView("common/msg");
+
+		Member m = (Member) session.getAttribute("logined");
+
+		// 원래 있던 프로필 이미지 이름
 		String oldFile = m.getProfileImageRe();
-		
+
 		if (!upFile.isEmpty()) {
 			// 파일명 생성(ReName)
 			String oriFileName = upFile.getOriginalFilename();
@@ -516,14 +511,14 @@ public class MemberController {
 			m.setProfileImageRe(reName);
 		}
 		int result = service.updateMember(m);
-		
+
 		if (result > 0) {
-			//원래 있던 프로필 이미지 삭제
-			File file=new File(sd+"/"+oldFile);
-			if(file.exists()) {
+			// 원래 있던 프로필 이미지 삭제
+			File file = new File(sd + "/" + oldFile);
+			if (file.exists()) {
 				file.delete();
-				Member nM=service.selectMember(m.getMemberId());
-				logger.debug("업데이트 된 : "+nM);
+				Member nM = service.selectMember(m.getMemberId());
+				logger.debug("업데이트 된 : " + nM);
 				mv.addObject("logined", nM);
 			}
 			mv.addObject("msg", "사진수정이 완료되었습니다.");
@@ -533,37 +528,38 @@ public class MemberController {
 			mv.addObject("msg", "사진수정 실패!");
 			mv.addObject("loc", "/member/updateInfo.do");
 		}
-		return mv;		
-   }
+		return mv;
+	}
    
-    //ID 찾기 화면
-   @RequestMapping("/member/findId")
-   public String findId() {
-	   return "member/findId";
-   }
-   //ID 찾기
-   @RequestMapping("/member/findId.do")
-   public ModelAndView findIdEnd(String memberName, String email, Model model) {
-	   ModelAndView mv=new ModelAndView();
-	  
-	   Map<String, String>findId=new HashMap();
-	   findId.put("memberName", memberName);
-	   findId.put("email", email);
-	   
-	   Map<String, String> id=service.findId(findId);
+	// ID 찾기 화면
+	@RequestMapping("/member/findId")
+	public String findId() {
+		return "member/findId";
+	}
 
-			if (id != null) {
-				String resultId=id.get("MEMBERID");
-				mv.addObject("memberId", resultId);
-				mv.setViewName("member/resultId");
-			} else {
-				mv.addObject("msg", "회원 정보가 없습니다.");
-				mv.addObject("loc", "/member/findId");
-				mv.setViewName("common/msg");
-			}
-			return mv;
+	// ID 찾기
+	@RequestMapping("/member/findId.do")
+	public ModelAndView findIdEnd(String memberName, String email, Model model) {
+		ModelAndView mv = new ModelAndView();
+
+		Map<String, String> findId = new HashMap();
+		findId.put("memberName", memberName);
+		findId.put("email", email);
+
+		Map<String, String> id = service.findId(findId);
+
+		if (id != null) {
+			String resultId = id.get("MEMBERID");
+			mv.addObject("memberId", resultId);
+			mv.setViewName("member/resultId");
+		} else {
+			mv.addObject("msg", "회원 정보가 없습니다.");
+			mv.addObject("loc", "/member/findId");
+			mv.setViewName("common/msg");
 		}
- 
+		return mv;
+	}
+
 	// 비밀번호 찾기 뷰
 	@RequestMapping("/member/findPw")
 	public String findPassword() {
@@ -572,48 +568,48 @@ public class MemberController {
 	
 	// 비밀번호 찾기
 	@RequestMapping("/member/findPw.do")
-	public ModelAndView findPassword(HttpServletRequest request,String memberId, String email, String memberName) throws Exception {
-		Map<String, String>info=new HashMap();
+	public ModelAndView findPassword(HttpServletRequest request, String memberId, String email, String memberName)
+			throws Exception {
+		Map<String, String> info = new HashMap();
 		info.put("memberId", memberId);
 		info.put("email", email);
 		info.put("memberName", memberName);
-		
-		Map<String, String>findPw=service.findPw(info);
+
+		Map<String, String> findPw = service.findPw(info);
 		ModelAndView mv = new ModelAndView();
-		
-		String msg="";
-		String loc="/";
-		if(findPw!=null) {
-			int ran=new Random().nextInt(100000)+1000;
-			String sendPw=String.valueOf(ran);
-			String dbPw=pwEncoder.encode(sendPw);
+
+		String msg = "";
+		String loc = "/";
+		if (findPw != null) {
+			int ran = new Random().nextInt(100000) + 1000;
+			String sendPw = String.valueOf(ran);
+			String dbPw = pwEncoder.encode(sendPw);
 			info.put("memberPw", dbPw);
 			info.put("sendPw", sendPw);
-			
-			StringBuffer odagada=request.getRequestURL();
+
+			StringBuffer odagada = request.getRequestURL();
 			service.sendPw(info, odagada);
-			msg="등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
-			mv.addObject("msg",msg);
-			mv.addObject("loc",loc);
-			mv.setViewName("common/msg");		
-		}else {
-			msg="일치하는 정보가 없습니다.";
+			msg = "등록하신 메일주소로 임시 비밀번호가 발송되었습니다.";
 			mv.addObject("msg", msg);
-			mv.addObject("loc", "/member/findPw");		
-		}	
+			mv.addObject("loc", loc);
+			mv.setViewName("common/msg");
+		} else {
+			msg = "일치하는 정보가 없습니다.";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", "/member/findPw");
+		}
 		return mv;
 	}
 	
-	//메일 인증하기
+	// 메일 인증하기
 	@RequestMapping("/member/mailAuth")
 	public String mailAuth(HttpSession session, HttpServletRequest request) throws Exception {
-		Member m=(Member)session.getAttribute("logined");
-		StringBuffer odagada=request.getRequestURL();
-		service.mailAuth(m,odagada);
+		Member m = (Member) session.getAttribute("logined");
+		StringBuffer odagada = request.getRequestURL();
+		service.mailAuth(m, odagada);
 		return "redirect:/";
 	}
 		
-
     @ResponseBody
     @RequestMapping("/member/smsCheck")
     public String smsCheck(HttpSession session, String code) {
@@ -634,19 +630,19 @@ public class MemberController {
     	}
     }
     
-    //핸드폰 중복 확인
-    @ResponseBody
-    @RequestMapping("/member/phoneCheck.do")
-    public String phoneCheck(String phone){
-    	int result=service.checkPhone(phone);
-    	String isPhone="";
-    	if(result>0) {
-    		isPhone="N";
-    	}else {
-    		isPhone="Y";
-    	}  	
-    	return isPhone;  			
-    } 
+	// 핸드폰 중복 확인
+	@ResponseBody
+	@RequestMapping("/member/phoneCheck.do")
+	public String phoneCheck(String phone) {
+		int result = service.checkPhone(phone);
+		String isPhone = "";
+		if (result > 0) {
+			isPhone = "N";
+		} else {
+			isPhone = "Y";
+		}
+		return isPhone;
+	}
 
    @RequestMapping("/member/myCarpool")
    public ModelAndView myCarpool(HttpSession session, @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
@@ -671,7 +667,7 @@ public class MemberController {
 	   return mav;
    }
    
-  @ResponseBody
+    @ResponseBody
 	@RequestMapping("/member/sendSms")
 	public String test(HttpSession session, String receiver) {
 		// 인증 코드 생성
@@ -886,73 +882,68 @@ public class MemberController {
   
 	  return mv;
    }
+ 
+	// 비밀번호 변경
+	@ResponseBody
+	@RequestMapping("/member/changePass")
+	public String changePassword(String password, HttpSession session) {
+		String pw = pwEncoder.encode(password);
+		Member m = (Member) session.getAttribute("logined");
+		m.setMemberPw(pw);
+		int result = service.updatePassword(m);
+		if (result > 0) {
+			return "update";
+		} else {
+			return "fail";
+		}
+	}
+   
+	// 이메일 변경
+	@ResponseBody
+	@RequestMapping("/member/changeEmail")
+	public String changeEmail(String email, HttpServletRequest request, HttpSession session) throws Exception {
+		Member m = (Member) session.getAttribute("logined");
+		m.setEmail(email);
+		StringBuffer odagada = request.getRequestURL();
+		service.mailUpdate(m, odagada);
+		return "sent";
+	}
 
-   
-   //비밀번호 변경
-   @ResponseBody
-   @RequestMapping("/member/changePass")
-   public String changePassword(String password, HttpSession session) {
-	   String pw=pwEncoder.encode(password);
-	   Member m=(Member)session.getAttribute("logined");
-	   m.setMemberPw(pw);	      
-	   int result=service.updatePassword(m);
-	   if(result>0){
-		 return "update";  
-	   }else {
-		   return "fail";
-	   }
-   }
-   
-   //이메일 변경
-   @ResponseBody
-   @RequestMapping("/member/changeEmail")
-   public String changeEmail(String email,HttpServletRequest request, HttpSession session) throws Exception {
-	   Member m=(Member)session.getAttribute("logined");
-	   m.setEmail(email);
-	   StringBuffer odagada=request.getRequestURL();
-	   service.mailUpdate(m,odagada);
-	   return "sent";	   
-   }
-   
    //핸드폰 번호 변경
    @ResponseBody
    @RequestMapping("/member/phoneUpdate")
    public String smsCheck(HttpSession session, String code, String phone) {
-   	Member m = (Member)session.getAttribute("logined");
-   	
+   	Member m = (Member)session.getAttribute("logined");  	
    	String saveCode = service.getPhoneCode(m.getMemberNum());
-   	
-   	logger.debug("들어오는 핸드폰 번호"+phone);
-   	if(pwEncoder.matches(code, saveCode)) {
-   		m.setPhone(phone);
-   		m.setIsPhoneAuth("Y");
-   		int result = service.updatePhone(m);
-   		if(result > 0) {
-   			return "ok";
-   		}else {
-   			return "no";
-   		}
-   	}else {
-   		return "no";
-   	}
-   }
+		logger.debug("들어오는 핸드폰 번호" + phone);
+		if (pwEncoder.matches(code, saveCode)) {
+			m.setPhone(phone);
+			m.setIsPhoneAuth("Y");
+			int result = service.updatePhone(m);
+			if (result > 0) {
+				return "ok";
+			} else {
+				return "no";
+			}
+		} else {
+			return "no";
+		}
+	}
    
    //이름 변경
    @ResponseBody
    @RequestMapping("/member/changeName")
    public String changeName(HttpSession session, String memberName) {
-	   logger.debug("바꾸려는 이름은?"+memberName);
-	   Member m=(Member)session.getAttribute("logined");
-	   m.setMemberName(memberName);
-	   int result=service.updateName(m);
-	   
-	   if(result>0) {
-		   return "ok";
-	   }else {
-		   return "fail";
-	   }
-   }
-   
+		logger.debug("바꾸려는 이름은?" + memberName);
+		Member m = (Member) session.getAttribute("logined");
+		m.setMemberName(memberName);
+		int result = service.updateName(m);
+		if (result > 0) {
+			return "ok";
+		} else {
+			return "fail";
+		}
+	}
 
   
    @RequestMapping("/member/naverSignup")
