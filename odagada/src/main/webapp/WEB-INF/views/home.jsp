@@ -14,6 +14,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 <style>
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }
+	
 /* 섹션 패딩 삭제 */
 section.section-st{
 font-family: 'TmonMonsori';
@@ -107,9 +109,7 @@ float:left;
 margin-left:10%;
 }
 
-</style>
 <!-- 중앙 드라이버 등록/카풀 등록 부분 -->
-<style>
 	.c4{
 		width: 100%;
 	    background-color: rgba(223,255,220,0.2);
@@ -138,8 +138,8 @@ margin-left:10%;
 		font-size:30px;
 		position:absolute;
 		z-index:1;
-		padding-top:90%;
-		padding-left:20%;
+		padding-top:75%;
+		padding-left:16%;
 		max-width:100%;
 		color:white;
 		text-decoration: none;
@@ -173,12 +173,30 @@ margin-left:10%;
      	transition: .1s ;
     }
     /* 드라이버 등록/카풀 등록 */
+    @media all and (min-width: 1100px){
+		.text-d{
+			font-size:30px;
+			position:absolute;
+			z-index:1;
+			padding-top:75%;
+			padding-left:16%;
+			max-width:100%;
+			color:white;
+			text-decoration: none;
+		}
+		.c4{
+			width: 100%;
+		    background-color: rgba(223,255,220,0.2);
+		    height: 60vh;
+		    position: absolute;
+		}
+    }
     @media all and (max-width: 1100px){
 	    .text-d{
 			font-size:25px;
 			position:absolute;
 			z-index:1;
-			padding-top:90%;
+			padding-top:85%;
 			padding-left:18%;
 			max-width:100%;
 			color:white;
@@ -196,7 +214,7 @@ margin-left:10%;
 			font-size:20px;
 			position:absolute;
 			z-index:1;
-			padding-top:90%;
+			padding-top:75%;
 			padding-left:17%;
 			max-width:100%;
 			color:white;
@@ -207,6 +225,7 @@ margin-left:10%;
 		}
 		.gada-p{
 			font-size:15px;
+			font-family: 'silgothic';
 		}
 		.oda-div{
 		border-bottom-left-radius: 30px;
@@ -263,7 +282,32 @@ margin-left:10%;
 		}
     }
     /* 메인 이미지 안에 요소들 */
+    @media all and (max-width: 1500px){
+    	.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:30%;
+		}
+		.dot-L,.dot-R{
+		color:white;
+		font-size:12px;
+		padding:3%;
+		}
+    }
+	@media all and (max-width: 900px){
+		.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:40%;
+		}
+	}
     @media all and (max-width: 768px){
+       	.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:40%;
+		height:auto;
+		}
     	.text-h4{
     	margin-top:10%;
 		font-size:35px;
@@ -271,7 +315,7 @@ margin-left:10%;
 		text-align: center;
 		}
 		.text-h3{
-		font-size:45px;
+		font-size:45px;	
 		text-shadow:2px 2px 8px rgb(30,30,30);
 		float:right;
 		}
@@ -375,8 +419,8 @@ margin-left:10%;
 </div>
 <!-- 드라이버 등록/카풀등록 -->
 <div class="row">
-	<div class="col-12 c4" >
-		
+	<div class="col-12 text-center c4" >
+		<h1 class="letter-h">ODAGADA</h1>
 	</div>
 	<div class="col-12">
 		<div class="row">
@@ -393,11 +437,11 @@ margin-left:10%;
 			</div>
 			<div class="col-6 offset-md-1 col-md-3 c3 car-div">
 				<a href="${path}/driver/driverEnroll" class="text-d">드라이버 등록</a>
-				<img src="${path }/resources/images/main/driver-1.png" class="driver-img transition" />
+				<img src="${path }/resources/images/main/driver-2.png" class="driver-img transition" />
 			</div>
 			<div class="col-6 col-md-3 c3 car-div">
 				<a class="text-d" href="${path }/carpool/register">카풀 등록하기</a>
-				<img src="${path }/resources/images/main/carpool-1.png" class="driver-img transition"/>
+				<img src="${path }/resources/images/main/carpool-2.png" class="driver-img transition"/>
 			</div>
 		</div>
 	</div>
@@ -446,35 +490,91 @@ margin-left:10%;
       </div>
    </div> --%>
 <!-- 우리 카풀 장점 -->
-   <%-- <div class="row".>
-      <div class="col-md-12 card-group">
-         <div class="card">
-            <img class="card-img-top img-size" src="${path}/resources/images/map.png" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-         </div>
-         <div class="card">
-            <img class="card-img-top img-size" src="${path}/resources/images/people.png" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-         </div>
-         <div class="card">
-            <img class="card-img-top img-size" src="${path}/resources/images/car.png" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-         </div>
-      </div>
-   </div> --%>
+<hr>
+	<div class="row">
+		<div class="offset-md-1 col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<%-- <img src="${path }/resources/images/"/> --%>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5>더 다양하게 만나다!</h5>
+					<p>다양한 사람들과 함께 소통할 수 있는 기회가 생기고, 함께 드라이빙하며 나누는 행복!</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<%-- <img src="${path }/resources/images/"/> --%>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5>중/장거리 이동의 편리함</h5>
+					<p></p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<%-- <img src="${path }/resources/images/"/> --%>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5></h5>
+					<p></p>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 	<div class="row">
+		<div class="col-12">
+			<ul>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div> -->
 </section>
+<style>
+.letter-h{
+color:gray;
+font-size:130px;
+margin-top:50%;
+position: fixed;
+}
+</style>
 <!-- 추천 경로 더보기 -->
     <script>
         $(function()

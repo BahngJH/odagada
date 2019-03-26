@@ -211,7 +211,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12 ">
-									<button class="btn btn-success search-div start-search" id='btn-reset'>검색</button>
+									<input type="button" value="검색" class="btn btn-success search-div start-search" id='btn-reset'/>
 								</div>
 							</div>
 						</div>
