@@ -65,7 +65,33 @@
 	.modal-dialog{
 		max-width:780px;
 	}
+	@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/blackList.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+
 </style>
+<section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1> 원하는 장소를 검색해보세요.</h1>
+	</div>
+</section>
+
+<section class="photo-backround" data-image="${path}/resources/images/nicki-eliza-schinow-1266553-unsplash.jpg">
+</section>
+
 <section class="container">
 	<div class="row">
 		 <div class="col-9">

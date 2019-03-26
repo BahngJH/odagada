@@ -287,8 +287,8 @@
         </div>
     </div>
 </div>
-    
-    <script>
+
+<script>
     //웹소켓 객체 사용할 변수
     var ws;
     
