@@ -450,8 +450,8 @@ img.driver-img:before {
 					  				</div>
 					  				<hr>
 					  				<div class="row">
-						  				<div class="col-12 text-center">
-						  					<button class="badge badge-light pasAll-btn">탑승객 정보 보기</button>
+						  				<div class="col-2">
+						  					<span class="badge badge-pill badge-warning">탑승객 정보 보기</span>
 						  				</div>
 						  			</div>
 					  				<!-- 이용객 정보 -->
@@ -461,19 +461,14 @@ img.driver-img:before {
 								  				<c:when test='${fn:length(pList) != 0 }'>
 								  					<c:forEach items='${pList }' var='p' varStatus="count">
 									  					<c:if test='${pList[count.index].PSTATUS eq "Y" }'>
-<%-- 									  						<div id="pas${count.index }" onclick="pas(${count.index});">
-										  						<span class="card pas-span">
-										  							<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class="pas-img" title="회원 정보보기" /><br>
-										  							<span class="text-center pas-name" >${p.MEMBERNAME }</span>
-									  							</span>
-								  							</div> --%>
-								  							<div class="row" id="pas-toggle${count.index }" data-toggle="button" aria-pressed="false" autocomplete="off">
+								  							<div class="row" id="pas-toggle${count.index }" style="padding:1%; border-bottom:1px solid rgb(230,230,230);">
 									  							<div class="col-4 ">
 										  							<div class="text-center " >
-										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%"/>
+										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%;border-right:1px solid rgb(230,230,230);"/>
 										  							</div>
 									  							</div>
-									  							<div class="col-5" style="margin-top:5%;">
+									  							<div class="col-5" style="padding-top:5%;">
+									  								<span class="start-p"><b>나이:&nbsp;</b></span><span>${p.BIRTH }</span><br>
 									  								<span class="start-p"><b>이름:&nbsp;</b></span><span>${p.MEMBERNAME }</span><br>
 									  								<span class="start-p"><b>나이:&nbsp;</b></span><span>${p.BIRTH }</span><br>
 									  								<span class="start-p"><b>성별:&nbsp;</b></span><span>${p.GENDER }</span><br>

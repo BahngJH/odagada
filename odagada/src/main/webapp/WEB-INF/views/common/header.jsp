@@ -33,6 +33,7 @@
       /* font-family: 'MyLotteLight'; */
    } 
 
+
     header button.btn.btn-success{
       background-color: rgb(0, 175, 76);
       float: right;
@@ -84,7 +85,7 @@
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
-                </li>
+                </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
                   <c:if test="${isAdmin eq '0'}">
                   	<c:if test="${sessionScope.driver.LICENSENUM eq null}">

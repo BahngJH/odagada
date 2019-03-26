@@ -92,7 +92,7 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	//리뷰 카운트
 	@Override
-	public int selectReviewCount(int memberNum) {
+	public int selectReviewCount(String memberNum) {
 		return session.selectOne("community.selectReviewCount",memberNum);
 	}
 	//리뷰 가져오기
@@ -107,8 +107,8 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	//내게 달린 리뷰 리스트
 	@Override
-	public List<Map<String, Object>> selectReviewList(int memberNum) {
-		return session.selectList("community.selectReviewList",memberNum);
+	public List<Map<String, Object>> selectReviewList(Map<String,String> map) {
+		return session.selectList("community.selectReviewList",map);
 	}
 	//리뷰수정
 	@Override

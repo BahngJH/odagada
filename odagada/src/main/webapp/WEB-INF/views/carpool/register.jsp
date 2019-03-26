@@ -60,10 +60,23 @@
 	input.btn_submit{
 		float:right;
 	}
+	div.loc>div, div.div-search, div.div_option>div div, div.btn_submit>div{
+		margin-top: 13px;
+	}
 </style>
 
 <section class="container">
 	<div class="row schedule">
+		<div class="col-12 col-md-6">
+			<div class="input-group">
+				<input type="text" class="form-control" id="addrSearch" placeholder="주소 검색"/>
+				<span class="input-group-btn">
+					<button class="btn btn-secondary" id="btn_addr" type="button" onclick="addrSearch();">검색</button>
+				</span>
+			</div>
+			<div id="map" style="width:100%;height:400px;"></div>
+			<span id="loc" class="fas fa-map-marker-alt fa-2x"></span>
+		</div>
 		<div class="col-12 col-md-6">
 				<div class="row loc">
 					<div class="col-12">
@@ -148,16 +161,7 @@
 			</form>
 		</div>
 		
-		<div class="col-12 col-md-6">
-			<div class="input-group">
-				<input type="text" class="form-control" id="addrSearch" placeholder="주소 검색"/>
-				<span class="input-group-btn">
-					<button class="btn btn-secondary" id="btn_addr" type="button" onclick="addrSearch();">검색</button>
-				</span>
-			</div>
-			<div id="map" style="width:100%;height:400px;"></div>
-			<span id="loc" class="fas fa-map-marker-alt fa-2x"></span>
-		</div>
+		
 	</div>
 </section>
 
@@ -214,7 +218,7 @@ function carpoolValidate(){
 
 	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
 	
-	if(!($("#startDate").val() > nowDate)){
+	if(($("#startDate").val() < nowDate)){
 		alert("날짜를 확인해주세요.");
 		return false;
 	}
