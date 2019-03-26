@@ -203,13 +203,23 @@ function search(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
-	console.log($("#startDate").val());
-	
-	if(!($("#startDate").val() > nowDate)){
-		alert("날짜를 확인해주세요.");
-		return false;
-	}
+	var nowDate = moment().format('YYYY.MM.DD. hh:mm');
+    var setDate = $("#startDate").val();
+    var setDates = setDate.split(" ");
+    var nowDates = nowDate.toString().split(" ");
+      
+    var time = setDates[2].split(":");
+   
+    if(setDates[1] === "오후"){
+	    time[0] = Number(time[0]) + 12;
+    }
+   
+    var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
+  
+    if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
+       alert("날짜를 확인해주세요.");
+       return false;
+    }
 	
 	
 	// 검색된 주소의 lat,lon 값 넣기
