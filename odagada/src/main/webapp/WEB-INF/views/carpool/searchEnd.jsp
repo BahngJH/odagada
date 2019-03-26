@@ -412,9 +412,15 @@ $(function () {
         if (width >= 750) {
             var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
             
-            $("#option_flex").stop().animate({
-                "top": position + currentPosition + "px"
-            }, 500);
+            if(position > 0){
+	            $("#option_flex").stop().animate({
+	                "top": position + currentPosition - 100 + "px"
+	            }, 500);
+            }else{
+            	$("#option_flex").stop().animate({
+	                "top": position + currentPosition + "px"
+	            }, 500);
+            }
         }
     });
 });
