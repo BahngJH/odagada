@@ -75,7 +75,7 @@ public class CarpoolController {
 			l.debug("로그인 필요");
 			mav.setViewName("/common/msg");
 			mav.addObject("msg", "로그인 해주세요.");
-			mav.addObject("loc", "/member/loginForm2.do");
+			mav.addObject("loc", "/member/loginForm.do");
 		}		
 		
 		return mav;
