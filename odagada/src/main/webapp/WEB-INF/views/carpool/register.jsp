@@ -271,7 +271,7 @@ function carpoolValidate(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. hh:mm');
+	var nowDate = moment().format('YYYY.MM.DD. HH:mm');
     var setDate = $("#startDate").val();
     var setDates = setDate.split(" ");
     var nowDates = nowDate.toString().split(" ");

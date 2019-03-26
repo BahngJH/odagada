@@ -229,7 +229,7 @@ function search(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. hh:mm');
+	var nowDate = moment().format('YYYY.MM.DD. HH:mm');
     var setDate = $("#startDate").val();
     var setDates = setDate.split(" ");
     var nowDates = nowDate.toString().split(" ");
@@ -245,6 +245,7 @@ function search(){
     }
    
     var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
+
     if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
        alert("날짜를 확인해주세요.");
        return false;
