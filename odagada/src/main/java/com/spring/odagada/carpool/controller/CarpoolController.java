@@ -395,4 +395,10 @@ public class CarpoolController {
 			return "no";
 		}
 	}
+	
+	@RequestMapping("/carpool/test.do")
+	public ModelAndView test() {
+		ModelAndView mv = new ModelAndView("/NewFile");
+		return mv;
+	}
 }

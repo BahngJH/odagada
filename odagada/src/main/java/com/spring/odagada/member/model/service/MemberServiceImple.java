@@ -92,6 +92,7 @@ public class MemberServiceImple implements MemberService {
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
         sendMail.send();  
+
     }
 
    //메일 인증상태 업데이트

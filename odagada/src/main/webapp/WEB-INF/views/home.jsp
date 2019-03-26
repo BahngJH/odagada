@@ -19,78 +19,6 @@ section.section-st{
 font-family: 'TmonMonsori';
 padding:0px;
 }
-/* 이미지 패딩 삭제 */
-.tt{
-padding:0px;
-}
-.row{
-	margin:0px;
-}
-/* 메인 상단부 */
-div.main-div{
-   /* box-shadow: inset -60px 0 100px #fff;  */
-   background:url(${pageContext.request.contextPath}/resources/images/55.jpg);
-   background-repeat:no-repeat;
-   background-size:cover;
-   max-width:100%;
-   height: 100vh;
-   position:relative;
-}
-div.search-div{
-   position:absolute;
-   background: linear-gradient(to bottom, rgba(255,255,255, 0) 30%, #1C1C1C 100%);
-   padding-top:22%;
-   padding-bottom:50px;
-   border:none;
-   background-size:cover;
-}
-img.main-img{
-     width:100%;
-     height:auto;
-     box-shadow: inset -60px 0 100px #fff; 
-}
-input.div-search:hover{
-   box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
-} 
-input#startDate{
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-input#startDate:hover{
-   box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
-}
-.input-group>.form-control:not(:last-child){
-   border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
-      border-top-left-radius: 40px;
-    border-bottom-left-radius: 40px;
-    width:50px;
-    height:55px;
-}
-div.date-icon{
-   border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
-}
-div.date-icon:hover{
-
-   box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
-}
-button.btn-search{
-   height:50px;
-   border-radius:40px;
-}
-h1.text-h1{
-   font-family:'Segoe UI Black';
-   color:white;
-   text-shadow: 2px 2px 2px rgb(0,175,76),-2px -2px 2px rgb(0,175,76);
-   font-size:70px;
-}
-h3.text-h3{
-   color:white;
-   font-size: 40px;
-   margin-bottom:20px;
-   font-family: 'a시나브로L';
-}
 
 /* 같이탈래..? 추천~ */
 div#text-div{
@@ -119,82 +47,214 @@ img#driver-img{
 width:400px;
 height:300px;
 }
-
+/* 드라이버창 */
+/* 드라이버 버튼  */
+	.c2{
+		border:5px solid rgb(50,50,50);
+		width:100%;
+		height:250px;
+		position:absolute;
+		padding-right:5%;
+	}
+	/* 드라이버 이미지 div */
+	.c3{
+		margin-top:6%;
+		margin-left:20%;
+	}
+	/* 드라이버 부분 회색 배경 */
+	.c4{
+		width:100%;
+		height:300px;
+		background-color:rgb(200,200,200);
+		z-index:-1;
+		margin-top:17%;
+		position: absolute;
+	}
+	/* 드라이버 이미지 */
+	.driver-img{
+		width:100%;
+		height:360px;
+		position:absolute;
+		border:8px solid white;
+	}
+/* 섹션 패딩 삭제 */
+.r1,.c1{
+padding:0px;
+margin:0px;
+}
+/* 이미지 패딩 삭제 */
+.parallax-img {
+  background-image:url(${pageContext.request.contextPath}/resources/images/main/14.jpg);
+}
+.parallax-img {
+  height: 100%;
+/*   background-attachment: fixed; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position:relative;
+}
+.wrapper {
+  height: 90vh;
+}
+.row,.col-12{
+padding:0px;
+margin:0px;
+}
+.t1{
+position:relative;
+color:white;
+}
+.input-group>.form-control:not(:last-child){
+   border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+      border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    width:50px;
+    height:55px;
+}
+div.date-icon{
+   border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+button.btn-search{
+   height:50px;
+   border-radius:40px;
+}
+input#startDate{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.dot-L,.dot-R{
+color:white;
+font-size:12px;
+padding:5%;
+}
+.dot-L{
+float:left;
+}
+.dot-R{
+float:right;
+}
+.text-div{
+padding:20%;
+padding-bottom:0px;
+}
+.text-h4{
+font-size:35px;
+float:left;
+}
+.text-h3{
+font-size:55px;
+float:right;
+}
+.search-row{
+padding-top:3%;
+}
+.s1{
+float:left;
+}
+.search-form{
+margin-left:10%;
+}
 
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->
-   <div class="row">
-      <div class="col-12 tt">
-         <div class="main-div">
-            <%-- <img class="main-img" src="${path }/resources/images/main_img.jpg"> --%>
-            <form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
-            <div class="row card-img-overlay search-div">
-               <div class="col-12">
-                  <h1 class="text-center text-h1">오다, 가다!</h1>
-                  <h3 class="text-center text-h3">Search for your travel</h3>
-               </div>
-               <br><br>
-               <div class="col-sm-12 offset-md-3 col-md-2">
-                  <div class="input-group">
-                     <input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="○ 출발지 입력" onclick="sample6_execDaumPostcode1()" readonly/>
-                     <input type="text" name="startLon" id="startLon" value="" hidden/>
-                     <input type="text" name="startLat" id="startLat" value="" hidden/>
-                     <input type="text" name="kmNum" id="kmNum" value="3" hidden/>
-                     <br>
-                  </div>
-               </div>
-               <div class="col-sm-12 col-md-2">
-                  <div class="input-group">
-                     <input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="○ 도착지 입력"  onclick="sample6_execDaumPostcode2()"  readonly/>
-                     <input type="hidden" name="endLon" id="endLon" value=""/>
-                     <input type="hidden" name="endLat" id="endLat" value=""/>
-                  </div>
-               </div>
-                 <div class="col-sm-12 col-md-2">
-                     <div class="form-group">
-                         <div class="input-group date div-search " id="datetimepicker1" data-target-input="nearest">
-                             <input type="text" class="form-control datetimepicker-input date-div" data-target="#datetimepicker1" name="startDate" id="startDate" placeholder="○ 출발일 입력" />
-                             <div class="input-group-append date " data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                 <div class="input-group-text div-icon date-icon" ><i class="fa fa-calendar" ></i></div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                <div class="col-12 col-md-2">
-                  <div class="input-group-btn">
-                     <button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
-                        &nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
-                     </button>
-                  </div>
-               </div>
-            </div>
-         </form>
-         </div>
-      </div>
-   </div>
-<!-- 드라이버 이미지 -->
-   <div class="row">
-      <div class="col-12">
-         <div class="row">
-            <div class="col-12 offset-md-2 col-md-5"> 
-                  <img src="${path }/resources/images/driver.jpg" id="driver-img"/>
-            </div>
-            <div class="col-12 col-md-4">
-               <div class="drive-div">
-                  <c:if test="${logined==null || dList[0].DRIVERSTATUS eq 'N'}"> <!-- 드라이버가 아니면 status N -->
-                     <button class="btn btn-success" onclick='location.href="${path}/driver/driverEnroll"'>드라이버 신청</button>
-                  </c:if>
-                  <c:if test="${ logined!=null && dList[0].DRIVERSTATUS eq 'Y'}"> <!-- 드라이버가 맞을 경우 Y -->
-                     <button class="btn btn-success" onclick="location.href='${path }/carpool/register'">카풀 등록</button>
-                  </c:if>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+<div class="row r1">
+	<div class="col-12 c1">
+		<div class="wrapper">
+			<div class="parallax-img">
+				<div class="row text-div">
+					<div class="col-12">
+<!-- 						<div class="row" >
+							<div class="offset-2 col-8"style="width:100%;border-bottom:2px solid white;" >
+							</div>
+						</div> -->
+						<div class="row">
+							<div class="col-2 dot-R">●</div>
+							<div class="col-8">
+								<div class="row">
+									<div class="col-sm-12 t1 text-h4">
+										<h4 class="text-h4">SEARCH FOR YOUR TRIP FROM</h4>
+									</div>
+									<div class="col-sm-12 t1 text-h3">
+										<h3 class="text-h3">오다, 가다-</h3>
+									</div>
+								</div>
+							</div>
+							<div class="col-2 dot-L">●</div>
+						</div>
+						<div class="row t1" style="width:100%;border-top:2px solid white;">
+							<div class="offset-2 col-8" >
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row search-row">
+					<div class="col-12">
+						<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" class="search-form" onsubmit="return validate()">
+			               <div class="col-sm-12 offset-md-2 col-md-2 t1 s1">
+			                  <div class="input-group">
+			                     <input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="○ 출발지 입력" onclick="sample6_execDaumPostcode1()" readonly/>
+			                     <input type="text" name="startLon" id="startLon" value="" hidden/>
+			                     <input type="text" name="startLat" id="startLat" value="" hidden/>
+			                     <input type="text" name="kmNum" id="kmNum" value="3" hidden/>
+			                     <br>
+			                  </div>
+			               </div>
+			               <div class="col-sm-12 col-md-2 t1 s1">
+			                  <div class="input-group">
+			                     <input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="○ 도착지 입력"  onclick="sample6_execDaumPostcode2()"  readonly/>
+			                     <input type="hidden" name="endLon" id="endLon" value=""/>
+			                     <input type="hidden" name="endLat" id="endLat" value=""/>
+			                  </div>
+			               </div>
+			                 <div class="col-sm-12 col-md-2 t1 s1">
+			                     <div class="form-group">
+			                         <div class="input-group date div-search " id="datetimepicker1" data-target-input="nearest">
+			                             <input type="text" class="form-control datetimepicker-input date-div" data-target="#datetimepicker1" name="startDate" id="startDate" placeholder="○ 출발일 입력" />
+			                             <div class="input-group-append date " data-target="#datetimepicker1" data-toggle="datetimepicker">
+			                                 <div class="input-group-text div-icon date-icon" ><i class="fa fa-calendar" ></i></div>
+			                             </div>
+			                         </div>
+			                     </div>
+			                 </div>
+			                <div class="col-12 col-md-2 t1 s1">
+			                  <div class="input-group-btn">
+			                     <button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
+			                        &nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
+			                     </button>
+			                  </div>
+			               </div>
+			         </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="row">
+		<div class="col-12 c4">
+		</div>
+		<div class="col-12">
+			
+		</div>
+		<div class="col-12"  style="margin-top:10%;">
+			<div class="row">
+				<div class="offset-5 col-4 c2">
+					
+				</div>
+				<div class="offset-3 col-5 c3">
+					<img src="${path }/resources/images/main/menu_01.png" class="driver-img"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- 자주가는 경로 -->
-   <div class="row">
+<%--    <div class="row">
       <div class="col-12 pop-div">
          <div class="row" id="text-div">
             <div class="offset-4 col-4">
@@ -235,7 +295,7 @@ height:300px;
             </div>
          </div>
       </div>
-   </div>
+   </div> --%>
 <!-- 우리 카풀 장점 -->
    <%-- <div class="row".>
       <div class="col-md-12 card-group">
