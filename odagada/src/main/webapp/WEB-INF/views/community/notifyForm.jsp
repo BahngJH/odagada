@@ -49,7 +49,7 @@
 		<br/>
 		<input type="hidden" name="driverId" id="driverId" value="${driverId }"/>
 		<input type="button" class="btn btn-outline-success" value="등록" onclick="notify();">
-		<input type="reset" class="btn btn-outline-success" value="취소" >
+		<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/carpool/oneSearch.do?memberNum=${logined.memberNum }';" >
 	</form>
 </div>
 

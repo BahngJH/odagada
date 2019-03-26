@@ -309,7 +309,7 @@ public class CommunityController {
 		review.put("driverNum", driverNum);
 		review.put("memberName", memberName);
 		review.put("drvierName", driverName);
-		logger.debug("ㅀㅇㅀㅇjldsjjslfjsd: "+carpoolNum+"adsfasdf:"+driverName+"멤버 네임은?:"+memberName);
+		logger.debug("ㅀㅇㅀㅇjldsjjslfjsd: "+carpoolNum+"adsfasdf:"+driverName+"멤버 네임은?:"+memberName+"드라이버 이름은?:"+driverName);
 		
 		if(m!=null)
 		{
