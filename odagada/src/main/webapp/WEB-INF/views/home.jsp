@@ -209,6 +209,12 @@ margin-left:10%;
 		    height: 45vh;
 		    position: absolute;
 		}
+		.c3{
+			height:40vh;
+		}
+		.car-div{
+			height: 40vh;
+		}
     }
     @media all and (max-width: 840px){
    	    .text-d{
