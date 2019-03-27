@@ -79,6 +79,10 @@
 			     	   <td colspan="2"><c:out value="${d.CARNUM }"/></td>
 				    </tr>
 				    <tr>
+				    	<th scope="row">내 드라이버 머니</th>
+				    	<th colspan="2"><c:out value="${d.MONEY}"/></th>
+				    </tr>
+				    <tr>
 				       <th scope="row">내게 달린 리뷰</th>
 			     	   <td colspan="2"><input type="button" value="리뷰보기" id='btn-reviewView' class='btn btn-success re-btn' onclick="location.href='${path}/community/reviewView.do?memberNum=${logined.memberNum}&writerName=${list.MEMBERNAME }&writerId=${logined.memberId }';"/></td>
 				    </tr>		

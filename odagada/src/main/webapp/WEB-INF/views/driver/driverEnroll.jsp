@@ -12,6 +12,31 @@
 	
 %>
 ​<style>
+@font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/driver.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	#tbl-board{
+		margin-bottom: 30px;
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
      div#enroll-container{width:400px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
 
@@ -170,11 +195,13 @@
    
 
 </script>
-   	<div class="col-6 col-md-6 offset-md-3" style="text-align: center; font-weight: bold;">
-		<br><br>
-	      <h2>드라이버 신청</h2>
-	   <br>
-	</div>  
+<section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1 id="miniTitle">오다가다 드라이버 신청하기</h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/driver.png">
+</section>
       <div id="enroll-container" class="container">
          <form name="driverEnrollFrm" action="${path }/driver/driverEnrollEnd" method="post" onsubmit="return validate();" enctype="multipart/form-data">
            

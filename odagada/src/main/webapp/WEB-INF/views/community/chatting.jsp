@@ -275,7 +275,7 @@
                 <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
                 <span id="myName">${logined.memberName }</span>
                 <div id="searchMember"><br>
-            	<input id="searchId" type="text" placeholder="채팅 아이디 입력 후 엔터">
+            	<input id="searchId" type="text" placeholder="회원 아이디 입력 후 엔터">
             	<span class="input-group-addon">
             	<button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
             	</span>

@@ -99,7 +99,7 @@
                   </c:if>       
                <c:if test="${sessionScope.logined==null }">   
                     <li class="nav-item">
-                        <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
+                        <a class="nav-link" href="${path }/member/loginForm2.do">로그인</a>
                    </li>
                      <li class="nav-item">
                         <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
@@ -120,7 +120,7 @@
                      	<a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
                      	<c:if test="${isAdmin eq '0'}">
                      		<a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
-                       		<c:if test="${sessionScope.driver.LICENSENUM eq null}">
+                       		<c:if test="${sessionScope.driver.LICENSENUM ne null}">
                        			<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
                      		    <a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
                         	</c:if>

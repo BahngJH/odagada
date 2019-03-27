@@ -248,7 +248,7 @@ public class DriverController {
 		return "redirect: driverList";
 	}
 	
-	@RequestMapping("driver/driverRefuse")
+	@RequestMapping("/driver/driverRefuse")
 	public String deleteDriver(Model model,HttpSession session,HttpServletRequest request)
 	{
 		Member m = (Member)session.getAttribute("logined");
@@ -267,7 +267,7 @@ public class DriverController {
 		return "redirect: driverList";
 	}
 	
-	@RequestMapping("driver/driverWithdrawal")
+	@RequestMapping("/driver/driverWithdrawal")
 	public String driverWithdrawal(int memberNum)
 	{
 		int result = service.deleteDriver(memberNum);
