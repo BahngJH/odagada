@@ -55,8 +55,8 @@ function validate(){
 }
     
 </script>
-    
-   <div id="enroll-container" class="container">
+<section class="container">   
+   <div id="enroll-container">
          <form name="memberEnrollFrm" id="enroll-form" action="${path }/member/findPw.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 	      	<h3>패스워드 찾기</h3>
             <div class="row info">  
@@ -66,18 +66,12 @@ function validate(){
             <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="7" required>
             <input type="text" class="form-control" placeholder="아이디 " name="memberId" id="memberId" maxlength="12" required>                   
             <input type="text" class="form-control" placeholder="등록한 이메일" name="email" id="email" maxlength="25" required>                    
-                <br/>
-            <div class="row submitB">
-            	<div class="col-6 find-div"> 
-              		<input type="submit" class="btn btn-success" value="임시비밀번호 발급" >
-              	</div>
-              	<div class="col-6 cancle-div">	
-              		<input type="reset" class="btn btn-outline-success" value="취소 ">
-           		</div> 
-           </div>
+            <br/>                
+           	<input type="submit" class="btn btn-success btn-sm btn-block" value="임시비밀번호 발급">
+		 	<input type="reset" class="btn btn-outline-success btn-sm btn-block" value="취소">
          </form>
     </div>
-         
+</section>          
 
       
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

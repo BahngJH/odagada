@@ -92,7 +92,7 @@
   	FROM QNA Q WHERE QNANUM=#{qnaNum}
   </select>
   <select id="selectQnaComList" resultType="map" parameterType="_int">
-  	SELECT * FROM QNACOMMENT WHERE QNANUM=#{qnaNum}
+  	SELECT * FROM QNACOMMENT WHERE QNANUM=#{qnaNum} ORDER BY COMMENTNUM ASC
   </select>
   <update id="updateQna" parameterType="map">
   	UPDATE QNA SET QTITLE=#{title},QCONTENT=#{content},MEMBERNUM=#{memberNum},QDATE=default WHERE QNANUM=#{qnaNum}

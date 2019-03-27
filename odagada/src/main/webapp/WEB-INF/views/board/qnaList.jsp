@@ -36,13 +36,13 @@
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
-		<h1> 도움이 필요하신가요? </h1>
+		<h1 id="miniTitle"> 도움이 필요하신가요? </h1>
 	</div>
 </section>
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
 </section>
 
-<section id="qna-container" class="container">
+<section id="qna-container" class="container" style="margin-top: 0px;">
 <div class="col-md-8 offset-md-2">
 	<button type="button" class="btn btn-outline-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/qnaForm';" >글쓰기</button>
 	<table id="tbl-board" class="table table-hover">

@@ -396,8 +396,6 @@ $(function(){
                       <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
                       <label class="custom-file-label profile" for="upFile">내 사진 등록</label>                      
                   </div>
- 				  <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
-                  
                   <div class="col-6">
                   </div>                      
              </div>           
@@ -443,6 +441,7 @@ $(function(){
 	                     <input type="radio" class="form-check-input" name="gender" id="gender1" value="M"><label for="gender1" class="form-check-label genderC">남자</label>&nbsp;
              	   </div>
                </div>  -->
+                <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
                 <div id="checkGender">
 	                <input type="radio" name="gender" value="M" id="man" checked>
 	                <input type="radio" name="gender" value="F" id="woman">

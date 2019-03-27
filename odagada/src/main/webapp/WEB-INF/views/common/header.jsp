@@ -112,24 +112,33 @@
                         <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
                      </li> 
                 </c:if>
-               	<c:if test="${sessionScope.logined!=null }">   
-	                 <li class="nav-item">
-	                  <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
-	                </li>
-	                <li class="nav-item dropdown">
-	                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                 		  마이페이지
-	                  </a>
-	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	                    <a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
-	                    <a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
-	                    <c:if test="${sessionScope.driver.LICENSENUM != null}">
-	                    	<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
-	                   		<a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
-	                    </c:if>	                    
-	                  </div>
-	                </li>
-                </c:if>         
+                  <c:if test="${sessionScope.logined!=null }">   
+                    <li class="nav-item">
+                     <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
+                   </li> 
+                  <%--  <li class="nav-item">
+                     <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
+                   </li>     --%>  
+                   <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            마이페이지
+                     </a>
+                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                     	<a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
+                     	<c:if test="${isAdmin eq '0'}">
+                     		<a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
+                       		<c:if test="${sessionScope.driver.LICENSENUM ne null}">
+                       			<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
+                     		    <a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
+                        	</c:if>
+                        </c:if>
+                       
+                       
+                     </div>
+                   </li>
+                       
+                </c:if> 
+               
                <c:if test="${isAdmin eq '1'}">
                    <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
