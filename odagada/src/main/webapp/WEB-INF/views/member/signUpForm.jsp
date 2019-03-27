@@ -16,7 +16,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
    <style>
-   @font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
 @font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
 @font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
 	h1{
@@ -108,7 +108,6 @@
    margin-left:30%;
    margin-bottom: 10%;}
    .eck{width:2;height:29pt;}
-   #enrollBtn{margin-right:15%;}  
    #memberId_{margin-top:20%;}     
    .dR{padding-left:1%;}
    .dL{padding-right:1%;}
@@ -234,6 +233,7 @@ button.check-btn{
     max-width: 58px;
     font-size: 14px
 }
+#sub-btn{padding-left:5%; padding-right:5%;}
 
 
     
@@ -630,9 +630,9 @@ $(function(){
              	   </div>
                </div>  	                 	                
                 <br/>
-                <div class="row submitB">  
-                  <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="가입" >&nbsp;
-                  <input type="reset" class="btn btn-outline-success" value="취소">
+                <div class="row" id="sub-btn">  
+                  <input type="submit" class="btn btn-success btn-sm btn-block" value="가입">
+				  <input type="reset" class="btn btn-outline-success btn-sm btn-block" value="취소">
                </div>
             </form>
          </div>
