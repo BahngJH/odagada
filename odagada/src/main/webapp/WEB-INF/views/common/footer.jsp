@@ -74,7 +74,7 @@
 		background-color:#f8f9fa;
 	}
     </style>
-      <footer class="footer-mar">
+      <footer class="footer-mar" id="footer-mar">
          <div class="row footer_row">
                <div class="col-12 col-md-6 info-1">
                 <address style="font-family: BMJUA;">

@@ -15,6 +15,7 @@
 <style>
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 @font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }   
 	
 /* 섹션 패딩 삭제 */
 section.section-st{
@@ -305,7 +306,7 @@ margin-left:10%;
        	.text-div{
 		padding:10%;
 		padding-bottom:0px;
-		padding-top:40%;
+		padding-top:32%;
 		height:auto;
 		}
     	.text-h4{
@@ -324,6 +325,9 @@ margin-left:10%;
 		color:white;
 		font-size:8px;
 		padding:3%;
+		}
+		.btn-search{
+		float:right;
 		}
     }
     @media all and (max-width: 550px){
@@ -347,6 +351,9 @@ margin-left:10%;
     }
     .dri-div{
     	margin-left:20px;
+    }
+    .div-search{
+    	font-family:BMJUA;
     }
 </style>
 <section class="container-fluid section-st">
