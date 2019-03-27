@@ -71,8 +71,10 @@ public class DriverDaoImpl implements DriverDao {
 	
 	//드라이버가 등록한 카풀리스트 
 	@Override
-	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
-		return session.selectList("driver.selectDriverCarpool",memberNum);
+	public List<Map<String, String>> selectDriverCarPool(int memberNum,int numPerPage, int cPage)
+	{
+		RowBounds rb = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return session.selectList("driver.selectDriverCarpool",memberNum,rb);
 	}
 
 	@Override
@@ -119,7 +121,11 @@ public class DriverDaoImpl implements DriverDao {
 	public int deleteImg(String carNum) {
 		return session.delete("driver.deleteImg",carNum);
 	}
-	
+
+	@Override
+	public int selectDriverCarCount(int memberNum) {
+		return session.selectOne("driver.selectDriverCarCount", memberNum);
+	}
 	
 
 	

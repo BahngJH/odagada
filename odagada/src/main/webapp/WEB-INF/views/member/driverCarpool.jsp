@@ -121,9 +121,16 @@ background-color:rgb(100,100,100);
 }
 div.list-div{
 margin-bottom:20px;
+height:380px;
 }
 span.start-span{
 color: rgb(0,175,76);
+}
+.card{
+height:370px;
+}
+.container{
+font-family:silgothic;
 }
 </style>
 <section class="container">
@@ -201,5 +208,6 @@ color: rgb(0,175,76);
          </div>
       </div>
    </div>
+   ${pageBar }
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
