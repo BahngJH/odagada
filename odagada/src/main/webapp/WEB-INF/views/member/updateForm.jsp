@@ -336,8 +336,8 @@ function changeName(){
 	});
 }			 	
 </script>
-
-      <div id="enroll-container" class="container">
+<section class="container">
+      <div id="enroll-container">
 			<div class="card" >
 					  <ul class="list-group list-group-flush">
 						 <li class="list-group-item">
@@ -456,9 +456,9 @@ function changeName(){
 					  		</div>			    
 				    </li> 
 				  </ul>		 	
-			 </div>            
- 		 
-	</div>       
+			 </div>            		 
+	</div>
+</section>       
 <script>
 function phoneCheck(){
 	
