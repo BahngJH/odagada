@@ -23,7 +23,7 @@ public class Interceptor extends HandlerInterceptorAdapter {
 		
 		if(m== null) {
 			request.setAttribute("msg", "로그인 해주세요.");
-			request.setAttribute("loc", "/member/loginForm.do");
+			request.setAttribute("loc", "/member/loginForm2.do");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 			return false;
 		}

@@ -18,17 +18,17 @@
 			    	<div class="col-9">
 				    	<div class="row">
 	                       <div class="col-6">
-	                        	<div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p>${fn:substring(c.STARTDATE,0,10)}</p><hr>
+	                        	<div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p class="start-span">${fn:substring(c.STARTDATE,0,10)}</p><hr>
 	                       </div>
 	                       <div class="col-6">
-	                        	<div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p>${fn:substring(c.STARTDATE,11,20)}</p><hr>
+	                        	<div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p class="start-span">${fn:substring(c.STARTDATE,11,20)}</p><hr>
 	                       </div>
                         </div>
 			    		<span class="badge badge-primary">출발</span><br>
-			    		<span class="span_city">${c.STARTCITY}&nbsp;${c.STARTDETAIL }</span><br>
+			    		<span class="span_city"><b>${c.STARTCITY} ${c.STARTDETAIL }</b></span><br>
 			    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 			    		<span class="badge badge-success">도착</span><br>
-			    		<span class="span_city">${c.ENDCITY}&nbsp;${c.ENDDETAIL }</span> <br>
+			    		<span class="span_city"><b>${c.ENDCITY} ${c.ENDDETAIL }</b></span> <br>
 			    		<input type="hidden" value="${search.startCity }" id="startCity" name="startCity"/>
 			    		<input type="hidden" value="${search.endCity }" id="endCity" name="endCity"/>
 			    		<input type="hidden" value="${search.startDate }" id="startDate" name="startDate"/>
@@ -36,14 +36,14 @@
 			    	<div class="col-3">
 			    		<div class="row">
 			    			<div class="col-12">
-			    				<span class="span-option col-text">￦${c.PAY}</span>
+			    				<span class="span-option col-text"><b>￦${c.PAY}</b></span>
 			    			</div>
 			    		</div>
 			    		<div class="row">
 			    			<div class="col-12">
 			    				<span class="span-option">
 			    					<img class="driver-profile" src="${path }/resources/upload/profile/${c.PROFILEIMAGERE}"/><br>
-			    					<span class="driver-name">${c.MEMBERNAME }</span>
+			    					<span class="driver-name"><b>${c.MEMBERNAME }</b></span>
 			    				</span>
 			    			</div>
 			    		</div>
@@ -55,34 +55,34 @@
 			  	<div class="col-12">
 		  			<span class="span-option">
 			  			<c:if test='${c.ANIMAL eq "Y"}'>
-			  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+			  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon" title="애완견 동반 가능"></span>
 			  			</c:if>
 	  					<c:if test='${c.SMOKING eq "Y"}'>
-	  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+	  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon" title="흡연 가능"></span>
 						</c:if>
 						<c:if test='${c.TEENAGE eq "Y"}'>
-							<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+							<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon" title="미성년자 가능"></span>
 						</c:if>
 						<c:if test='${c.TALKING eq "Y"}'>
-							<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+							<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon" title="대화 가능"></span>
 						</c:if>
 						<c:if test='${c.MUSIC eq "Y"}'>
-							<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+							<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon" title="음악 가능"></span>
 						</c:if>
 						<c:if test='${c.FOOD eq "Y"}'>
-							<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+							<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon" title="음식물 섭취 가능"></span>
 						</c:if>
 						<c:if test='${c.BAGGAGE eq "Y"}'>
-							<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+							<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon" title="짐 수용"></span>
 						</c:if>
 						<c:choose>
 							<c:when test='${c.GENDER eq "A"}'>
 							</c:when>
 							<c:when test='${c.GENDER eq "F"}'>
-								<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+								<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon" title="여성 전용"></span>
 							</c:when>
 							<c:when test='${ c.GENDER eq "M"}'>
-								<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+								<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon" title="남성 전용"></span>
 							</c:when>
 						</c:choose>
 			  		</span>
