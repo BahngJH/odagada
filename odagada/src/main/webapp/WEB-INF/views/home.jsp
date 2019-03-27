@@ -15,6 +15,7 @@
 <style>
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 @font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }   
 	
 /* 섹션 패딩 삭제 */
 section.section-st{
@@ -305,7 +306,7 @@ margin-left:10%;
        	.text-div{
 		padding:10%;
 		padding-bottom:0px;
-		padding-top:40%;
+		padding-top:32%;
 		height:auto;
 		}
     	.text-h4{
@@ -324,6 +325,9 @@ margin-left:10%;
 		color:white;
 		font-size:8px;
 		padding:3%;
+		}
+		.btn-search{
+		float:right;
 		}
     }
     @media all and (max-width: 550px){
@@ -344,6 +348,12 @@ margin-left:10%;
 		font-size:6px;
 		padding:3%;
 		}
+    }
+    .dri-div{
+    	margin-left:20px;
+    }
+    .div-search{
+    	font-family:BMJUA;
     }
 </style>
 <section class="container-fluid section-st">
@@ -377,7 +387,7 @@ margin-left:10%;
 				<div class="row search-row">
 					<div class="col-12">
 						<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" class="search-form" onsubmit="return validate()">
-			               <div class="col-sm-12 offset-md-2 col-md-2 t1 s1">
+			               <div class="col-sm-12 offset-md-1 col-md-3 offset-lg-1 col-lg-3 t1 s1">
 			                  <div class="input-group">
 			                     <input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="○ 출발지 입력" onclick="sample6_execDaumPostcode1()" readonly/>
 			                     <input type="text" name="startLon" id="startLon" value="" hidden/>
@@ -386,14 +396,14 @@ margin-left:10%;
 			                     <br>
 			                  </div>
 			               </div>
-			               <div class="col-sm-12 col-md-2 t1 s1">
+			               <div class="col-sm-12 col-md-3 col-lg-3 t1 s1">
 			                  <div class="input-group">
 			                     <input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="○ 도착지 입력"  onclick="sample6_execDaumPostcode2()"  readonly/>
 			                     <input type="hidden" name="endLon" id="endLon" value=""/>
 			                     <input type="hidden" name="endLat" id="endLat" value=""/>
 			                  </div>
 			               </div>
-			                 <div class="col-sm-12 col-md-2 t1 s1">
+			                 <div class="col-sm-12 col-md-3 col-lg-3 t1 s1">
 			                     <div class="form-group">
 			                         <div class="input-group date div-search " id="datetimepicker1" data-target-input="nearest">
 			                             <input type="text" class="form-control datetimepicker-input date-div" data-target="#datetimepicker1" name="startDate" id="startDate" placeholder="○ 출발일 입력" />
@@ -435,8 +445,8 @@ margin-left:10%;
 					<div class="form-control div-search text-center oda-div">이용하기 <b>></b></div>
 				</div>
 			</div>
-			<div class="col-6 offset-md-1 col-md-3 c3 car-div">
-				<a href="${path}/driver/driverEnroll" class="text-d">드라이버 등록</a>
+			<div class="col-6 offset-md-1 col-md-3 c3 car-div ">
+				<a href="${path}/driver/driverEnroll" class="text-d ">드라이버 등록</a>
 				<img src="${path }/resources/images/main/driver-2.png" class="driver-img transition" />
 			</div>
 			<div class="col-6 col-md-3 c3 car-div">

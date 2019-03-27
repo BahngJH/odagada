@@ -360,21 +360,21 @@ img.driver-img:before {
 					  					<div class="col-3 col-md-12 col-lg-3">
 					  						<span class="line-div"></span>
 					  						<c:if test="${logined != null }">
-					  							<c:set var="flag" value="false"/>
+					  							<c:set var="flag1" value="false"/>
 						  						<c:forEach items='${pList }' var='p' varStatus="count">
-						  							<c:if test="${not flag }">
+						  							<c:if test="${not flag1 }">
 					  									<c:choose>
 					  										<c:when test='${logined.memberNum == driverNum }'>
 					  											<button class="btn btn-warning ride-btn" onclick="checkIng();">탑승객<br/>확인</button>
-					  											<c:set var="flag" value="true"/>
+					  											<c:set var="flag1" value="true"/>
 					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
 					  											<button class="btn btn-danger ride-btn" onclick="checkIng();">탑승중</button>
-					  											<c:set var="flag" value="true"/>
+					  											<c:set var="flag1" value="true"/>
 					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "N" }'>
 					  											<button class="btn btn-danger ride-btn" onclick="checkSubmit();">탑승<br/>승인중</button>
-					  											<c:set var="flag" value="true"/>
+					  											<c:set var="flag1" value="true"/>
 					  										</c:when>
 					  									</c:choose>
 						  							</c:if>
@@ -505,9 +505,9 @@ img.driver-img:before {
 				 		<p class='dhead-p'>드라이버 정보</p>
 				 	</div>
 				 	<c:if test="${logined.memberId != driverId}">
-				 	<div class='col-12 col-xl-4 offset-xl-1'>
-				 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${oList.get(0).MEMBERID}')">드라이버와 채팅</button>
-				 	</div>
+					 	<div class='col-12 col-xl-4 offset-xl-1'>
+					 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${oList.get(0).MEMBERID}')">드라이버와 채팅</button>
+					 	</div>
 				 	</c:if>
 				 </div> 
 			  </div>
@@ -676,27 +676,25 @@ img.driver-img:before {
 				   <!-- 드라이버 신고 버튼 -->
 				<c:if test="${logined != null }">
 				<c:set value='true' var='rFlag'/>
-					<c:forEach items='${pList }' var='p' varStatus="count">
-						<c:if test="${rFlag }">
-							<c:choose>
-								<c:when test='${logined.memberNum == driverNum }'>
-								  <div class="row">
-								  	<div class="col-6 offset-3">
-								  	</div>
-								  </div>
-								  <c:set value="false" var="rFlag"/>
-								</c:when>
-								<c:otherwise>
-									<div class="row">
-										<div class="col-6 offset-3">
-											<button class="btn btn-danger search-div btn-chat" onclick="location.href='${path}/community/notifyForm.do?driverId=${oList.get(0).MEMBERID }&driverName=${oList.get(0).MEMBERNAME }'">드라이버 신고하기</button>
-										</div>
+					<c:if test="${rFlag eq true }">
+						<c:choose>
+							<c:when test='${logined.memberNum == driverNum }'>
+							  <div class="row">
+							  	<div class="col-6 offset-3">
+							  	</div>
+							  </div>
+							  <c:set value="false" var="rFlag"/>
+							</c:when>
+							<c:otherwise>
+								<div class="row">
+									<div class="col-6 offset-3">
+										<button class="btn btn-danger search-div btn-chat" onclick="location.href='${path}/community/notifyForm.do?driverId=${oList.get(0).MEMBERID }&driverName=${oList.get(0).MEMBERNAME }'">드라이버 신고하기</button>
 									</div>
-									<c:set value="false" var="rFlag"/>
-								</c:otherwise>
-							</c:choose>
-						</c:if>
-					</c:forEach>
+								</div>
+								<c:set value="false" var="rFlag"/>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
 				</c:if>
 			  </div>
 			</div>
