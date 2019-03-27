@@ -46,7 +46,7 @@
 
 <section class="photo-backround" data-image="${path}/resources/images/blackList.png">
 </section>
-​<section id="container">
+​<section id="container" style="margin-top: 0px;">
 	
 	<table class="table table-hover">
 		<tr>
