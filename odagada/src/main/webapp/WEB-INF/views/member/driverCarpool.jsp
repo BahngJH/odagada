@@ -132,6 +132,20 @@ color: rgb(0,175,76);
 font-family: BMJUA;
 font-size:18px;
 }
+.page-link{
+	border:none;
+	font-size:17px;
+	color:rgb(0,175,76);
+}
+.page-item{
+	font-size:17px;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: rgb(0,175,76);
+    background-color: rgb(240,240,240);
+    border-color:rgb(0,175,76);
+}
 </style>
 <section class="container">
    <div class="row">
@@ -175,7 +189,7 @@ font-size:18px;
 		                  </div>
 		               </c:if>
 		               <c:if test='${dc.STATUS eq "Y" }'>
-		                  <div class="col-md-6" style="margin-top:30px">
+		                  <div class="col-md-6" style="margin-bottom:30px">
 		                     <div class="card">
 		                     	<div class="card-header headN-div">
 		                     	</div>
@@ -193,7 +207,7 @@ font-size:18px;
 		            </c:forEach>
 	         	</c:when>
 	        	<c:otherwise>
-	        		<div class="col-12 info">
+	        		<div class="col-12">
 	        			<div class="card" >
 	        				<div class="card-header">
 	        					<h4><b>등록 된 카풀 내역이 없습니다.</b></h4>
@@ -206,8 +220,13 @@ font-size:18px;
 	       		</c:otherwise>
 	         </c:choose>
          </div>
+         <div class="row">
+         	<div class='col-12'>
+         		${pageBar }
+         	</div>
+         </div>
       </div>
    </div>
-   ${pageBar }
+   
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

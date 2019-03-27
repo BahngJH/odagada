@@ -201,17 +201,18 @@ a#pay{
 				      </div>
 					</c:forEach>
 				</c:if>
-		     </div>
-
-		</div>
-	</div>
-	<div class="row ">
+					<div class="row ">
 		<div class="col-12 text-center">
 			<nav aria-label="Page navigation">
 				${pageBar }
 			</nav>
 		</div>
 	</div>
+		     </div>
+
+		</div>
+	</div>
+
       
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
