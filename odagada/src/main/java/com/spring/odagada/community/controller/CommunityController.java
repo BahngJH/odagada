@@ -357,11 +357,11 @@ public class CommunityController {
 		return "common/msg";
 	}
 	
-	@RequestMapping("community/reviewView.do")
-	public ModelAndView reviewView(HttpServletRequest request, HttpSession sessiong,String memberId,String memberNum)
+	@RequestMapping("/community/reviewView.do")
+	public ModelAndView reviewView(HttpServletRequest request, HttpSession sessiong,String writerId,String memberNum)
 	{
 		Map<String, String> review = new HashMap();
-		review.put("memberId", memberId);
+		review.put("memberId", writerId);
 		review.put("memberNum", memberNum);
 		
 		int count=service.selectReviewCount(memberNum);
@@ -377,7 +377,7 @@ public class CommunityController {
 		return mv;
 	}
 	
-	@RequestMapping("community/myReviewView.do")
+	@RequestMapping("/community/myReviewView.do")
 	public ModelAndView myReviewView(HttpServletRequest request, HttpSession session,String memberNum,String driverName, String carpoolNum)
 	{	
 		Map<String,String> review=new HashMap();
