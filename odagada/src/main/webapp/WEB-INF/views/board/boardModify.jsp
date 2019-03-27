@@ -58,6 +58,10 @@
       text-align: center;
       font-weight: bold;
    }
+   
+   section{
+   	font-family: S-CoreDream-3Light;
+   }
 </style>
 <script>
 $(function(){

@@ -12,6 +12,10 @@
 	font-size:30px;
 	text-align: center;
 	}
+	
+section {
+	font-family: S-CoreDream-3Light;
+}
 </style>
 <script>
 $(function(){

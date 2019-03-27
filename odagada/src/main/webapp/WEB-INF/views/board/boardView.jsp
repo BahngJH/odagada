@@ -37,7 +37,7 @@
 	/* font-weight: bold; */
 	font-size: 25px;
 	text-align: center;
-	font-family: silgothic;
+	font-family: S-CoreDream-3Light;
 	}
 	div div#bTITLE{
 	font-weight: bold;
@@ -52,6 +52,9 @@
 	#board-container{
 		margin-top: 50px;
 		margin-bottom: 30px;
+	}
+	section{
+		font-family: S-CoreDream-3Light;
 	}
 
 </style>
