@@ -360,10 +360,9 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("community/reviewView.do")
-	public ModelAndView reviewView(HttpServletRequest request, HttpSession sessiong,String memberId,String memberNum)
+	public ModelAndView reviewView(String memberNum)
 	{
 		Map<String, String> review = new HashMap();
-		review.put("memberId", memberId);
 		review.put("memberNum", memberNum);
 		
 		int count=service.selectReviewCount(memberNum);

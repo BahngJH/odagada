@@ -35,6 +35,9 @@
 	#naverIdLogin{
 		margin-top:20px;
 	}
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 	</style>
 
 <body>

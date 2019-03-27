@@ -45,6 +45,13 @@
 	 #commentContent{
 	 	margin-top: 10px;
 	 }
+	 
+	 div.container{
+	 	font-family: S-CoreDream-3Light;
+	 }
+	 p#commentContent{
+	 	color : black;
+	 }
 </style>
 <script>
 	function validate(){
@@ -67,7 +74,7 @@
 <div class="container col-md-6" style="margin-top: 0px;">
     	<div class="card">
 	        <div class="card-body">
-	            <h4 class="card-title mb-3">${qna.QTITLE }</h4>
+	            <h4 class="card-title mb-3"><strong>${qna.QTITLE }</strong></h4>
 	            <h6 class="card-subtitle text-muted mb-4">
 	                <i class="far fa-user"></i> <c:out value="${qna.QWRITER}"/>
 	                <i class="far fa-clock"></i> <fmt:formatDate value="${qna.QDATE}" pattern="yyyy-MM-dd"/>

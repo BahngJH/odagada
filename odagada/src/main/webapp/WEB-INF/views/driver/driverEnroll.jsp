@@ -107,6 +107,10 @@
   	#label_birth{
   		padding-left: 0px;
   	}
+  	
+  	div#enroll-container{
+  		font-family: S-CoreDream-3Light;
+  	}
 
     </style>
     

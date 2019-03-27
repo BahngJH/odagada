@@ -36,7 +36,7 @@
 	}
 	#tbl-board{
 		margin-bottom: 30px;
-	}
+	"src/main/webapp/resources/images"}
 	a{
 		color: black;
 		text-decoration: none;
@@ -235,7 +235,9 @@ button.check-btn{
 }
 #sub-btn{padding-left:5%; padding-right:5%;}
 
-
+div.container{
+	font-family: S-CoreDream-3Light;
+}
     
     </style>
     

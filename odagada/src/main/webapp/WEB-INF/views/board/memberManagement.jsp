@@ -37,6 +37,9 @@
 	#container{
 		text-align: center;
 	}
+	section.container{
+		font-family: S-CoreDream-3Light;
+	}
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">

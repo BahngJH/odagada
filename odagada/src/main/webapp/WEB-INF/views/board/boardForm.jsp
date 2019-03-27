@@ -50,6 +50,9 @@ $(function(){
 		color: black;
 		text-decoration: none;
 	}
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
