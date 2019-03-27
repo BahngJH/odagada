@@ -36,7 +36,7 @@
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
-		<h1> 도움이 필요하신가요? </h1>
+		<h1 id="miniTitle"> 도움이 필요하신가요? </h1>
 	</div>
 </section>
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">

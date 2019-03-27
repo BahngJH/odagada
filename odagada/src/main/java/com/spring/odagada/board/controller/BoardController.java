@@ -60,7 +60,7 @@ public class BoardController {
    
    //블랙리스트 불러옴
    @RequestMapping("/admin/blackList.do")
-   public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, ModelAndView mv) 
    {
 	   int allBlackCount = service.allBlackCount();
 	   int numPerPage=10;
@@ -118,7 +118,7 @@ public class BoardController {
    
    //회원 목록 불러옴
    @RequestMapping("/admin/memberList.do")
-   public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv)
+   public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, ModelAndView mv)
    {
 	   int allMemberCount = service.selectAllMemberCount();
 	   int numPerPage = 10;
@@ -133,7 +133,7 @@ public class BoardController {
    
    //신고내역가져옴
    @RequestMapping("/admin/notifyList.do")
-   public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, ModelAndView mv) 
    {
 	   int numPerPage=10;
 	   int allNotifyCount = service.allNotifyCount();
@@ -146,7 +146,7 @@ public class BoardController {
    
    //회원관리에서 아이디나 이름 상세검색
    @RequestMapping("/admin/searchMember.do")
-   public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
+   public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, String searchType, String keyword,ModelAndView mv) 
    {
 	   logger.debug(keyword+"");
 	   logger.debug(""+searchType);
@@ -391,7 +391,7 @@ public class BoardController {
    
    
    @RequestMapping("/board/qnaList")
-   public ModelAndView qnaList(HttpSession session,@RequestParam(value="cPage", required=false,defaultValue="0") int cPage)
+   public ModelAndView qnaList(HttpSession session,@RequestParam(value="cPage", required=false,defaultValue="1") int cPage)
    {
 	   
 	   ModelAndView mv = new ModelAndView();
@@ -426,7 +426,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaView.do")
-   public ModelAndView qnaView(HttpSession session,int qnaNum,@RequestParam(value="cPage", required=false, defaultValue="0") int cPage, HttpServletRequest request,HttpServletResponse response)
+   public ModelAndView qnaView(HttpSession session,int qnaNum,@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, HttpServletRequest request,HttpServletResponse response)
    {
 	   Member m = (Member)session.getAttribute("logined");
 	   
@@ -536,7 +536,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaComModify")
-   public ModelAndView qnaComModify(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
+   public ModelAndView qnaComModify(@RequestParam(value="cPage", required=false,defaultValue="1") int cPage,int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
    {
 	  int numPerPage = 10;
 	  int contentCount = service.selectQnaComCount();
@@ -560,7 +560,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaComModifyEnd")
-   public ModelAndView qnaComModifyEnd(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,HttpSession session,String comContent,String qnaNum, String comNum,
+   public ModelAndView qnaComModifyEnd(@RequestParam(value="cPage", required=false,defaultValue="1") int cPage,HttpSession session,String comContent,String qnaNum, String comNum,
 		   HttpServletRequest request, HttpServletResponse response)
    {
 	   int numPerPage = 10;
@@ -578,7 +578,7 @@ public class BoardController {
 	   
 	   int result = service.updateComment(com);
 	   
-	   mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaView.do"));
+	   //mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaView.do"));
 	   mv.addObject("qnaNum", qnaNum);
 	   mv.setViewName("redirect:/board/qnaView.do");
 	   
@@ -620,7 +620,7 @@ public class BoardController {
 	   }
    }
    
-   @RequestMapping("board/faqForm.do")
+   @RequestMapping("/board/faqForm.do")
    public String faqForm()
    {
 	   return "board/faqForm";
