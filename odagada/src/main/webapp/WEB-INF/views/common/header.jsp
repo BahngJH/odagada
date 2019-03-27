@@ -103,7 +103,7 @@
                   </c:if>       
                <c:if test="${sessionScope.logined==null }">   
                     <li class="nav-item">
-                        <a class="nav-link" href="${path }/member/loginForm2.do">로그인</a>
+                        <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
                    </li>
                      <li class="nav-item">
                         <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
@@ -159,7 +159,7 @@
    $(function(){
       if(<%=request.getSession().getAttribute("logined")!=null && !request.getSession().getAttribute("logined").equals("")%>){
          //로그인 되어 있을 때만 실행
-         var url="http://localhost:9090/odagada/echo";
+         var url="http://192.168.20.226:9090/odagada/echo";
          
          ws = new SockJS(url);
          

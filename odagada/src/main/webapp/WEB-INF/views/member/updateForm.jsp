@@ -47,35 +47,6 @@
     </style>  
      
 <script>
-//프로필 사진을 이미지 타입 파일로만 받기
-/* function fileCheck(obj) {
-	var fileKind = obj.value.lastIndexOf('.');
-	var fileName = obj.value.substring(fileKind + 1, obj.length);
-	var fileType = fileName.toLowerCase();
-
-	var ckFileType = new Array();
-	ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
-
-	if (ckFileType.indexOf(fileType) == -1) {
-		alert("이미지 파일만 선택할 수 있습니다.");
-		var parentObj = obj.parentNode;
-		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
-		return;
-	}
-	else{
-		var filenames=obj.files[0].name;
-   		var fileReader = new FileReader();
- 	
- 		fileReader.readAsDataURL(obj.files[0]);
- 		fileReader.onload = function(e){
-	 		var result = e.target.result;	
-	 		$('#pro_img').attr('src',result); 		
- 		};
-      console.log(filenames);
-	}
-	console.log($('#upFile').val());
-}
-*/
 //프로필 이미지 검사
 function validate(){
     if($('#temp').val()==0){
@@ -363,9 +334,9 @@ function changeName(){
 			location.reload();
 		}
 	});
-}		
-	 	
+}			 	
 </script>
+
       <div id="enroll-container" class="container">
 			<div class="card" >
 					  <ul class="list-group list-group-flush">
