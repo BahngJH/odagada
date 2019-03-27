@@ -71,7 +71,7 @@
 		color:rgb(100,100,100);
 		font-size:15px;
 		float:right;
-		font-family: 'silgothic';
+		font-family: 'BMJUA';
 	}
 	.info-img{
 	width:100%;
@@ -82,6 +82,9 @@
 	}
 	section{
 	font-family: 'silgothic';
+	}
+	.loc-input{
+	font-family: 'BMJUA';
 	}
 </style>
 
@@ -105,16 +108,16 @@
 		<div class="col-12 col-md-6">
 				<div class="row loc">
 					<div class="col-12">
-						<input type="text" class="form-control" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
+						<input type="text" class="form-control  loc-input" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
 					</div>
 					<div class="col-1 offset-5">
 						<span class="fas fa-arrow-down fa-3x"></span>
 					</div>
 					<div class="col-3 ml-auto">
-						<button type="button" class="btn btn-outline-info btn_clear " onclick="clearLoc();">초기화</button>
+						<button type="button" class="btn btn-outline-info btn_clear loc-input" onclick="clearLoc();">경로 초기화</button>
 					</div>
 					<div class="col-12">
-						<input type="text" class="form-control" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
+						<input type="text" class="form-control loc-input" name="destLocation" id="destLocation" placeholder="도착 위치" readonly/>
 					</div>
 				</div>
 			<form action="${path }/carpool/registerEnd" method="post" onsubmit="return carpoolValidate();">
@@ -132,10 +135,11 @@
 				</div>
 				<div class="row div_option">
 					<div class="col-12">
-						<h4>탑승객 옵션 (체크시 허락)</h4>
+						<h4 style="font-family: BMJUA">탑승객 옵션 (체크시 허락)</h4>
 					</div>
 					<div class="col-12">
-						<div class="col-12 options ml-auto">
+						<div class="card card-body"  style="padding-right: 0px;padding-left: 5px;">
+						<div class="col-12 options ml-auto" style="padding-right: 0px;padding-left: 5px;">
 							<label>애완동물 <input type="checkbox" name="animal" id="animal" value="Y" /></label>
 							<label>흡연 <input type="checkbox" name="smoking" id="smoking" value="Y"/></label>
 							<label>미성년 <input type="checkbox" name="teenage" id="teenage" value="Y" /></label>
@@ -143,6 +147,7 @@
 							<label>노래 <input type="checkbox" name="music" id="music" value="Y" /></label>
 							<label>음식 섭취 <input type="checkbox" name="food" id="food" value="Y" /></label>
 							<label>짐 수납 <input type="checkbox" name="baggage" id="baggage" value="Y" /></label>
+						</div>
 						</div>
 						<div class="row inputOpt">
 							<div class="col-6 col-sm-3 ml-auto">
@@ -172,7 +177,7 @@
 				</div>
 				<div class="row btn_submit">
 					<div class="col-12">
-						<input type="submit" value="일정 등록" class="btn btn-outline-success btn_submit"/>
+						<input type="submit" value="일정 등록" class="btn btn-outline-success btn_submit  loc-input"/>
 					</div>
 				</div>
 				<input type="number" class="form-control" name="startLong" id="startLong" readonly hidden/>

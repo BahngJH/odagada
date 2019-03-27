@@ -40,17 +40,18 @@
        }
    }
 </script>
-<div id="notify-container">
-	<form id="notifyFrm" name="notifyFrm" action="${path}/community/notifyFormEnd.do" method="post" onsubmit="return validate();"> 
-	<h1>신고</h1>
-		<%-- <input type="text" class="form-control" name="notifyNum" id="notifyNum" value="${logined.memberId}" readonly required> --%>
-		<h4>${driverName }님 신고하기</h4>
-		<textarea class="form-control" name="nContent" placeholder="신고사유" required></textarea>
-		<br/>
-		<input type="hidden" name="driverId" id="driverId" value="${driverId }"/>
-		<input type="button" class="btn btn-outline-success" value="등록" onclick="notify();">
-		<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/carpool/oneSearch.do?memberNum=${logined.memberNum }';" >
-	</form>
-</div>
+<section class="container">
+	<div id="notify-container">
+		<form id="notifyFrm" name="notifyFrm" action="${path}/community/notifyFormEnd.do" method="post" onsubmit="return validate();"> 
+		<h1>신고</h1>
+			<%-- <input type="text" class="form-control" name="notifyNum" id="notifyNum" value="${logined.memberId}" readonly required> --%>
+			<h4>${driverName }님 신고하기</h4>
+			<textarea class="form-control" name="nContent" placeholder="신고사유" required></textarea>
+			<br/>
+			<input type="hidden" name="driverId" id="driverId" value="${driverId }"/>
+			<input type="button" class="btn btn-outline-success" value="등록" onclick="notify();">
+		</form>
+	</div>
+</section>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

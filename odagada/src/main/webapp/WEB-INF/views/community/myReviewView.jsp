@@ -81,7 +81,7 @@
 		<div class="col-12 col-md-9" id="review-container">	
 			<div class="info col-12 col-sm-12 col-md-9">
 				<p id="rtitle">내가 작성한 리뷰</p>
-				<div style="overflow: scroll; height: 500px;">
+				<div >
 					<c:if test="${empty list}">
 						<h2 style="color: red; text-align: center;">작성한 리뷰가 없습니다.</h2>
 					</c:if>

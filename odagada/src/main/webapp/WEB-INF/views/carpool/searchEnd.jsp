@@ -422,11 +422,17 @@ $(function () {
         var doHeight =$(document).height();
         if (width >= 750) {
             var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-            console.log(currentPosition1+" : "+currentPosition+" : "+position+ " : "+doHeight);
+            console.log(currentPosition1+" : "+currentPosition+" : "+position+ " : "+doHeight+" : "+(doHeight-750));
             if(position > 0){
-	            $("#option_flex").stop().animate({
-	                "top": position + currentPosition - 100 + "px"
-	            }, 500);
+            	if((doHeight-800)<position){
+            		$("#option_flex").stop().animate({
+		                "top": position + currentPosition - 300 + "px"
+		            }, 500);
+            	}else{
+		            $("#option_flex").stop().animate({
+		                "top": position + currentPosition - 100 + "px"
+		            }, 500);
+            	}
             }else{
             	$("#option_flex").stop().animate({
 	                "top": position + currentPosition + "px"
