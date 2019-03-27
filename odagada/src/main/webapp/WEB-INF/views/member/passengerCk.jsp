@@ -471,6 +471,11 @@ margin-left:13px;
 			</div>
 		</div>
 	</div>
+   	<div class="row">
+		<div class="col-12">
+			<button class="btn btn-success" onclick="backBtn();" style="float:right; margin-top:5px;">목록</button>
+		</div>
+	</div>
 </section>
 <script>
 var mNum;
@@ -521,6 +526,9 @@ function pasNo(e){
 	else{
 		location.href="${path}/driver/updatePasNo?memberNum="+memberNum+"&memberName="+memberName+"&carpoolNum="+carpoolNum+"&driverNum="+driverNum;	
 	}
+}
+function backBtn(){
+	history.back(); 	
 }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

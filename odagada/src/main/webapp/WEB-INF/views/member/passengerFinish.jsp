@@ -181,6 +181,11 @@ margin-left:13px;
          </div>
       </div>
    </div>
+	<div class="row">
+		<div class="col-12">
+			<button class="btn btn-success" onclick="backBtn();" style="float:right;">목록</button>
+		</div>
+	</div>
    <c:if test="${dList.get(0)!=null }">
 		<input type="hidden" value="${dList.get(0).CARPOOLNUM }" id="carpoolNum" name="carpoolNum"/>
 		<input type="hidden" value="${dList.get(0).CMEMBERNUM }" id="driverNum" name="driverNum"/>
@@ -259,6 +264,10 @@ $('.credit-id').on('click',function(){
 	mNum=this.value;
 	console.log(mNum);
 });
+
+function backBtn(){
+	history.back(); 	
+}
 </script>
   
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
