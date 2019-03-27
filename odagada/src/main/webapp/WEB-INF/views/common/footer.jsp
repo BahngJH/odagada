@@ -93,7 +93,7 @@
                      <a href="${pageContext.request.contextPath}/board/qnaList" style="font-family: BMJUA;text-decoration: none;"><strong>Q&A</strong></a>
                   </li>
                   <li class="menu_list" style="font-family: BMJUA;text-decoration: none;">
-                     <strong>자주 묻는 질문</strong>
+                     <a href="${pageContext.request.contextPath}/board/faqList.do" style="font-family: BMJUA;text-decoration: none;"><strong>자주 묻는 질문</strong></a>
                   </li>                  
                </ul>
             </div>

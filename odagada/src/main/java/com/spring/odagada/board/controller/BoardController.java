@@ -168,7 +168,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/boardList")
-   public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
+   public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
    {
       ModelAndView mv = new ModelAndView();
       int numPerPage = 5;   
