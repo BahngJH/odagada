@@ -17,7 +17,7 @@ public interface DriverDao {
 	List<Map<String,String>> selectCarImg(String carNum);
 	int updateStatus(Map<String,Object> map);
 	//드라이버 카풀 정보 리스트
-	List<Map<String,String>> selectDriverCarPool(int memberNum);
+	List<Map<String,String>> selectDriverCarPool(int memberNum,int numPerPage, int cPage);
 	List<Map<String,String>> selectDriverPas(Map<String,String> m);
 	int deleteDriver(int memberNum);
 	int updatePasOk(Map<String,Integer> map);
@@ -28,4 +28,5 @@ public interface DriverDao {
 	List<String> selectImgRe(String oldCarNum);
 	int updateDriver(Map<String, Object> driver);
 	int deleteImg(String carNum);
+	int selectDriverCarCount(int memberNum);
 }

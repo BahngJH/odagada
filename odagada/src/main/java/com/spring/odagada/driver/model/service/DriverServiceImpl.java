@@ -78,8 +78,8 @@ public class DriverServiceImpl implements DriverService {
 	
 	//드라이버 카풀 등록 리스트
 	@Override
-	public List<Map<String, String>> selectDriverCarPool(int memberNum) {
-		return dao.selectDriverCarPool(memberNum);
+	public List<Map<String, String>> selectDriverCarPool(int memberNum,int numPerPage, int cPage) {
+		return dao.selectDriverCarPool(memberNum,numPerPage,cPage);
 	}
 
 	@Override
@@ -142,11 +142,11 @@ public class DriverServiceImpl implements DriverService {
 		
 		return insertImg;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public int selectDriverCarCount(int memberNum) {
+		return dao.selectDriverCarCount(memberNum);
+	}
 	
 	
 	
