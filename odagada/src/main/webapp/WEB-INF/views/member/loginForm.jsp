@@ -8,169 +8,74 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="HelloSpring" name="pageTitle"/>
 </jsp:include>
-
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
-    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/loginFile/style.css">
+	<!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-
-<style>
-
-@import url('https://fonts.googleapis.com/css?family=Numans');
-
-html,body{
-/* background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');*/
-background-size: cover;
-background-repeat: no-repeat;
-height: 100%; 
-font-family: 'Numans', sans-serif;
-}
-
-.container{
-height: 100%;
-align-content: center;
-}
-
-.card{
-height: 370px;
-margin-top: auto;
-margin-bottom: auto;
-width: 400px;
-background-color: rgba(0,0,0,0.5) !important;
-}
-
-.social_icon span{
-font-size: 60px;
-margin-left: 10px;
-color: #FFC312;
-}
-
-.social_icon span:hover{
-color: white;
-cursor: pointer;
-}
-
-.card-header h3{
-color: white;
-}
-
-.social_icon{
-position: absolute;
-right: 20px;
-top: -45px;
-}
-
-.input-group-prepend span{
-width: 50px;
-background-color: #FFC312;
-color: black;
-border:0 !important;
-}
-
-input:focus{
-outline: 0 0 0 0  !important;
-box-shadow: 0 0 0 0 !important;
-
-}
-
-.remember{
-color: white;
-}
-
-.remember input
-{
-width: 20px;
-height: 20px;
-margin-left: 15px;
-margin-right: 5px;
-}
-
-.login_btn{
-color: black;
-background-color: #FFC312;
-width: 100px;
-}
-
-.login_btn:hover{
-color: black;
-background-color: white;
-}
-
-.links{
-color: white;
-}
-
-.links a{
-margin-left: 4px;
-}
-
-
-
-</style>
-
+	<style>
+	#easyLogin{
+		text-align: center;
+		margin-bottom:30px;
+	}
+	div#naverIdLogin > a#naverIdLogin_loginButton > img{
+   	width: 222px;
+   	height: 49px;
+	}
+	#naverIdLogin{
+		margin-top:20px;
+	}
+	</style>
 
 <body>
-<div class="container">
-	<div class="d-flex justify-content-center h-100">
-		<div class="card">
-			<div class="card-header">
-				<h3>Sign In</h3>
-				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div>
-			</div>
-			<div class="card-body">
-				<form action="${path }/member/login.do" method="post">
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input type="text" class="form-control" name="memberId" placeholder="아이디">
-						
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input type="password" class="form-control" name="memberPw" placeholder="비밀번호">
-					</div>
-					<!-- <div class="row align-items-center remember">
-						<input type="checkbox">내 정보 기억하기
-					</div> -->
-					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
-					</div>
-				</form>
-			</div>
-			<div class="card-footer">
-				<div class="d-flex justify-content-center links">
-				아이디가 없으신가요?<a href="${pageContext.request.contextPath}/member/signUp.do">회원가입</a>
-				</div>
-				<div class="d-flex justify-content-center">
-					<a href="${path}/member/findId">ID 잊으셨나요? ID찾기</a>
-				</div>
-				<div class="d-flex justify-content-center">
-					<a href="${path}/member/findPw">비밀번호를 잊으셨나요? 비밀번호찾기</a>
-				</div>
-			</div>
-		<!-- 간편로그인 배너 -->	
-		<!-- <div id="naverIdLogin"></div>
+    <form  action="${path }/member/login.do" method="post">
+        <svg id="ryan" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,150 C0,65 120,65 120,150" fill="#e0a243" stroke="#000" stroke-width="2.5" />
+            <g class="ears">
+                <path d="M46,32 L46,30 C46,16 26,16 26,30 L26,32" fill="#e0a243" stroke="#000" stroke-width="2.5" stroke-linecap="round" transform="rotate(-10,38,24)" />
+                <path d="M74,32 L74,30 C74,16 94,16 94,30 L94,32" fill="#e0a243" stroke="#000" stroke-width="2.5" stroke-linecap="round" transform="rotate(10,82,24)" />
+            </g>
+            <circle cx="60" cy="60" r="40" fill="#e0a243" stroke="#000" stroke-width="2.5" />
+            <g class="eyes">
+                <!-- left eye and eyebrow-->
+                <line x1="37" x2="50" y1="46" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round" />
+                <circle cx="44" cy="55" r="3" fill="#000" />
+                <!-- right eye and eyebrow -->
+                <line x1="70" x2="83" y1="46" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round" />
+                <circle cx="76" cy="55" r="3" fill="#000" />
+            </g>
+            <g class="muzzle">
+                <path d="M60,66 C58.5,61 49,63 49,69 C49,75 58,77 60,71 M60,66 C61.5,61 71,63 71,69 C71,75 62,77 60,71" fill="#fff" />
+                <path d="M60,66 C58.5,61 49,63 49,69 C49,75 58,77 60,71 M60,66 C61.5,61 71,63 71,69 C71,75 62,77 60,71" fill="#fff" stroke="#000" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+                <polygon points="59,63.5,60,63.4,61,63.5,60,65" fill="#000" stroke="#000" stroke-width="5" stroke-linejoin="round" />
+            </g>
+            <path d="M40,105 C10,140 110,140 80,105 L80,105 L70,111 L60,105 L50,111 L40,105" fill="#fff" />
+        </svg>
+        <input id="tt" type="text" name="memberId" placeholder="아이디를 입력하세요">
+        <input type="password" name="memberPw" placeholder="패스워드">
+        <input type="submit" value="로그인">
+        <span class="searchAccount"><a href="${path}/member/signUp.do">회원가입</a> | <a href="${path}/member/findId">아이디 찾기</a> | <a href="${path}/member/findPw">비밀번호 찾기</a></span>
+    </form>
+    <!-- 간편로그인 배너 -->
+	<div id="easyLogin">
+	
 		<div id="kakaoLogin">  
 		    <a id="kakao-login-btn"></a>
 		    <a href="http://developers.kakao.com/logout"></a>
-		</div>  -->
-		
 		</div>
-	</div>
+		<div id="naverIdLogin"></div>
+	</div>    
+	<script src="${pageContext.request.contextPath }/resources/loginFile/script.js"></script>
 
- 
-<script type='text/javascript'>
+	<!-- 카카오 스크립트문 -->
+	<script type='text/javascript'>
 	var kakaoName="";
 	var kakaoId="";
     // 사용할 앱의 JavaScript 키를 설정해 주세요.
@@ -223,6 +128,7 @@ margin-left: 4px;
     
 </script>  
 	
+	<!-- 네이버 간편 로그인 스크립트 -->
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 	<script>
 		var naverLogin = new naver.LoginWithNaverId(
@@ -235,8 +141,6 @@ margin-left: 4px;
 				});
 		naverLogin.init();
 	</script>
-</div>
 
-
-      
+	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
