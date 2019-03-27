@@ -163,6 +163,9 @@
         background: green;
         border-color: green;
     } 
+    a{
+    text-decoration: none;
+    }
     </style>
     
      
@@ -382,7 +385,7 @@ $(function(){
       
       
 </script>
-      
+     <section class="container">
       <div id="enroll-container">
       	<h3>필수항목 받기</h3>
          <form id="kakaoEnrollFrm" name="memberEnrollFrm" action="${path }/member/kakaoSignUpEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
@@ -453,7 +456,7 @@ $(function(){
                </div>
             </form>
          </div>
-         
+  	 </section>       
       
 
       

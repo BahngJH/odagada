@@ -21,11 +21,11 @@
 		margin-right:13px;
 	}
 
-	.submitB{
+/* 	.submitB{
 		margin-top:5%;
 		margin-left:30%;
 		margin-bottom: 10%;
-	}
+	} */
 
 	li { list-style: none }
 	
@@ -44,6 +44,9 @@
 	}
 	#label_name{
 		padding-left: 0px;
+	}
+	.mar-div{
+		margin-top:100px;
 	}
  </style>
 <script>
@@ -80,7 +83,7 @@
 </script>
 
 <br/>
-<div class="col-md-4 offset-md-4">
+<div class="col-md-4 offset-md-4 mar-div">
 	<form name="driverModify" action="${path }/member/myDriverModifyEnd" method="post" onsubmit="return validate();" enctype="multipart/form-data">
         <c:set value="${driver}" var="d"/>         
          <div id ="row">
@@ -126,12 +129,13 @@
         <div class="row submitB">
         	<input type="hidden" name="oldCarNum" value="${d.CARNUM}"/>
           	<input type="hidden" name="memberNum" value="${logined.memberNum}"/>
-            <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="수정" >&nbsp;
-            <input type="reset" class="btn btn-outline-success" value="취소">
+          	<div class="col-12 text-center">
+	            <input type="submit" class="btn btn-outline-success" id="enrollBtn" value="수정" >&nbsp;
+	            <input type="reset" class="btn btn-outline-success" onclick="location.href='${path}/member/myDriver'" value="취소">
+            </div>
         </div>
 	</form>
 </div>
-
 <br/>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
