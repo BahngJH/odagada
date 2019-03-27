@@ -309,7 +309,7 @@ public class CommunityController {
 		review.put("driverNum", driverNum);
 		review.put("memberName", memberName);
 		review.put("drvierName", driverName);
-		logger.debug("ㅀㅇㅀㅇjldsjjslfjsd: "+carpoolNum+"adsfasdf:"+driverName+"멤버 네임은?:"+memberName+"드라이버 이름은?:"+driverName);
+		logger.debug("카풀넘: "+carpoolNum+"드라이버이름:"+driverName+"멤버 네임은?:"+memberName+"멤버넘?:"+memberNum);
 		
 		if(m!=null)
 		{
@@ -331,8 +331,10 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/reviewFormEnd.do")
-	public String reviewFormEnd(HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, String driverNum, String memberName,String driverName,Model model)
-	{
+	public String reviewFormEnd(HttpSession session, HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, String driverNum, String memberName,String driverName,Model model)
+	{	
+		Member m = (Member)session.getAttribute("logined");
+		/*String memberName=m.getMemberName();*/
 		Map<String, String> review=new HashMap();
 		review.put("rContent", rContent);
 		review.put("rGrade", rGrade);
