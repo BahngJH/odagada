@@ -34,11 +34,13 @@
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
+            <c:if test="${logined.isAdmin eq '0'}">
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
             <c:if test="${driver ne null}">
             <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             </c:if>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+         	</c:if>
          </div>
       </div>
       
@@ -108,9 +110,9 @@
 				      </td>
 				    </tr>		 
 				</table>
-			  <div class="menu card-body">		 	   
-			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#changeInfo">정보 변경</button>
-				 <button type="button" class="btn btn-outline-success" id="tt-btn" data-toggle="modal" data-target="#delete">회원 탈퇴</button>						
+			  <div class="menu card-body">
+			  	<button type="button" class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#changeInfo">정보변경</button>
+		 		<button type="button" class="btn btn-outline-success btn-sm btn-block" id="tt-btn" data-toggle="modal" data-target="#delete">회원탈퇴</button>		 	   
 					<!--회원정보 변경  -->
 					<div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="changeInfoModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
@@ -127,9 +129,9 @@
 					            <input type="password" class="form-control" id="answer1" name="answer1" style="resize: none;">
 					          </div>
 					      </div>
-					      <div class="modal-footer">					      	
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" onclick="updateCheck('change');">정보변경 하러가기</button>					        
+					      <div class="modal-footer">									        
+				        	<button type="button" class="btn btn-success" onclick="updateCheck('change');">정보변경</button>
+				        	<button type="button" class="btn btn-outline-success" data-dismiss="modal">취소</button>					    			       
 					      </div>
 					    </div>
 					  </div>
@@ -157,8 +159,8 @@
 					      </div>
 			       		<label for="answer" class="form-control-label" id="ttQ">탈퇴하시겠습니까?</label>					      	
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" id="delete" onclick="updateCheck('delete');">탈퇴하기</button>					        
+					        <button type="button" class="btn btn-outline-success" id="delete" onclick="updateCheck('delete');">탈퇴하기</button>					        
+					        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
 					      </div>
 					    </div>
 					  </div>
