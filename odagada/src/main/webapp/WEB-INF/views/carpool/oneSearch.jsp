@@ -360,21 +360,21 @@ img.driver-img:before {
 					  					<div class="col-3 col-md-12 col-lg-3">
 					  						<span class="line-div"></span>
 					  						<c:if test="${logined != null }">
-					  							<c:set var="flag1" value="false"/>
+					  							<c:set var="flag" value="false"/>
 						  						<c:forEach items='${pList }' var='p' varStatus="count">
-						  							<c:if test="${not flag1 }">
+						  							<c:if test="${not flag }">
 					  									<c:choose>
 					  										<c:when test='${logined.memberNum == driverNum }'>
 					  											<button class="btn btn-warning ride-btn" onclick="checkIng();">탑승객<br/>확인</button>
-					  											<c:set var="flag1" value="true"/>
+					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "Y" }'>
 					  											<button class="btn btn-danger ride-btn" onclick="checkIng();">탑승중</button>
-					  											<c:set var="flag1" value="true"/>
+					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  										<c:when test='${logined.memberNum == pList[count.index].MEMBERNUM and pList[count.index].PSTATUS eq "N" }'>
 					  											<button class="btn btn-danger ride-btn" onclick="checkSubmit();">탑승<br/>승인중</button>
-					  											<c:set var="flag1" value="true"/>
+					  											<c:set var="flag" value="true"/>
 					  										</c:when>
 					  									</c:choose>
 						  							</c:if>
