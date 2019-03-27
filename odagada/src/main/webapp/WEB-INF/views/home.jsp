@@ -154,6 +154,10 @@ margin-left:10%;
 	    height: 60vh;
 	    margin-top:10%;
 	}
+	.gada-p{
+		font-size:14px;
+		font-family: 'silgothic';
+	}
 /* 	.car-div{
 		margin-left:30px;
 	} */
@@ -361,6 +365,9 @@ margin-left:10%;
     .div-search{
     	font-family:BMJUA;
     }
+    .use-div{
+    padding:0px;
+    }
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->
@@ -447,8 +454,8 @@ margin-left:10%;
 				<div class="col-12">
 					<p class="gada-p">오다가다의 베스트 드라이버가 되어보세요.</p>
 				</div>
-				<div class="col-8 col-sm-7">
-					<div class="form-control div-search text-center oda-div">이용하기 <b>></b></div>
+				<div class="col-8 col-sm-7 use-div">
+					<div class="form-control div-search text-center oda-div" onclick="location.href='${path}/member/signUp.do'">이용하기 <b>></b></div>
 				</div>
 			</div>
 			<div class="col-6 offset-md-1 col-md-3 c3 car-div ">

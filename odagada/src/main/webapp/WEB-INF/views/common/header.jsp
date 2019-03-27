@@ -102,7 +102,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
+                  <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">카풀 검색</a>
                 </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
                   <c:if test="${isAdmin eq '0'}">
