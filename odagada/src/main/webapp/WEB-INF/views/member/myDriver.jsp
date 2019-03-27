@@ -84,7 +84,7 @@
 				    </tr>
 				    <tr>
 				       <th scope="row">내게 달린 리뷰</th>
-			     	   <td colspan="2"><input type="button" value="리뷰보기" id='btn-reviewView' class='btn btn-success re-btn' onclick="location.href='${path}/community/reviewView.do?memberNum=${logined.memberNum}&writerName=${list.MEMBERNAME }&writerId=${logined.memberId }';"/></td>
+			     	   <td colspan="2"><input type="button" value="리뷰보기" id='btn-reviewView' class='btn btn-success re-btn' onclick="location.href='${path}/community/reviewView.do?memberNum=${logined.memberNum}';"/></td>
 				    </tr>		
 				</table>
 				<div class="row">
