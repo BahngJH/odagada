@@ -91,7 +91,8 @@ public class MemberServiceImple implements MemberService {
 				.append("' target='_blank'>이메일 인증 확인</a>").toString());
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
-        sendMail.send();
+        sendMail.send();  
+
     }
 
    //메일 인증상태 업데이트
@@ -134,7 +135,7 @@ public class MemberServiceImple implements MemberService {
 	                new StringBuffer().append("<h2>임시 비밀번호 안내입니다.</h2>")
 	                .append("<h2>임시 비밀번호를 발송해드립니다.</h2>")
 	                .append("<h2>임시 비밀번호는 "+newPw+"입니다</h2>")
-	                .append("<a href='"+path+"member/loginForm.do")
+	                .append("<a href='"+path+"member/loginForm2.do")
 	                .append("' target='_blank'>로그인 하러가기</a>")
 					.toString());
 	        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
@@ -244,9 +245,5 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public void deleteLeaveMember() {
 		 dao.deleteLeaveMember();
-	}
-	
-	
-	
-	
+	}		
 }

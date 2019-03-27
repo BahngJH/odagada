@@ -56,7 +56,7 @@ function validate(){
     
 </script>
     
-   <div id="enroll-container">
+   <div id="enroll-container" class="container">
          <form name="memberEnrollFrm" id="enroll-form" action="${path }/member/findPw.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 	      	<h3>패스워드 찾기</h3>
             <div class="row info">  

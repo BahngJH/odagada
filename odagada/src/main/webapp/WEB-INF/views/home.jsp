@@ -655,15 +655,19 @@ function search(){
       return false;
    }
 
-   var nowDate = moment().format('YYYY.MM.DD. hh:mm');
+   var nowDate = moment().format('YYYY.MM.DD. HH:mm');
    var setDate = $("#startDate").val();
    var setDates = setDate.split(" ");
    var nowDates = nowDate.toString().split(" ");
       
    var time = setDates[2].split(":");
    
-   if(setDates[1] === "오후"){
-	   time[0] = Number(time[0]) + 12;
+   if(setDates[1] === "오전" && time[0] === "12"){
+   	time[0] = Number(time[0]) - 12;
+   }
+   
+   if(setDates[1] === "오후" && time[0] != "12"){
+	    time[0] = Number(time[0]) + 12;    		
    }
    
    var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
