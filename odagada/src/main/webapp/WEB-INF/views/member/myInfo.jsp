@@ -110,7 +110,6 @@
 				      </td>
 				    </tr>		 
 				</table>
-				<!--  <a href="${path }/member/updateInfo.do" class="btn btn-primary" >정보변경하자좀</a>		 -->
 			  <div class="menu card-body">		 	   
 			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#changeInfo">정보 변경</button>
 				 <button type="button" class="btn btn-outline-success" id="tt-btn" data-toggle="modal" data-target="#delete">회원 탈퇴</button>						
@@ -278,23 +277,6 @@
 	}
 
 </script>
-
-
-
-
-<%-- <div class="card" style="width: 20rem;">
-  <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
- --%>
 
 
 

@@ -68,6 +68,10 @@
      .container{
         margin-top:100px;
      }
+  
+     .container{
+     	margin-top:100px;
+     }
     
 </style>
 </head>
@@ -83,7 +87,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
                 </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
@@ -99,7 +103,7 @@
                   </c:if>       
                <c:if test="${sessionScope.logined==null }">   
                     <li class="nav-item">
-                        <a class="nav-link" href="${path }/member/loginForm2.do">로그인</a>
+                        <a class="nav-link" href="${path }/member/loginForm.do">로그인</a>
                    </li>
                      <li class="nav-item">
                         <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
@@ -149,10 +153,11 @@
                </c:if>
                <!-- 채팅 부분 추가함  -->
                <c:if test="${sessionScope.logined!=null }">   
-                   <li class="nav-item" id="communityDiv">
-                     <a class="nav-link" href="${path }/community/chatting.do">소통해요</a>
-                  </li>
-                  <li><div id="msgDiv"></div></li>          
+                 
+	                <li class="nav-item" id="communityDiv">
+	                  <a class="nav-link" style="color:rgb(241,145,73);" href="${path }/community/chatting.do">소통해요</a>
+	            	</li>
+	            	<li><div id="msgDiv"></div></li>      
                 </c:if>       
    
 
@@ -163,7 +168,7 @@
    $(function(){
       if(<%=request.getSession().getAttribute("logined")!=null && !request.getSession().getAttribute("logined").equals("")%>){
          //로그인 되어 있을 때만 실행
-         var url="http://localhost:9090/odagada/echo";
+         var url="http://192.168.20.226:9090/odagada/echo";
          
          ws = new SockJS(url);
          

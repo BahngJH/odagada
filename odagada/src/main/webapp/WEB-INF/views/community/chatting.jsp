@@ -305,7 +305,7 @@
     	jsonData.imageUrl = "${logined.profileImageRe}";
     	jsonData.sender ="${logined.memberId}";
     	
-    	var url="http://localhost:9090/odagada/echo";
+    	var url="http://192.168.20.226:9090/odagada/echo";
 		ws = new SockJS(url);
 		
 		//메세지를 받았을 때
