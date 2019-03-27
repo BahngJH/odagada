@@ -47,6 +47,7 @@
 	span.span_city{
 		font-size:16px;
 		color:black;
+		color:rgb(100,100,100);
 	}
 	button.start-search{
 		float:right;
@@ -114,12 +115,19 @@
 	section{
 	font-family: 'silgothic';
 	}
+	.start-span{
+		font-family: netmarbleB;
+	}
+	.check-span{
+		font-size: 13px;
+		padding-bottom:5px;
+	}
 </style>
 <section class="container" >
 <c:set value='0' var="listSize"/>
 	<div class="row">
 		 <div class="col-12">
-		 	<a class="info-a" style="text-decoration: none;color: rgb(140,140,140);"href="" data-toggle="modal" data-target="#info">◎ 검색 방법 알아보기</a>
+		 	<a class="info-a" style="text-decoration: none;color: rgb(140,140,140); font-family: BMJUA;"href="" data-toggle="modal" data-target="#info">◎ 검색 방법 알아보기</a>
 		 </div>
 	</div>
 	<div class="row">
@@ -139,7 +147,7 @@
 				<div class="col-12">
 					<div class="card"  id="option_flex">
 						<div class="card-body" style="position:relative;">
-	    					<h4 class="card-title">옵션(option)</h4>
+	    					<h4 class="card-title"><b>옵션(option)</b></h4>
 	    					<hr>
 	    					<div class="row">
 	    						<div class="col-12">
@@ -164,9 +172,9 @@
 	    					</div>
 	    					<div class="row">
 	    						<div class="col-12">
-	    							<span class=""><i>(체크시 옵션에 포함되는 카풀만 검색)</i> </span>
+	    							<span class="check-span"><i>(체크시 옵션에 포함되는 카풀만 검색)</i> </span>
 	    						</div>
-	    					</div><br>
+	    					</div>
 	    					<div class="row">
 								<div class="col-12 col-sm-6  col-md-12 col-lg-6" >
 									<label>애완동물 <input type="checkbox" name="animal" id="animal" value="" /></label>
@@ -210,7 +218,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-12 ">
+								<div class="col-12 start-search">
 									<input type="button" value="검색" class="btn btn-success search-div start-search" id='btn-reset'/>
 								</div>
 							</div>
@@ -221,7 +229,7 @@
 		</div>
 		<!-- 검색 결과만큼 출력 -->
 		<div class="col-12 col-md-8">
-			<p class="text-center">[<i> 입력한 출발일과 가장 가까운 시일의 카풀내역이 검색됩니다. </i>]</p>
+			<p class="text-center" style="font-family: BMJUA;">[<i> 입력한 출발일과 가장 가까운 시일의 카풀내역이 검색됩니다. </i>]</p>
 			<div  id="result-search" class="result-search">
 				<div id = "Progress_Loading"><!-- 로딩바 -->
 					<img src="${path }/resources/images/option-icon/Progress_Loading.gif"/>
@@ -239,17 +247,17 @@
 							    	<div class="col-9">
 								    	<div class="row">
 					                       <div class="col-6">
-					                        	<div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(c.STARTDATE,0,10)}</p><hr>
+					                        	<div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p class="start-span">&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(c.STARTDATE,0,10)}</p><hr>
 					                       </div>
 					                       <div class="col-6">
-					                        	<div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(c.STARTDATE,11,20)}</p><hr>
+					                        	<div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p class="start-span">&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(c.STARTDATE,11,20)}</p><hr>
 					                       </div>
 				                        </div>
 							    		<span class="badge badge-primary">출발</span><br>
-							    		<span class="span_city">${c.STARTCITY}&nbsp;${c.STARTDETAIL }</span><br>
+							    		<span class="span_city"><b>${c.STARTCITY} ${c.STARTDETAIL }</b></span><br>
 							    		<h5 class="fas fa-arrow-down fa-2x h5-icon"></h5><br>
 							    		<span class="badge badge-success">도착</span><br>
-							    		<span class="span_city">${c.ENDCITY}&nbsp;${c.ENDDETAIL }</span> <br>
+							    		<span class="span_city"><b>${c.ENDCITY} ${c.ENDDETAIL }</b></span> <br>
 						    			<input type="hidden" name="startLat" id="startLat" value="${search.startLat }"/>
 		    							<input type="hidden" name="startLong" id="startLong" value="${search.startLong }"/>
 		    							<input type="hidden" name="destLat" id="destLat" value="${search.destLat }"/>
@@ -277,34 +285,34 @@
 							  	<div class="col-12">
 						  			<span class="span-option">
 							  			<c:if test='${c.ANIMAL eq "Y"}'>
-							  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon"></span>
+							  				<span><img src="${path }/resources/images/option-icon/animal.png" class="option-icon" title="애완견 동반 가능"></span>
 							  			</c:if>
 					  					<c:if test='${c.SMOKING eq "Y"}'>
-					  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon"></span>
+					  						<span><img src="${path }/resources/images/option-icon/smoking.png" class="option-icon" title="흡연 가능"></span>
 										</c:if>
 										<c:if test='${c.TEENAGE eq "Y"}'>
-											<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/teenage.png" class="option-icon" title="미성년자 가능"></span>
 										</c:if>
 										<c:if test='${c.TALKING eq "Y"}'>
-											<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/talking.png" class="option-icon" title="대화 가능"></span>
 										</c:if>
 										<c:if test='${c.MUSIC eq "Y"}'>
-											<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/music.png" class="option-icon" title="음악 가능"></span>
 										</c:if>
 										<c:if test='${c.FOOD eq "Y"}'>
-											<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/food.png" class="option-icon" title="음식물 섭취 가능"></span>
 										</c:if>
 										<c:if test='${c.BAGGAGE eq "Y"}'>
-											<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon"></span>
+											<span><img src="${path }/resources/images/option-icon/baggage.png" class="option-icon" title="짐 수용"></span>
 										</c:if>
 										<c:choose>
 											<c:when test='${c.GENDER eq "A"}'>
 											</c:when>
 											<c:when test='${c.GENDER eq "F"}'>
-												<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon"></span>
+												<span><img src="${path }/resources/images/option-icon/genderF.png" class="option-icon" title="여성 전용"></span>
 											</c:when>
 											<c:when test='${ c.GENDER eq "M"}'>
-												<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon"></span>
+												<span><img src="${path }/resources/images/option-icon/genderM.png" class="option-icon" title="남성 전용"></span>
 											</c:when>
 										</c:choose>
 							  		</span>
@@ -347,6 +355,7 @@
 			</div>
 		</div>
 	</div>
+	<div id="tt"></div>
 </section>
 <script>
 $(document).ready(function(){
@@ -407,11 +416,13 @@ $(document).ready(function(){
 //옵션바 고정
 $(function () {
     var currentPosition = parseInt($("#option_flex").css("top"));
+    var currentPosition1 = parseInt($("#option_flex").css("bottom"));
     $(window).scroll(function () {
         var width = $(window).width();
+        var doHeight =$(document).height();
         if (width >= 750) {
             var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다. 
-            
+            console.log(currentPosition1+" : "+currentPosition+" : "+position+ " : "+doHeight);
             if(position > 0){
 	            $("#option_flex").stop().animate({
 	                "top": position + currentPosition - 100 + "px"
