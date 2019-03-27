@@ -73,7 +73,9 @@
      .container{
      	margin-top:100px;
      }
-    
+    .page-item{
+    border:1px solid white;
+    }
 </style>
 </head>
 <body>
