@@ -145,7 +145,7 @@ color: rgb(0,175,76);
 	         	<c:when test="${dcarList[0] !=null }">
 	         		<c:forEach items="${dcarList }" var="dc">
 		               <c:if test='${dc.STATUS eq "N" }'>
-		                  <div class="col-md-12 list-div">
+		                  <div class="col-md-6 list-div">
 		                     <div class="card a-card">
 		                     	<div class="card-header head-div">
 		                     	</div>
@@ -168,7 +168,7 @@ color: rgb(0,175,76);
 		                  </div>
 		               </c:if>
 		               <c:if test='${dc.STATUS eq "Y" }'>
-		                  <div class="col-md-12" style="margin-top:30px">
+		                  <div class="col-md-6" style="margin-top:30px">
 		                     <div class="card">
 		                     	<div class="card-header headN-div">
 		                     	</div>
@@ -180,7 +180,7 @@ color: rgb(0,175,76);
 		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=N'" class="checkPass-btn">동승자 결제</button>
 		                           </span>
 		                        </div>
-		                     </div>
+		                     </div> 
 		                  </div>
 		               </c:if>
 		            </c:forEach>

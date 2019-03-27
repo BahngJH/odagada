@@ -18,6 +18,7 @@
 <style>
 	input.search-div{
 		margin:13px;
+		font-family: 'netmarbleB';
 	}
 	span.icon-right{
 		margin-top:15px;
@@ -34,6 +35,7 @@
 		font-size: 13px;
 		margin-top:10px;
 		margin-bottom: 10px;
+		font-family: 'BMJUA';
 	}
 img.driver-img{
       position: relative;
@@ -77,7 +79,7 @@ img.driver-img:before {
 	}
 	button.ride-btn{
 		margin:10px;
-		margin-top:40px;
+		/* margin-top:40px; */
 	}
 	img.seat-img{
 		width:60px;height:60px;
@@ -207,6 +209,12 @@ img.driver-img:before {
 		font-size:12px;
 		margin-top:50px;
 	}
+	.card{
+	font-family: 'silgothic'; 
+	}
+	.card-header{
+	font-family: 'BMJUA';
+	}
 </style>
 <section class="container">
 	<div class="row">
@@ -241,29 +249,29 @@ img.driver-img:before {
 						  	<div class="row">
 						  		<div class="col-12">
 						  			<span class="badge badge-pill badge-warning">출발</span>
-						  			<span> |&nbsp;${o.STARTCITY } ${o.STARTDETAIL}</span>
+						  			<span> | ${o.STARTCITY } ${o.STARTDETAIL}</span>
 						  		</div>
 					  		</div><br>
 					  		<div class="row">
 						  		<div class="col-12">
 						  			<span class="badge badge-pill badge-warning">도착</span>
-						  			<span> |&nbsp;${o.ENDCITY } ${o.ENDDETAIL}</span>
+						  			<span> | ${o.ENDCITY } ${o.ENDDETAIL}</span>
 						  		</div>
 					  		</div><br>
 					  		<div class="row">
 						  		<div class="col-6">
 						  			<span class="badge badge-pill badge-warning">출발일</span>
-						  			<span> |&nbsp;${fn:substring(o.STARTDATE,0,10)}</span>
+						  			<span> | ${fn:substring(o.STARTDATE,0,10)}</span>
 					  			</div>
 					  			<div class="col-6">
 						  			<span class="badge badge-pill badge-warning">출발 예정 시간</span>
-						  			<span> |&nbsp;${fn:substring(o.STARTDATE,11,20)}</span>
+						  			<span> | ${fn:substring(o.STARTDATE,11,20)}</span>
 						  		</div>
 					  		</div><br>
 					  		<div class="row">
 								<div class="col-12">
 						  			<span class="badge badge-pill badge-warning">1인당 금액</span>
-						  			<span> |&nbsp;￦ ${o.PAY }</span>
+						  			<span> | ￦ ${o.PAY }</span>
 						  		</div>
 					  		</div>
 					  		<input type="hidden" value="${o.CARPOOLNUM }" id="carpoolNum" name="carpoolNum">
@@ -336,7 +344,7 @@ img.driver-img:before {
 					  						</c:if>
 				  					</c:forEach>
 			  					</c:if>
-				  				<span>&nbsp;| &nbsp;(${si}/${seat })</span>
+				  				<span> |  (${si}/${seat })</span>
 					  		</div>
 					  	</div>
 					  	<div class="row">
@@ -358,7 +366,6 @@ img.driver-img:before {
 						  					</span>
 					  					</div>
 					  					<div class="col-3 col-md-12 col-lg-3">
-					  						<span class="line-div"></span>
 					  						<c:if test="${logined != null }">
 					  							<c:set var="flag" value="false"/>
 						  						<c:forEach items='${pList }' var='p' varStatus="count">
@@ -468,10 +475,10 @@ img.driver-img:before {
 										  							</div>
 									  							</div>
 									  							<div class="col-5" style="padding-top:5%;">
-									  								<span class="start-p"><b>나이:&nbsp;</b></span><span>${p.BIRTH }</span><br>
-									  								<span class="start-p"><b>이름:&nbsp;</b></span><span>${p.MEMBERNAME }</span><br>
-									  								<span class="start-p"><b>나이:&nbsp;</b></span><span>${p.BIRTH }</span><br>
-									  								<span class="start-p"><b>성별:&nbsp;</b></span><span>${p.GENDER }</span><br>
+									  								<span class="start-p"><b>나이: </b></span><span>${p.BIRTH }</span><br>
+									  								<span class="start-p"><b>이름: </b></span><span>${p.MEMBERNAME }</span><br>
+									  								<span class="start-p"><b>나이: </b></span><span>${p.BIRTH }</span><br>
+									  								<span class="start-p"><b>성별: </b></span><span>${p.GENDER }</span><br>
 									  							</div>
 									  							<div class="col=3">
 									  								<button class="btn btn-success chat-btn" onclick="moveChatting('${p.MEMBERID}')">회원 채팅하기</button>
@@ -504,7 +511,7 @@ img.driver-img:before {
 				 	<div class="col-12 col-xl-6">
 				 		<p class='dhead-p'>드라이버 정보</p>
 				 	</div>
-				 	<c:if test="${logined.memberId != driverId}">
+				 	<c:if test="${logined.memberId != driverId && logined!=null}">
 					 	<div class='col-12 col-xl-4 offset-xl-1'>
 					 		<button class="btn btn-success search-div btn-chat" onclick="moveChatting('${oList.get(0).MEMBERID}')">드라이버와 채팅</button>
 					 	</div>
@@ -560,12 +567,12 @@ img.driver-img:before {
 				  			<span class="badge badge-secondary">드라이버 차량 </span>
 				  			<div class="row">
 				  				<div class="col-10">
-				  					<span class="badge badge-pill badge-warning car-span">차종 </span> <span>&nbsp;|&nbsp; ${oList[0].CARMODEL}</span>
+				  					<span class="badge badge-pill badge-warning car-span">차종 </span> <span> |  ${oList[0].CARMODEL}</span>
 				  				</div>
 			  				</div>
 			  				<div class="row">
 				  				<div class="col-10">
-				  					<span class="badge badge-pill badge-warning car-span">차량 번호  </span> <span>&nbsp;|&nbsp;${oList[0].CARNUM}</span>
+				  					<span class="badge badge-pill badge-warning car-span">차량 번호  </span> <span> | ${oList[0].CARNUM}</span>
 				  				</div>
 			  				</div>
 				  			<hr>

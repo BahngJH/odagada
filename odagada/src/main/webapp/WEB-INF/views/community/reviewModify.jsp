@@ -182,7 +182,7 @@
 			<div class="info col-12 col-sm-12 col-md-9">
 			<form name="reviewFrm" action="${path}/community/reviewModifyEnd.do?driverName=${driverName }" method="post" onsubmit="return validate1();"> 
 			<span id="rtitle">리뷰 수정</span>
-				<div style="overflow:scroll; height:500px;">
+				<div>
 					<ul id="review-list">
 						<div id="review-context">
 							<div class="review-content" id="writerNum">
