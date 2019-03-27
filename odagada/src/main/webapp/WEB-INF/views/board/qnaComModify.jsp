@@ -44,6 +44,13 @@
 	 #commentContent{
 	 	margin-top: 10px;
 	 }
+	 div.container{
+	 	font-family: S-CoreDream-3Light;
+	 }
+	 
+	 p#commentContent{
+	 	color:black;
+	 }
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
