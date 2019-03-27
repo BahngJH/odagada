@@ -45,6 +45,7 @@
     #upFile{height:3px;}
     #nameInfo-div{padding-top:4px;}
     #confirm-sms-btn{margin-bottom:5%;}
+    .re-btn{margin:5px;}
     </style>  
      
 <script>
@@ -456,7 +457,14 @@ function changeName(){
 				       			  </div>
 				       			  <input type="hidden" id="phoneNumber" value="0" required>
 					  		</div>			    
-				    </li> 
+				    	</li> 
+				    	<li>
+		    				<div class="row">
+			       			  	<div class="col-12 text-center">
+			       			  		<button class=" btn btn-success re-btn" onclick="resetBtn();">취소</button>
+			       			  	</div>
+		       			 	</div>
+				    	</li>
 				  </ul>		 	
 			 </div>            		 
 	</div>
@@ -544,7 +552,13 @@ function phoneCheck(){
     </div>
   </div>
 </div>
-
+<script>
+/* 뒤로가기 */
+function resetBtn(){
+	history.back();
+	
+}
+</script>
 
 
 
