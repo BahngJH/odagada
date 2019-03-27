@@ -22,7 +22,7 @@
 	}
 	button.btn-search{
 		width:100px;
-		margin-left:45%;
+		float:right;
 	}
 	input.road-btn{
 		margin-top:20px;
@@ -66,6 +66,8 @@
 		max-width:780px;
 	}
 	@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }   
+	
 	h1{
 		/* font-family : S-CoreDream-3Light; */
 		font-family : silgothic;
@@ -73,7 +75,7 @@
 		margin: 20px 0 20px 0;
 	}
 	.photo-backround{
-		background-image: url(${pageContext.request.contextPath}/resources/images/blackList.png);
+		background-image: url(${pageContext.request.contextPath}/resources/images/search.png);
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: cover;
@@ -81,7 +83,10 @@
 		margin-bottom: 30px;
 		margin-top: 10px;
 	}
-
+	.sec-tt{
+		margin-top:50px;
+		font-family: BMJUA;
+	}
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
@@ -89,10 +94,10 @@
 	</div>
 </section>
 
-<section class="photo-backround" data-image="${path}/resources/images/nicki-eliza-schinow-1266553-unsplash.jpg">
+<section class="photo-backround" data-image="${path}/resources/images/search.png">
 </section>
 
-<section class="container">
+<section class="container sec-tt">
 	<div class="row">
 		 <div class="col-9">
 		 	<a class="info-a" style="text-decoration: none;color: rgb(140,140,140);"href="" data-toggle="modal" data-target="#info">◎ 검색 방법 알아보기</a>
@@ -136,8 +141,8 @@
 				<div class="row">
 				 	<div class="col-sm-12">
 						<div class="input-group-btn">
-							<button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
-							&nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
+							<button class="btn btn-success div-search btn-search text-center" type="button" id="btn_search" onclick="search();">
+							&nbsp;&nbsp;<i class="fas fa-search-location" style="font-size:13px; width:auto;">Search</i>&nbsp;&nbsp;
 							</button>
 						</div>
 					</div>
@@ -229,19 +234,23 @@ function search(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. hh:mm');
+	var nowDate = moment().format('YYYY.MM.DD. HH:mm');
     var setDate = $("#startDate").val();
     var setDates = setDate.split(" ");
     var nowDates = nowDate.toString().split(" ");
       
     var time = setDates[2].split(":");
    
-    if(setDates[1] === "오후"){
-	    time[0] = Number(time[0]) + 12;
+    if(setDates[1] === "오전" && time[0] === "12"){
+    	time[0] = Number(time[0]) - 12;
+    }
+    
+    if(setDates[1] === "오후" && time[0] != "12"){
+	    time[0] = Number(time[0]) + 12;    		
     }
    
     var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
-  
+
     if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
        alert("날짜를 확인해주세요.");
        return false;
@@ -375,6 +384,4 @@ function sample6_execDaumPostcode2() {
     }).open();
 }
 </script> 
-
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

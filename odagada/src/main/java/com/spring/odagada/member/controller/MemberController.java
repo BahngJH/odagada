@@ -669,7 +669,7 @@ public class MemberController {
    
     @ResponseBody
 	@RequestMapping("/member/sendSms")
-	public String test(HttpSession session, String receiver) {
+	public String sendSms(HttpSession session, String receiver) {
 		// 인증 코드 생성
 		int rand = (int) (Math.random() * 899999) + 100000;
 
@@ -688,7 +688,7 @@ public class MemberController {
 
 			CredentialsProvider credsProvider = new BasicCredentialsProvider();
 			credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
-					new UsernamePasswordCredentials("odagada", "9c9ca1e0454b11e9acbb0cc47a1fcfae"));
+					new UsernamePasswordCredentials("odagada2", "e610ec244f7711e99ce50cc47a1fcfae"));
 
 			AuthCache authCache = new BasicAuthCache();
 			authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());

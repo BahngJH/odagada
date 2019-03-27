@@ -161,7 +161,7 @@ div#review-container textarea {
 		</div>
 		<div class="col-12 col-md-9" id="review-container">	
 			<div class="info col-12 col-sm-12 col-md-9">
-				<form name="reviewFrm" action="${path}/community/reviewFormEnd.do?driverName=${review.driverName }" method="post" onsubmit="return validate();"> 
+				<form name="reviewFrm" action="${path}/community/reviewFormEnd.do?driverName=${review.driverName }&writerName=${review.memberName}" method="post" onsubmit="return validate();"> 
 					<span id="rtitle">리뷰 작성</span>
 					<br/>
 					<textarea class="form-control" name="rContent" placeholder="내용입력" required></textarea>

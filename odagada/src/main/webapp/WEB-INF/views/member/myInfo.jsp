@@ -34,11 +34,13 @@
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
+            <c:if test="${logined.isAdmin eq '0'}">
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
             <c:if test="${driver ne null}">
             <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             </c:if>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+         	</c:if>
          </div>
       </div>
       

@@ -35,7 +35,7 @@
 	</style>
 
 <body>
-    <form  action="${path }/member/login.do" method="post">
+    <form  action="${path }/member/login.do" method="post" style="margin-top: 150px;">
         <svg id="ryan" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,150 C0,65 120,65 120,150" fill="#e0a243" stroke="#000" stroke-width="2.5" />
             <g class="ears">
