@@ -110,6 +110,7 @@ a#pay{
 				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
 				                   </div>
 				                   <div class="offset-2 col-2">
+				                   <c:if test='${list.PSTATUS == "Y"}'>
 				                   		<c:choose>
 											<c:when test="${list.WRITERNUM != null }">
 												<span>
@@ -122,6 +123,7 @@ a#pay{
 												</span>
 											</c:otherwise>
 										</c:choose>
+									</c:if>
 				                   </div>
 				                   <div class="col status_option">
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
@@ -203,9 +205,13 @@ a#pay{
 
 		</div>
 	</div>
-	<nav aria-label="Page navigation">
-		${pageBar }
-	</nav>
+	<div class="row ">
+		<div class="col-12 text-center">
+			<nav aria-label="Page navigation">
+				${pageBar }
+			</nav>
+		</div>
+	</div>
       
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
