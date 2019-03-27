@@ -42,7 +42,7 @@
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
 </section>
 
-<section id="qna-container" class="container">
+<section id="qna-container" class="container" style="margin-top: 0px;">
 <div class="col-md-8 offset-md-2">
 	<button type="button" class="btn btn-outline-success" style="float: right; margin-bottom: 5px;" onclick="location.href='${path}/board/qnaForm';" >글쓰기</button>
 	<table id="tbl-board" class="table table-hover">

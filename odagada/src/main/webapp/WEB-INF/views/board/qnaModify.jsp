@@ -41,8 +41,7 @@
 </section>
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
 </section>
-<section id="qna-container" class="container">
-<hr/>
+<section id="qna-container" class="container" style="margin-top: 0px;">
 	<form name="boardFrm" action="${path}/board/qnaModifyEnd" method="post" onsubmit="return validate();">
 		<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
 			<input type="text" class="form-control" placeholder="제목" name="qTitle" id="qTitle" value="${qna.QTITLE}" required/>		

@@ -64,7 +64,7 @@
 </section>
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
 </section>
-<div class="container col-md-6">
+<div class="container col-md-6" style="margin-top: 0px;">
     	<div class="card">
 	        <div class="card-body">
 	            <h4 class="card-title mb-3">${qna.QTITLE }</h4>
