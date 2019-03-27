@@ -123,14 +123,14 @@ div.list-div{
 margin-bottom:20px;
 height:380px;
 }
-span.start-span{
-color: rgb(0,175,76);
-}
 .card{
 height:370px;
-}
-.container{
 font-family:silgothic;
+}
+span.start-span{
+color: rgb(0,175,76);
+font-family: BMJUA;
+font-size:18px;
 }
 </style>
 <section class="container">
@@ -141,8 +141,8 @@ font-family:silgothic;
 				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
 				<c:if test="${driver ne null}">
 				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
 				</c:if>
-        <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
 			</div>
 		</div>
       <!-- 리스트 -->
@@ -159,14 +159,14 @@ font-family:silgothic;
 		                        <div class="card-body N-div">
 		                        <div class="row">
 			                        <div class="col-6">
-			                        	 <div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(dc.STARTDATE,0,10)}</p><hr>
+			                        	 <div class="mark-p"></div><span class="start-span">출발일</span><br> <p>    ${fn:substring(dc.STARTDATE,0,10)}</p><hr>
 			                        </div>
 			                        <div class="col-6">
-			                        	 <div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(dc.STARTDATE,11,20)}</p><hr>
+			                        	 <div class="mark-p"></div><span class="start-span">출발시간</span><br> <p>    ${fn:substring(dc.STARTDATE,11,20)}</p><hr>
 			                        </div>
 		                        </div>
-		                        	<div class="mark-p"></div><span class="start-span"><b>출발지</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
-		                        	<div class="mark-p"></div><span class="start-span"><b>도착지</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${dc.ENDCITY } ${dc.ENDDETAIL }</p>
+		                        	<div class="mark-p"></div><span class="start-span">출발지</span><br> <p>    ${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
+		                        	<div class="mark-p"></div><span class="start-span">도착지</span><br> <p>    ${dc.ENDCITY } ${dc.ENDDETAIL }</p>
 		                           <span> 
 		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=Y'" class="checkPass-btn">동승자 확인</button>
 		                           </span>
