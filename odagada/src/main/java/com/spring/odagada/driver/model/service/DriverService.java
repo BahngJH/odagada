@@ -29,4 +29,7 @@ public interface DriverService {
 	int deleteImg(String carNum);
 	int insertImg(List<CarImage> files) throws BoardException;
 	int selectDriverCarCount(int memberNum);
+	
+	int checkCarNum(String carNum);
+	int checkLicense(String licenseNum);
 }

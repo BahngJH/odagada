@@ -147,6 +147,21 @@ public class DriverServiceImpl implements DriverService {
 	public int selectDriverCarCount(int memberNum) {
 		return dao.selectDriverCarCount(memberNum);
 	}
+
+	@Override
+	public int checkCarNum(String carNum) {
+		return dao.checkCarNum(carNum);
+	}
+
+	@Override
+	public int checkLicense(String licenseNum) {
+		return dao.checkLicense(licenseNum);
+	}
+	
+	
+	
+	
+	
 	
 	
 	
