@@ -134,7 +134,7 @@
 						<ul id="review-list">
 							<div id="review-context">
 							<div id="driverNum">
-							작성자 : ${r.MEMBERID}(${r.MEMBERNAME })
+							작성자 : ${r.MEMBERID}(${r.MEMBERNAME})
 								<div class="star-div">
 									<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg" />
 									<c:choose>

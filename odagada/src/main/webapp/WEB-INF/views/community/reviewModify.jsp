@@ -220,7 +220,7 @@
 					<ul id="review-list">
 						<div id="review-context">
 							<div class="review-content" id="writerNum">
-								운전자 : ${driverName }
+								운전자 : ${memberId}(${memberName})
 							</div>
 								 <span class="star-input">
 									<span class="input">
@@ -237,12 +237,14 @@
 									</span>
 								 </span>
 								<div id="review-content">
-									<textarea id="rContent" name="rContent"><c:out value="${review.RCONTENT}"/></textarea>
+									<textarea id="rContent" name="rContent" style="width: 100%;"><c:out value="${review.RCONTENT}"/></textarea>
 									<br/>
 									<input type="hidden" id="memberNum" name="memberNum" value="${review.WRITERNUM }" />
 									<input type="hidden" id="carpoolNum" name="carpoolNum" value="${review.CARPOOLNUM}" />
-									<input type="submit" class="btn btn-outline-success" value="완료" style="margin-left: 400px;"> 
-									<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';">
+									<div style="height:50px;">
+										<span><input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';" style="float:right;"></span>
+										<span><input type="submit" class="btn btn-outline-success" value="완료" style="float:right;"></span> 
+									</div>
 								</div>
 							</div>
 						</ul>
