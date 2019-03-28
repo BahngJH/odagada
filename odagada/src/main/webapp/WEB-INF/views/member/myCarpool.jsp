@@ -109,11 +109,11 @@ a#pay{
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 동승 내역</a>
 				<c:if test="${driver ne null}">
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
 				</c:if>
 			</div>
 		</div>
@@ -143,7 +143,7 @@ a#pay{
 				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
 				                   </div>
 				                   <div class="offset-2 col-2">
-				                   <c:if test='${list.PSTATUS == "Y"}'>
+				                   <c:if test='${list.PAYSTATUS == "Y"}'>
 				                   		<c:choose>
 											<c:when test="${list.WRITERNUM != null }">
 												<span>

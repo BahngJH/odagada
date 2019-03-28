@@ -527,7 +527,9 @@ $(function(){
       		}
      	}
      }
-      
+     function backBtn(){
+    		history.back(); 	
+    	}     
      
 </script>
 <section class="container">
@@ -634,7 +636,7 @@ $(function(){
                 <br/>
                 <div class="row" id="sub-btn">  
                   <input type="submit" class="btn btn-success btn-sm btn-block" value="가입">
-				  <input type="reset" class="btn btn-outline-success btn-sm btn-block" value="취소">
+				  <input type="reset" class="btn btn-outline-success btn-sm btn-block" onclick='backBtn();' value="취소">
                </div>
             </form>
          </div>
