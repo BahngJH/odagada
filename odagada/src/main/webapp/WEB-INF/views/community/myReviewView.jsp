@@ -120,7 +120,6 @@
 						<h2 style="color: red; text-align: center;">작성한 리뷰가 없습니다.</h2>
 					</c:if>
 					<c:forEach items="${list}" var="r">
-						<ul id="review-list">
 							<div id="review-context">
 								<div class="review-content" id="memberName">
 									운전자 : ${driverName}
@@ -171,17 +170,18 @@
 										</c:when>
 									</c:choose>
 								</div>
-								<div id="review-content">
-									<span id="rContent" name="rContent"><c:out value="${r.RCONTENT}"/></span> 
+								<div id="review-content" >
+									<span id="rContent" ><c:out value="${r.RCONTENT}"/></span> 
 									<br/>
 									<br/>
-									<span id="rDate"name="rDate"><fmt:formatDate value="${r.RDATE}" pattern="yyyy-MM-dd"/></span>
+									<span id="rDate"><fmt:formatDate value="${r.RDATE}" pattern="yyyy-MM-dd"/></span>
 									<br/>
-									<input type="button" class="btn btn-outline-success" value="수정" onclick="location.href='${path}/community/reviewModify.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }&driverName=${driverName }';"style="margin-left: 400px;"> 
-									<input type="button" class="btn btn-outline-success" value="삭제" onclick="location.href='${path}/community/reviewDelete.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }';">
+									<div style="height:50px;">	
+										<span><input type="button" class="btn btn-outline-success" value="삭제" onclick="location.href='${path}/community/reviewDelete.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }';"style="float: right;"></span>
+										<span><input type="button" class="btn btn-outline-success" value="수정" onclick="location.href='${path}/community/reviewModify.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }&driverName=${driverName }';"style="float: right;"></span> 
+									</div>	
 								</div>
 							</div>
-						</ul>
 					</c:forEach>
 				</div>
 			</div>
