@@ -105,14 +105,16 @@ section{
 		<ul class="qanda">
 			<c:forEach var="f" items="${list}">
 				<li>
+				<div>
 				<strong class="question" style="background-color: "><b>Q : ${f.FTITLE }</b>
 					<c:if test="${isAdmin eq '1'}">
-						<a style="float:right; font-size:10px; color:orange; margin-top: 7px;" onclick="location.href='${path}/board/faqDelete.do?faqNo=${f.FAQNO }';">삭제</a>
+						<span><a style="float:right; font-size:10px; color:orange; float: right;" onclick="location.href='${path}/board/faqDelete.do?faqNo=${f.FAQNO }';">삭제</a></span>
 					</c:if>
 					<c:if test="${isAdmin eq '1'}">
-						<a style="float:right; font-size:10px; margin-right: 5px; margin-top: 7px; color:green" onclick="location.href='${path}/board/faqModify.do?faqNo=${f.FAQNO}';">수정</a>
+						<span><a style="float:right; font-size:10px; color:green; float: right;"  onclick="location.href='${path}/board/faqModify.do?faqNo=${f.FAQNO}';">수정</a></span>
 					</c:if>
 				</strong>
+				</div>
 				<span class="answer"> A : ${f.FCONTENT } 
 					<input type="hidden" name="faqNo" value="${f.FAQNO}" /> 
 				</span>
