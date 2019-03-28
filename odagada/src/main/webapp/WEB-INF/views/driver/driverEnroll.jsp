@@ -247,7 +247,7 @@
            		<input type="text" class="form-control" name="carModel" id="carModel" placeholder="자동차 모델(ex.페라리)" required/>
             </div>
             <div class="form-group row">            		
-           		<input type="text" class="form-control" name="carNum" id="carNum" placeholder="자동차 번호(ex. 28 루 4454)"required/>
+           		<input type="text" class="form-control" name="carNum" id="carNum" maxlength="9" placeholder="자동차 번호(ex. 28 루 4454)"required/>
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="driver_info" id="driver_info" placeholder="드라이버 자기소개 입력해주세요."required/>
