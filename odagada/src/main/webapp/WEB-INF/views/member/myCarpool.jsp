@@ -146,7 +146,7 @@ a#pay{
 				                   <c:if test='${list.PAYSTATUS == "Y"}'>
 				                   		<c:choose>
 											<c:when test="${list.WRITERNUM != null }">
-												<span>
+												<span> 
 													<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-success re-btn' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}&carpoolNum=${list.CARPOOLNUM }&driverName=${list.MEMBERNAME }"'/>
 												</span>
 											</c:when>
@@ -156,6 +156,9 @@ a#pay{
 												</span>
 											</c:otherwise>
 										</c:choose>
+										<span>
+											<input type="button" class="btn btn-outline-danger re-btn" value="신고하기"onclick="location.href='${path}/community/notifyForm.do?driverId=${list.MEMBERID }&driverName=${list.MEMBERNAME }'">
+										</span>
 									</c:if>
 				                   </div>
 				                   <div class="col status_option">

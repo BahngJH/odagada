@@ -14,10 +14,6 @@
 	   width: 500px;
 	   margin: 0 auto;
 	}
-	div#notify-container input
-	{
-	   margin-bottom:10px;
-	}
 	div#notify-container textarea
 	{
 		  height: 300px;
@@ -39,6 +35,9 @@
     	   $('#notifyFrm').submit();
        }
    }
+   function backBtn(){
+		history.back(); 	
+	}
 </script>
 <section class="container">
 	<div id="notify-container">
@@ -50,6 +49,7 @@
 			<br/>
 			<input type="hidden" name="driverId" id="driverId" value="${driverId }"/>
 			<input type="button" class="btn btn-outline-success" value="등록" onclick="notify();">
+			<button class='btn btn-success back-btn'  onclick='backBtn()'>취소</button>
 		</form>
 	</div>
 </section>
