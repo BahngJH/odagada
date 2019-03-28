@@ -53,6 +53,7 @@ padding:0px;
 .t1{
 position:relative;
 color:white;
+
 }
 .input-group>.form-control:not(:last-child){
    border-top-right-radius: 40px;
@@ -155,7 +156,7 @@ margin-left:10%;
 	    margin-top:10%;
 	}
 	.gada-p{
-		font-size:14px;
+		font-size:13px;
 		font-family: 'S-CoreDream-3Light';
 	}
 /* 	.car-div{
@@ -236,7 +237,7 @@ margin-left:10%;
 		}
 		.gada-p{
 			font-size:15px;
-			font-family: 'silgothic';
+			font-family: 'S-CoreDream-3Light';
 		}
 		.oda-div{
 		border-bottom-left-radius: 30px;
@@ -297,7 +298,7 @@ margin-left:10%;
     	.text-div{
 		padding:10%;
 		padding-bottom:0px;
-		padding-top:30%;
+		padding-top:22%;
 		}
 		.dot-L,.dot-R{
 		color:white;
@@ -309,14 +310,14 @@ margin-left:10%;
 		.text-div{
 		padding:10%;
 		padding-bottom:0px;
-		padding-top:40%;
+		padding-top:25%;
 		}
 	}
     @media all and (max-width: 768px){
        	.text-div{
 		padding:10%;
 		padding-bottom:0px;
-		padding-top:32%;
+		padding-top:16%;
 		height:auto;
 		}
     	.text-h4{
@@ -339,8 +340,17 @@ margin-left:10%;
 		.btn-search{
 		float:right;
 		}
+	    .sc-div{
+		margin-left:-20px;
+	    }
     }
     @media all and (max-width: 550px){
+           	.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:10%;
+		height:auto;
+		}
     	.text-h4{
     	margin-top:30%;
 		font-size:30px;
@@ -358,6 +368,9 @@ margin-left:10%;
 		font-size:6px;
 		padding:3%;
 		}
+	    .sc-div{
+		margin-left:-20px;
+	    }
     }
     .dri-div{
     	margin-left:20px;
@@ -371,6 +384,9 @@ margin-left:10%;
     /* 우리들의 장점 */
     .hintro-p{
     	font-family: 'S-CoreDream-3Light';
+    }
+    .sc-div{
+	margin-left:-50px;
     }
 </style>
 <section class="container-fluid section-st">
@@ -402,7 +418,7 @@ margin-left:10%;
 					</div>
 				</div>
 				<div class="row search-row">
-					<div class="col-12">
+					<div class="col-12 sc-div">
 						<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" class="search-form" onsubmit="return validate()">
 			               <div class="col-sm-12 offset-md-1 col-md-3 offset-lg-1 col-lg-3 t1 s1">
 			                  <div class="input-group">

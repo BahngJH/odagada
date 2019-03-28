@@ -131,8 +131,7 @@
 						<h2 style="color: red; text-align: center;">달린 리뷰가 없습니다.</h2>
 					</c:if>
 					<c:forEach items="${list }" var="r">
-						<ul id="review-list">
-							<div id="review-context">
+						<div id="review-context">
 							<div id="driverNum">
 							작성자 : ${r.MEMBERID}(${r.MEMBERNAME})
 								<div class="star-div">
@@ -182,18 +181,25 @@
 									</c:choose>
 								</div>
 								<div id="review-content">
-									<span id="rContent" name="rContent"><c:out value="${r.RCONTENT}"/></span>
+									<span id="rContent"><c:out value="${r.RCONTENT}"/></span>
 									<br/>
 									<br/>
-									<span id="rDate"name="rDate"><fmt:formatDate value="${r.RDATE}" pattern="yyyy.MM.dd"/></span> <br /> 
+									<span id="rDate"><fmt:formatDate value="${r.RDATE}" pattern="yyyy.MM.dd"/></span> <br /> 
 								</div>
 								</div>
 							</div>
-						</ul>
 					</c:forEach>
+					<div class='col-12'>
+						<input type="button" class="btn btn-outline-success" value="돌아가기" onclick='backBtn();' style="float:right;">
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+<script>
+function backBtn(){
+	history.back(); 	
+}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

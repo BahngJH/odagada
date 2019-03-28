@@ -140,7 +140,7 @@
 				<span class="fas fa-arrow-right fa-2x icon-right" style="color:rgb(200,200,200);"></span>
 				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }"  id="endCity" name="endCity" readonly>
 				<input type="text" class="form-control search-div" id="startDate" value="${search.startDate }" readonly>
-				<button class='btn btn-success back-btn' style="padding-top:5px;"onclick='backBtn();'>재검색</button>
+				<button class='btn btn-success back-btn' style="padding-top:5px;" onclick='backBtn();'>재검색</button>
 			</div>
 		</div>
 	</div>
