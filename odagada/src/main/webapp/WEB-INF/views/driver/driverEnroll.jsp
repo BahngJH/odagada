@@ -196,7 +196,7 @@ function liCk(){
 	    	url:"${path}/driver/checkLicense",
 	    	data:{"licenseNum": licenseNum},
 	    	success:function(data){
-	    		console.log('sdssds:'+data);
+	    		console.log('sdssds:    '+data);
 	    		if(data == "Y"){
 	    			document.getElementById('licenseStatus').value='1';
 	    			alert('올바른 운전면허 번호입니다.');

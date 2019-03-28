@@ -56,6 +56,7 @@ public class DriverController {
 	@Autowired
 	CarpoolService cService;
 	
+
 	@RequestMapping("/driver/driverEnroll")
 	public ModelAndView driverEnroll(HttpSession session) {
 		
@@ -221,9 +222,9 @@ public class DriverController {
 	 }
 	 
 	 //자동차 면허번호 중복확인
-	 @ResponseBody
+	 @ResponseBody 
 	 @RequestMapping("/driver/checkLicense")
-	 public String checkLicense(String licenseNum){
+	 public String checkLicense(String licenseNum,HttpServletRequest req){
 		 logger.debug("운전면호 테스트"+licenseNum);
 		 int result = service.checkLicense(licenseNum);
 		 String isLicense = "";
