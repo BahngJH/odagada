@@ -122,7 +122,8 @@
 					<c:forEach items="${list}" var="r">
 							<div id="review-context">
 								<div class="review-content" id="memberName">
-									운전자 : ${driverName}
+								<%-- ${list.MEMBERID}(${list.MEMBERNAME }) --%>
+									운전자 : ${r.MEMBERID}(${r.MEMBERNAME})
 								</div>
 								<div class="star-div">
 									<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg" />

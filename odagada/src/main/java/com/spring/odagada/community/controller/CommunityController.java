@@ -367,11 +367,12 @@ public class CommunityController {
 		
 		int count=service.selectReviewCount(memberNum);
 		
-		logger.debug("내 리뷰 갯수 확인"+count);
+		logger.info("내 리뷰 갯수 확인"+count);
 		
 		ModelAndView mv=new ModelAndView();
 		List<Map<String, Object>> map = service.selectReviewList(review);
-		logger.debug("내게 달린 리뷰 보기"+map);
+		logger.info("내게 달린 리뷰 보기"+map);
+		
 		mv.addObject("list",map);
 		mv.addObject("count",count);
 		mv.setViewName("community/reviewView");
@@ -385,11 +386,11 @@ public class CommunityController {
 		review.put("carpoolNum", carpoolNum);
 		review.put("memberNum",memberNum);
 		
-		logger.debug("멤버이름 넘어와라 : "+memberNum+" : "+carpoolNum);
+		logger.info("멤버이름 넘어와라 : "+memberNum+" : "+carpoolNum);
 		
 		ModelAndView mv=new ModelAndView();
 		List<Map<String, Object>> map = service.selectMyReviewList(review);
-		logger.debug("fdsdfsgd: "+map);
+		logger.info("fdsdfsgd: "+map);
 		mv.addObject("driverName",driverName);
 		mv.addObject("list",map);
 		mv.setViewName("community/myReviewView");
@@ -406,10 +407,14 @@ public class CommunityController {
 		m.put("driverName", driverName);
 		logger.debug("드라이버이름:"+driverName);
 		Map<String,Object> map=service.selectReview(m);
-		
+		String memberId = (String) map.get("MEMBERID");
+		String memberName =(String) map.get("MEMBERNAME");
+		logger.info("드라이버 확인ㅠㅠㅠㅠㅠㅠ"+memberId+memberName);
 		mv.addObject("driverName",driverName);
 		mv.addObject("review",map);
 		mv.addObject("memberNum",memberNum);
+		mv.addObject("memberId",memberId);
+		mv.addObject("memberName",memberName);
 		mv.setViewName("community/reviewModify");
 		
 		return mv;
