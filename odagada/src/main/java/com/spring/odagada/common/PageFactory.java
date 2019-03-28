@@ -11,7 +11,7 @@ public class PageFactory {
 		int pageEnd = pageNo+pageBarSize-1;
 		int totalPage = (int)Math.ceil((double)totalCon/numPerPage);
 		
-		pageBar="<ul class='pagination justify-content-center pagination-sm'>";
+		pageBar="<ul class='pagination justify-content-center pagination'>";
 		if(pageNo==1)
 		{
 			pageBar+="<li class='page-item' disabled>";

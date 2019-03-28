@@ -111,7 +111,9 @@
   	div#enroll-container{
   		font-family: S-CoreDream-3Light;
   	}
-
+	#reCk1,#reCk2{
+		display: none;
+	}
     </style>
     
      
@@ -143,35 +145,6 @@
       
       var file_name2=$('.custom-file-label').val();
       
-     
-          
-      
-	  var carNum = $('#carNum').val();
-      var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
-      if(!carNumTest.test($("input[name=carNum]").val()))
-    	  {
-    	  	alert("정확한 자동차번호를 입력해주세요");
-    	  	return false;
-    	  }
-      
- 	 //자동차번호 중복확인
-	  console.log("자동차 번호"+carNum);
-	    $.ajax({
-	    	url:"${path}/driver/checkCarNum",
-	    	data:{"carNum": carNum},
-	    	success:function(data){
-	    		if(data == "Y"){
-	    			document.getElementById('carNumStatus').value='1';
-	    			alert('올바른 자동차 번호입니다.');
-	    			return true;
-	    		}else{
-	    			 document.getElementById('carNumStatus').value='0';
-	    			alert('등록된 자동차 번호입니다.');
-	    			return false;
-	    		}
-	    	}
-	    });	
-	    
 	    if($("#licenseStatus").val()=='0'){
 	    	
 	    	alert("등록된 운전면허 번호입니다.");
@@ -206,18 +179,17 @@
          }
       }
 function liCk(){
-	
 	 var licenseNum = $('#licenseNum').val();
      var incenseCon = licenseNum.substring(0,2);
      var licen = /([가-힣]|[0-9]){2}-{1}([0-9]{2})-{1}([0-9]){6}-{1}([0-9]){2}$/
      console.log("licenseNum");
      console.log($("input[name=licenseNum]").val());
      console.log(licen.test($("input[name=licenseNum]").val()));
-/*      if(!licen.test($("input[name=licenseNum]").val())){
+      if(!licen.test($("input[name=licenseNum]").val())){
    	  alert("정확한 면허번호를 입력해주세요.");
    	  
    	  return false;
-     }    */  
+     }     
      
      console.log("운전면허"+licenseNum);
 	    $.ajax({
@@ -228,6 +200,9 @@ function liCk(){
 	    		if(data == "Y"){
 	    			document.getElementById('licenseStatus').value='1';
 	    			alert('올바른 운전면허 번호입니다.');
+	    			$('#licenseNum').attr('disabled',true);
+	    			$('#liCk1').css('display','none');
+	    			$('#reCk1').css('display','block');
 	    			return true;
 	    		}else{
 	    			 document.getElementById('licenseStatus').value='0';
@@ -237,7 +212,51 @@ function liCk(){
 	    	}
 	    });	
 }
-
+function carCk(){
+	
+	 var carNum = $('#carNum').val();
+     var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
+     if(!carNumTest.test($("input[name=carNum]").val()))
+   	  {
+   	  	alert("정확한 자동차번호를 입력해주세요");
+   	  	return false;
+   	  }
+     
+	 //자동차번호 중복확인
+	  console.log("자동차 번호"+carNum);
+	    $.ajax({
+	    	url:"${path}/driver/checkCarNum",
+	    	data:{"carNum": carNum},
+	    	success:function(data){
+	    		if(data == "Y"){
+	    			document.getElementById('carNumStatus').value='1';
+	    			alert('올바른 자동차 번호입니다.');
+	    			$('#carNum').attr('disabled',true);
+	    			$('#carCk1').css('display','none');
+	    			$('#reCk2').css('display','block');
+	    			return true;
+	    		}else{
+	    			 document.getElementById('carNumStatus').value='0';
+	    			alert('등록된 자동차 번호입니다.');
+	    			return false;
+	    		}
+	    	}
+	    });	
+}
+function reCk(){
+	document.getElementById('licenseStatus').value='0';
+	document.getElementById('licenseNum').value='';
+	$('#licenseNum').attr('disabled',false);
+	$('#liCk1').css('display','block');
+	$('#reCk1').css('display','none');
+}
+function reCkCar(){
+	document.getElementById('carNumStatus').value='0';
+	document.getElementById('carNum').value='';
+	$('#carNum').attr('disabled',false);
+	$('#carCk1').css('display','block');
+	$('#reCk2').css('display','none');
+}
 </script>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
@@ -261,16 +280,44 @@ function liCk(){
            		<label for="memberName" class="col-sm-3 col-form-label" id="label_birth">생년월일</label>
            		<input type="text" class="form-control" value="${logined.birth}" name="birth" id="birth" readonly required>
             </div>
+			<div class="form-group row">                  
+                 <label for="memberName" class="col-sm-3 col-form-label" id="label_tel">전화번호</label>                 
+                  <c:set var="phone" value="${logined.phone}"/>
+                     <select class="tel" name="phone1" id="selectPhone"  disabled="disabled">                                                                                        
+                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>  >010</option>
+                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
+                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
+                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
+                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
+                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
+                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
+                     </select>
+                     <c:if test="${fn:length(phone) eq 11}">
+                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" readonly required>
+                    </c:if>
+                    <c:if test="${fn:length(phone) eq 10}">
+                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" readonly required>
+                    </c:if>
+            </div>
             <div class="form-group row">      		
-           		<input type="text" class="form-control" name="licenseNum" id="licenseNum" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
-           		<input type='button' class='btn btn-success' onclick='liCk()'/>
+           		<input type="text" class="form-control" name="licenseNum" id="licenseNum" style="width: 75%;" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
+           		&nbsp;&nbsp;&nbsp;
+           		<span>
+           			<input type='button' class='btn btn-success' id='liCk1' value='중복확인' onclick='liCk()'/>
+           			<input type='button' class='btn btn-success' id='reCk1'  value='재설정' onclick='reCk()'/>
+           		</span>
             	<input type="hidden" id="licenseStatus" value="0"/>
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="carModel" id="carModel" placeholder="자동차 모델(ex.페라리)" required/>
             </div>
             <div class="form-group row">            		
-           		<input type="text" class="form-control" name="carNum" id="carNum" maxlength="9" placeholder="자동차 번호(ex. 28 루 4454)"required/>
+           		<input type="text" class="form-control" name="carNum" id="carNum" style="width: 75%;" maxlength="9" placeholder="자동차 번호(ex. 28 루 4454)"required/>
+          		&nbsp;&nbsp;&nbsp;
+          		<span>
+           			<input type='button' class='btn btn-success' id='carCk1'  value='중복확인' onclick='carCk()'/>
+           			<input type='button' class='btn btn-success' id='reCk2'  value='재설정' onclick='reCkCar()'/>
+           		</span>
             	<input type="hidden" id="carNumStatus" value="0"/>
             </div>
             <div class="form-group row">            		

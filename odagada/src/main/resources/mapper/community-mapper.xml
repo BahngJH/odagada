@@ -66,13 +66,13 @@
   	SELECT COUNT(*) FROM REVIEW WHERE DRIVERNUM=#{memberNum}
   </select>
   <select id="selectReview" resultType="map" parameterType="map">
-	select * from review where WRITERNUM=#{memberNum} and CARPOOLNUM= #{carpoolNum}
+	select r.*,memberId,memberName from review r join member on (driverNum = memberNum )where WRITERNUM=#{memberNum} and CARPOOLNUM= #{carpoolNum}
   </select>
   <select id="selectMyReviewList" resultType="map">
-  	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} and carpoolNum=#{carpoolNum}
+  	SELECT r.*,memberId,memberName FROM REVIEW r join member on (driverNum = memberNum) WHERE WRITERNUM=#{memberNum} and carpoolNum=#{carpoolNum}
   </select>
   <select id="selectReviewList" resultType="map">
-  	SELECT r.*, memberId FROM REVIEW r join member on (writerNum = memberNum) WHERE DRIVERNUM=#{memberNum} order by rDate desc
+  	SELECT r.*, memberId,memberName FROM REVIEW r join member on (writerNum = memberNum) WHERE DRIVERNUM=#{memberNum} order by rDate desc
   </select>
   <update id="updateReview">
  	UPDATE REVIEW SET RCONTENT=#{rContent},RGRADE=#{rGrade},RDATE=sysdate WHERE WRITERNUM=#{memberNum} AND CARPOOLNUM=#{carpoolNum}

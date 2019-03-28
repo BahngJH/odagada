@@ -202,6 +202,7 @@ public class DriverController {
 	   }
 
 	 //자동차 번호 중복확인
+	 @ResponseBody
 	 @RequestMapping("/driver/checkCarNum")
 	 public String checkCarNum(String carNum){
 		 logger.debug("carNum들어오니???"+carNum);
@@ -221,7 +222,7 @@ public class DriverController {
 	 }
 	 
 	 //자동차 면허번호 중복확인
-		@ResponseBody
+	 @ResponseBody 
 	 @RequestMapping("/driver/checkLicense")
 	 public String checkLicense(String licenseNum,HttpServletRequest req){
 		 logger.debug("운전면호 테스트"+licenseNum);

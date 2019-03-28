@@ -103,13 +103,13 @@ public class BoardController {
    
    //경미한 신고내역 삭제
    @RequestMapping("/admin/deleteNotify.do")
-   public ModelAndView deleteNotify(String notifyId, String nonNotifyId, String nContent, ModelAndView mv) 
+   public ModelAndView deleteNotify(String notifyId, String nonNotifyId, ModelAndView mv) 
    {
-	   logger.debug(notifyId+" "+nonNotifyId+" "+nContent);
+	   logger.debug(notifyId+" "+nonNotifyId);
 	   Map<String,Object> dNotify = new HashMap<String,Object>();
 	   dNotify.put("notifyId", notifyId);
 	   dNotify.put("nonNotifyId", nonNotifyId);
-	   dNotify.put("nContent", nContent);
+	   
 	   int rs = service.deleteNotify(dNotify);
 	   
 	   mv.setViewName("redirect:/admin/notifyList.do");

@@ -112,10 +112,12 @@
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-			<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-            <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
-            <a class="list-group-item list-group-item-action active" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  ">카풀 동승 내역</a>
+				<c:if test="${driver ne null}">
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action active">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
+				</c:if>
 			</div>
 		</div>
 		<div class="col-12 col-md-9" id="review-container">	
@@ -132,7 +134,7 @@
 						<ul id="review-list">
 							<div id="review-context">
 							<div id="driverNum">
-							작성자 : ${r.MEMBERID}(${r.MEMBERNAME })
+							작성자 : ${r.MEMBERID}(${r.MEMBERNAME})
 								<div class="star-div">
 									<fmt:parseNumber value="${r.RGRADE}" type="number" var="rg" />
 									<c:choose>

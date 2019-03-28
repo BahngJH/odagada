@@ -13,7 +13,7 @@
 @font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
 	h1{
 		/* font-family : S-CoreDream-3Light; */
-		font-family : silgothic;
+		font-family : S-CoreDream-3Light;
 		text-align: left;
 		margin: 20px 0 20px 0;
 	}
@@ -79,7 +79,7 @@
 	    </tr> --%>
 	    <tr>
 	    	<th id="BDate">작성일</th>
-		    	<td placeholder="작성일" name="boardDate" id="boardDage"><c:out value="${board.BDATE}"/></td>
+		    	<td placeholder="작성일" name="boardDate" id="boardDage"><c:out value="${fn:substring(board.BDATE,0,10)}"/></td>
 	    	<th id="BCount">조회수</th>
 	    		<td placeholder="조회수" name="boardCount" id="boardCount"><c:out value="${board.BCOUNT }"/></td>
 	    </tr>

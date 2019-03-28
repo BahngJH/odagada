@@ -81,10 +81,13 @@
 		max-width:780px;
 	}
 	section{
-	font-family: 'silgothic';
+	font-family: 'S-CoreDream-3Light';
 	}
 	.loc-input{
 	font-family: 'BMJUA';
+	}
+	.right-div{
+		margin:0px;
 	}
 </style>
 
@@ -95,15 +98,15 @@
 		 </div>
 	</div>
 	<div class="row schedule">
-		<div class="col-12 col-md-6">
+		<div class="col-12 col-md-6 ">
 			<input type="text" class="form-control" id="addrSearch" placeholder="주소 검색" onclick="addrSearch();" readonly/>
 			<div id="map" style="width:100%;height:400px;"></div>
 			<span id="loc" class="fas fa-map-marker-alt fa-2x"></span>
 		</div>
 		<div class="col-12 col-md-6">
 				<div class="row loc">
-					<div class="col-12">
-						<input type="text" class="form-control  loc-input" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
+					<div class="col-12 ">
+						<input type="text" class="form-control  loc-input right-div" name="startLocation" id="startLocation" placeholder="출발 위치" readonly/>
 					</div>
 					<div class="col-1 offset-5">
 						<span class="fas fa-arrow-down fa-3x"></span>

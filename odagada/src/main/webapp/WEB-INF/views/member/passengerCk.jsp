@@ -125,11 +125,11 @@ margin-left:13px;
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 동승 내역</a>
 				<c:if test="${driver ne null}">
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">등록한 카풀 내역</a>
 				</c:if>
 			</div>
 		</div>
@@ -202,7 +202,7 @@ margin-left:13px;
 																			<button class="btn btn-warning credit-id" data-toggle="modal" data-target="#credit" value='${d.PMEMBERNUM }'>결제 받기</button>
 																		</c:if>
 																		<c:if test='${d.PAYSTATUS eq "Y" }'>
-																			<button class="btn btn-success">결제 완료</button>
+																			<button class="btn btn-success" disabled="disabled">결제 완료</button>
 																		</c:if>
 															 		</span>
 																</div>
@@ -354,7 +354,7 @@ margin-left:13px;
 																	</div>
 																	<div class="col-12 text-center check-div">
 																		<span>
-																			<button class="btn btn-danger">승차거절</button>
+																			<button class="btn btn-danger" disabled="disabled">승차거절</button>
 																 		</span>
 																	</div>
 																</div>
@@ -396,7 +396,7 @@ margin-left:13px;
 																		</div>
 																		<div class="col-12 text-center check-div">
 																			<span>
-																				<button class="btn btn-danger">결제취소</button>
+																				<button class="btn btn-danger" disabled="disabled">결제취소</button>
 																	 		</span>
 																		</div>
 																	</div>

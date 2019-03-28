@@ -103,7 +103,7 @@
 		color:rgb(100,100,100);
 		font-size:15px;
 		float:right;
-		font-family: 'silgothic';
+		font-family: 'S-CoreDream-3Light';
 	}
 	.info-img{
 	width:100%;
@@ -113,7 +113,7 @@
 		max-width:780px;
 	}
 	section{
-	font-family: 'silgothic';
+	font-family: 'S-CoreDream-3Light';
 	}
 	.start-span{
 		font-family: netmarbleB;
@@ -121,6 +121,9 @@
 	.check-span{
 		font-size: 13px;
 		padding-bottom:5px;
+	}
+	.back-btn{
+		margin-top:12px;
 	}
 </style>
 <section class="container" >
@@ -137,6 +140,7 @@
 				<span class="fas fa-arrow-right fa-2x icon-right" style="color:rgb(200,200,200);"></span>
 				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }"  id="endCity" name="endCity" readonly>
 				<input type="text" class="form-control search-div" id="startDate" value="${search.startDate }" readonly>
+				<button class='btn btn-success back-btn' style="padding-top:5px;"onclick='backBtn();'>재검색</button>
 			</div>
 		</div>
 	</div>
@@ -489,6 +493,9 @@ $('#btn-reset').on("click",function(){
 		}
 	});  
 });
+function backBtn(){
+	history.back(); 	
+}
 /* 페이지 로딩과 동시에 검색버튼 클릭 */
 function fclick(){
    $('#btn-reset').trigger("click");

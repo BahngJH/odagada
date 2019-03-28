@@ -62,6 +62,8 @@ import com.spring.odagada.member.googleApi.FaceDetectApp;
 import com.spring.odagada.member.model.service.MemberService;
 import com.spring.odagada.member.model.vo.Member;
 
+import oracle.net.aso.l;
+
 
 @SessionAttributes(value= {"logined", "driver"})
 @Controller
@@ -688,7 +690,7 @@ public class MemberController {
 
 			CredentialsProvider credsProvider = new BasicCredentialsProvider();
 			credsProvider.setCredentials(new AuthScope(hostname, 443, AuthScope.ANY_REALM),
-					new UsernamePasswordCredentials("odagada2", "e610ec244f7711e99ce50cc47a1fcfae"));
+					new UsernamePasswordCredentials("odagadaa", "c16067ba511b11e9b5960cc47a1fcfae"));
 
 			AuthCache authCache = new BasicAuthCache();
 			authCache.put(new HttpHost(hostname, 443, "https"), new BasicScheme());
@@ -702,9 +704,11 @@ public class MemberController {
 			try {
 				HttpPost httpPost = new HttpPost(url);
 				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-				String json = "{\"sender\":\"01028257863\",\"receivers\":[\"" + receiver
+				String json = "{\"sender\":\"01077682019\",\"receivers\":[\"" + receiver
 						+ "\"],\"content\":\"오다가다 핸드폰 번호 인증 코드 : " + rand + "\"}";
 
+				logger.info(json);
+				
 				StringEntity se = new StringEntity(json, "UTF-8");
 				httpPost.setEntity(se);
 
