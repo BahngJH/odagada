@@ -33,6 +33,10 @@
 		color: black;
 		text-decoration: none;
 	}
+	
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
@@ -42,7 +46,7 @@
 
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
 </section>
-<section id="notice-container" class="container">
+<section id="notice-container" class="container" style="margin-top: 0px;">
 <div class="col-md-8 offset-md-2">
 <c:set var="isAdmin" value="${logined.isAdmin}"/>
 	<c:if test="${isAdmin eq '1'}">

@@ -27,7 +27,8 @@
 @font-face { font-family: 'BMHANNAPro'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff') format('woff'); font-weight: normal; font-style: normal; }   
 @font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }   
 @font-face { font-family: 'netmarbleB'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.1/netmarbleB.woff') format('woff'); font-weight: normal; font-style: normal; }   
-   
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	   
    body{
       min-width: 350px;
       /* font-family: 'MyLotteLight'; */
@@ -72,7 +73,9 @@
      .container{
      	margin-top:100px;
      }
-    
+    .page-item{
+    border:1px solid white;
+    }
 </style>
 </head>
 <body>
@@ -109,24 +112,33 @@
                         <a class="nav-link" href="${path }/member/signUp.do">회원가입</a>
                      </li> 
                 </c:if>
-               	<c:if test="${sessionScope.logined!=null }">   
-	                 <li class="nav-item">
-	                  <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
-	                </li>
-	                <li class="nav-item dropdown">
-	                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                 		  마이페이지
-	                  </a>
-	                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	                    <a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
-	                    <a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
-	                    <c:if test="${sessionScope.driver.LICENSENUM != null}">
-	                    	<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
-	                   		<a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
-	                    </c:if>	                    
-	                  </div>
-	                </li>
-                </c:if>         
+                  <c:if test="${sessionScope.logined!=null }">   
+                    <li class="nav-item">
+                     <a class="nav-link" href="${path }/member/logout.do">로그아웃</a>
+                   </li> 
+                  <%--  <li class="nav-item">
+                     <a class="nav-link" href="${path }/member/myInfo.do">마이페이지</a>
+                   </li>     --%>  
+                   <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            마이페이지
+                     </a>
+                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                     	<a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
+                     	<c:if test="${isAdmin eq '0'}">
+                     		<a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
+                       		<c:if test="${sessionScope.driver.LICENSENUM ne null}">
+                       			<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
+                     		    <a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
+                        	</c:if>
+                        </c:if>
+                       
+                       
+                     </div>
+                   </li>
+                       
+                </c:if> 
+               
                <c:if test="${isAdmin eq '1'}">
                    <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

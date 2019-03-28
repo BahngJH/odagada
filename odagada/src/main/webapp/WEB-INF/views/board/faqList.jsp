@@ -8,6 +8,8 @@
 	<jsp:param value="오다가다 타는 카풀" name="pageTitle" />
 </jsp:include>
 <style>
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }
+
 #faqFrm {
 	font-size: 30px;
 	text-align: center;
@@ -50,15 +52,16 @@ ul.qanda {
 	color: #ccc
 }
 
-.qanda .question {
-	padding-left: 1.5em
+.qanda .question ,.answer {
+	padding-left: 1.5em;
+	font-weight: bold;
 }
 
 .qanda .question:before {
 	content: "+";
 	font-weight: 700;
 	position: absolute;
-	left: .5em
+	left: .5em;
 }
 
 .qanda .active:before {
@@ -72,6 +75,13 @@ ul.qanda {
 	height: 300px;
 	margin-bottom: 30px;
 	margin-top: 10px;
+}
+
+section{
+	font-family: S-CoreDream-3Light;
+}
+.question{
+
 }
 </style>
 <section class="container">
@@ -95,7 +105,7 @@ ul.qanda {
 		<ul class="qanda">
 			<c:forEach var="f" items="${list}">
 				<li>
-				<strong class="question">Q : ${f.FTITLE }
+				<strong class="question" style="background-color: "><b>Q : ${f.FTITLE }</b>
 					<c:if test="${isAdmin eq '1'}">
 						<a style="float:right; font-size:10px; color:orange; margin-top: 7px;" onclick="location.href='${path}/board/faqDelete.do?faqNo=${f.FAQNO }';">삭제</a>
 					</c:if>

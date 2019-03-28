@@ -50,6 +50,9 @@ $(function(){
 		color: black;
 		text-decoration: none;
 	}
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
@@ -59,12 +62,12 @@ $(function(){
 
 <section class="photo-backround" data-image="${path}/resources/images/boardList3.png">
 </section>
-<section id="board-container" class="container">
+<section id="board-container" class="container" style="margin-top: 0px;">
 	<form name="boardFrm" action="${path}/board/boardFormEnd" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 	<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
 		<input type="text" class="form-control" placeholder="제목" name="bTitle" id="bTitle" required/>		
 	</div>
-		<div class="col-md-8 offset-md-2" style="padding:0px;">
+		<div class="col-6 col-md-6 offset-md-3" style="padding:0px;">
 			<div class="input-group mb-3">
 			  <div class="custom-file">
 			  	<div class="input-group-prepend" style="padding:0px;">

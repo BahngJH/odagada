@@ -248,7 +248,7 @@ public class DriverController {
 		return "redirect: driverList";
 	}
 	
-	@RequestMapping("driver/driverRefuse")
+	@RequestMapping("/driver/driverRefuse")
 	public String deleteDriver(Model model,HttpSession session,HttpServletRequest request)
 	{
 		Member m = (Member)session.getAttribute("logined");
@@ -267,7 +267,7 @@ public class DriverController {
 		return "redirect: driverList";
 	}
 	
-	@RequestMapping("driver/driverWithdrawal")
+	@RequestMapping("/driver/driverWithdrawal")
 	public String driverWithdrawal(int memberNum)
 	{
 		int result = service.deleteDriver(memberNum);
@@ -277,15 +277,25 @@ public class DriverController {
 		
     //드라이버 자신이 등록한 카풀 리스트 보기- 정하
     @RequestMapping("/driver/driverCarpool")
-    public ModelAndView selectDriverCarpool(HttpSession session) {
+    public ModelAndView selectDriverCarpool(HttpSession session, @RequestParam(value="cPage",required=false,defaultValue="0") int cPage,HttpServletRequest request) 
+    {
+    	int numPerPage=10;
        ModelAndView mav = new ModelAndView();
        Member m = (Member) session.getAttribute("logined");
        int memberNum = m.getMemberNum();
+       //total값 뽑아오기
+       int totalCount = service.selectDriverCarCount(memberNum);
+       
 	   Map<String,String> d = service.selectDriverOne(memberNum);
        
 	   
-       List<Map<String,String>> dcarList = service.selectDriverCarPool(m.getMemberNum());
-       logger.debug("카풀내역 드라이버"+d);
+       List<Map<String,String>> dcarList = service.selectDriverCarPool(memberNum,numPerPage,cPage);
+       if(dcarList!=null)
+		{
+    	    mav.addObject("board",dcarList);
+    	    mav.addObject("boardCount",dcarList.size());
+			mav.addObject("pageBar" ,PageFactory.getPageBar(totalCount, cPage, numPerPage, request.getContextPath()+"/driver/driverCarpool"));
+		}
        mav.addObject("driver",d);
        mav.addObject("dcarList",dcarList);
        mav.setViewName("member/driverCarpool");

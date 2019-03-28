@@ -67,5 +67,25 @@
 			<beans:bean id="Interceptor" class="com.spring.odagada.common.Interceptor"/>		
 		</interceptor>	
 	</interceptors>
+	 <!-- 관리자 인터셉트 -->
+	 <interceptors>
+	 	<interceptor>
+	 		<mapping path="/admin/*.do"/>
+	 		<mapping path="/driver/driverList"/>
+	 		<mapping path="/driver/driverForm"/>
+	 		<mapping path="driver/driverRefuse"/>
+	 		<mapping path="driver/driverWithdrawal"/>
+	 		<mapping path="/board/boardForm"/>
+	 		<mapping path="/board/boardModify"/>
+	 		<mapping path="/board/boardDelete"/>
+	 		<mapping path="/board/qnaComEnroll"/>
+	 		<mapping path="/board/qnaComModify"/>
+	 		<mapping path="/board/qnaComDelete"/>
+	 		<mapping path="/board/faqForm.do"/>
+	 		<mapping path="/board/faqModify.do"/>
+	 		<mapping path="/board/faqDelete.do"/>
+	 		<beans:bean id="AdminInterceptor" class="com.spring.odagada.common.AdminInterceptor"/>
+	 	</interceptor>
+	 </interceptors>
 	
 </beans:beans>

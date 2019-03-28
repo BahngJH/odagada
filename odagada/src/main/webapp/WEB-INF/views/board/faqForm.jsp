@@ -12,6 +12,10 @@
 	font-size:30px;
 	text-align: center;
 	}
+	
+section {
+	font-family: S-CoreDream-3Light;
+}
 </style>
 <script>
 $(function(){
@@ -38,7 +42,7 @@ $(function(){
 		</div>
 		<br/>
 		<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
-			<textarea class="form-control" name="fContent" id="fContent" placeholder="내용" required></textarea>
+			<textarea class="form-control" name="fContent" id="fContent" placeholder="내용" style="height: 200px;" required></textarea>
 		<br/>
 		</div>		
 		<div class="col-6 col-md-6 offset-md-3" style="text-align: center;">

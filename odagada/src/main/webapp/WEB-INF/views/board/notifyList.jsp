@@ -37,6 +37,10 @@
 	#container{
 		text-align: center;
 	}
+	
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 </style>
 <section class="container">
 	<div class="col-md-8 offset-md-2">
@@ -46,7 +50,7 @@
 
 <section class="photo-backround" data-image="${path}/resources/images/blackList.png">
 </section>
-​<section id="container">
+​<section class="container">
 
 	<table class="table table-hover">
 		<tr>

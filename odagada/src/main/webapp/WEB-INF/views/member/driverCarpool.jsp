@@ -10,6 +10,33 @@
 </jsp:include>
 
 <style>
+@font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/driver1.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	#tbl-board{
+		margin-bottom: 30px;
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
+
+
 .info {
 	margin-top: 50px;
 	margin-bottom: 50px;
@@ -121,12 +148,26 @@ background-color:rgb(100,100,100);
 }
 div.list-div{
 margin-bottom:20px;
+height:380px;
 }
 span.start-span{
 color: rgb(0,175,76);
 }
+.card{
+height:370px;
+}
+.container{
+font-family:silgothic;
+}
 </style>
 <section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1 id="miniTitle">나의 오다, 가다</h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/driver1.png">
+</section>
+<section class="container" style="margin-top: 0px;">
    <div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
@@ -145,7 +186,7 @@ color: rgb(0,175,76);
 	         	<c:when test="${dcarList[0] !=null }">
 	         		<c:forEach items="${dcarList }" var="dc">
 		               <c:if test='${dc.STATUS eq "N" }'>
-		                  <div class="col-md-12 list-div">
+		                  <div class="col-md-6 list-div">
 		                     <div class="card a-card">
 		                     	<div class="card-header head-div">
 		                     	</div>
@@ -168,7 +209,7 @@ color: rgb(0,175,76);
 		                  </div>
 		               </c:if>
 		               <c:if test='${dc.STATUS eq "Y" }'>
-		                  <div class="col-md-12" style="margin-top:30px">
+		                  <div class="col-md-6" style="margin-top:30px">
 		                     <div class="card">
 		                     	<div class="card-header headN-div">
 		                     	</div>
@@ -180,7 +221,7 @@ color: rgb(0,175,76);
 		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=N'" class="checkPass-btn">동승자 결제</button>
 		                           </span>
 		                        </div>
-		                     </div>
+		                     </div> 
 		                  </div>
 		               </c:if>
 		            </c:forEach>
@@ -201,5 +242,6 @@ color: rgb(0,175,76);
          </div>
       </div>
    </div>
+   ${pageBar }
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

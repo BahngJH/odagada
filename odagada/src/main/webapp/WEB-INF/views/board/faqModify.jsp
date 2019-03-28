@@ -12,6 +12,9 @@
 	font-size:30px;
 	text-align: center;
 	}
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 </style>
 <script>
 $(function(){
@@ -34,11 +37,11 @@ $(function(){
 	<p id="faqFrm">FAQ수정</p>
 	<form name="faqFrm" action="${path}/board/faqModifyEnd.do?faqNo=${faq.FAQNO}" method="post" onsubmit="return validate();">
 		<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
-			<input type="text" class="form-control" placeholder="제목" name="fTitle" id="fTitle" value="${faq.FTITLE}"/>		
+			<input type="text" class="form-control" placeholder="제목" name="fTitle" id="fTitle" required value="${faq.FTITLE}"/>		
 		</div>
 		<br/>
 		<div class="col-6 col-md-6 offset-md-3" style="padding-left: 0px;padding-right: 0px;">
-			<textarea class="form-control" name="fContent" id="fContent" placeholder="내용"><c:out value="${faq.FCONTENT}"/></textarea>
+			<textarea class="form-control" name="fContent" id="fContent" placeholder="내용" style="height: 200px;" required><c:out value="${faq.FCONTENT}"/></textarea>
 		<br/>
 		</div>		
 		<div class="col-6 col-md-6 offset-md-3" style="text-align: center;">
