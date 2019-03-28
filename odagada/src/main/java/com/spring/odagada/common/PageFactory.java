@@ -15,13 +15,13 @@ public class PageFactory {
 		if(pageNo==1)
 		{
 			pageBar+="<li class='page-item' disabled>";
-			pageBar+="<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar+="<a class='page-link' href='#' tabindex='-1'> < </a>";
 			pageBar+="</li>";
 		}
 		else 
 		{
 			pageBar+="<li class='page-itme'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>이전</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'> < </a>";
 			pageBar+="</li>";
 		}
 		
@@ -44,13 +44,13 @@ public class PageFactory {
 		if(pageNo>totalPage)
 		{
 			pageBar+="<li class='page-item' disabled>";
-			pageBar+="<a class='page-link' href='#'>다음</a>";
+			pageBar+="<a class='page-link' href='#'> > </a>";
 			pageBar+="</li>";
 		}
 		else
 		{
 			pageBar+="<li class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'>다음</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'> > </a>";
 			pageBar+="</li>";
 		}
 		pageBar+="</ul>";
@@ -77,13 +77,13 @@ public class PageFactory {
 		if(pageNo==1)
 		{
 			pageBar+="<li class='page-item' disabled>";
-			pageBar+="<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar+="<a class='page-link' href='#' tabindex='-1'> < </a>";
 			pageBar+="</li>";
 		}
 		else 
 		{
 			pageBar+="<li class='page-itme'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>이전</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'> < </a>";
 			pageBar+="</li>";
 		}
 		
@@ -106,13 +106,13 @@ public class PageFactory {
 		if(pageNo>totalPage)
 		{
 			pageBar+="<li class='page-item' disabled>";
-			pageBar+="<a class='page-link' href='#'>다음</a>";
+			pageBar+="<a class='page-link' href='#'> > </a>";
 			pageBar+="</li>";
 		}
 		else
 		{
 			pageBar+="<li class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'>다음</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'> > </a>";
 			pageBar+="</li>";
 		}
 		pageBar+="</ul>";
@@ -140,13 +140,13 @@ public class PageFactory {
 		if(pageNo==1)
 		{
 			pageBar+="<li class='page-item' disabled>";
-			pageBar+="<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar+="<a class='page-link' href='#' tabindex='-1'> < </a>";
 			pageBar+="</li>";
 		}
 		else 
 		{
 			pageBar+="<li class='page-itme'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>이전</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'> < </a>";
 			pageBar+="</li>";
 		}
 		
@@ -169,13 +169,13 @@ public class PageFactory {
 		if(pageNo>totalPage)
 		{
 			pageBar+="<li class='page-item' disabled>";
-			pageBar+="<a class='page-link' href='#'>다음</a>";
+			pageBar+="<a class='page-link' href='#'> > </a>";
 			pageBar+="</li>";
 		}
 		else
 		{
 			pageBar+="<li class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'>다음</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo)+")'> > </a>";
 			pageBar+="</li>";
 		}
 		pageBar+="</ul>";

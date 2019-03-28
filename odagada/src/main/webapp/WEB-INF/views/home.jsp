@@ -154,6 +154,10 @@ margin-left:10%;
 	    height: 60vh;
 	    margin-top:10%;
 	}
+	.gada-p{
+		font-size:14px;
+		font-family: 'S-CoreDream-3Light';
+	}
 /* 	.car-div{
 		margin-left:30px;
 	} */
@@ -361,6 +365,13 @@ margin-left:10%;
     .div-search{
     	font-family:BMJUA;
     }
+    .use-div{
+    padding:0px;
+    }
+    /* 우리들의 장점 */
+    .hintro-p{
+    	font-family: 'S-CoreDream-3Light';
+    }
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->
@@ -447,8 +458,8 @@ margin-left:10%;
 				<div class="col-12">
 					<p class="gada-p">오다가다의 베스트 드라이버가 되어보세요.</p>
 				</div>
-				<div class="col-8 col-sm-7">
-					<div class="form-control div-search text-center oda-div">이용하기 <b>></b></div>
+				<div class="col-8 col-sm-7 use-div">
+					<div class="form-control div-search text-center oda-div" onclick="location.href='${path}/member/signUp.do'">이용하기 <b>></b></div>
 				</div>
 			</div>
 			<div class="col-6 offset-md-1 col-md-3 c3 car-div ">
@@ -462,92 +473,49 @@ margin-left:10%;
 		</div>
 	</div>
 </div>
-<!-- 자주가는 경로 -->
-<%--    <div class="row">
-      <div class="col-12 pop-div">
-         <div class="row" id="text-div">
-            <div class="offset-4 col-4">
-               <h3 class="best-text">Best way to drive</h3>
-            </div>
-         </div>
-         <div class="row">
-            <div class="offset-10 col-2">
-               <p id="pop-more"><i>show more</i></p>
-            </div>
-         </div>
-         <div class="row pop-toggle" >
-            <c:forEach items="${chList }" var="ch" varStatus="count">
-               <c:if test="${count.index <3 }">
-                  <div class="col-12 col-md-4 ">
-                     <div class="card text-white bg-success mb-5 text-center pop-size">
-                        <span>${ch.STARTCITY}</span>
-                        <i class="far fa-arrow-alt-circle-down"></i>
-                        <span>${ch.ENDCITY }</span>
-                     </div>
-                  </div>
-               </c:if>
-            </c:forEach>
-         </div>
-         <div class="row pop-toggle" id="pop-toggle">
-            <div class="row">
-               <c:forEach items="${chList }" var="ch" varStatus="count">
-                  <c:if test="${count.index >=3 && count.index <12 }">
-                     <div class="col-12 col-md-4 ">
-                        <div class="card text-white bg-success mb-5 text-center pop-size">
-                           <span>${ch.STARTCITY}</span>
-                           <i class="far fa-arrow-alt-circle-down"></i>
-                           <span>${ch.ENDCITY }</span>
-                        </div>
-                     </div>
-                  </c:if>
-               </c:forEach>
-            </div>
-         </div>
-      </div>
-   </div> --%>
 <!-- 우리 카풀 장점 -->
 <hr>
-	<div class="row">
-		<div class="offset-md-1 col-md-3">
+<%-- 	<div class="row">
+		<div class="col-sm-12 offset-md-1 col-md-3">
 			<div class="row">
 				<div class="col-12 text-center">
-					<%-- <img src="${path }/resources/images/"/> --%>
+					<img src="${path }/resources/images/main/sub-1.png"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-12 text-center">
-					<h5>더 다양하게 만나다!</h5>
-					<p>다양한 사람들과 함께 소통할 수 있는 기회가 생기고, 함께 드라이빙하며 나누는 행복!</p>
+					<h5>[ 더 다양하게 만나다- ]</h5>
+					<p class='hintro-p'>많은 사람들과 함께 이동하며 서로 소통할 수 있는 기회가 생기고,<br/> 다양하게 만나자!</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<img src="${path }/resources/images/main/sub-2.png"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5>[ 더 편하게 이동하다- ]</h5>
+					<p class='hintro-p'>카풀 이용을 통해서 중/장거리 여행에서 교통의 불편함을 줄이고,<br/> 쾌적하게 이동하자!</p>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="row">
 				<div class="col-12 text-center">
-					<%-- <img src="${path }/resources/images/"/> --%>
+					<img src="${path }/resources/images/main/sub-3.png"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-12 text-center">
-					<h5>중/장거리 이동의 편리함</h5>
-					<p></p>
+					<h5>[ 더 효율적으로 소비하다- ]</h5>
+					<p class='hintro-p'>다수가 함께 이용하는 카풀로 인해 이동비용을 효율적으로 사용하고,<br/> 만족스럽게 여행하자!</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="row">
-				<div class="col-12 text-center">
-					<%-- <img src="${path }/resources/images/"/> --%>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 text-center">
-					<h5></h5>
-					<p></p>
-				</div>
-			</div>
-		</div>
-	</div>
+	</div> --%>
 <!-- 	<div class="row">
 		<div class="col-12">
 			<ul>
