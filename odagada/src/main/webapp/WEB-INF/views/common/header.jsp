@@ -73,9 +73,20 @@
      .container{
      	margin-top:100px;
      }
-    .page-item{
-    border:1px solid white;
-    }
+    .page-link{
+		border:none;
+		font-size:17px;
+		color:rgb(0,175,76);
+	}
+	.page-item{
+		font-size:17px;
+	}
+	.page-item.active .page-link {
+	    z-index: 1;
+	    color: rgb(0,175,76);
+	    background-color: rgb(240,240,240);
+	    border-color:rgb(0,175,76);
+	}
 </style>
 </head>
 <body>
@@ -91,7 +102,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">검색</a>
+                  <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">카풀 검색</a>
                 </li>               
                 <c:set var="isAdmin" value="${logined.isAdmin}"/>
                   <c:if test="${isAdmin eq '0'}">
