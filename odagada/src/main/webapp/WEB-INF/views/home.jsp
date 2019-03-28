@@ -14,50 +14,45 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 <style>
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }   
+	
 /* 섹션 패딩 삭제 */
 section.section-st{
 font-family: 'TmonMonsori';
 padding:0px;
 }
-/* 이미지 패딩 삭제 */
-.tt{
+/* 섹션 패딩 삭제 */
+.r1,.c1{
 padding:0px;
+margin:0px;
+}
+/* 이미지 패딩 삭제 */
+.parallax-img {
+  background-image:url(${pageContext.request.contextPath}/resources/images/main/14.jpg);
+}
+.parallax-img {
+  height: 100%;
+/*   background-attachment: fixed; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position:relative;
+}
+.wrapper {
+  height: 100vh;
 }
 .row{
-	margin:0px;
+margin-left:0px;
+margin-right:0px;
 }
-/* 메인 상단부 */
-div.main-div{
-   /* box-shadow: inset -60px 0 100px #fff;  */
-   background:url(${pageContext.request.contextPath}/resources/images/55.jpg);
-   background-repeat:no-repeat;
-   background-size:cover;
-   max-width:100%;
-   height: 100vh;
-   position:relative;
+.row,.col-12{
+padding:0px;
+/* margin:0px; */
 }
-div.search-div{
-   position:absolute;
-   background: linear-gradient(to bottom, rgba(255,255,255, 0) 30%, #1C1C1C 100%);
-   padding-top:22%;
-   padding-bottom:50px;
-   border:none;
-   background-size:cover;
-}
-img.main-img{
-     width:100%;
-     height:auto;
-     box-shadow: inset -60px 0 100px #fff; 
-}
-input.div-search:hover{
-   box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
-} 
-input#startDate{
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-input#startDate:hover{
-   box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
+.t1{
+position:relative;
+color:white;
 }
 .input-group>.form-control:not(:last-child){
    border-top-right-radius: 40px;
@@ -71,201 +66,499 @@ div.date-icon{
    border-top-right-radius: 40px;
     border-bottom-right-radius: 40px;
 }
-div.date-icon:hover{
-
-   box-shadow: 2px 2px 3px rgb(0,175,76),-2px -2px 3px rgb(0,175,76);
-}
 button.btn-search{
    height:50px;
    border-radius:40px;
 }
-h1.text-h1{
-   font-family:'Segoe UI Black';
-   color:white;
-   text-shadow: 2px 2px 2px rgb(0,175,76),-2px -2px 2px rgb(0,175,76);
-   font-size:70px;
+input#startDate{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
-h3.text-h3{
-   color:white;
-   font-size: 40px;
-   margin-bottom:20px;
-   font-family: 'a시나브로L';
+.dot-L,.dot-R{
+color:white;
+font-size:12px;
+padding:3%;
+}
+.dot-L{
+float:left;
+}
+.dot-R{
+float:right;
+}
+.text-div{
+padding:10%;
+padding-bottom:0px;
+padding-top:26%;
+}
+.text-h4{
+font-size:50px;
+text-shadow:2px 2px 8px rgb(30,30,30);
+text-align: center;
+}
+.text-h3{
+font-size:70px;
+text-shadow:2px 2px 8px rgb(30,30,30);
+float:right;
+}
+.search-row{
+padding-top:3%;
+}
+.s1{
+float:left;
+}
+.search-form{
+margin-left:10%;
 }
 
-/* 같이탈래..? 추천~ */
-div#text-div{
-   margin:30px;
-}
-div.pop-div{
-   background-color:rgb(240,240,240,0.8);
-}
-div.pop-toggle{
-   padding-left:10%;
-   padding-right:10%;
-}
-div#pop-toggle{
-   display: none;
-   
-}
-div.pop-size{
-      margin-left: 50px;
-    margin-right: 50px;
-}
-h3.best-text{
-   text-align: center;
-}
-/* ` 이미지 */
-img#driver-img{
-width:400px;
-height:300px;
-}
-
-
+<!-- 중앙 드라이버 등록/카풀 등록 부분 -->
+	.c4{
+		width: 100%;
+	    background-color: rgba(223,255,220,0.2);
+	    height: 60vh;
+	    position: absolute;
+	}
+	a:not([href]):not([tabindex]) {
+		color:white;
+	}
+	a:hover{
+		text-decoration: none;
+		color:white;
+		text-shadow: 1px 1px 2px white;
+	}
+	.oda-text{
+		padding-top:10%;
+	}
+	.oda-div{
+		border-bottom-left-radius: 30px;
+		border-bottom-right-radius: 30px;
+		border-top-left-radius: 30px;
+		border-top-right-radius: 30px;
+		width:120px;
+	}
+	.text-d{
+		font-size:30px;
+		position:absolute;
+		z-index:1;
+		padding-top:75%;
+		padding-left:16%;
+		max-width:100%;
+		color:white;
+		text-decoration: none;
+	}
+	.c3{
+		padding-right:10px;
+		display: block;
+	    position: relative;
+	    width: 100%;
+	    overflow: hidden;
+	    height: 60vh;
+	    margin-top:10%;
+	}
+	.gada-p{
+		font-size:14px;
+		font-family: 'S-CoreDream-3Light';
+	}
+/* 	.car-div{
+		margin-left:30px;
+	} */
+	.driver-img{
+		overflow:hidden;
+		max-width:90%;
+		/* height:100%; */
+		position:absolute;
+		border:4px solid white;
+		margin-left:5px;
+		border-radius:2px;
+	    display: block;
+	}
+	.driver-img:hover{
+		transform: scale(1.02,1.02);
+	}
+    .transition{
+     	transition: .1s ;
+    }
+    /* 드라이버 등록/카풀 등록 */
+    @media all and (min-width: 1100px){
+		.text-d{
+			font-size:30px;
+			position:absolute;
+			z-index:1;
+			padding-top:75%;
+			padding-left:16%;
+			max-width:100%;
+			color:white;
+			text-decoration: none;
+		}
+		.c4{
+			width: 100%;
+		    background-color: rgba(223,255,220,0.2);
+		    height: 60vh;
+		    position: absolute;
+		}
+    }
+    @media all and (max-width: 1100px){
+	    .text-d{
+			font-size:25px;
+			position:absolute;
+			z-index:1;
+			padding-top:85%;
+			padding-left:18%;
+			max-width:100%;
+			color:white;
+			text-decoration: none;
+		}
+		.c4{
+			width: 100%;
+		    background-color: rgba(223,255,220,0.2);
+		    height: 45vh;
+		    position: absolute;
+		}
+		.c3{
+			height:40vh;
+		}
+		.car-div{
+			height: 40vh;
+		}
+    }
+    @media all and (max-width: 840px){
+   	    .text-d{
+			font-size:20px;
+			position:absolute;
+			z-index:1;
+			padding-top:75%;
+			padding-left:17%;
+			max-width:100%;
+			color:white;
+			text-decoration: none;
+		}
+		.gada-h{
+			font-size:25px;
+		}
+		.gada-p{
+			font-size:15px;
+			font-family: 'silgothic';
+		}
+		.oda-div{
+		border-bottom-left-radius: 30px;
+		border-bottom-right-radius: 30px;
+		border-top-left-radius: 30px;
+		border-top-right-radius: 30px;
+		width:100px;
+		font-size:15px;
+		clear:right;
+		}
+		.c4{
+			width: 100%;
+		    background-color: rgba(223,255,220,0.2);
+		    height: 35vh;
+		    position: absolute;
+		}
+    }
+    @media all and (max-width: 768px){
+   		.oda-text{
+			padding-top:0;
+		}
+		.oda-div{
+			float:right;
+		}
+		.c3{
+			display: block;
+		    position: relative;
+		    width: 100%;
+		    overflow: hidden; 
+		    height:auto;
+		    text-align: center;
+		}
+		.car-div{
+			height: 60vh;
+		}
+		.text-d{
+			padding: 0;
+		    margin: 0;
+		    font-size:18px;
+		    padding-top: 90%;
+		    float: left;
+		    margin-left: -65px;
+		}
+    }
+    /* 검색하기 버튼들 */
+    @media all and (max-width: 810px){
+	    .input-group>.form-control:not(:last-child){
+		   border-top-right-radius: 40px;
+		    border-bottom-right-radius: 40px;
+		    border-top-left-radius: 40px;
+		    border-bottom-left-radius: 40px;
+		    width:40px;
+		    height:50px;
+		}
+    }
+    /* 메인 이미지 안에 요소들 */
+    @media all and (max-width: 1500px){
+    	.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:30%;
+		}
+		.dot-L,.dot-R{
+		color:white;
+		font-size:12px;
+		padding:3%;
+		}
+    }
+	@media all and (max-width: 900px){
+		.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:40%;
+		}
+	}
+    @media all and (max-width: 768px){
+       	.text-div{
+		padding:10%;
+		padding-bottom:0px;
+		padding-top:32%;
+		height:auto;
+		}
+    	.text-h4{
+    	margin-top:10%;
+		font-size:35px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		text-align: center;
+		}
+		.text-h3{
+		font-size:45px;	
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		float:right;
+		}
+		.dot-L,.dot-R{
+		margin-top:25%;
+		color:white;
+		font-size:8px;
+		padding:3%;
+		}
+		.btn-search{
+		float:right;
+		}
+    }
+    @media all and (max-width: 550px){
+    	.text-h4{
+    	margin-top:30%;
+		font-size:30px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		text-align: center;
+		}
+		.text-h3{
+		font-size:35px;
+		text-shadow:2px 2px 8px rgb(30,30,30);
+		float:right;
+		}
+		.dot-L,.dot-R{
+		margin-top:50%;
+		color:white;
+		font-size:6px;
+		padding:3%;
+		}
+    }
+    .dri-div{
+    	margin-left:20px;
+    }
+    .div-search{
+    	font-family:BMJUA;
+    }
+    .use-div{
+    padding:0px;
+    }
+    /* 우리들의 장점 */
+    .hintro-p{
+    	font-family: 'S-CoreDream-3Light';
+    }
 </style>
 <section class="container-fluid section-st">
 <!-- 배경이미지 -->
-   <div class="row">
-      <div class="col-12 tt">
-         <div class="main-div">
-            <%-- <img class="main-img" src="${path }/resources/images/main_img.jpg"> --%>
-            <form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
-            <div class="row card-img-overlay search-div">
-               <div class="col-12">
-                  <h1 class="text-center text-h1">오다, 가다!</h1>
-                  <h3 class="text-center text-h3">Search for your travel</h3>
-               </div>
-               <br><br>
-               <div class="col-sm-12 offset-md-3 col-md-2">
-                  <div class="input-group">
-                     <input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="○ 출발지 입력" onclick="sample6_execDaumPostcode1()" readonly/>
-                     <input type="text" name="startLon" id="startLon" value="" hidden/>
-                     <input type="text" name="startLat" id="startLat" value="" hidden/>
-                     <input type="text" name="kmNum" id="kmNum" value="3" hidden/>
-                     <br>
-                  </div>
-               </div>
-               <div class="col-sm-12 col-md-2">
-                  <div class="input-group">
-                     <input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="○ 도착지 입력"  onclick="sample6_execDaumPostcode2()"  readonly/>
-                     <input type="hidden" name="endLon" id="endLon" value=""/>
-                     <input type="hidden" name="endLat" id="endLat" value=""/>
-                  </div>
-               </div>
-                 <div class="col-sm-12 col-md-2">
-                     <div class="form-group">
-                         <div class="input-group date div-search " id="datetimepicker1" data-target-input="nearest">
-                             <input type="text" class="form-control datetimepicker-input date-div" data-target="#datetimepicker1" name="startDate" id="startDate" placeholder="○ 출발일 입력" />
-                             <div class="input-group-append date " data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                 <div class="input-group-text div-icon date-icon" ><i class="fa fa-calendar" ></i></div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                <div class="col-12 col-md-2">
-                  <div class="input-group-btn">
-                     <button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
-                        &nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
-                     </button>
-                  </div>
-               </div>
-            </div>
-         </form>
-         </div>
-      </div>
-   </div>
-<!-- 드라이버 이미지 -->
-   <div class="row">
-      <div class="col-12">
-         <div class="row">
-            <div class="col-12 offset-md-2 col-md-5"> 
-                  <img src="${path }/resources/images/driver.jpg" id="driver-img"/>
-            </div>
-            <div class="col-12 col-md-4">
-               <div class="drive-div">
-                  <c:if test="${logined==null || dList[0].DRIVERSTATUS eq 'N'}"> <!-- 드라이버가 아니면 status N -->
-                     <button class="btn btn-success" onclick='location.href="${path}/driver/driverEnroll"'>드라이버 신청</button>
-                  </c:if>
-                  <c:if test="${ logined!=null && dList[0].DRIVERSTATUS eq 'Y'}"> <!-- 드라이버가 맞을 경우 Y -->
-                     <button class="btn btn-success" onclick="location.href='${path }/carpool/register'">카풀 등록</button>
-                  </c:if>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-<!-- 자주가는 경로 -->
-   <div class="row">
-      <div class="col-12 pop-div">
-         <div class="row" id="text-div">
-            <div class="offset-4 col-4">
-               <h3 class="best-text">Best way to drive</h3>
-            </div>
-         </div>
-         <div class="row">
-            <div class="offset-10 col-2">
-               <p id="pop-more"><i>show more</i></p>
-            </div>
-         </div>
-         <div class="row pop-toggle" >
-            <c:forEach items="${chList }" var="ch" varStatus="count">
-               <c:if test="${count.index <3 }">
-                  <div class="col-12 col-md-4 ">
-                     <div class="card text-white bg-success mb-5 text-center pop-size">
-                        <span>${ch.STARTCITY}</span>
-                        <i class="far fa-arrow-alt-circle-down"></i>
-                        <span>${ch.ENDCITY }</span>
-                     </div>
-                  </div>
-               </c:if>
-            </c:forEach>
-         </div>
-         <div class="row pop-toggle" id="pop-toggle">
-            <div class="row">
-               <c:forEach items="${chList }" var="ch" varStatus="count">
-                  <c:if test="${count.index >=3 && count.index <12 }">
-                     <div class="col-12 col-md-4 ">
-                        <div class="card text-white bg-success mb-5 text-center pop-size">
-                           <span>${ch.STARTCITY}</span>
-                           <i class="far fa-arrow-alt-circle-down"></i>
-                           <span>${ch.ENDCITY }</span>
-                        </div>
-                     </div>
-                  </c:if>
-               </c:forEach>
-            </div>
-         </div>
-      </div>
-   </div>
+<div class="row r1">
+	<div class="col-12 c1">
+		<div class="wrapper">
+			<div class="parallax-img">
+				<div class="row text-div">
+					<div class="col-12">
+						<div class="row">
+							<div class="col-1 dot-R">●</div>
+							<div class="col-10">
+								<div class="row">
+									<div class="col-sm-12 t1 text-h4">
+										<h4 class="text-h4">SEARCH FOR YOUR TRIP FROM</h4>
+									</div>
+									<div class="col-sm-12 t1 text-h3">
+										<h3 class="text-h3">오다, 가다-</h3>
+									</div>
+								</div>
+							</div>
+							<div class="col-1 dot-L">●</div>
+						</div>
+						<div class="row t1" style="width:100%;border-top:2px solid white;">
+							<div class="offset-1 col-10" >
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row search-row">
+					<div class="col-12">
+						<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" class="search-form" onsubmit="return validate()">
+			               <div class="col-sm-12 offset-md-1 col-md-3 offset-lg-1 col-lg-3 t1 s1">
+			                  <div class="input-group">
+			                     <input type="text" class="form-control div-search" name="startSearch" id="startSearch" placeholder="○ 출발지 입력" onclick="sample6_execDaumPostcode1()" readonly/>
+			                     <input type="text" name="startLon" id="startLon" value="" hidden/>
+			                     <input type="text" name="startLat" id="startLat" value="" hidden/>
+			                     <input type="text" name="kmNum" id="kmNum" value="3" hidden/>
+			                     <br>
+			                  </div>
+			               </div>
+			               <div class="col-sm-12 col-md-3 col-lg-3 t1 s1">
+			                  <div class="input-group">
+			                     <input type="text" class="form-control div-search" name="endSearch" id="endSearch" placeholder="○ 도착지 입력"  onclick="sample6_execDaumPostcode2()"  readonly/>
+			                     <input type="hidden" name="endLon" id="endLon" value=""/>
+			                     <input type="hidden" name="endLat" id="endLat" value=""/>
+			                  </div>
+			               </div>
+			                 <div class="col-sm-12 col-md-3 col-lg-3 t1 s1">
+			                     <div class="form-group">
+			                         <div class="input-group date div-search " id="datetimepicker1" data-target-input="nearest">
+			                             <input type="text" class="form-control datetimepicker-input date-div" data-target="#datetimepicker1" name="startDate" id="startDate" placeholder="○ 출발일 입력" />
+			                             <div class="input-group-append date " data-target="#datetimepicker1" data-toggle="datetimepicker">
+			                                 <div class="input-group-text div-icon date-icon" ><i class="fa fa-calendar" ></i></div>
+			                             </div>
+			                         </div>
+			                     </div>
+			                 </div>
+			                <div class="col-12 col-md-2 t1 s1">
+			                  <div class="input-group-btn">
+			                     <button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
+			                        &nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
+			                     </button>
+			                  </div>
+			               </div>
+			         </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 드라이버 등록/카풀등록 -->
+<div class="row">
+	<div class="col-12 text-center c4" >
+		<h1 class="letter-h">ODAGADA</h1>
+	</div>
+	<div class="col-12">
+		<div class="row">
+			<div class="col-12 offset-md-2 col-md-2 c3 oda-text">
+				<div class="col-12">
+					<h3 class="gada-h"><b>오다, 가다</b></h3>
+				</div>
+				<div class="col-12">
+					<p class="gada-p">오다가다의 베스트 드라이버가 되어보세요.</p>
+				</div>
+				<div class="col-8 col-sm-7 use-div">
+					<div class="form-control div-search text-center oda-div" onclick="location.href='${path}/member/signUp.do'">이용하기 <b>></b></div>
+				</div>
+			</div>
+			<div class="col-6 offset-md-1 col-md-3 c3 car-div ">
+				<a href="${path}/driver/driverEnroll" class="text-d ">드라이버 등록</a>
+				<img src="${path }/resources/images/main/driver-2.png" class="driver-img transition" />
+			</div>
+			<div class="col-6 col-md-3 c3 car-div">
+				<a class="text-d" href="${path }/carpool/register">카풀 등록하기</a>
+				<img src="${path }/resources/images/main/carpool-2.png" class="driver-img transition"/>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- 우리 카풀 장점 -->
-   <%-- <div class="row".>
-      <div class="col-md-12 card-group">
-         <div class="card">
-            <img class="card-img-top img-size" src="${path}/resources/images/map.png" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-         </div>
-         <div class="card">
-            <img class="card-img-top img-size" src="${path}/resources/images/people.png" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-         </div>
-         <div class="card">
-            <img class="card-img-top img-size" src="${path}/resources/images/car.png" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-         </div>
-      </div>
-   </div> --%>
+<hr>
+<%-- 	<div class="row">
+		<div class="col-sm-12 offset-md-1 col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<img src="${path }/resources/images/main/sub-1.png"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5>[ 더 다양하게 만나다- ]</h5>
+					<p class='hintro-p'>많은 사람들과 함께 이동하며 서로 소통할 수 있는 기회가 생기고,<br/> 다양하게 만나자!</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<img src="${path }/resources/images/main/sub-2.png"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5>[ 더 편하게 이동하다- ]</h5>
+					<p class='hintro-p'>카풀 이용을 통해서 중/장거리 여행에서 교통의 불편함을 줄이고,<br/> 쾌적하게 이동하자!</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="row">
+				<div class="col-12 text-center">
+					<img src="${path }/resources/images/main/sub-3.png"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h5>[ 더 효율적으로 소비하다- ]</h5>
+					<p class='hintro-p'>다수가 함께 이용하는 카풀로 인해 이동비용을 효율적으로 사용하고,<br/> 만족스럽게 여행하자!</p>
+				</div>
+			</div>
+		</div>
+	</div> --%>
+<!-- 	<div class="row">
+		<div class="col-12">
+			<ul>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+				<li>
+					<a href="/homepage/docs/kor6/jsp/ethics/newEthics_main.jsp" target="_blank" title="윤리경영 바로가기">
+						<div class="image"><img src="/docs/kor6/jsp/_images/main/link_image1.jpg" width="100%" alt=""><p></p><span>view more</span></div>
+						<p class="title">윤리경영</p>
+						<p class="text">올바른 일을 올바르게 하는 것, 바로 포스코가하는 것입니다.</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div> -->
 </section>
+<style>
+.letter-h{
+color:gray;
+font-size:130px;
+margin-top:50%;
+position: fixed;
+}
+</style>
 <!-- 추천 경로 더보기 -->
     <script>
         $(function()
@@ -336,10 +629,24 @@ function search(){
       return false;
    }
 
-   var nowDate = moment().format('YYYY.MM.DD. a h:mm');
-   console.log($("#startDate").val());
+   var nowDate = moment().format('YYYY.MM.DD. HH:mm');
+   var setDate = $("#startDate").val();
+   var setDates = setDate.split(" ");
+   var nowDates = nowDate.toString().split(" ");
+      
+   var time = setDates[2].split(":");
    
-   if(!($("#startDate").val() > nowDate)){
+   if(setDates[1] === "오전" && time[0] === "12"){
+   	time[0] = Number(time[0]) - 12;
+   }
+   
+   if(setDates[1] === "오후" && time[0] != "12"){
+	    time[0] = Number(time[0]) + 12;    		
+   }
+   
+   var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
+  
+   if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
       alert("날짜를 확인해주세요.");
       return false;
    }

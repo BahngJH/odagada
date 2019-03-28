@@ -16,6 +16,34 @@
 
 
   <style>
+  @font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/person.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	#tbl-board{
+		margin-bottom: 30px;
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
+  
+  
+  
      div#enroll-container{max-width:500px; margin:0 auto; text-align:center;}
      div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
   
@@ -28,7 +56,7 @@
     .phone{margin-left:0; margin-right:0;}
     #pro_img{width: 400px; height: auto;}
     .profileDiv{padding-right:0; width:100px;}
-    .pPassword{font-size:13px; margin-top:1px;}
+    .pPassword{font-size:13px; margin-top:2%;}
   	.passwordInfo{height:40px; align:left;}
   	.oriEmail,.oriPhone,.oriName {font-size:17px; text-align:left; padding-left:15%;} 	
   	.alert{padding:0; }
@@ -44,38 +72,11 @@
     #chgName-btn{width:115px;} 
     #upFile{height:3px;}
     #nameInfo-div{padding-top:4px;}
+    #confirm-sms-btn{margin-bottom:5%;}
+    .re-btn{margin:5px;}
     </style>  
      
 <script>
-//프로필 사진을 이미지 타입 파일로만 받기
-/* function fileCheck(obj) {
-	var fileKind = obj.value.lastIndexOf('.');
-	var fileName = obj.value.substring(fileKind + 1, obj.length);
-	var fileType = fileName.toLowerCase();
-
-	var ckFileType = new Array();
-	ckFileType = [ 'jpg', 'gif', 'png', 'jpeg', 'jpeg', 'bmp' ];
-
-	if (ckFileType.indexOf(fileType) == -1) {
-		alert("이미지 파일만 선택할 수 있습니다.");
-		var parentObj = obj.parentNode;
-		var node = parentObj.replaceChild(obj.cloneNode(true), obj);
-		return;
-	}
-	else{
-		var filenames=obj.files[0].name;
-   		var fileReader = new FileReader();
- 	
- 		fileReader.readAsDataURL(obj.files[0]);
- 		fileReader.onload = function(e){
-	 		var result = e.target.result;	
-	 		$('#pro_img').attr('src',result); 		
- 		};
-      console.log(filenames);
-	}
-	console.log($('#upFile').val());
-}
-*/
 //프로필 이미지 검사
 function validate(){
     if($('#temp').val()==0){
@@ -246,6 +247,7 @@ function validate(){
 //이메일 변경
 	function sendEmail(){		    
     //이전 이메일과 중복여부 확인
+    
     	var reMail=$('#reMail').val().trim();//변경할 이메일
    	    var oriMail=$('.oriEmail').text();//기존 이메일
    	    
@@ -303,13 +305,13 @@ function sendSms(){
 			return false;
 		} 
 				
-	 	//핸드폰 번호 중복 검사
+ 	 	//핸드폰 번호 중복 검사
 		$.ajax({
 			url:"${path}/member/phoneCheck.do",
 			data:{"phone":phone},
 			success:function(data){
 				if(data=='Y'){				
-					$.ajax({
+		 			$.ajax({
 						url:"${path}/member/sendSms",
 						data:{"receiver":phone},
 						type:"post",
@@ -323,13 +325,13 @@ function sendSms(){
 							alert("전송 실패!");
 						}
 					}						
-				});																	
+				});	 																
 			}else{
 				alert("이미 사용중인 번호 입니다. 사용하실 수 없습니다.");
 				return false;
 			}
 		}
-	}); 
+	});  
 };
 	
 $(function(){
@@ -363,10 +365,18 @@ function changeName(){
 			location.reload();
 		}
 	});
-}		
-	 	
+}			 	
 </script>
-      <div id="enroll-container" class="container">
+<section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1 id="miniTitle">나의 오다, 가다</h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/person.png">
+</section>
+
+<section class="container">
+      <div id="enroll-container">
 			<div class="card" >
 					  <ul class="list-group list-group-flush">
 						 <li class="list-group-item">
@@ -382,7 +392,7 @@ function changeName(){
 				  			 </form>				  			 				  		 				  			 
 					  	 </li>				  
 					    <li class="list-group-item">
-					    	<button type="button" class="btn  btn-outline-success btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
+					    	<button type="button" class="btn btn-outline-success btn-sm btn-block" data-toggle="modal" data-target="#chgPass">비밀번호 변경하기</button>   
 					    </li>					   
 					    <!--이름 변경  -->	
 					     <li class="list-group-item">
@@ -391,7 +401,7 @@ function changeName(){
 					    			<p class="oriName font-weight-bold"><%=m.getMemberName() %></p>
 								</div>  
 								<div class="col-6 chgBtnDiv">
-									<button type="button" id="chgName-btn" class="cg btn   btn-outline-success btn-sm">이름 변경 </button>      	
+									<button type="button" id="chgName-btn" class="cg btn btn-outline-success btn-sm">이름 변경 </button>      	
 					   			</div> 		
 					   		 </div>			   		 			   		    		 
 				     		 <!--이름 변경 버튼 클릭시  -->
@@ -400,8 +410,8 @@ function changeName(){
 								  <input type="text" class="form-control" value="${logined.memberName }" name="memberName" id="memberName" maxlength="8" required>
 								</div>  
 								<div class="btns col-5">
-								  <button type="button" id="" class="cg btn btn-secondary btn-sm" onclick="changeName()">변경하기</button>
-								  <button type="reset" id="cancleName-btn" class="cg btn btn-secondary btn-sm">취소</button>
+								  <button type="button" id="" class="cg btn btn-success btn-sm" onclick="changeName()">변경하기</button>
+								  <button type="reset" id="cancleName-btn" class="cg btn btn-outline-success btn-sm">취소</button>
 					   			</div> 		
 					   		 </div>				 
 					    </li>  			        
@@ -421,8 +431,8 @@ function changeName(){
 								  <input type="email" class="form-control" value="${logined.email }" id="reMail" name="email" maxlength="30" required>
 								</div>  
 								<div class="btns col-5">
-								  <button type="button" class="cg btn btn-secondary btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
-								  <button type="reset" id="backEmail" class="cg btn btn-secondary btn-sm">취소</button>
+								  <button type="button" class="cg btn btn-success btn-sm" id="sendMail-btn" onclick="sendEmail();">인증 메일 발송</button>
+								  <button type="reset" id="backEmail" class="cg btn btn-outline-success btn-sm">취소</button>
 					   			</div> 		
 					   		 </div>
 						 	 <div class="alert alert-danger text-danger" id="alertEmail" role="alert">이전과 동일한 메일주소 입니다.</div>          		 
@@ -430,9 +440,7 @@ function changeName(){
 					   		  <!--Email 변경 인증 메일 전송 후  -->      			  
 							  <div id="sentEmailDiv">
 					 			 <div class="alert alert-success text-success" role="alert">인증메일이 발송되었습니다.</div>
-					  				<p class="pPassword">유효시간: 이메일 발송 후 3분 이내.</p>
-					   			    <button type="button" class="cg btn btn-secondary btn-sm">인증 메일 재발송</button>
-								    <button type="button" class="cg btn btn-secondary btn-sm">이메일 확인하러 가기</button>
+				   			     <button type="button" class="cg btn btn-success btn-sm">인증 메일 재발송</button>
 							  </div> 
 					    </li>
 					    <li class="list-group-item">
@@ -469,26 +477,34 @@ function changeName(){
 			       			 	<div class="alert alert-danger text-danger" id="alertPhone" role="alert">이전과 동일한 번호 입니다.</div>          		 		       			
 				   			    <div><p class="pPassword" id="chgPhoneInfoP">핸드폰 번호를 인증하시면 변경이 완료됩니다.</p></div>
 				   			    <div id="sentTxtDiv">
-				       				<button type="button" class="cg btn btn-secondary btn-sm" id="sentTxtBtn" onclick="sendSms();">인증 번호 발송</button>
-				       				<button type="reset" id="backPhone" class="cg btn btn-secondary btn-sm">취소</button>
+				       				<button type="button" class="cg btn btn-success btn-sm" id="sentTxtBtn" onclick="sendSms();">인증 번호 발송</button>
+				       				<button type="reset" id="backPhone" class="cg btn btn-outline-success btn-sm">취소</button>
 				       			</div>   
 			       			    <!--핸드폰 변경 문자 인증 전송 후  -->      			  
 				       			  <div id="sentPhoneDiv">
 					    			  <div class="alert alert-success text-success" role="alert">인증번호가 발송되었습니다.</div>
-				    			  	  <div class="row">
-							           	  <input type="text" class="col-8 form-control" id="smsAnswer" placeholder="핸드폰으로 전송된 인증번호 3분이내 입력하세요." name="phoneCk">
-							           	  <button type="button" class="col-4 cg btn btn-secondary btn-sm" onclick="phoneCheck();">인증하기</button>
-				    			      </div>
-				    			      <button type="button" class="cg btn btn-secondary btn-sm" onclick="sendSms();">인증 문자 재발송</button>
-				    			      <button type="reset" id="backOriPhone" class="cg btn btn-secondary btn-sm">취소</button>
+					    			  <div class="row">
+					    			  	<div class="col-12 text-center" id="confirm-sms-btn">
+							         		<button type="button" class="cg btn btn-success btn-sm" onclick="phoneCheck();">인증하기</button>
+							          	</div>
+							          </div>
+				    			      <button type="button" class="cg btn btn-success btn-sm" onclick="sendSms();">인증 문자 재발송</button>
+				    			      <button type="reset" id="backOriPhone" class="cg btn btn-outline-success btn-sm">취소</button>
 				       			  </div>
 				       			  <input type="hidden" id="phoneNumber" value="0" required>
 					  		</div>			    
-				    </li> 
+				    	</li> 
+				    	<li>
+		    				<div class="row">
+			       			  	<div class="col-12 text-center">
+			       			  		<button class=" btn btn-success re-btn" onclick="resetBtn();">취소</button>
+			       			  	</div>
+		       			 	</div>
+				    	</li>
 				  </ul>		 	
-			 </div>            
- 		 
-	</div>       
+			 </div>            		 
+	</div>
+</section>       
 <script>
 function phoneCheck(){
 	
@@ -541,8 +557,8 @@ function phoneCheck(){
           <input type="password" class="form-control password" placeholder="새 비밀번호확인" id="password2" maxlength="15" required>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <a href="#" class="btn btn-primary" data-dismiss="modal" onclick="changePass();">변경하기</a>
+        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
+        <a href="#" class="btn btn-outline-success" data-dismiss="modal" onclick="changePass();">변경하기</a>
          <script>
         	function changePass(){
         		var pass1=$("#password1").val().trim();
@@ -572,7 +588,13 @@ function phoneCheck(){
     </div>
   </div>
 </div>
-
+<script>
+/* 뒤로가기 */
+function resetBtn(){
+	history.back();
+	
+}
+</script>
 
 
 

@@ -19,49 +19,41 @@ public class CommunityDaoImpl implements CommunityDao {
 	
 	@Override
 	public List<Map<String, String>> searchId(String searchId) {
-		// TODO Auto-generated method stub
 		return session.selectList("community.searchId", searchId);
 	}
 	
 	@Transactional
 	@Override
 	public int insertRoomId(Map roomIdData) {
-		// TODO Auto-generated method stub
 		int rs = session.insert("community.insertRoomId",roomIdData);
 		rs += session.insert("community.insertRoomId2",roomIdData);
 		return rs;
 	}
 	@Override
 	public List<Map<String, String>> bringUserInfo(Map<String,String> roomIdData) {
-		// TODO Auto-generated method stub
 		return session.selectList("community.bringUserInfo", roomIdData);
 	}
 	@Override
 	public String roomIdCheck(Map<String,String> roomIdData) {
-		// TODO Auto-generated method stub
 		return session.selectOne("community.roomIdCheck", roomIdData);
 	}
 	@Override
 	public int jsutCheckMsg(String myId) {
-		// TODO Auto-generated method stub
 		return session.selectOne("community.jsutCheckMsg", myId);
 	}
 	@Override
 	public int saveMessage(MessageVo msg) {
-		// TODO Auto-generated method stub
 		return session.insert("community.saveMessage", msg);
 	}
 
 	@Override
 	public int checkedMessage(Map isreadData) {
-		// TODO Auto-generated method stub
 		return session.update("community.checkedMessage",isreadData);
 	}
 
 	//채팅 내용들 가져옴
 	@Override
 	public List<Map<String, String>> bringMsg(String roomId) {
-		// TODO Auto-generated method stub
 		return session.selectList("community.bringMsg", roomId);
 	}
 	
@@ -69,8 +61,6 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Transactional
 	@Override
 	public List<ChatRoomVo> bringChatRooms(String loginId) {
-		// TODO Auto-generated method stub
-		
 		List<ChatRoomVo> chatRoomList =  session.selectList("community.bringChatRooms",loginId);
 		
 		for(ChatRoomVo room:chatRoomList)
@@ -92,7 +82,7 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	//리뷰 카운트
 	@Override
-	public int selectReviewCount(int memberNum) {
+	public int selectReviewCount(String memberNum) {
 		return session.selectOne("community.selectReviewCount",memberNum);
 	}
 	//리뷰 가져오기
@@ -107,8 +97,8 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	//내게 달린 리뷰 리스트
 	@Override
-	public List<Map<String, Object>> selectReviewList(int memberNum) {
-		return session.selectList("community.selectReviewList",memberNum);
+	public List<Map<String, Object>> selectReviewList(Map<String,String> map) {
+		return session.selectList("community.selectReviewList",map);
 	}
 	//리뷰수정
 	@Override

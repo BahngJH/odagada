@@ -10,6 +10,33 @@
 </jsp:include>
 
 <style>
+@font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/driver1.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	#tbl-board{
+		margin-bottom: 30px;
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
+
+
 .info {
 	margin-top: 50px;
 	margin-bottom: 50px;
@@ -121,12 +148,40 @@ background-color:rgb(100,100,100);
 }
 div.list-div{
 margin-bottom:20px;
+height:380px;
+}
+.card{
+height:370px;
+font-family:silgothic;
 }
 span.start-span{
 color: rgb(0,175,76);
+font-family: BMJUA;
+font-size:18px;
+}
+.page-link{
+	border:none;
+	font-size:17px;
+	color:rgb(0,175,76);
+}
+.page-item{
+	font-size:17px;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: rgb(0,175,76);
+    background-color: rgb(240,240,240);
+    border-color:rgb(0,175,76);
 }
 </style>
 <section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1 id="miniTitle">나의 오다, 가다</h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/driver1.png">
+</section>
+<section class="container" style="margin-top: 0px;">
    <div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
@@ -134,8 +189,8 @@ color: rgb(0,175,76);
 				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
 				<c:if test="${driver ne null}">
 				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
 				</c:if>
-        <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
 			</div>
 		</div>
       <!-- 리스트 -->
@@ -145,21 +200,21 @@ color: rgb(0,175,76);
 	         	<c:when test="${dcarList[0] !=null }">
 	         		<c:forEach items="${dcarList }" var="dc">
 		               <c:if test='${dc.STATUS eq "N" }'>
-		                  <div class="col-md-12 list-div">
+		                  <div class="col-md-6 list-div">
 		                     <div class="card a-card">
 		                     	<div class="card-header head-div">
 		                     	</div>
 		                        <div class="card-body N-div">
 		                        <div class="row">
 			                        <div class="col-6">
-			                        	 <div class="mark-p"></div><span class="start-span"><b>출발일</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(dc.STARTDATE,0,10)}</p><hr>
+			                        	 <div class="mark-p"></div><span class="start-span">출발일</span><br> <p>    ${fn:substring(dc.STARTDATE,0,10)}</p><hr>
 			                        </div>
 			                        <div class="col-6">
-			                        	 <div class="mark-p"></div><span class="start-span"><b>출발시간</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(dc.STARTDATE,11,20)}</p><hr>
+			                        	 <div class="mark-p"></div><span class="start-span">출발시간</span><br> <p>    ${fn:substring(dc.STARTDATE,11,20)}</p><hr>
 			                        </div>
 		                        </div>
-		                        	<div class="mark-p"></div><span class="start-span"><b>출발지</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
-		                        	<div class="mark-p"></div><span class="start-span"><b>도착지</b></span><br> <p>&nbsp;&nbsp;&nbsp;&nbsp;${dc.ENDCITY } ${dc.ENDDETAIL }</p>
+		                        	<div class="mark-p"></div><span class="start-span">출발지</span><br> <p>    ${dc.STARTCITY } ${dc.STARTDETAIL }</p><hr>
+		                        	<div class="mark-p"></div><span class="start-span">도착지</span><br> <p>    ${dc.ENDCITY } ${dc.ENDDETAIL }</p>
 		                           <span> 
 		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=Y'" class="checkPass-btn">동승자 확인</button>
 		                           </span>
@@ -168,7 +223,7 @@ color: rgb(0,175,76);
 		                  </div>
 		               </c:if>
 		               <c:if test='${dc.STATUS eq "Y" }'>
-		                  <div class="col-md-12" style="margin-top:30px">
+		                  <div class="col-md-6" style="margin-bottom:30px">
 		                     <div class="card">
 		                     	<div class="card-header headN-div">
 		                     	</div>
@@ -180,13 +235,13 @@ color: rgb(0,175,76);
 		                              <button onclick="location.href='${path}/driver/selectDriverPas?driverNum=${logined.memberNum}&carpoolNum=${dc.CARPOOLNUM }&sta=N'" class="checkPass-btn">동승자 결제</button>
 		                           </span>
 		                        </div>
-		                     </div>
+		                     </div> 
 		                  </div>
 		               </c:if>
 		            </c:forEach>
 	         	</c:when>
 	        	<c:otherwise>
-	        		<div class="col-12 info">
+	        		<div class="col-12">
 	        			<div class="card" >
 	        				<div class="card-header">
 	        					<h4><b>등록 된 카풀 내역이 없습니다.</b></h4>
@@ -199,7 +254,13 @@ color: rgb(0,175,76);
 	       		</c:otherwise>
 	         </c:choose>
          </div>
+         <div class="row">
+         	<div class='col-12'>
+         		${pageBar }
+         	</div>
+         </div>
       </div>
    </div>
+   
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

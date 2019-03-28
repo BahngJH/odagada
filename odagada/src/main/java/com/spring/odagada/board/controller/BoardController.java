@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,7 +60,7 @@ public class BoardController {
    
    //블랙리스트 불러옴
    @RequestMapping("/admin/blackList.do")
-   public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   public ModelAndView blackList(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, ModelAndView mv) 
    {
 	   int allBlackCount = service.allBlackCount();
 	   int numPerPage=10;
@@ -117,7 +118,7 @@ public class BoardController {
    
    //회원 목록 불러옴
    @RequestMapping("/admin/memberList.do")
-   public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv)
+   public ModelAndView memberList(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, ModelAndView mv)
    {
 	   int allMemberCount = service.selectAllMemberCount();
 	   int numPerPage = 10;
@@ -132,7 +133,7 @@ public class BoardController {
    
    //신고내역가져옴
    @RequestMapping("/admin/notifyList.do")
-   public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, ModelAndView mv) 
+   public ModelAndView notifyList(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, ModelAndView mv) 
    {
 	   int numPerPage=10;
 	   int allNotifyCount = service.allNotifyCount();
@@ -145,7 +146,7 @@ public class BoardController {
    
    //회원관리에서 아이디나 이름 상세검색
    @RequestMapping("/admin/searchMember.do")
-   public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="0")int cPage, String searchType, String keyword,ModelAndView mv) 
+   public ModelAndView searchMember(@RequestParam(value="cPage",required=false,defaultValue="1")int cPage, String searchType, String keyword,ModelAndView mv) 
    {
 	   logger.debug(keyword+"");
 	   logger.debug(""+searchType);
@@ -167,7 +168,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/boardList")
-   public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage)
+   public ModelAndView noticeList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage)
    {
       ModelAndView mv = new ModelAndView();
       int numPerPage = 5;   
@@ -390,7 +391,7 @@ public class BoardController {
    
    
    @RequestMapping("/board/qnaList")
-   public ModelAndView qnaList(HttpSession session,@RequestParam(value="cPage", required=false,defaultValue="0") int cPage)
+   public ModelAndView qnaList(HttpSession session,@RequestParam(value="cPage", required=false,defaultValue="1") int cPage)
    {
 	   
 	   ModelAndView mv = new ModelAndView();
@@ -425,7 +426,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaView.do")
-   public ModelAndView qnaView(HttpSession session,int qnaNum,@RequestParam(value="cPage", required=false, defaultValue="0") int cPage, HttpServletRequest request,HttpServletResponse response)
+   public ModelAndView qnaView(HttpSession session,int qnaNum,@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, HttpServletRequest request,HttpServletResponse response)
    {
 	   Member m = (Member)session.getAttribute("logined");
 	   
@@ -535,7 +536,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaComModify")
-   public ModelAndView qnaComModify(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
+   public ModelAndView qnaComModify(@RequestParam(value="cPage", required=false,defaultValue="1") int cPage,int qnaNum,int commentNum,HttpSession session,HttpServletRequest request,HttpServletResponse response) 
    {
 	  int numPerPage = 10;
 	  int contentCount = service.selectQnaComCount();
@@ -559,7 +560,7 @@ public class BoardController {
    }
    
    @RequestMapping("/board/qnaComModifyEnd")
-   public ModelAndView qnaComModifyEnd(@RequestParam(value="cPage", required=false,defaultValue="0") int cPage,HttpSession session,String comContent,String qnaNum, String comNum,
+   public ModelAndView qnaComModifyEnd(@RequestParam(value="cPage", required=false,defaultValue="1") int cPage,HttpSession session,String comContent,String qnaNum, String comNum,
 		   HttpServletRequest request, HttpServletResponse response)
    {
 	   int numPerPage = 10;
@@ -577,7 +578,7 @@ public class BoardController {
 	   
 	   int result = service.updateComment(com);
 	   
-	   mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaView.do"));
+	   //mv.addObject("pageBar", PageFactory.getPageBar(contentCount, cPage, numPerPage,"/odagada/board/qnaView.do"));
 	   mv.addObject("qnaNum", qnaNum);
 	   mv.setViewName("redirect:/board/qnaView.do");
 	   
@@ -593,5 +594,116 @@ public class BoardController {
 	   
    }
    
+   @RequestMapping("/board/faqList.do")
+   public ModelAndView faqList(HttpSession session,String faqNo)
+   {
+	   Member m = (Member)session.getAttribute("logined");
+	   
+	   ModelAndView mv = new ModelAndView();
+	   
+	   if(m!=null)
+	   {
+		   List<Map<String,String>> list = service.selectFaqList(faqNo);
+		   
+		   mv.addObject("list",list);
+		   mv.setViewName("board/faqList");
+		   
+		   return mv;
+	   }
+	   else
+	   {
+		   mv.addObject("msg","로그인 후 이용해주세요!");
+		   mv.addObject("loc","/member/loginForm.do");
+		   mv.setViewName("/common/msg");
+		   
+		   return mv;
+	   }
+   }
+   
+   @RequestMapping("/board/faqForm.do")
+   public String faqForm()
+   {
+	   return "board/faqForm";
+   }
+   @RequestMapping("/board/faqFormEnd.do")
+   public String boardFormEnd (HttpServletRequest request,HttpServletResponse response,String faqNo, String fTitle, String fContent, Model model)
+	{
+		Map<String, String> faq=new HashMap();
+		faq.put("faqNo", faqNo);
+		faq.put("fTitle", fTitle);
+		faq.put("fContent", fContent);
+		int result=service.insertFaq(faq);
+		
+		String msg="";
+		String loc="/board/faqList.do?faqNo="+faqNo;
+		if(result>0)
+		{
+			msg="등록성공";
+		}
+		else
+		{
+			msg="등록실패";
+		}
+		model.addAttribute("faqNo",faqNo);
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+		return "common/msg";
+	}
+   @RequestMapping("/board/faqModify.do")
+   public ModelAndView faqModify(HttpServletRequest request,HttpServletResponse response,String faqNo) 
+   {
+	   ModelAndView mv = new ModelAndView();
+	  
+	   Map<String,String> faq = service.selectFaqOne(faqNo);
+	   mv.addObject("faq",faq);
+	   mv.setViewName("board/faqModify");
+	  
+	   return mv;
+   }
+   
+   @RequestMapping("/board/faqModifyEnd.do")
+   public String faqModifyEnd(HttpServletRequest request,HttpServletResponse response,HttpSession session,String faqNo, String fTitle,String fContent,Model model) 
+   {
+	  
+	   Map<String,String> faq = new HashMap();
+	   faq.put("faqNo", faqNo);
+	   faq.put("fTitle", fTitle);
+	   faq.put("fContent", fContent);
+	   logger.debug("넘버 : "+faqNo+"타이틀 : "+fTitle+"냉요 : "+fContent);
+	  
+	  int result = service.updateFaq(faq);
+	  
+	  String msg="";
+	  String loc="/board/faqList.do?";
+	  if(result>0)
+	  {
+		  msg="수정성공";
+	  }
+	  else
+	  {
+		  msg="수정실패";
+	  }
+	  model.addAttribute("msg",msg);
+	  model.addAttribute("loc",loc);
+	  return "common/msg";
+	  }
+   
+   @RequestMapping("/board/faqDelete.do")
+	public String faqDelete(String faqNo, Model model) {
+		
+		int result = service.deleteFaq(faqNo);
+		
+		String msg = "";
+		String loc = "/board/faqList.do?faqNo="+faqNo;
+		if (result > 0) {
+			msg = "삭제성공";
+		} else {
+			msg = "삭제실패";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+
+		return "common/msg";
+	}
 
 }

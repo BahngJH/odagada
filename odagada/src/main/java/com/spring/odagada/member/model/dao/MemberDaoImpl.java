@@ -16,6 +16,12 @@ public class MemberDaoImpl implements MemberDao {
 	SqlSessionTemplate session;
 
 	@Override
+	public Map<String, String> checkBlack(String checkId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.checkBlack", checkId);
+	}
+
+	@Override
 	public Member kakaoIdCK(Member m) {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.kakaoIdCK",m);
@@ -66,21 +72,7 @@ public class MemberDaoImpl implements MemberDao {
         m.setEmail(email);
         session.update("member.updateCode", m);
     }
-    //3. 이메일 인증 코드 확인
-    /* @Override
-    public Member chkAuth(Member m) throws Exception {
-        return session.selectOne("member.chkCode", m);
-    }*/
-
     
- /*   //4. 인증 후 계정 활성화
-    @Override
-    public void updateEmailStatus(Member m) throws Exception {
-        session.update("member.authStatus", m.getIsEmailAuth());
-        System.out.println(m.getIsEmailAuth());
-    }*/
-
-
     //E-mail status 변환
 	@Override
 	public int updateStatus(Map<String, String>map) {
@@ -91,7 +83,7 @@ public class MemberDaoImpl implements MemberDao {
 	//회원삭제
 	@Override
 	public int deleteMember(int memberNum) {
-		return session.delete("member.memberDelete",memberNum);
+		return session.update("member.memberDelete",memberNum);
 	}
 
 	@Override
@@ -163,7 +155,11 @@ public class MemberDaoImpl implements MemberDao {
 	public int deleteMsg(Member m) {
 		return session.update("member.deleteMsg",m);
 	}
-	
+
+	@Override
+	public void deleteLeaveMember() {
+		session.delete("member.deleteLeaveMember");
+	}
 	
 	
 	

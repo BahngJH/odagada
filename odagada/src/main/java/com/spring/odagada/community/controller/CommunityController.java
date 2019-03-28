@@ -299,7 +299,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/community/reviewForm.do")
-	public ModelAndView reviewForm(HttpServletRequest request, HttpSession session,String memberNum, String carpoolNum,String driverNum,String memberName)
+	public ModelAndView reviewForm(HttpServletRequest request, HttpSession session,String memberNum, String carpoolNum,String driverNum,String memberName,String driverName)
 	{
 		ModelAndView mv=new ModelAndView();
 		Member m = (Member)session.getAttribute("logined");
@@ -308,10 +308,12 @@ public class CommunityController {
 		review.put("carpoolNum", carpoolNum);
 		review.put("driverNum", driverNum);
 		review.put("memberName", memberName);
-		logger.debug("ㅀㅇㅀㅇjldsjjslfjsd: "+carpoolNum);
+		review.put("drvierName", driverName);
+		logger.debug("카풀넘: "+carpoolNum+"드라이버이름:"+driverName+"멤버 네임은?:"+memberName+"멤버넘?:"+memberNum);
 		
 		if(m!=null)
 		{
+			mv.addObject("driverName",review);
 			mv.addObject("review",review);
 			mv.setViewName("community/reviewForm");
 			return mv;
@@ -329,19 +331,21 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/reviewFormEnd.do")
-	public String reviewFormEnd(HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, String driverNum, String memberName,Model model)
-	{
+	public String reviewFormEnd(HttpSession session, HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, String driverNum, String memberName,String driverName,Model model)
+	{	
+		Member m = (Member)session.getAttribute("logined");
+		/*String memberName=m.getMemberName();*/
 		Map<String, String> review=new HashMap();
 		review.put("rContent", rContent);
 		review.put("rGrade", rGrade);
 		review.put("memberNum", memberNum);
 		review.put("carpoolNum", carpoolNum);
 		review.put("driverNum", driverNum);
-		logger.debug("dfsdsfs: "+review);
+		review.put("driverName", memberName);
 		int result=service.insertReview(review);
 		
 		String msg="";
-		String loc="/community/myReviewView.do?memberNum="+memberNum+"&carpoolNum="+carpoolNum;
+		String loc="/community/myReviewView.do?memberNum="+memberNum+"&carpoolNum="+carpoolNum+"&driverName="+memberName;
 		if(result>0)
 		{
 			msg="등록성공";
@@ -356,14 +360,17 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("community/reviewView.do")
-	public ModelAndView reviewView(HttpServletRequest request, HttpSession sessiong,int memberNum)
+	public ModelAndView reviewView(String memberNum)
 	{
+		Map<String, String> review = new HashMap();
+		review.put("memberNum", memberNum);
+		
 		int count=service.selectReviewCount(memberNum);
 		
 		logger.debug("내 리뷰 갯수 확인"+count);
 		
 		ModelAndView mv=new ModelAndView();
-		List<Map<String, Object>> map = service.selectReviewList(memberNum);
+		List<Map<String, Object>> map = service.selectReviewList(review);
 		logger.debug("내게 달린 리뷰 보기"+map);
 		mv.addObject("list",map);
 		mv.addObject("count",count);
@@ -371,7 +378,7 @@ public class CommunityController {
 		return mv;
 	}
 	
-	@RequestMapping("community/myReviewView.do")
+	@RequestMapping("/community/myReviewView.do")
 	public ModelAndView myReviewView(HttpServletRequest request, HttpSession session,String memberNum,String driverName, String carpoolNum)
 	{	
 		Map<String,String> review=new HashMap();
@@ -397,9 +404,10 @@ public class CommunityController {
 		m.put("memberNum", memberNum);
 		m.put("carpoolNum", carpoolNum);
 		m.put("driverName", driverName);
+		logger.debug("드라이버이름:"+driverName);
 		Map<String,Object> map=service.selectReview(m);
+		
 		mv.addObject("driverName",driverName);
-		logger.debug("드라이버 이름 들어와ㅣ아리ㅏㄴㅇ리ㅏㅁ넝ㄹ : "+m);
 		mv.addObject("review",map);
 		mv.addObject("memberNum",memberNum);
 		mv.setViewName("community/reviewModify");
@@ -409,7 +417,7 @@ public class CommunityController {
 	
 	@Transactional
 	@RequestMapping("/community/reviewModifyEnd.do")
-	public String reviewModifyEnd(HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, Model model)
+	public String reviewModifyEnd(HttpServletRequest request, String rContent, String rGrade, String memberNum, String carpoolNum, String driverName,Model model)
 	{
 		
 		Map<String,String> review=new HashMap();
@@ -417,11 +425,12 @@ public class CommunityController {
 		review.put("rGrade", rGrade);
 		review.put("memberNum", memberNum);
 		review.put("carpoolNum", carpoolNum);
-		logger.debug("sdadasdasds"+rContent+":"+rGrade+" : "+memberNum+" :"+carpoolNum);
+		review.put("driverName", driverName);
+		logger.debug("sdadasdasds"+rContent+":"+rGrade+" : "+memberNum+" :"+carpoolNum+" :"+driverName);
 		int result=service.updateReview(review);
 		
 		String msg="";
-		String loc="/community/myReviewView.do?memberNum="+memberNum+"&carpoolNum="+carpoolNum;
+		String loc="/community/myReviewView.do?memberNum="+memberNum+"&carpoolNum="+carpoolNum+"&driverName="+driverName;
 		if(result>0)
 		{
 			msg="수정성공";
@@ -430,6 +439,7 @@ public class CommunityController {
 		{
 			msg="수정실패";
 		}
+		model.addAttribute("driverName",driverName);
 		model.addAttribute("msg",msg);
 		model.addAttribute("loc",loc);
 		return "common/msg";

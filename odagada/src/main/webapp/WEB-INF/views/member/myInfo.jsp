@@ -15,6 +15,33 @@
 </jsp:include>
 
 <style>
+@font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/person.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	#tbl-board{
+		margin-bottom: 30px;
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
+
+
 
  div#enroll-container{width:400px; margin:0 auto;}
  div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
@@ -27,18 +54,25 @@
  #ttQ{margin-left:60%;}
  tr::before,tr::after {box-sizing: none; // 1}
 </style>
-
 <section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1 id="miniTitle">나의 오다, 가다</h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/person.png">
+</section>
+<section class="container"  style="margin-top: 0px;">
    <div class="row">
-
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
             <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
+            <c:if test="${logined.isAdmin eq '0'}">
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
             <c:if test="${driver ne null}">
             <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
             </c:if>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+         	</c:if>
          </div>
       </div>
       
@@ -108,10 +142,9 @@
 				      </td>
 				    </tr>		 
 				</table>
-				<!--  <a href="${path }/member/updateInfo.do" class="btn btn-primary" >정보변경하자좀</a>		 -->
-			  <div class="menu card-body">		 	   
-			 	 <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#changeInfo">정보 변경</button>
-				 <button type="button" class="btn btn-outline-success" id="tt-btn" data-toggle="modal" data-target="#delete">회원 탈퇴</button>						
+			  <div class="menu card-body">
+			  	<button type="button" class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#changeInfo">정보변경</button>
+		 		<button type="button" class="btn btn-outline-success btn-sm btn-block" id="tt-btn" data-toggle="modal" data-target="#delete">회원탈퇴</button>		 	   
 					<!--회원정보 변경  -->
 					<div class="modal fade" id="changeInfo" tabindex="-1" role="dialog" aria-labelledby="changeInfoModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
@@ -128,9 +161,9 @@
 					            <input type="password" class="form-control" id="answer1" name="answer1" style="resize: none;">
 					          </div>
 					      </div>
-					      <div class="modal-footer">					      	
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" onclick="updateCheck('change');">정보변경 하러가기</button>					        
+					      <div class="modal-footer">									        
+				        	<button type="button" class="btn btn-success" onclick="updateCheck('change');">정보변경</button>
+				        	<button type="button" class="btn btn-outline-success" data-dismiss="modal">취소</button>					    			       
 					      </div>
 					    </div>
 					  </div>
@@ -158,8 +191,8 @@
 					      </div>
 			       		<label for="answer" class="form-control-label" id="ttQ">탈퇴하시겠습니까?</label>					      	
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" id="delete" onclick="updateCheck('delete');">탈퇴하기</button>					        
+					        <button type="button" class="btn btn-outline-success" id="delete" onclick="updateCheck('delete');">탈퇴하기</button>					        
+					        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
 					      </div>
 					    </div>
 					  </div>
@@ -276,23 +309,6 @@
 	}
 
 </script>
-
-
-
-
-<%-- <div class="card" style="width: 20rem;">
-  <img class="img-thumbnail mx-auto d-block" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="Card image cap">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
- --%>
 
 
 

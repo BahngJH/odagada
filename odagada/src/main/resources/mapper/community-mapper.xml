@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="community">
 
+<!-- 채팅할 회원 검색 -->
   <select id="searchId" parameterType="string" resultType="map">
-  	select * from member where memberid like '%' || #{searchId} || '%'
+  	select * from member where memberstatus='Y' and memberid like '%' || #{searchId} || '%'
   </select>
 
+<!-- 채팅방 처음 생성할때 회원아이디로 채팅방Id 생성 -->
   <insert id="insertRoomId">
   	insert into chattingroom values(#{myId},#{chatUser},#{roomId})
   </insert>
@@ -13,35 +15,42 @@
   	insert into chattingroom values(#{chatUser},#{myId},#{roomId})
   </insert>
 
+<!-- 채팅 상대방의 정보와 roomid를 가져옴 -->
   <select id="bringUserInfo" parameterType="map" resultType="map">
   	select roomid,membername,memberid,PROFILEIMAGERE from member join(chattingroom) on(member2=memberid) where member1=#{myId} and member2=#{chatUser}
   </select>
 
+<!-- 나와 대상자의 채팅방이 있는지 조회 -->
   <select id="roomIdCheck" parameterType="map" resultType="string">
   	select roomid from chattingroom where member1=#{myId} and member2=#{chatUser}
   </select>
 
+<!-- 채팅방이 아닌곳에서 안읽은 메시지 전체 갯수 체크 -->
   <select id="jsutCheckMsg" parameterType="string" resultType="int">
 	select count(*) from chattingview where receiver=#{myId} and isread='N'
   </select>
   
+<!-- 채팅방에서 하는 채팅 내역들 저장 -->  
   <insert id="saveMessage" parameterType="msgVo">
   	insert into chattingview values(#{receiver},#{sender},sysdate,#{cContent},#{roomId},'N')
   </insert>
-  
+ 
+<!-- 이전의 채팅 내역들을 가져옴 --> 
   <select id="bringMsg" parameterType="string" resultType="map">
   	select sender,receiver,roomid,ccontent,memberid,membername,profileimagere,profileimageori from chattingView join member on (sender=memberid) where roomId=#{roomId} order by cDate
   </select>
   
-  
+<!-- 유저의 채팅방들을 가져오고 최신의 메시지도 함께 가져옴 -->  
   <select id="bringChatRooms" parameterType="string" resultType="com.spring.odagada.community.model.vo.ChatRoomVo">
 	select roomid,member1 as receiver,memberid,membername,TO_CHAR(cDate+9/24,'yy.MM.dd HH24:mi:ss') as cDate,ccontent,profileimagere from chattingroom join member on(member2=memberid) join chattingview using(roomid) where cdate in (select max(cdate) from chattingroom join chattingview using(roomid) where member1=#{loginId} group by roomid) and member1=#{loginId} order by cdate desc
   </select>
-  
+
+<!-- 채팅방 별로 안읽은 메시지 수 가져옴 -->  
   <select id="isReadCount" parameterType="com.spring.odagada.community.model.vo.ChatRoomVo" resultType="int">
   	select count(*) from chattingview where receiver=#{receiver} and roomid=#{roomId} and isread='N'
   </select>
   
+<!-- 채팅방에 들어가면 안읽은 메시지 읽음으로 업데이트 -->  
   <update id="checkedMessage" parameterType="map">
   	update chattingview set isread='Y' where isread='N' and receiver=#{loginId} and roomid=#{roomId}
   </update>
@@ -63,7 +72,7 @@
   	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} and carpoolNum=#{carpoolNum}
   </select>
   <select id="selectReviewList" resultType="map">
-  	SELECT * FROM REVIEW WHERE DRIVERNUM=#{memberNum} order by rDate desc
+  	SELECT r.*, memberId FROM REVIEW r join member on (writerNum = memberNum) WHERE DRIVERNUM=#{memberNum} order by rDate desc
   </select>
   <update id="updateReview">
  	UPDATE REVIEW SET RCONTENT=#{rContent},RGRADE=#{rGrade},RDATE=sysdate WHERE WRITERNUM=#{memberNum} AND CARPOOLNUM=#{carpoolNum}

@@ -15,6 +15,32 @@
 </jsp:include>
 
 <style>
+@font-face { font-family: 'NIXGONM-Vb'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }	
+@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/person.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	#tbl-board{
+		margin-bottom: 30px;
+	}
+	a{
+		color: black;
+		text-decoration: none;
+	}
+
 div#enroll-container {
 	width: 400px;
 	margin: 0 auto;
@@ -73,15 +99,22 @@ a#pay{
 </style>
 
 <section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1 id="miniTitle">나의 오다, 가다</h1>
+	</div>
+</section>
+<section class="photo-backround" data-image="${path}/resources/images/person.png">
+</section>
+<section class="container" style="margin-top: 0px;">
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
 				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a class="list-group-item list-group-item-action active">카풀 내역</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 내역</a>
 				<c:if test="${driver ne null}">
 				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
 				</c:if>
-	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
 			</div>
 		</div>
 		
@@ -110,6 +143,7 @@ a#pay{
 				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
 				                   </div>
 				                   <div class="offset-2 col-2">
+				                   <c:if test='${list.PSTATUS == "Y"}'>
 				                   		<c:choose>
 											<c:when test="${list.WRITERNUM != null }">
 												<span>
@@ -122,6 +156,7 @@ a#pay{
 												</span>
 											</c:otherwise>
 										</c:choose>
+									</c:if>
 				                   </div>
 				                   <div class="col status_option">
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
@@ -132,7 +167,7 @@ a#pay{
 											    <div class="modal-content">
 											      <div class="modal-header">
 											        <h5 class="modal-title" id="payModalLabel">결제 코드</h5>
-											        <button type="button" class="close" data-dismiss="payModal" aria-label="Close">
+											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											          <span aria-hidden="true">&times;</span>
 											        </button>
 											      </div>
@@ -199,13 +234,18 @@ a#pay{
 				      </div>
 					</c:forEach>
 				</c:if>
+					<div class="row ">
+		<div class="col-12 text-center">
+			<nav aria-label="Page navigation">
+				${pageBar }
+			</nav>
+		</div>
+	</div>
 		     </div>
 
 		</div>
 	</div>
-	<nav aria-label="Page navigation">
-		${pageBar }
-	</nav>
+
       
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

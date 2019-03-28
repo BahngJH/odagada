@@ -21,6 +21,9 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<style>
+	body {
+		margin-top: 150px;
+	}
 	#easyLogin{
 		text-align: center;
 		margin-bottom:30px;
@@ -32,10 +35,14 @@
 	#naverIdLogin{
 		margin-top:20px;
 	}
+	section{
+		font-family: S-CoreDream-3Light;
+	}
 	</style>
 
 <body>
-    <form  action="${path }/member/login.do" method="post">
+<section class='container'>
+    <form  action="${path}/member/login.do" method="post" style="margin-top: 150px;">
         <svg id="ryan" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,150 C0,65 120,65 120,150" fill="#e0a243" stroke="#000" stroke-width="2.5" />
             <g class="ears">
@@ -61,7 +68,7 @@
         <input id="tt" type="text" name="memberId" placeholder="아이디를 입력하세요">
         <input type="password" name="memberPw" placeholder="패스워드">
         <input type="submit" value="로그인">
-        <span class="searchAccount"><a href="${pageContext.request.contextPath}/member/signUp.do">회원가입</a> | <a href="${path}/member/findId">아이디 찾기</a> | <a href="${path}/member/findPw">비밀번호 찾기</a></span>
+        <span class="searchAccount"><a href="${path}/member/signUp.do" style="text-decoration: none;color:white;">회원가입</a> | <a href="${path}/member/findId" style="text-decoration: none;color:white;">아이디 찾기</a> | <a href="${path}/member/findPw" style="text-decoration: none;color:white;">비밀번호 찾기</a></span>
     </form>
     <!-- 간편로그인 배너 -->
 	<div id="easyLogin">
@@ -73,7 +80,6 @@
 		<div id="naverIdLogin"></div>
 	</div>    
 	<script src="${pageContext.request.contextPath }/resources/loginFile/script.js"></script>
-	
 
 	<!-- 카카오 스크립트문 -->
 	<script type='text/javascript'>
@@ -142,6 +148,6 @@
 				});
 		naverLogin.init();
 	</script>
-
+</section>
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

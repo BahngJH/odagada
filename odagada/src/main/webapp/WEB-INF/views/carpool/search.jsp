@@ -22,7 +22,7 @@
 	}
 	button.btn-search{
 		width:100px;
-		margin-left:45%;
+		float:right;
 	}
 	input.road-btn{
 		margin-top:20px;
@@ -49,11 +49,62 @@
 	div.date-btn{
 		padding-right:20px; 
 	}
+	a{
+	text-decoration: none;
+	}
+	a.info-a{
+		text-decoration: none;
+		color:rgb(100,100,100);
+		font-size:15px;
+		float:right;
+	}
+	.info-img{
+	width:100%;
+	height:100%;
+	}
+	.modal-dialog{
+		max-width:780px;
+	}
+	@font-face { font-family: 'silgothic'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/silgothic.woff') format('woff'); font-weight: normal; font-style: normal; }	
+	@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }   
+	
+	h1{
+		/* font-family : S-CoreDream-3Light; */
+		font-family : silgothic;
+		text-align: left;
+		margin: 20px 0 20px 0;
+	}
+	.photo-backround{
+		background-image: url(${pageContext.request.contextPath}/resources/images/search.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 10px;
+	}
+	.sec-tt{
+		margin-top:50px;
+		font-family: BMJUA;
+	}
 </style>
 <section class="container">
+	<div class="col-md-8 offset-md-2">
+		<h1> 원하는 장소를 검색해보세요.</h1>
+	</div>
+</section>
+
+<section class="photo-backround" data-image="${path}/resources/images/search.png">
+</section>
+
+<section class="container sec-tt">
 	<div class="row">
-		<div class="col-3"></div>
-		<div class="col-6">
+		 <div class="col-9">
+		 	<a class="info-a" style="text-decoration: none;color: rgb(140,140,140);"href="" data-toggle="modal" data-target="#info">◎ 검색 방법 알아보기</a>
+		 </div>
+	</div>
+	<div class="row">
+		<div class="offset-3 col-6">
 			<form action="${path }/carpool/searchEnd.do" method="post" id="search-form" onsubmit="return validate()">
 				<div class="row">
 					<div class="col-12">
@@ -90,8 +141,8 @@
 				<div class="row">
 				 	<div class="col-sm-12">
 						<div class="input-group-btn">
-							<button class="btn btn-success div-search btn-search" type="button" id="btn_search" onclick="search();">
-							&nbsp;&nbsp;<i class="fas fa-search-location"></i>&nbsp;&nbsp;
+							<button class="btn btn-success div-search btn-search text-center" type="button" id="btn_search" onclick="search();">
+							&nbsp;&nbsp;<i class="fas fa-search-location" style="font-size:13px; width:auto;">Search</i>&nbsp;&nbsp;
 							</button>
 						</div>
 					</div>
@@ -99,6 +150,36 @@
 			</form>
 		</div>
 		<div class="col-3">
+		</div>
+	</div>
+	<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><b>검색하기 이용법</b></h4>                    
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="ttMessage-div">
+					<div class="row">
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body">
+										<img src="${path }/resources/images/guide-1.png" class="info-img"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
@@ -153,13 +234,27 @@ function search(){
 		return false;
 	}
 
-	var nowDate = moment().format('YYYY.MM.DD. a h:mm');
-	console.log($("#startDate").val());
-	
-	if(!($("#startDate").val() > nowDate)){
-		alert("날짜를 확인해주세요.");
-		return false;
-	}
+	var nowDate = moment().format('YYYY.MM.DD. HH:mm');
+    var setDate = $("#startDate").val();
+    var setDates = setDate.split(" ");
+    var nowDates = nowDate.toString().split(" ");
+      
+    var time = setDates[2].split(":");
+   
+    if(setDates[1] === "오전" && time[0] === "12"){
+    	time[0] = Number(time[0]) - 12;
+    }
+    
+    if(setDates[1] === "오후" && time[0] != "12"){
+	    time[0] = Number(time[0]) + 12;    		
+    }
+   
+    var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
+
+    if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
+       alert("날짜를 확인해주세요.");
+       return false;
+    }
 	
 	
 	// 검색된 주소의 lat,lon 값 넣기
@@ -229,30 +324,13 @@ function sample6_execDaumPostcode1() {
         oncomplete: function(data) {
             var addr = ''; // 주소 변수
             var extraAddr = ''; // 참고항목 변수
-
+			
+            addr=data.autoJibunAddress;
             //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            if (addr=='') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.jibunAddress;
             }
-
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if(data.userSelectedType === 'R'){
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
-                    extraAddr = ' (' + extraAddr + ')';
-                }
-            }
-            check=addr+extraAddr;
-            document.getElementById("startSearch").value = check;
+            document.getElementById("startSearch").value = addr;
         }
     }).open();
 }
@@ -260,35 +338,17 @@ function sample6_execDaumPostcode1() {
 function sample6_execDaumPostcode2() {
     new daum.Postcode({
         oncomplete: function(data) {
-            var addr = ''; // 주소 변수
+        	var addr = ''; // 주소 변수
             var extraAddr = ''; // 참고항목 변수
-
+			
+            addr=data.autoJibunAddress;
             //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            if (addr=='') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.jibunAddress;
             }
-
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if(data.userSelectedType === 'R'){
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
-                    extraAddr = ' (' + extraAddr + ')';
-                }
-            }
-            document.getElementById("endSearch").value = addr+extraAddr;
+            document.getElementById("endSearch").value = addr;
         }
     }).open();
 }
 </script> 
-
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

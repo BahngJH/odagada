@@ -15,11 +15,11 @@
 		SELECT count(*) FROM DRIVER
 	</select>
 	<select id="selectDriverList" resultType="map">
-		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM ORDER BY D.ENROLLDATE DESC
+		SELECT D.MEMBERNUM, M.MEMBERID, M.MEMBERNAME, D.CARNUM, D.ENROLLDATE, D.DRIVERSTATUS,D.MONEY FROM MEMBER M, DRIVER D WHERE M.MEMBERNUM = D.MEMBERNUM ORDER BY D.ENROLLDATE DESC
 	</select>
 	
 	<select id="selectDriverOne" resultType="map" parameterType="_int">
-		SELECT MEMBERNUM,M.MEMBERID, M.MEMBERNAME, M.BIRTH, M.PHONE,M.PROFILEIMAGERE, D.LICENSENUM, D.CARMODEL, D.CARNUM , D.ENROLLDATE, D.INTRODUCE, D.DRIVERSTATUS 
+		SELECT MEMBERNUM,M.MEMBERID, M.MEMBERNAME, M.BIRTH, M.PHONE,M.PROFILEIMAGERE, D.LICENSENUM, D.CARMODEL, D.CARNUM , D.ENROLLDATE, D.INTRODUCE, D.DRIVERSTATUS, D.MONEY
 		FROM MEMBER M JOIN DRIVER D USING(MEMBERNUM) WHERE MEMBERNUM = #{memberNum}
 	</select>
 	<select id="selectCarImg" resultType="map" parameterType="String">
@@ -34,7 +34,7 @@
    <!-- //드라이버가 등록한 카풀리스트  -->
    <resultMap type="map" id="driver_"></resultMap>
    <select id="selectDriverCarpool" parameterType="_int" resultMap="driver_">
-      select * from carpool where membernum=#{memberNum} order by startdate
+      select * from carpool where membernum=#{memberNum} order by startdate DESC
    </select>
    <select id="selectDriverPas" parameterType="map" resultMap="driver_">
       select carpoolnum, c.membernum as cmembernum, startlong,startlat,destlong, destlat, pay, startdate, startcity,endcity,startdetail,enddetail,status,t.seatcount,p.membernum as pmembernum, paycode,pstatus, paystatus, impuid ,m.* 
@@ -69,4 +69,7 @@
    <delete id="deleteImg">
    	DELETE FROM CARIMAGE WHERE CARNUM=#{carNum}
    </delete>
+   <select id="selectDriverCarCount" parameterType="int" resultType="int">
+   	SELECT COUNT(*) FROM carpool where membernum=#{memberNum} order by startdate DESC
+   </select>
 </mapper>

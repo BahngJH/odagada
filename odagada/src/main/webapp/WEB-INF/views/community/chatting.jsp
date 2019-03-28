@@ -275,7 +275,7 @@
                 <img width="120px" height="120px" src="${path }/resources/upload/profile/${logined.profileImageRe}" alt="내 사진"><br>
                 <span id="myName">${logined.memberName }</span>
                 <div id="searchMember"><br>
-            	<input id="searchId" type="text" placeholder="채팅 아이디 입력 후 엔터">
+            	<input id="searchId" type="text" placeholder="회원 아이디 입력 후 엔터">
             	<span class="input-group-addon">
             	<button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
             	</span>
@@ -287,8 +287,8 @@
         </div>
     </div>
 </div>
-    
-    <script>
+
+<script>
     //웹소켓 객체 사용할 변수
     var ws;
     
@@ -305,7 +305,7 @@
     	jsonData.imageUrl = "${logined.profileImageRe}";
     	jsonData.sender ="${logined.memberId}";
     	
-    	var url="http://localhost:9090/odagada/echo";
+    	var url="http://192.168.20.226:9090/odagada/echo";
 		ws = new SockJS(url);
 		
 		//메세지를 받았을 때

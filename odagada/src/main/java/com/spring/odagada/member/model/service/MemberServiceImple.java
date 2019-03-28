@@ -23,6 +23,12 @@ public class MemberServiceImple implements MemberService {
     private JavaMailSender mailSender;
 
 	@Override
+	public Map<String, String> checkBlack(String checkId) {
+		// TODO Auto-generated method stub
+		return dao.checkBlack(checkId);
+	}
+
+	@Override
 	public Member kakaoIdCK(Member m) {
 		// TODO Auto-generated method stub
 		return dao.kakaoIdCK(m);
@@ -41,7 +47,7 @@ public class MemberServiceImple implements MemberService {
 
 	//아이디 중복체크
 	@Override
-	public int checkId(String memberId) {
+	public int checkId(String memberId) {	
 		return dao.checkId(memberId);
 	}
 
@@ -86,6 +92,7 @@ public class MemberServiceImple implements MemberService {
         sendMail.setFrom("burny9057@gmail.com", "[odagada]");
         sendMail.setTo(m.getEmail());
         sendMail.send();  
+
     }
 
    //메일 인증상태 업데이트
@@ -128,7 +135,7 @@ public class MemberServiceImple implements MemberService {
 	                new StringBuffer().append("<h2>임시 비밀번호 안내입니다.</h2>")
 	                .append("<h2>임시 비밀번호를 발송해드립니다.</h2>")
 	                .append("<h2>임시 비밀번호는 "+newPw+"입니다</h2>")
-	                .append("<a href='"+path+"member/loginForm.do")
+	                .append("<a href='"+path+"member/loginForm2.do")
 	                .append("' target='_blank'>로그인 하러가기</a>")
 					.toString());
 	        sendMail.setFrom("burny9057@gmail.com", "[odagada]");
@@ -234,8 +241,9 @@ public class MemberServiceImple implements MemberService {
 	public int deleteMsg(Member m) {
 		return dao.deleteMsg(m);
 	}
-	
-	
-	
-	
+
+	@Override
+	public void deleteLeaveMember() {
+		 dao.deleteLeaveMember();
+	}		
 }
