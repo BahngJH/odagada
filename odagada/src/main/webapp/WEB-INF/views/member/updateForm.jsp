@@ -494,16 +494,9 @@ function changeName(){
 					  		</div>			    
 				    </li> 
 				  </ul>		 	
-<<<<<<< HEAD
-			 </div>            
- 		 
-	</div> 
-	</section>      
-=======
 			 </div>            		 
 	</div>
 </section>       
->>>>>>> branch 'master' of https://github.com/BahngJH/odagada
 <script>
 function phoneCheck(){
 	
