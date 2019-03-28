@@ -232,7 +232,7 @@ public class DriverController {
 		 else {
 			 isLicense="Y";
 		 }
-		 
+		 logger.debug("rufrhkrkqt::::::"+isLicense);
 		 return isLicense;
 	 }
 

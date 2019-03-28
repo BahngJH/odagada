@@ -124,25 +124,9 @@
       //var filename=$(this).prop('files')[0].name;
       $(this).next('.custom-file-label').html(filename);
    });
-              
-   //핸드폰 숫자만 입력받게 하는 함수    
-   $('#phone2').on('keyup', function() {
-      if (/\D/.test(this.value)) {
-         this.value = this.value.replace(/\D/g, '')
-         alert('숫자만 입력가능합니다.');
-      }
-   });
-   
    
  });
  function validate() {
-      //핸드폰 유효성 검사 
-      var regExp = /([0-9]{7,8})$/;
-      if (!regExp.test($("input[name=phone2]").val())) {
-            alert("정확한 휴대폰 번호를 입력해주세요.");
-            return false;
-         }
-      
       //자동차 사진 필수 입력
       var file_name = $('.custom-file-label').val();
       if(file_name == null){
@@ -159,34 +143,7 @@
       
       var file_name2=$('.custom-file-label').val();
       
-      var licenseNum = $('#licenseNum').val();
-      var incenseCon = licenseNum.substring(0,2);
-      var licen = /([가-힣]|[0-9]){2}-{1}([0-9]{2})-{1}([0-9]){6}-{1}([0-9]){2}$/
-      console.log("licenseNum");
-      console.log($("input[name=licenseNum]").val());
-      console.log(licen.test($("input[name=licenseNum]").val()));
-      if(!licen.test($("input[name=licenseNum]").val())){
-    	  alert("정확한 면허번호를 입력해주세요.");
-    	  
-    	  return false;
-      }     
-      
-      console.log("운전면허"+licenseNum);
-	    $.ajax({
-	    	url:"${path}/driver/checkLicense",
-	    	data:{"licenseNum": licenseNum},
-	    	success:function(data){
-	    		if(data == 'Y'){
-	    			document.getElementById('licenseStatus').value='1';
-	    			alert('올바른 운전면허 번호입니다.');
-	    			return true;
-	    		}else{
-	    			 document.getElementById('licenseStatus').value='0';
-	    			alert('등록된 운전면허 번호입니다.');
-	    			return false;
-	    		}
-	    	}
-	    });	
+     
           
       
 	  var carNum = $('#carNum').val();
@@ -203,7 +160,7 @@
 	    	url:"${path}/driver/checkCarNum",
 	    	data:{"carNum": carNum},
 	    	success:function(data){
-	    		if(data == 'Y'){
+	    		if(data == "Y"){
 	    			document.getElementById('carNumStatus').value='1';
 	    			alert('올바른 자동차 번호입니다.');
 	    			return true;
@@ -248,7 +205,38 @@
          return false;      
          }
       }
-
+function liCk(){
+	
+	 var licenseNum = $('#licenseNum').val();
+     var incenseCon = licenseNum.substring(0,2);
+     var licen = /([가-힣]|[0-9]){2}-{1}([0-9]{2})-{1}([0-9]){6}-{1}([0-9]){2}$/
+     console.log("licenseNum");
+     console.log($("input[name=licenseNum]").val());
+     console.log(licen.test($("input[name=licenseNum]").val()));
+/*      if(!licen.test($("input[name=licenseNum]").val())){
+   	  alert("정확한 면허번호를 입력해주세요.");
+   	  
+   	  return false;
+     }    */  
+     
+     console.log("운전면허"+licenseNum);
+	    $.ajax({
+	    	url:"${path}/driver/checkLicense",
+	    	data:{"licenseNum": licenseNum},
+	    	success:function(data){
+	    		console.log('sdssds:'+data);
+	    		if(data == "Y"){
+	    			document.getElementById('licenseStatus').value='1';
+	    			alert('올바른 운전면허 번호입니다.');
+	    			return true;
+	    		}else{
+	    			 document.getElementById('licenseStatus').value='0';
+	    			alert('등록된 운전면허 번호입니다.');
+	    			return false;
+	    		}
+	    	}
+	    });	
+}
 
 </script>
 <section class="container">
@@ -273,27 +261,9 @@
            		<label for="memberName" class="col-sm-3 col-form-label" id="label_birth">생년월일</label>
            		<input type="text" class="form-control" value="${logined.birth}" name="birth" id="birth" readonly required>
             </div>
-			<div class="form-group row">                  
-                 <label for="memberName" class="col-sm-3 col-form-label" id="label_tel">전화번호</label>                 
-                  <c:set var="phone" value="${logined.phone}"/>
-                     <select class="tel" name="phone1" id="selectPhone" disabled="disabled">                                                                                        
-                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>>010</option>
-                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
-                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>> 016</option>
-                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
-                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
-                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
-                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
-                     </select>
-                     <c:if test="${fn:length(phone) eq 11}">
-                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" readonly required>
-                    </c:if>
-                    <c:if test="${fn:length(phone) eq 10}">
-                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" readonly required>
-                    </c:if>
-            </div>
             <div class="form-group row">      		
            		<input type="text" class="form-control" name="licenseNum" id="licenseNum" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
+           		<input type='button' class='btn btn-success' onclick='liCk()'/>
             	<input type="hidden" id="licenseStatus" value="0"/>
             </div>
             <div class="form-group row">            		
