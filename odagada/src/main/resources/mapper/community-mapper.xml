@@ -72,7 +72,7 @@
   	SELECT * FROM REVIEW WHERE WRITERNUM=#{memberNum} and carpoolNum=#{carpoolNum}
   </select>
   <select id="selectReviewList" resultType="map">
-  	SELECT r.*, memberId, memberName FROM REVIEW r join member on (writerNum = memberNum) WHERE driverNum = #{memberNum} order by rDate desc
+  	SELECT r.*, memberId FROM REVIEW r join member on (writerNum = memberNum) WHERE DRIVERNUM=#{memberNum} order by rDate desc
   </select>
   <update id="updateReview">
  	UPDATE REVIEW SET RCONTENT=#{rContent},RGRADE=#{rGrade},RDATE=sysdate WHERE WRITERNUM=#{memberNum} AND CARPOOLNUM=#{carpoolNum}

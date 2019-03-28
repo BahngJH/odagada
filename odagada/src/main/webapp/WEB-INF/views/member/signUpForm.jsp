@@ -578,18 +578,6 @@ $(function(){
 					<img  class="img-thumbnail mx-auto d-block" id="pro_img">            	
              	</div>
              </div>
-            <div class="row">
-               <div class="col-6 name-div">
-                  <div>
-                     <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
-                  </div>                       
-               </div>
-               <div class="col-6 dR" id="birth-div">
-                  <div>
-                     <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
-                  </div>                       
-               </div>           
-            </div>    
             <div class="row row-email">
                <div class="col-6 div-email">
                   <div class="input-group div-email">
@@ -605,6 +593,18 @@ $(function(){
                		<button type="button" class="eck btn btn-success check-btn" onclick="checkEmail();">중복확인</button>
                </div>
           </div>
+          <div class="row">
+               <div class="col-6 name-div">
+                  <div>
+                     <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="8" required>
+                  </div>                       
+               </div>
+               <div class="col-6 dR" id="birth-div">
+                  <div>
+                     <input type="text" class="form-control" placeholder="생년월일" name="birth" id="birth" readonly required>
+                  </div>                       
+               </div>           
+            </div>   
           <div class="row row-email">
              <div class="col-3 select-div">         
 	              <select class="tel" name="phone1" id="selectPhone" required>                                                                                           

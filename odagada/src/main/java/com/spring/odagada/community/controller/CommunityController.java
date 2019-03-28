@@ -378,7 +378,7 @@ public class CommunityController {
 		return mv;
 	}
 	
-	@RequestMapping("community/myReviewView.do")
+	@RequestMapping("/community/myReviewView.do")
 	public ModelAndView myReviewView(HttpServletRequest request, HttpSession session,String memberNum,String driverName, String carpoolNum)
 	{	
 		Map<String,String> review=new HashMap();

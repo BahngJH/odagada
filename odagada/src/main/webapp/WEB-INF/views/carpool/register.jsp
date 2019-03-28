@@ -96,12 +96,7 @@
 	</div>
 	<div class="row schedule">
 		<div class="col-12 col-md-6">
-			<div class="input-group">
-				<input type="text" class="form-control" id="addrSearch" placeholder="주소 검색"/>
-				<span class="input-group-btn">
-					<button class="btn btn-secondary" id="btn_addr" type="button" onclick="addrSearch();">검색</button>
-				</span>
-			</div>
+			<input type="text" class="form-control" id="addrSearch" placeholder="주소 검색" onclick="addrSearch();"/>
 			<div id="map" style="width:100%;height:400px;"></div>
 			<span id="loc" class="fas fa-map-marker-alt fa-2x"></span>
 		</div>
@@ -226,6 +221,7 @@
 </section>
 
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8ea84df6-f96e-4f9a-9429-44cee22ab70f"></script>
+<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
 <script>
 
 /* 날짜/시간 입력 달력 */
@@ -502,8 +498,41 @@ $("#addrSearch").on("keydown", function(e){
 	}
 });
 
+
+var check;
+//출발지 검색
+
 function addrSearch(){
-	searchAddressToCoordinate($("#addrSearch").val());
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+            }
+            check=addr+extraAddr;
+			searchAddressToCoordinate(check);
+        }
+    }).open();
 };
 
 // 주소 검색 내용으로 지도 이동
