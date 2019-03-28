@@ -126,6 +126,20 @@ public class DriverDaoImpl implements DriverDao {
 	public int selectDriverCarCount(int memberNum) {
 		return session.selectOne("driver.selectDriverCarCount", memberNum);
 	}
+
+	@Override
+	public int checkCarNum(String carNum) {
+		return session.selectOne("driver.checkCarNum",carNum);
+	}
+
+	@Override
+	public int checkLicense(String licenseNum) {
+		return session.selectOne("driver.checkLicense",licenseNum);
+	}
+	
+	
+	
+	
 	
 
 	

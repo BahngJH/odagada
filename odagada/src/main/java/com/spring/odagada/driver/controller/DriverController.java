@@ -2,6 +2,8 @@ package com.spring.odagada.driver.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -197,6 +200,45 @@ public class DriverController {
 	      return mv;	      
 	   }
 
+	 //자동차 번호 중복확인
+	 @ResponseBody
+	 @RequestMapping("/driver/checkCarNum")
+	 public String checkCarNum(String carNum){
+		 logger.debug("carNum들어오니???"+carNum);
+		 Map map = new HashMap();
+		 int result = service.checkCarNum(carNum);
+		 String isCarNum = "";
+		 if(result>0)
+		 {
+			 isCarNum = "N";
+		 }
+		 else {
+			 isCarNum = "Y";
+		 }
+		 
+		 return isCarNum;
+		 
+	 }
+	 
+	 //자동차 면허번호 중복확인
+	 @ResponseBody
+	 @RequestMapping("/driver/checkLicense")
+	 public String checkLicense(String licenseNum){
+		 logger.debug("운전면호 테스트"+licenseNum);
+		 int result = service.checkLicense(licenseNum);
+		 String isLicense = "";
+		 
+		 if(result>0)
+		 {
+			 isLicense="N";
+		 }
+		 else {
+			 isLicense="Y";
+		 }
+		 logger.debug("rufrhkrkqt::::::"+isLicense);
+		 return isLicense;
+	 }
+
 	 @RequestMapping("/driver/driverForm")
 	 public ModelAndView driverForm(int memberNum,String carNum,HttpSession session)
 	 {
@@ -224,6 +266,7 @@ public class DriverController {
 		 
 		 return mv;
 	 }
+	 
 
 	@RequestMapping("/driver/driverFormEnd")
 	public String driverFormEnd(HttpServletRequest request,@RequestParam(value="driverStatus") String driverStatus,@RequestParam(value="memberNum") int memberNum)
@@ -238,6 +281,8 @@ public class DriverController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 			map.put("memberNum", memberNum);
+			
+		//드라이버 면허 번호가 동일할 경우 메세지 출력
 			
 		if(driverStatus.equals("N"))
 		{

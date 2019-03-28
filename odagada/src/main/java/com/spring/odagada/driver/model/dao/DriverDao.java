@@ -29,4 +29,7 @@ public interface DriverDao {
 	int updateDriver(Map<String, Object> driver);
 	int deleteImg(String carNum);
 	int selectDriverCarCount(int memberNum);
+	
+	int checkCarNum(String carNum);
+	int checkLicense(String licenseNum);
 }

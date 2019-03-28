@@ -72,4 +72,12 @@
    <select id="selectDriverCarCount" parameterType="int" resultType="int">
    	SELECT COUNT(*) FROM carpool where membernum=#{memberNum} order by startdate DESC
    </select>
+   
+   <select id="checkCarNum" parameterType="string" resultType="_int">
+   	SELECT COUNT(*) FROM DRIVER WHERE CARNUM=#{carNum}
+   </select>
+   
+   <select id="checkLicense" parameterType="string" resultType="_int">
+   	SELECT COUNT(*) FROM DRIVER WHERE LICENSENUM=#{licenseNum}
+   </select>
 </mapper>
