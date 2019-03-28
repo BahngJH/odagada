@@ -126,7 +126,6 @@ a#pay{
 				</c:if>
 				<c:if test="${carpoolList.size()>0 }">
 					<c:forEach items="${carpoolList }" var="list">
-					${list.PAYCODE }
 				      <div id="div-pick" class="card border-success mb-3">
 				        <div class="card-body text-success">
 				          <div class="row">
