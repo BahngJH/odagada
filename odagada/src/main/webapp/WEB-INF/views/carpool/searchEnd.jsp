@@ -235,7 +235,7 @@
 		<div class="col-12 col-md-8">
 			<p class="text-center" style="font-family: BMJUA;">[<i> 입력한 출발일과 가장 가까운 시일의 카풀내역이 검색됩니다. </i>]</p>
 			<div  id="result-search" class="result-search">
-				<div id = "Progress_Loading"><!-- 로딩바 -->
+				<div id = "Progress_Loading">
 					<img src="${path }/resources/images/option-icon/Progress_Loading.gif"/>
 				</div>
 				<!-- 조건만큼 검색 결과 출력 -->

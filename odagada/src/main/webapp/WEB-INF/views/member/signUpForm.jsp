@@ -570,10 +570,24 @@ $(function(){
             </div>
              <div class="row">                     
                   <div class="upFile-div custom-file col-12">
-                      <input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
-                      <input type="hidden" id="temp" name="temp" value="0"/>
-                      <label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
-                  </div>                      
+						<input type="file" class="custom-file-input" accept="image/*" name="upFile" onchange="fileCheck(this)" required>
+						<input type="hidden" id="temp" name="temp" value="0"/>
+						<label class="custom-file-label profile" for="upFile">프로필 사진 등록</label>
+<%-- 						<div id = "Progress_Loading1">
+							<img src="${path }/resources/images/option-icon/Progress_Loading.gif" style='position:absolute;z-index:2;'/>
+						</div>
+						<script>
+						$(document).ready(function(){
+							   $('#Progress_Loading1').hide(); //첫 시작시 로딩바를 숨겨준다.
+							})
+							.ajaxStart(function(){
+							   $('#Progress_Loading1').show(); //ajax실행시 로딩바를 보여준다.
+							})
+							.ajaxStop(function(){
+							   $('#Progress_Loading1').hide(); //ajax종료시 로딩바를 숨겨준다.
+							});
+						</script>    --%>
+	             </div>
              </div>
              <div class="row" id="proImg-row">
              	<div id="proImg-div">
