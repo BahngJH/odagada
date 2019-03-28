@@ -62,14 +62,16 @@
 		</tr>
 		<c:forEach var="list" items="${notifyList }">
 			<tr>
+			
 				<td>${list.NOTIFYID }</td>
 				<td>${list.NONNOTIFYID }</td>
 				<td>${list.NCONTENT }</td>
 				<td>${list.NDATE }</td>
 				<td>
-				<button class="btn btn-success" onclick="deleteNotify('${list.NOTIFYID}','${list.NONNOTIFYID}','${list.NCONTENT}');">용서</button> &nbsp; 
+				<button class="btn btn-success" onclick="deleteNotify('${list.NOTIFYID}','${list.NONNOTIFYID}');">용서</button> &nbsp; 
 				<button data-toggle="modal" data-target="#insertBlack"  data-notifyid="${list.NOTIFYID }" data-nonnotifyid="${list.NONNOTIFYID }" data-ncontent="${list.NCONTENT }" class="btn btn-danger">블랙</button>
 				</td>
+				
 			</tr>
 		</c:forEach>
 	</table>
@@ -109,9 +111,10 @@
 	});
 	
 	
-	function deleteNotify(notifyid,nonnotifyid,ncontent)
+	function deleteNotify(notifyid,nonnotifyid)
 	{
-		location.href='${path}/admin/deleteNotify.do?notifyId='+notifyid+'&nonNotifyId='+nonnotifyid+'&nContent='+ncontent;
+		var ncontent=$(event.target).parent("td").prev().prev().text();
+		location.href='${path}/admin/deleteNotify.do?notifyId='+notifyid+'&nonNotifyId='+nonnotifyid;
 	}
 	
 	function insertBlack()

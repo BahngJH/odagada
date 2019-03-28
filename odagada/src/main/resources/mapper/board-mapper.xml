@@ -27,7 +27,7 @@
   </insert>
 
   <delete id="deleteNotify" parameterType="map" >
-  	delete from notify where notifyid=#{notifyId} and nonnotifyid=#{nonNotifyId} and ncontent=#{nContent}
+  	delete from notify where notifyid=#{notifyId} and nonnotifyid=#{nonNotifyId}
   </delete>
   
   <select id="notifyList" resultType="map">
