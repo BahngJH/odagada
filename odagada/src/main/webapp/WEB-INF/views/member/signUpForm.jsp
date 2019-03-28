@@ -527,7 +527,9 @@ $(function(){
       		}
      	}
      }
-      
+     function backBtn(){
+    		history.back(); 	
+    	}     
      
 </script>
 <section class="container">
@@ -560,7 +562,7 @@ $(function(){
             </div>
             <div class="row passwordInfo">    	
            		<div class="ptext col-5">
-           			<p class="badge badge-secondary p_pass">비밀번호 변경 시 유의사항</p>&nbsp&nbsp  
+           			<p class="badge badge-secondary p_pass">비밀번호 설정 유의사항</p>&nbsp&nbsp  
        			</div>  
        			<div class="col-7 p-div">      	
           				<p>숫자/영문자/특수문자 조합 6~15자</p>
@@ -634,7 +636,7 @@ $(function(){
                 <br/>
                 <div class="row" id="sub-btn">  
                   <input type="submit" class="btn btn-success btn-sm btn-block" value="가입">
-				  <input type="reset" class="btn btn-outline-success btn-sm btn-block" value="취소">
+				  <input type="reset" class="btn btn-outline-success btn-sm btn-block" onclick='backBtn();' value="취소">
                </div>
             </form>
          </div>

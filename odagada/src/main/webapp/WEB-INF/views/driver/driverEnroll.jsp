@@ -280,6 +280,25 @@ function reCkCar(){
            		<label for="memberName" class="col-sm-3 col-form-label" id="label_birth">생년월일</label>
            		<input type="text" class="form-control" value="${logined.birth}" name="birth" id="birth" readonly required>
             </div>
+			<div class="form-group row">                  
+                 <label for="memberName" class="col-sm-3 col-form-label" id="label_tel">전화번호</label>                 
+                  <c:set var="phone" value="${logined.phone}"/>
+                     <select class="tel" name="phone1" id="selectPhone"  disabled="disabled">                                                                                        
+                        <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>  >010</option>
+                        <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
+                        <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
+                        <option  value="017" <c:if test="${fn:contains(fn:substring(phone,0,3),'017')}">selected</c:if>>017</option>
+                        <option  value="018" <c:if test="${fn:contains(fn:substring(phone,0,3),'018')}">selected</c:if>>018</option>
+                        <option  value="019" <c:if test="${fn:contains(fn:substring(phone,0,3),'019')}">selected</c:if>>019</option>         
+                        <option  value="070" <c:if test="${fn:contains(fn:substring(phone,0,3),'070')}">selected</c:if>>070</option> 
+                     </select>
+                     <c:if test="${fn:length(phone) eq 11}">
+                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,12)}" readonly required>
+                    </c:if>
+                    <c:if test="${fn:length(phone) eq 10}">
+                      <input type="text" class="tel" name="phone2" id="phone2" value="${fn:substring(phone, 3,11)}" readonly required>
+                    </c:if>
+            </div>
             <div class="form-group row">      		
            		<input type="text" class="form-control" name="licenseNum" id="licenseNum" style="width: 75%;" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
            		&nbsp;&nbsp;&nbsp;

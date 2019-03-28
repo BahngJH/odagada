@@ -70,8 +70,8 @@
             <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 동승 내역</a>
             <c:if test="${driver ne null}">
             <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
-            </c:if>
             <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
+         	</c:if>
          	</c:if>
          </div>
       </div>

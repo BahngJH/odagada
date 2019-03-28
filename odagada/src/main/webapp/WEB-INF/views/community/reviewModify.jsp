@@ -204,10 +204,12 @@
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a class="list-group-item list-group-item-action active">카풀 내역</a>
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 동승 내역</a>
+				<c:if test="${driver ne null}">
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
+				</c:if>
 			</div>
 		</div>
 		<div class="col-12 col-md-9" id="review-container">	
@@ -218,7 +220,7 @@
 					<ul id="review-list">
 						<div id="review-context">
 							<div class="review-content" id="writerNum">
-								운전자 : ${driverName }
+								운전자 : ${memberId}(${memberName})
 							</div>
 								 <span class="star-input">
 									<span class="input">
@@ -235,12 +237,14 @@
 									</span>
 								 </span>
 								<div id="review-content">
-									<textarea id="rContent" name="rContent"><c:out value="${review.RCONTENT}"/></textarea>
+									<textarea id="rContent" name="rContent" style="width: 100%;"><c:out value="${review.RCONTENT}"/></textarea>
 									<br/>
 									<input type="hidden" id="memberNum" name="memberNum" value="${review.WRITERNUM }" />
 									<input type="hidden" id="carpoolNum" name="carpoolNum" value="${review.CARPOOLNUM}" />
-									<input type="submit" class="btn btn-outline-success" value="완료" style="margin-left: 400px;"> 
-									<input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';">
+									<div style="height:50px;">
+										<span><input type="button" class="btn btn-outline-success" value="취소" onclick="location.href='${path}/member/myCarpool?memberNum=${logined.memberNum }';" style="float:right;"></span>
+										<span><input type="submit" class="btn btn-outline-success" value="완료" style="float:right;"></span> 
+									</div>
 								</div>
 							</div>
 						</ul>

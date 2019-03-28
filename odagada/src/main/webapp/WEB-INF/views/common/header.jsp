@@ -73,20 +73,24 @@
      .container{
      	margin-top:100px;
      }
-    .page-link{
-		border:none;
-		font-size:17px;
-		color:rgb(0,175,76);
-	}
-	.page-item{
-		font-size:17px;
-	}
-	.page-item.active .page-link {
-	    z-index: 1;
-	    color: rgb(0,175,76);
-	    background-color: rgb(240,240,240);
-	    border-color:rgb(0,175,76);
-	}
+a.page-link{
+	border:rgb(0,175,76);
+	font-size:17px;
+	color:rgb(0,175,76);
+}
+.page-item{
+	font-size:17px;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: rgb(0,175,76);
+    background-color: white;
+    border-color:rgb(0,175,76);
+    border:1px solid rgb(0,175,76);
+}
+.list-group{
+font-family: 'S-CoreDream-3Light'; 
+}
 </style>
 </head>
 <body>
@@ -137,10 +141,10 @@
                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                      	<a class="dropdown-item" href="${path}/member/myInfo.do">나의 정보</a>
                      	<c:if test="${isAdmin eq '0'}">
-                     		<a class="dropdown-item" href="${path}/member/myCarpool">카풀 내역</a>
+                     		<a class="dropdown-item" href="${path}/member/myCarpool">카풀 동승 내역</a>
                        		<c:if test="${sessionScope.driver.LICENSENUM ne null}">
-                       			<a class="dropdown-item" href="${path}/member/myDriver">드라이버 정보 관리</a>
-                     		    <a class="dropdown-item" href="${path}/driver/driverCarpool">드라이버 카풀 등록 내역</a>
+                       			<a class="dropdown-item" href="${path}/member/myDriver">나의 드라이버 정보</a>
+                     		    <a class="dropdown-item" href="${path}/driver/driverCarpool">등록한 카풀 내역</a>
                         	</c:if>
                         </c:if>
                        
