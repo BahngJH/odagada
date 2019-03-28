@@ -109,11 +109,11 @@ a#pay{
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 동승 내역</a>
 				<c:if test="${driver ne null}">
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
 				</c:if>
 			</div>
 		</div>
@@ -140,13 +140,13 @@ a#pay{
 				             <div class="col-12">
 				                <div class="row">
 				                	<div class="col-8 driver">
-				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
+				                        <span class="span-option col-text">운전자 : ${list.MEMBERID}(${list.MEMBERNAME })</span><br/>
 				                   </div>
 				                   <div class="offset-2 col-2">
-				                   <c:if test='${list.PSTATUS == "Y"}'>
+				                   <c:if test='${list.PAYSTATUS == "Y"}'>
 				                   		<c:choose>
 											<c:when test="${list.WRITERNUM != null }">
-												<span>
+												<span> 
 													<input type="button" value="리뷰보기" id='btn-myReviewView' class='btn btn-success re-btn' onclick='location.href="${path}/community/myReviewView.do?memberNum=${logined.memberNum}&carpoolNum=${list.CARPOOLNUM }&driverName=${list.MEMBERNAME }"'/>
 												</span>
 											</c:when>
@@ -156,13 +156,16 @@ a#pay{
 												</span>
 											</c:otherwise>
 										</c:choose>
+										<span>
+											<input type="button" class="btn btn-outline-danger re-btn" value="신고하기"onclick="location.href='${path}/community/notifyForm.do?driverId=${list.MEMBERID }&driverName=${list.MEMBERNAME }'">
+										</span>
 									</c:if>
 				                   </div>
 				                   <div class="col status_option">
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
-					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
+					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal${list.PAYCODE }">결제 코드</a></span>
 					                        <!-- Modal -->
-											<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
+											<div class="modal fade" id="payModal${list.PAYCODE }" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
 											  <div class="modal-dialog" role="document">
 											    <div class="modal-content">
 											      <div class="modal-header">

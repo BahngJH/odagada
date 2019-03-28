@@ -174,17 +174,6 @@ img.driver-img:before {
       -webkit-border-radius: 10px;
       border-radius: 10px;
     }
-    div.speak-div:before {
-      content: "";
-      position: absolute;
-      right: 100%;
-      top: 26px;
-      width: 0;
-      height: 0;
-      border-top: 13px solid transparent;
-      border-right: 26px solid #FFFFC2;
-      border-bottom: 13px solid transparent;
-	}
 	button.reAll-btn{
 		margin-top:15px;
 		margin-bottom:10px;
@@ -210,10 +199,14 @@ img.driver-img:before {
 		margin-top:50px;
 	}
 	.card{
-	font-family: 'silgothic'; 
+	font-family: 'S-CoreDream-3Light'; 
 	}
 	.card-header{
 	font-family: 'BMJUA';
+	}
+	.back-btn{
+		margin-top:12px;
+		margin-left:8px;
 	}
 </style>
 <section class="container">
@@ -224,6 +217,8 @@ img.driver-img:before {
 				<span class="fas fa-arrow-right fa-2x icon-right"></span>
 				<input class="form-control search-div" type="text" placeholder="도착지" value="${search.endCity }" readonly>
 				<input type="text" class="form-control search-div" value="${search.startDate }" readonly>
+				<button class='btn btn-success back-btn' style="padding-top:5px;"onclick='location.href="${path}/carpool/search.do"'>재검색</button>
+				<button class='btn btn-success back-btn' style="padding-top:5px;"onclick='backBtn()'>목록으로</button>
 			</div>
 		</div>
 	</div>
@@ -993,6 +988,10 @@ function checkSubmit(){
 	else{
 		location.href="${path}/member/myInfo.do";
 	}
+}
+
+function backBtn(){
+	history.back(); 	
 }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

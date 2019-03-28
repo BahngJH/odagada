@@ -104,10 +104,12 @@
 	<div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a class="list-group-item list-group-item-action active">카풀 내역</a>
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-	            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action  active">카풀 동승 내역</a>
+				<c:if test="${driver ne null}">
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
+				</c:if>
 			</div>
 		</div>
 		<div class="col-12 col-md-9" id="review-container">	
@@ -118,7 +120,6 @@
 						<h2 style="color: red; text-align: center;">작성한 리뷰가 없습니다.</h2>
 					</c:if>
 					<c:forEach items="${list}" var="r">
-						<ul id="review-list">
 							<div id="review-context">
 								<div class="review-content" id="memberName">
 									운전자 : ${driverName}
@@ -169,17 +170,18 @@
 										</c:when>
 									</c:choose>
 								</div>
-								<div id="review-content">
-									<span id="rContent" name="rContent"><c:out value="${r.RCONTENT}"/></span> 
+								<div id="review-content" >
+									<span id="rContent" ><c:out value="${r.RCONTENT}"/></span> 
 									<br/>
 									<br/>
-									<span id="rDate"name="rDate"><fmt:formatDate value="${r.RDATE}" pattern="yyyy-MM-dd"/></span>
+									<span id="rDate"><fmt:formatDate value="${r.RDATE}" pattern="yyyy-MM-dd"/></span>
 									<br/>
-									<input type="button" class="btn btn-outline-success" value="수정" onclick="location.href='${path}/community/reviewModify.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }&driverName=${driverName }';"style="margin-left: 400px;"> 
-									<input type="button" class="btn btn-outline-success" value="삭제" onclick="location.href='${path}/community/reviewDelete.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }';">
+									<div style="height:50px;">	
+										<span><input type="button" class="btn btn-outline-success" value="삭제" onclick="location.href='${path}/community/reviewDelete.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }';"style="float: right;"></span>
+										<span><input type="button" class="btn btn-outline-success" value="수정" onclick="location.href='${path}/community/reviewModify.do?carpoolNum=${r.CARPOOLNUM }&memberNum=${logined.memberNum }&driverName=${driverName }';"style="float: right;"></span> 
+									</div>	
 								</div>
 							</div>
-						</ul>
 					</c:forEach>
 				</div>
 			</div>
