@@ -224,7 +224,7 @@
 			<div class="form-group row">                  
                  <label for="memberName" class="col-sm-3 col-form-label" id="label_tel">전화번호</label>                 
                   <c:set var="phone" value="${logined.phone}"/>
-                     <select class="tel" name="phone1" id="selectPhone" readonly required>                                                                                        
+                     <select class="tel" name="phone1" id="selectPhone"  disabled="disabled">                                                                                        
                         <option  value="010" <c:if test="${fn:contains(fn:substring(phone,0,3),'010')}">selected</c:if>  >010</option>
                         <option  value="011" <c:if test="${fn:contains(fn:substring(phone,0,3),'011')}">selected</c:if>>011</option>
                         <option  value="016" <c:if test="${fn:contains(fn:substring(phone,0,3),'016')}">selected</c:if>>016</option>
