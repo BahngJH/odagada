@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -200,6 +201,7 @@ public class DriverController {
 	   }
 
 	 //자동차 번호 중복확인
+	 @ResponseBody
 	 @RequestMapping("/driver/checkCarNum")
 	 public String checkCarNum(String carNum){
 		 logger.debug("carNum들어오니???"+carNum);
@@ -219,6 +221,7 @@ public class DriverController {
 	 }
 	 
 	 //자동차 면허번호 중복확인
+	 @ResponseBody
 	 @RequestMapping("/driver/checkLicense")
 	 public String checkLicense(String licenseNum){
 		 logger.debug("운전면호 테스트"+licenseNum);
