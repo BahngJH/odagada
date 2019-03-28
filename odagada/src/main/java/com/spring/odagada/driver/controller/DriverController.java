@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,6 +56,7 @@ public class DriverController {
 	@Autowired
 	CarpoolService cService;
 	
+
 	@RequestMapping("/driver/driverEnroll")
 	public ModelAndView driverEnroll(HttpSession session) {
 		
@@ -219,8 +221,9 @@ public class DriverController {
 	 }
 	 
 	 //자동차 면허번호 중복확인
+		@ResponseBody
 	 @RequestMapping("/driver/checkLicense")
-	 public String checkLicense(String licenseNum){
+	 public String checkLicense(String licenseNum,HttpServletRequest req){
 		 logger.debug("운전면호 테스트"+licenseNum);
 		 int result = service.checkLicense(licenseNum);
 		 String isLicense = "";
