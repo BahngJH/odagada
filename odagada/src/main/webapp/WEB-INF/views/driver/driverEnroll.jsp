@@ -117,6 +117,7 @@
      
 <script>
  $(function(){
+
    $('[name=upFile]').on('change',function(){
       //var filename=$(this).val();
       var filename=this.files[0].name;
@@ -131,6 +132,8 @@
          alert('숫자만 입력가능합니다.');
       }
    });
+   
+   
  });
  function validate() {
       //핸드폰 유효성 검사 
@@ -139,6 +142,7 @@
             alert("정확한 휴대폰 번호를 입력해주세요.");
             return false;
          }
+      
       //자동차 사진 필수 입력
       var file_name = $('.custom-file-label').val();
       if(file_name == null){
@@ -165,20 +169,68 @@
     	  alert("정확한 면허번호를 입력해주세요.");
     	  
     	  return false;
-      }
-
-      var carNum = $('#carNum').val();
-      var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
+      }     
       
+      console.log("운전면허"+licenseNum);
+	    $.ajax({
+	    	url:"${path}/driver/checkLicense",
+	    	data:{"licenseNum": licenseNum},
+	    	success:function(data){
+	    		if(data == 'Y'){
+	    			document.getElementById('licenseStatus').value='1';
+	    			alert('올바른 운전면허 번호입니다.');
+	    			return true;
+	    		}else{
+	    			 document.getElementById('licenseStatus').value='0';
+	    			alert('등록된 운전면허 번호입니다.');
+	    			return false;
+	    		}
+	    	}
+	    });	
+          
+      
+	  var carNum = $('#carNum').val();
+      var carNumTest = /[0-9]{2} [가-힣]{1} [0-9]{4}/g;
       if(!carNumTest.test($("input[name=carNum]").val()))
     	  {
     	  	alert("정확한 자동차번호를 입력해주세요");
     	  	return false;
     	  }
       
+ 	 //자동차번호 중복확인
+	  console.log("자동차 번호"+carNum);
+	    $.ajax({
+	    	url:"${path}/driver/checkCarNum",
+	    	data:{"carNum": carNum},
+	    	success:function(data){
+	    		if(data == 'Y'){
+	    			document.getElementById('carNumStatus').value='1';
+	    			alert('올바른 자동차 번호입니다.');
+	    			return true;
+	    		}else{
+	    			 document.getElementById('carNumStatus').value='0';
+	    			alert('등록된 자동차 번호입니다.');
+	    			return false;
+	    		}
+	    	}
+	    });	
+	    
+	    if($("#licenseStatus").val()=='0'){
+	    	
+	    	alert("등록된 운전면허 번호입니다.");
+	    	return false;
+	    }
+	    
+	      if($("#carNumStatus").val()=='0'){
+	    	  alert("등록왼 자동차 번호입니다.");
+	    	  return false;
+	      }
+	      
+	 console.log("자동차 번호"+carNum);
+	 console.log("확인"+carNumStatus);
+
+      
       console.log(carNumTest.test($("input[name=carNum]").val()));
-      
-      
    }
    //프로필 사진을 이미지 타입 파일로만 받기
    function fileCheck(obj){
@@ -196,7 +248,7 @@
          return false;      
          }
       }
-   
+
 
 </script>
 <section class="container">
@@ -241,13 +293,15 @@
                     </c:if>
             </div>
             <div class="form-group row">      		
-           		<input type="text" class="form-control" name="licenseNum" id="licenseNum" onchange="licenseCheck(this)" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
+           		<input type="text" class="form-control" name="licenseNum" id="licenseNum" placeholder="운전면허번호(AA-BB-CCCCCC-DE)" required/>
+            	<input type="hidden" id="licenseStatus" value="0"/>
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="carModel" id="carModel" placeholder="자동차 모델(ex.페라리)" required/>
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="carNum" id="carNum" maxlength="9" placeholder="자동차 번호(ex. 28 루 4454)"required/>
+            	<input type="hidden" id="carNumStatus" value="0"/>
             </div>
             <div class="form-group row">            		
            		<input type="text" class="form-control" name="driver_info" id="driver_info" placeholder="드라이버 자기소개 입력해주세요."required/>
