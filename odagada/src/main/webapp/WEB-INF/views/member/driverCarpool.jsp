@@ -69,7 +69,7 @@ div.my-div{
 p.my-p{
    color: rgb(255,255,255);
    font-size: 22px;
-   font-family: "a어린왕자B";
+   font-family: "S-CoreDream-3Light";
 }
 img.my-img{
    width:20px;
@@ -152,15 +152,15 @@ height:380px;
 }
 .card{
 height:370px;
-font-family:silgothic;
+font-family:S-CoreDream-3Light;
 }
 span.start-span{
 color: rgb(0,175,76);
 font-family: BMJUA;
 font-size:18px;
 }
-.page-link{
-	border:none;
+a.page-link{
+	border:rgb(0,175,76);
 	font-size:17px;
 	color:rgb(0,175,76);
 }
@@ -170,8 +170,9 @@ font-size:18px;
 .page-item.active .page-link {
     z-index: 1;
     color: rgb(0,175,76);
-    background-color: rgb(240,240,240);
+    background-color: white;
     border-color:rgb(0,175,76);
+    border:1px solid rgb(0,175,76);
 }
 </style>
 <section class="container">
@@ -185,11 +186,11 @@ font-size:18px;
    <div class="row">
 		<div class="col-12 col-md-3">
 			<div class="menu_list info list-group">
-				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">회원 정보 관리</a>
-				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+				<a href="${path }/member/myInfo.do" class="list-group-item list-group-item-action">나의 정보</a>
+				<a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 동승 내역</a>
 				<c:if test="${driver ne null}">
-				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">드라이버 카풀 등록 내역</a>
+				<a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+				<a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action active">등록한 카풀 내역</a>
 				</c:if>
 			</div>
 		</div>

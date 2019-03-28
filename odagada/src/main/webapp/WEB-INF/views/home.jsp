@@ -609,59 +609,59 @@ function validate(){
 // form submit
 var lon, lat;
 function search(){
-    if($("#startSearch").val()===""){
-      alert("출발지를 설정해주세요.");
-      return false;
-   }
-   if($("#endSearch").val()===""){
-      alert("도착지를 설정해주세요.");
-      return false;
-   }   
-   if($("#startDate").val()===""){
-      alert("날짜를 설정해주세요.");
-      return false;
-   }
+	if($("#startSearch").val()===""){
+		alert("출발지를 설정해주세요.");
+		return false;
+	}
+	if($("#endSearch").val()===""){
+		alert("도착지를 설정해주세요.");
+		return false;
+	}	
+	if($("#startDate").val()===""){
+		alert("날짜를 설정해주세요.");
+		return false;
+	}
 
-   var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] ([0-9]|1[0-2]):([0-5][0-9])$/; 
-   
-   if(!exp.test($("#startDate").val())){
-      alert("날짜를 확인해주세요.");
-      return false;
-   }
+	var exp = /^20\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1]). 오[전|후] ([0-9]|1[0-2]):([0-5][0-9])$/; 
+	
+	if(!exp.test($("#startDate").val())){
+		alert("날짜를 확인해주세요.");
+		return false;
+	}
 
-   var nowDate = moment().format('YYYY.MM.DD. HH:mm');
-   var setDate = $("#startDate").val();
-   var setDates = setDate.split(" ");
-   var nowDates = nowDate.toString().split(" ");
+	var nowDate = moment().format('YYYY.MM.DD. HH:mm');
+    var setDate = $("#startDate").val();
+    var setDates = setDate.split(" ");
+    var nowDates = nowDate.toString().split(" ");
       
-   var time = setDates[2].split(":");
+    var time = setDates[2].split(":");
    
-   if(setDates[1] === "오전" && time[0] === "12"){
-   	time[0] = Number(time[0]) - 12;
-   }
-   
-   if(setDates[1] === "오후" && time[0] != "12"){
+    if(setDates[1] === "오전" && time[0] === "12"){
+    	time[0] = Number(time[0]) - 12;
+    }
+    
+    if(setDates[1] === "오후" && time[0] != "12"){
 	    time[0] = Number(time[0]) + 12;    		
-   }
+    }
    
-   var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
-  
-   if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
-      alert("날짜를 확인해주세요.");
-      return false;
-   }
-   
-   
-   // 검색된 주소의 lat,lon 값 넣기
-   fullAddressSearch($("#startSearch").val());
-   document.getElementById("startLon").value=lon;
-   document.getElementById("startLat").value=lat;
-   
-   fullAddressSearch($("#endSearch").val());
-   document.getElementById("endLon").value=lon;
-   document.getElementById("endLat").value=lat;
-   console.log("  dfdf"+$('#today').val());
-   $('#search-form').submit();
+    var setDate = moment(setDates[0] + " " + time[0] + ":" + time[1], 'YYYY.MM.DD. HH:mm');
+
+    if(moment.duration(setDate.diff(nowDate)).asMinutes() < 1){
+       alert("날짜를 확인해주세요.");
+       return false;
+    }
+	
+	
+	// 검색된 주소의 lat,lon 값 넣기
+	fullAddressSearch($("#startSearch").val());
+	document.getElementById("startLon").value=lon;
+	document.getElementById("startLat").value=lat;
+	
+	fullAddressSearch($("#endSearch").val());
+	document.getElementById("endLon").value=lon;
+	document.getElementById("endLat").value=lat;
+	console.log("  dfdf"+$('#today').val());
+	$('#search-form').submit();
 }
 //검색한 주소를 좌표로 변경하기 
 function fullAddressSearch(fullAddress){
@@ -715,66 +715,33 @@ function fullAddressSearch(fullAddress){
 var check;
 //출발지 검색
 function sample6_execDaumPostcode1() {
-    new daum.Postcode({
+	new daum.Postcode({
         oncomplete: function(data) {
             var addr = ''; // 주소 변수
             var extraAddr = ''; // 참고항목 변수
-
+			
+            addr=data.autoJibunAddress;
             //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            if (addr=='') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.jibunAddress;
             }
-
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if(data.userSelectedType === 'R'){
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
-                    extraAddr = ' (' + extraAddr + ')';
-                }
-            }
-            check=addr+extraAddr;
-            document.getElementById("startSearch").value = check;
+            document.getElementById("startSearch").value = addr;
         }
     }).open();
 }
 //도착지 검색
 function sample6_execDaumPostcode2() {
-    new daum.Postcode({
+	new daum.Postcode({
         oncomplete: function(data) {
-            var addr = ''; // 주소 변수
+        	var addr = ''; // 주소 변수
             var extraAddr = ''; // 참고항목 변수
-
+			
+            addr=data.autoJibunAddress;
             //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            if (addr=='') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.jibunAddress;
             }
-
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if(data.userSelectedType === 'R'){
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
-                    extraAddr = ' (' + extraAddr + ')';
-                }
-            }
-            document.getElementById("endSearch").value = addr+extraAddr;
+            document.getElementById("endSearch").value = addr;
         }
     }).open();
 }

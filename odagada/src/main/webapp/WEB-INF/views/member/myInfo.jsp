@@ -65,13 +65,13 @@
    <div class="row">
       <div class="col-12 col-md-3">
          <div class="menu_list info list-group">
-            <a class="list-group-item list-group-item-action active">회원 정보 관리</a>
+            <a class="list-group-item list-group-item-action active">나의 정보</a>
             <c:if test="${logined.isAdmin eq '0'}">
-            <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 내역</a>
+            <a href="${path }/member/myCarpool" class="list-group-item list-group-item-action">카풀 동승 내역</a>
             <c:if test="${driver ne null}">
-            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">드라이버 정보 관리</a>
-            </c:if>
-            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">드라이버 카풀 등록 내역</a>
+            <a href="${path}/member/myDriver" class="list-group-item list-group-item-action">나의 드라이버 정보</a>
+            <a href="${path }/driver/driverCarpool" id="driverCarpool" class="list-group-item list-group-item-action">등록한 카풀 내역</a>
+         	</c:if>
          	</c:if>
          </div>
       </div>
