@@ -126,6 +126,7 @@ a#pay{
 				</c:if>
 				<c:if test="${carpoolList.size()>0 }">
 					<c:forEach items="${carpoolList }" var="list">
+					${list.PAYCODE }
 				      <div id="div-pick" class="card border-success mb-3">
 				        <div class="card-body text-success">
 				          <div class="row">
@@ -140,7 +141,7 @@ a#pay{
 				             <div class="col-12">
 				                <div class="row">
 				                	<div class="col-8 driver">
-				                        <span class="span-option col-text">운전자 : ${list.MEMBERNAME }</span><br/>
+				                        <span class="span-option col-text">운전자 : ${list.MEMBERID}(${list.MEMBERNAME })</span><br/>
 				                   </div>
 				                   <div class="offset-2 col-2">
 				                   <c:if test='${list.PSTATUS == "Y"}'>
@@ -160,9 +161,9 @@ a#pay{
 				                   </div>
 				                   <div class="col status_option">
 				                   		<c:if test='${list.PAYSTATUS == "N" }'>
-					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal">결제 코드</a></span>
+					                        <span class="badge badge-danger"><a id="pay" data-toggle="modal" href="#payModal${list.PAYCODE }">결제 코드</a></span>
 					                        <!-- Modal -->
-											<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
+											<div class="modal fade" id="payModal${list.PAYCODE }" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
 											  <div class="modal-dialog" role="document">
 											    <div class="modal-content">
 											      <div class="modal-header">
