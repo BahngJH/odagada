@@ -91,6 +91,10 @@ a.page-link{
 .list-group{
 font-family: 'S-CoreDream-3Light'; 
 }
+/* 미니프로필 */
+ .nav-link{
+padding-top:12px;
+} 
 </style>
 </head>
 <body>
@@ -105,6 +109,19 @@ font-family: 'S-CoreDream-3Light';
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav ml-auto">
+<%--              	 <c:if test='${logined != null }'>
+	              	<li>
+	              		<!-- 미니프로필 넣을 경울 -->
+		   	            <div class='card' style='border:none;background-color:#f8f9fa;color:rgb(120,120,120);padding:0px;'>
+			            	<div class='card-body' style='padding:0px;'>
+					            <span>
+					            	<img src='${path }/resources/upload/profile/${logined.profileImageRe}' style='width:60px;height:60px;border-radius:100px;'>
+					            </span>
+					            <span>   ${logined.memberId } 님  ｜ </span>
+				            </div>
+			            </div>
+	              	</li>
+              	</c:if> --%>
                 <li class="nav-item">
                   <a class="nav-link" href="${pageContext.request.contextPath}/carpool/search.do">카풀 검색</a>
                 </li>               
