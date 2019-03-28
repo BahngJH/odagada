@@ -77,7 +77,7 @@
 		    <a id="kakao-login-btn"></a>
 		    <a href="http://developers.kakao.com/logout"></a>
 		</div>
-		<div id="naverIdLogin"></div>
+		<!-- <div id="naverIdLogin"></div> -->
 	</div>    
 	<script src="${pageContext.request.contextPath }/resources/loginFile/script.js"></script>
 
