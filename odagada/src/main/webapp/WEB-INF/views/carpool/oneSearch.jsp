@@ -16,6 +16,25 @@
 	int stop=0;
 %>
 <style>
+   @media all and (max-width: 550px){
+      .start-p{
+         font-size:10px;
+      }
+      .t-img{
+         width:100px;
+         height:100px;
+         padding:8%;
+         border-right:1px solid rgb(230,230,230);
+      }
+   }
+   @media(min-width:550px){
+     .start-p{
+        font-size:14px;
+     }
+     .t-img{
+        width:150px;height:150px;padding:10%;border-right:1px solid rgb(230,230,230);
+     }
+   }
 	input.search-div{
 		margin:13px;
 		font-family: 'netmarbleB';
@@ -466,14 +485,14 @@ img.driver-img:before {
 								  							<div class="row" id="pas-toggle${count.index }" style="padding:1%; border-bottom:1px solid rgb(230,230,230);">
 									  							<div class="col-4 ">
 										  							<div class="text-center " >
-										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" style="width:150px;height:150px;padding:10%;border-right:1px solid rgb(230,230,230);"/>
+										  								<img src="${path }/resources/upload/profile/${p.PROFILEIMAGERE}" class='t-img'/>
 										  							</div>
 									  							</div>
 									  							<div class="col-5" style="padding-top:5%;">
-									  								<span class="start-p"><b>나이: </b></span><span>${p.BIRTH }</span><br>
-									  								<span class="start-p"><b>이름: </b></span><span>${p.MEMBERNAME }</span><br>
-									  								<span class="start-p"><b>나이: </b></span><span>${p.BIRTH }</span><br>
-									  								<span class="start-p"><b>성별: </b></span><span>${p.GENDER }</span><br>
+									  								<span class="start-p"><b>나이: </b></span><span class="start-p" style='color:rgb(50,50,50);'>${p.BIRTH }</span><br>
+									  								<span class="start-p"><b>이름: </b></span><span class="start-p" style='color:rgb(50,50,50);'>${p.MEMBERNAME }</span><br>
+									  								<span class="start-p"><b>나이: </b></span><span class="start-p" style='color:rgb(50,50,50);'>${p.BIRTH }</span><br>
+									  								<span class="start-p"><b>성별: </b></span><span class="start-p" style='color:rgb(50,50,50);'>${p.GENDER }</span><br>
 									  							</div>
 									  							<div class="col=3">
 									  								<button class="btn btn-success chat-btn" onclick="moveChatting('${p.MEMBERID}')">회원 채팅하기</button>

@@ -190,6 +190,9 @@
         	position:relative;
         	width:70%;
         }
+        #container{
+        	margin-top:100px;
+        }
     </style>
 <div id="container" class="container-fluid">
       <div class="row">

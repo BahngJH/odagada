@@ -46,12 +46,13 @@ function validate(){
        return false;
  	 }
    	     
-	//이메일 유효성 검사
-	var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+ 	//이메일 유효성 검사
+	var ckMail=/^[0-9a-zA-Z_+.-]([-_\.]?[0-9a-zA-Z_+.-])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	if(!ckMail.test($("#email").val())){
 		alert("정확한 이메일 형식을 입력해주세요.");	
 		return false;
-	}
+	}	 	 
+
 }
     
 </script>

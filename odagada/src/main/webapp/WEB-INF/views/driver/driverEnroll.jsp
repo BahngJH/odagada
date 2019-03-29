@@ -200,7 +200,7 @@ function liCk(){
 	    		if(data == "Y"){
 	    			document.getElementById('licenseStatus').value='1';
 	    			alert('올바른 운전면허 번호입니다.');
-	    			$('#licenseNum').attr('disabled',true);
+	    			$('#licenseNum').attr('readonly',true);
 	    			$('#liCk1').css('display','none');
 	    			$('#reCk1').css('display','block');
 	    			return true;
@@ -231,7 +231,7 @@ function carCk(){
 	    		if(data == "Y"){
 	    			document.getElementById('carNumStatus').value='1';
 	    			alert('올바른 자동차 번호입니다.');
-	    			$('#carNum').attr('disabled',true);
+	    			$('#carNum').attr('readonly',true);
 	    			$('#carCk1').css('display','none');
 	    			$('#reCk2').css('display','block');
 	    			return true;

@@ -97,7 +97,7 @@ font-family: 'S-CoreDream-3Light';
    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light justify-content-between">
    			<!-- 원본 -->
             <%-- <a class="navbar-brand" href="${path}/"><img src="https://cdn.icon-icons.com/icons2/740/PNG/512/car_icon-icons.com_63325.png" style="width: 50px; height: 50px;">ODA GADA</a> --%>
-           <a class="navbar-brand" href="${path}/"><img src="${pageContext.request.contextPath}/resources/images/logoTest.png" style="height: 40px;"></a>
+           <a class="navbar-brand" href="${path}/"><img src="${pageContext.request.contextPath}/resources/images/logoTest.png" style="height: 40px;border-radius:0px;"></a>
            <%--  <a class="navbar-brand" href="${path}/"><img src="${path }/resources/images/t-logo.png" style="width: 200px; height: 70px;"></a> --%>
            <%--  <a class="navbar-brand" href="#"><img src="${path}/resources/images/oda_logo.png" style='height:40px;'></a> --%>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -195,57 +195,3 @@ font-family: 'S-CoreDream-3Light';
               </ul>
             </div>
           </nav>
-<script>
-   $(function(){
-      if(<%=request.getSession().getAttribute("logined")!=null && !request.getSession().getAttribute("logined").equals("")%>){
-         //로그인 되어 있을 때만 실행
-         var url="http://192.168.20.226:9090/odagada/echo";
-         
-         ws = new SockJS(url);
-         
-         //메세지를 받았을 때
-         ws.onmessage = function(event)
-         {
-            var myId='${logined.memberId}';
-            checkMsg(myId);
-         };
-         
-         ws.onopen = function(event)
-         {
-            var myid = {"myId" : "${logined.memberId}"};
-            ws.send(JSON.stringify(myid));
-            
-            var myId='${logined.memberId}';
-            checkMsg(myId);
-            
-         };
-         
-         //소켓이 닫히고 실행되는 함수, 즉 이 메소드가 실행될 땐 이미 소켓이 닫힌 상태
-         ws.onclose = function()
-         {
-            console.log("Connection Closed");
-         };
-         ws.error=function(event)
-         {
-            console.log(event);
-         }
-      }
-   });
-   
-   function checkMsg(myId)
-   {
-      $.ajax({
-         url:"${path}/community/checkMsg.do",
-         data:{"myId":myId},
-         success:function(data)
-         {
-            console.log(data.unIsReadMsg);
-            if(data.unIsReadMsg>0)
-            {
-               var unCheckMsg="<a href='${path }/community/chatting.do'><span class='msgCount'>"+data.unIsReadMsg+"</span></a>";
-               $("#msgDiv").html(unCheckMsg);
-            }
-         }      
-      });      
-   }
-</script>

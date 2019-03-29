@@ -32,14 +32,15 @@ function validate(){
     if(name.length>7){
        alert("정확한 이름을 입력해주세요.");
        return false;
- 	 }
-   	     
-	//이메일 유효성 검사
-	var ckMail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+ 	 } 
+    
+/* 	//이메일 유효성 검사
+	var ckMail=/^[0-9a-zA-Z_+.-]([-_\.]?[0-9a-zA-Z_+.-])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	if(!ckMail.test($("#email").val())){
 		alert("정확한 이메일 형식을 입력해주세요.");	
 		return false;
-	}
+	}	
+     */
 }
     
 </script>
@@ -52,7 +53,7 @@ function validate(){
 				<p>등록한 이름, 이메일 주소로 아이디를 찾습니다.</p>
             </div>
             <input type="text" class="form-control" placeholder="이름" name="memberName" id="memberName" maxlength="7" required>
-            <input type="text" class="form-control email-input" placeholder="등록한 이메일" name="email" id="email" maxlength="25" required>                                    
+            <input type="text" class="form-control email-input" placeholder="등록한 이메일" name="email" id="email" maxlength="30" required>                                    
             <br/>                
            	<input type="submit" class="btn btn-success btn-sm btn-block" value="ID 찾기">
 		 	<input type="reset" class="btn btn-outline-success btn-sm btn-block" value="취소">		 	         

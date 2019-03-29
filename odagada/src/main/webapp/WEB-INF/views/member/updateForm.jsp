@@ -167,7 +167,7 @@ function validate(){
 		$("#email1").keyup(function(event) {
 			if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
 				var inputVal = $(this).val();
-				$(this).val(inputVal.replace(/[^a-z0-9]/gi, ''));
+				$(this).val(inputVal.replace(/[^a-z0-9_+.-]/gi, ''));
 			}
 		});
 		
@@ -378,20 +378,20 @@ function changeName(){
 <section class="container">
       <div id="enroll-container">
 			<div class="card" >
-<%-- 				<div id = "Progress_Loading">
-					<img src="${path }/resources/images/option-icon/Progress_Loading.gif"/>
-				</div>
-				<script>
-				$(document).ready(function(){
-					   $('#Progress_Loading').hide(); //첫 시작시 로딩바를 숨겨준다.
-					})
-					.ajaxStart(function(){
-					   $('#Progress_Loading').show(); //ajax실행시 로딩바를 보여준다.
-					})
-					.ajaxStop(function(){
-					   $('#Progress_Loading').hide(); //ajax종료시 로딩바를 숨겨준다.
-					});
-				</script> --%>
+					<div id = "Progress_Loading">
+						<img src="${path }/resources/images/option-icon/Progress_Loading.gif"/>
+					</div>
+					<script>
+					$(document).ready(function(){
+						   $('#Progress_Loading').hide(); //첫 시작시 로딩바를 숨겨준다.
+						})
+						.ajaxStart(function(){
+						   $('#Progress_Loading').show(); //ajax실행시 로딩바를 보여준다.
+						})
+						.ajaxStop(function(){
+						   $('#Progress_Loading').hide(); //ajax종료시 로딩바를 숨겨준다.
+						});
+					</script>
 					  <ul class="list-group list-group-flush">
 						 <li class="list-group-item">
        						 <form action="${path }/member/updateProfile.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">                	                     

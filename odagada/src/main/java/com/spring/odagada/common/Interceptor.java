@@ -30,7 +30,7 @@ public class Interceptor extends HandlerInterceptorAdapter {
 		 
 			
 		if(!(m.getIsEmailAuth().equals("Y")&&m.getIsPhoneAuth().equals("Y"))){
-			request.setAttribute("msg", "E-mail, phone 인증 후 이용하실 수 있습니다.");
+			request.setAttribute("msg", "마이페이지-나의 정보에서 E-mail, phone 인증 후 이용하실 수 있습니다.");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 			return false;
