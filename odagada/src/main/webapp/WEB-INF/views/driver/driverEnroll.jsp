@@ -199,10 +199,12 @@ function liCk(){
 	    		console.log('sdssds:    '+data);
 	    		if(data == "Y"){
 	    			document.getElementById('licenseStatus').value='1';
+	    			document.getElementById('licenseNum').value=licenseNum;
 	    			alert('올바른 운전면허 번호입니다.');
 	    			$('#licenseNum').attr('readonly',true);
 	    			$('#liCk1').css('display','none');
 	    			$('#reCk1').css('display','block');
+	    			console.log("면허테스트"+licenseNum);
 	    			return true;
 	    		}else{
 	    			 document.getElementById('licenseStatus').value='0';
@@ -230,10 +232,12 @@ function carCk(){
 	    	success:function(data){
 	    		if(data == "Y"){
 	    			document.getElementById('carNumStatus').value='1';
+	    			document.getElementById('carNum').value=carNum;
 	    			alert('올바른 자동차 번호입니다.');
 	    			$('#carNum').attr('readonly',true);
 	    			$('#carCk1').css('display','none');
 	    			$('#reCk2').css('display','block');
+	    			console.log("확인"+carNum);
 	    			return true;
 	    		}else{
 	    			 document.getElementById('carNumStatus').value='0';

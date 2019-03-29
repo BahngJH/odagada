@@ -127,12 +127,17 @@ public class DriverController {
 		
 		int imgOrder = 0;
 		
+		logger.info("자동차 번호"+licenseNum);
+		logger.info("차번호 "+carNum);
+		logger.info("dirver소개"+driver_info);
+		
 		Map<String,Object> driver = new HashMap();
 		driver.put("memberNum", memberNum);
 		driver.put("licenseNum", licenseNum);
 		driver.put("carModel", carModel);
 		driver.put("carNum",carNum);
 		driver.put("driver_info", driver_info);
+		
 
 		
 		ArrayList<CarImage> files = new ArrayList();
